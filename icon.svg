@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="40" fill="#58CC02"/>
+  <rect width="192" height="192" rx="40" fill="url(#grad)" opacity="0.25"/>
+  <defs>
+    <radialGradient id="grad" cx="30%" cy="25%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#45A302"/>
+    </radialGradient>
+  </defs>
+  <!-- Owl body -->
+  <ellipse cx="96" cy="112" rx="46" ry="42" fill="#FFFFFF"/>
+  <!-- Ears -->
+  <path d="M58 78 L70 58 L78 86 Z" fill="#FFFFFF"/>
+  <path d="M134 78 L122 58 L114 86 Z" fill="#FFFFFF"/>
+  <!-- Eyes -->
+  <circle cx="78" cy="106" r="16" fill="#3C3C3C"/>
+  <circle cx="114" cy="106" r="16" fill="#3C3C3C"/>
+  <circle cx="81" cy="102" r="5" fill="#FFFFFF"/>
+  <circle cx="117" cy="102" r="5" fill="#FFFFFF"/>
+  <!-- Beak -->
+  <path d="M90 122 L96 134 L102 122 Z" fill="#FFC800"/>
+</svg>
