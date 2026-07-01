@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#16A34A">
+<meta name="theme-color" content="#45A302">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -76,6 +76,8 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 .node .ninfo p{margin:0;font-size:12px;color:var(--ink-soft);}
 .node .nstat{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--ink-soft);text-align:right;flex:none;}
 .node.done .nstat{color:var(--green-deep);}
+.node.locked{opacity:0.45;cursor:not-allowed;}
+.node.locked:hover{border-color:var(--line) !important;transform:none !important;box-shadow:0 3px 0 var(--line);}
 .node .nnum{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;color:var(--ink-soft);min-width:20px;}
 
 /* ─── topic view ─── */
@@ -188,7 +190,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 <div class="wrap">
   <div class="topbar">
     <div class="brand">
-      <div class="brand-badge">🦉</div>
+      <div class="brand-badge">🐨</div>
       <div class="brand-text"><h1>LinguaPro</h1><p id="topbarSub">Aprende Idiomas</p></div>
     </div>
     <div class="score-pill">⭐ <span id="scoreText">0/0</span></div>
@@ -197,7 +199,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
   <!-- SCREEN 1: Language selector -->
   <div id="screen-langs">
     <div class="hero">
-      <h2>¡Bienvenido a LinguaPro! 🦉</h2>
+      <h2>¡Bienvenido a LinguaPro! 🐨</h2>
       <p>Elige el idioma que quieres aprender. Cada idioma tiene su propio curso completo con niveles, ejercicios, videos, vocabulario y conversación real.</p>
     </div>
     <div class="selgrid" id="langGrid"></div>
@@ -589,6 +591,422 @@ window.LP_CHAT_SCENARIOS['fr-1'] = {
   }
 };
 
+// ══════════════════════════════════
+//  FRENCH — NIVEAU 2 CONTENT DATA (A2)
+// ══════════════════════════════════
+window.LP_TOPICS['fr-2'] = [
+{id:"passe-avoir",num:1,title:"Passé Composé — Avoir",emoji:"⏮️",cardDesc:"j'ai mangé, tu as fini — acciones pasadas completadas",
+explain:[
+  "<p>El <b>passé composé</b> expresa acciones pasadas y completadas. Se forma con <b>avoir</b> (presente) + <b>participe passé</b>.</p>",
+  "<table class='reftable'><tr><th>Pronombre</th><th>Avoir</th><th>Ejemplo</th></tr><tr><td>j'</td><td class='formcol'>ai</td><td>j'ai mangé</td></tr><tr><td>tu</td><td class='formcol'>as</td><td>tu as fini</td></tr><tr><td>il/elle</td><td class='formcol'>a</td><td>il a attendu</td></tr><tr><td>nous</td><td class='formcol'>avons</td><td>nous avons vu</td></tr><tr><td>vous</td><td class='formcol'>avez</td><td>vous avez pris</td></tr><tr><td>ils/elles</td><td class='formcol'>ont</td><td>ils ont fait</td></tr></table>",
+  "<p>Formación del participe passé: <b>-er → -é</b> (parler→parlé), <b>-ir → -i</b> (finir→fini), <b>-re → -u</b> (attendre→attendu). Irregulares: <span class='ex-fr'>faire→fait · voir→vu · prendre→pris · être→été · avoir→eu</span></p>"
+],
+video:"A4s7vEtyFi4",videoNote:"Passé Composé avec Avoir — FrenchPod101",
+exercises:[
+  {type:"fill",q:"J'____ mangé une pizza hier soir. (avoir)",answers:["ai"]},
+  {type:"fill",q:"Tu ____ fini ton devoir? (avoir)",answers:["as"]},
+  {type:"mcq",q:"Nous ____ regardé un film hier.",options:["avons","avez","ont","sommes"],correct:0},
+  {type:"fill",q:"Elle ____ parlé à son prof. (avoir)",answers:["a"]},
+  {type:"match",q:"Une el verbo con su participe passé.",pairs:[["manger","mangé"],["finir","fini"],["prendre","pris"],["faire","fait"]]},
+  {type:"mcq",q:"Quel est le participe passé de 'voir'?",options:["voyé","vu","vois","vécu"],correct:1},
+  {type:"tf",q:"Le participe passé de 'parler' est 'parlé'.",correct:true},
+  {type:"order",q:"Ordena la oración:",words:["ai","J'","une","écrit","lettre"],correct:"J' ai écrit une lettre"},
+  {type:"fill",q:"Ils ____ choisi un bon restaurant. (avoir)",answers:["ont"]},
+  {type:"fill",q:"Vous ____ vu ce film? (avoir)",answers:["avez"]}
+]},
+
+{id:"passe-etre",num:2,title:"Passé Composé — Être",emoji:"🚶",cardDesc:"je suis allé(e), elle est partie — 17 verbos de movimiento",
+explain:[
+  "<p>17 verbos de movimiento/estado usan <b>être</b> (no avoir) en passé composé. El truco: <b>DR. & MRS. VANDERTRAMP</b>.</p>",
+  "<p><span class='ex-fr'>Devenir · Revenir · Mourir · Retourner · Sortir · Venir · Aller · Naître · Descendre · Entrer · Rentrer · Tomber · Rester · Arriver · Monter · Partir</span></p>",
+  "<p>¡Importante! El participe passé <b>acuerda con el sujeto</b>: <span class='ex-fr'>Il est allé ✓ / Elle est allée ✓ / Ils sont allés ✓ / Elles sont allées ✓</span></p>",
+  "<table class='reftable'><tr><th>Sujeto</th><th>Passé composé de 'aller'</th></tr><tr><td>je (m)</td><td class='formcol'>je suis allé</td></tr><tr><td>je (f)</td><td class='formcol'>je suis allée</td></tr><tr><td>elle</td><td class='formcol'>elle est allée</td></tr><tr><td>nous</td><td class='formcol'>nous sommes allé(e)s</td></tr></table>"
+],
+exercises:[
+  {type:"fill",q:"Je suis ____ au cinéma hier. (aller, masc.)",answers:["allé"]},
+  {type:"mcq",q:"Elle est ____ de la maison à 8h. (partir)",options:["parti","partie","partis","parties"],correct:1},
+  {type:"tf",q:"Le verbe 'aller' utilise 'avoir' au passé composé.",correct:false},
+  {type:"match",q:"Une el verbo con son participe passé.",pairs:[["aller","allé"],["venir","venu"],["naître","né"],["mourir","mort"]]},
+  {type:"mcq",q:"Nous sommes ____ à la plage. (aller, groupe mixte)",options:["allé","allées","allés","aller"],correct:2},
+  {type:"fill",q:"Elle est ____ en France l'année dernière. (partir)",answers:["partie"]},
+  {type:"order",q:"Ordena la oración:",words:["est","Marie","née","en","1995"],correct:"Marie est née en 1995"},
+  {type:"mcq",q:"Quel verbe prend 'être' au passé composé?",options:["manger","parler","arriver","finir"],correct:2},
+  {type:"fill",q:"Ils sont ____ à minuit. (rentrer)",answers:["rentrés"]},
+  {type:"tf",q:"'Elle est tombée' est correct (tomber + être).",correct:true}
+]},
+
+{id:"imparfait",num:3,title:"L'Imparfait",emoji:"📖",cardDesc:"je parlais, il habitait — descripción y hábitos en el pasado",
+explain:[
+  "<p>El <b>imparfait</b> describe estados, acciones habituales o el fondo de una historia en el pasado. Formación: raíz de <b>nous</b> (presente) + terminaciones.</p>",
+  "<table class='reftable'><tr><th>Pronombre</th><th>Terminación</th><th>Parler</th></tr><tr><td>je</td><td class='formcol'>-ais</td><td>je parlais</td></tr><tr><td>tu</td><td class='formcol'>-ais</td><td>tu parlais</td></tr><tr><td>il/elle</td><td class='formcol'>-ait</td><td>il parlait</td></tr><tr><td>nous</td><td class='formcol'>-ions</td><td>nous parlions</td></tr><tr><td>vous</td><td class='formcol'>-iez</td><td>vous parliez</td></tr><tr><td>ils/elles</td><td class='formcol'>-aient</td><td>ils parlaient</td></tr></table>",
+  "<p>Excepción: <b>être → j'étais, tu étais, il était, nous étions...</b></p>",
+  "<p>Usos: <span class='ex-fr'>Quand j'étais enfant, je jouais au foot. (hábito) · Il faisait beau. (descripción) · Elle était fatiguée. (estado)</span></p>"
+],
+video:"g5gkONaEYWA",videoNote:"L'Imparfait — French Grammar",
+exercises:[
+  {type:"fill",q:"Quand j'étais enfant, je ____ beaucoup. (jouer)",answers:["jouais"]},
+  {type:"fill",q:"Il ____ toujours ses devoirs. (faire)",answers:["faisait"]},
+  {type:"mcq",q:"Tu ____ le français très bien quand tu habitais à Paris.",options:["parlais","parlait","parlions","parlez"],correct:0},
+  {type:"fill",q:"Nous ____ à Lyon avant. (habiter)",answers:["habitions"]},
+  {type:"tf",q:"L'imparfait s'utilise pour les actions soudaines et terminées.",correct:false},
+  {type:"match",q:"Une el pronombre con sa forme d'imparfait (jouer).",pairs:[["je","jouais"],["tu","jouais"],["il","jouait"],["nous","jouions"]]},
+  {type:"fill",q:"Elle ____ de la musique tous les soirs. (écouter)",answers:["écoutait"]},
+  {type:"order",q:"Ordena la oración:",words:["petit","j'étais","jouais","Quand","je"],correct:"Quand j'étais petit je jouais"},
+  {type:"mcq",q:"Ils ____ souvent au cinéma le samedi.",options:["allaient","allé","sont allés","iront"],correct:0},
+  {type:"fill",q:"Vous ____ ici avant? (habiter)",answers:["habitiez"]}
+]},
+
+{id:"pc-imparfait",num:4,title:"PC vs Imparfait",emoji:"⚖️",cardDesc:"J'ai vu vs je voyais — cuándo usar cada tiempo",
+explain:[
+  "<p>La diferencia clave entre los dos tiempos del pasado:</p>",
+  "<table class='reftable'><tr><th>Passé Composé</th><th>Imparfait</th></tr><tr><td>Acción completada</td><td>Descripción / estado</td></tr><tr><td>Evento específico</td><td>Hábito / rutina</td></tr><tr><td>Acción puntual</td><td>Fondo de la historia</td></tr></table>",
+  "<p><span class='ex-fr'>Je dormais (imparfait = estado) quand le téléphone a sonné (PC = evento puntual).</span></p>",
+  "<p><span class='ex-fr'>Quand j'étais enfant, j'allais au parc. (hábito → imparfait) / Hier, je suis allé au parc. (evento → PC)</span></p>"
+],
+exercises:[
+  {type:"mcq",q:"Hier, j'____ un film excellent! (voir — acción completada)",options:["voyais","ai vu","vois","verrai"],correct:1},
+  {type:"mcq",q:"Quand j'étais enfant, je ____ beaucoup de livres. (lire — hábito)",options:["lisais","ai lu","lis","lirai"],correct:0},
+  {type:"tf",q:"'J'ai mangé une pizza' → c'est l'imparfait.",correct:false},
+  {type:"fill",q:"Il ____ beau quand nous sommes arrivés. (faire — état de fond)",answers:["faisait"]},
+  {type:"fill",q:"Elle a ouvert la porte et elle ____. (entrer — acción PC)",answers:["est entrée"]},
+  {type:"mcq",q:"Pour décrire la météo dans le passé, on utilise:",options:["l'imparfait","le passé composé","le futur","le présent"],correct:0},
+  {type:"order",q:"Ordena la oración:",words:["dormais","quand","le","a","sonné","téléphone","Je"],correct:"Je dormais quand le téléphone a sonné"},
+  {type:"mcq",q:"J'____ au café quand tu as appelé. (être — état)",options:["étais","ai été","suis","serai"],correct:0},
+  {type:"tf",q:"L'imparfait s'utilise pour les actions habituelles dans le passé.",correct:true},
+  {type:"fill",q:"Nous ____ quand le professeur est entré. (parler — imparfait)",answers:["parlions"]}
+]},
+
+{id:"futur-simple",num:5,title:"Futur Simple",emoji:"🔮",cardDesc:"je parlerai, tu iras — planes y predicciones",
+explain:[
+  "<p>El <b>futur simple</b> habla de eventos futuros. Formación: <b>infinitivo + terminaciones</b>.</p>",
+  "<table class='reftable'><tr><th>Pronombre</th><th>Terminación</th><th>Parler</th></tr><tr><td>je</td><td class='formcol'>-ai</td><td>je parlerai</td></tr><tr><td>tu</td><td class='formcol'>-as</td><td>tu parleras</td></tr><tr><td>il/elle</td><td class='formcol'>-a</td><td>il parlera</td></tr><tr><td>nous</td><td class='formcol'>-ons</td><td>nous parlerons</td></tr><tr><td>vous</td><td class='formcol'>-ez</td><td>vous parlerez</td></tr><tr><td>ils/elles</td><td class='formcol'>-ont</td><td>ils parleront</td></tr></table>",
+  "<p>Raíces irregulares: <span class='ex-fr'>être→ser- · avoir→aur- · aller→ir- · faire→fer- · pouvoir→pourr- · vouloir→voudr- · venir→viendr- · voir→verr-</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Demain, je ____ du sport. (faire)",answers:["ferai"]},
+  {type:"fill",q:"Tu ____ en France l'année prochaine? (aller)",answers:["iras"]},
+  {type:"mcq",q:"Il ____ nous appeler ce soir. (appeler)",options:["appellera","appellait","a appelé","appelle"],correct:0},
+  {type:"fill",q:"Nous ____ heureux ensemble. (être)",answers:["serons"]},
+  {type:"fill",q:"Vous ____ le temps de venir? (avoir)",answers:["aurez"]},
+  {type:"match",q:"Une el pronombre con sa forme du futur (parler).",pairs:[["je","parlerai"],["tu","parleras"],["il","parlera"],["nous","parlerons"]]},
+  {type:"mcq",q:"Je ____ mes amis ce weekend. (voir)",options:["verrai","voyais","ai vu","vois"],correct:0},
+  {type:"tf",q:"Le futur de 'être' est 'serai' (je serai).",correct:true},
+  {type:"order",q:"Ordena la oración:",words:["beau","sera","Il","demain"],correct:"Il sera beau demain"},
+  {type:"fill",q:"Elles ____ une belle vie. (avoir)",answers:["auront"]}
+]},
+
+{id:"pronoms-cod",num:6,title:"Pronoms COD",emoji:"🔄",cardDesc:"le, la, les — reemplaza el complemento directo",
+explain:[
+  "<p>Los <b>pronoms COD</b> (complément d'objet direct) reemplazan el sustantivo complemento directo:</p>",
+  "<table class='reftable'><tr><th>Sustantivo</th><th>Pronom COD</th></tr><tr><td>masc. singular</td><td class='formcol'>le</td></tr><tr><td>fem. singular</td><td class='formcol'>la</td></tr><tr><td>antes de vocal</td><td class='formcol'>l'</td></tr><tr><td>plural</td><td class='formcol'>les</td></tr></table>",
+  "<p>Se colocan <b>antes del verbo</b>: <span class='ex-fr'>Je mange le gâteau → Je le mange. · Je n'aime pas le café → Je ne le aime pas.</span></p>",
+  "<p>Con passé composé: <span class='ex-fr'>J'ai vu Marie → Je l'ai vue.</span> (el participe acuerda con el COD)</p>"
+],
+exercises:[
+  {type:"mcq",q:"Je mange le gâteau → Je ____ mange.",options:["le","la","les","lui"],correct:0},
+  {type:"fill",q:"Tu aimes la musique? — Oui, je ____ aime.",answers:["l'","l'"]},
+  {type:"mcq",q:"Il regarde les films → Il ____ regarde.",options:["le","la","les","lui"],correct:2},
+  {type:"tf",q:"Le pronom COD se place avant le verbe.",correct:true},
+  {type:"fill",q:"Tu veux la pomme? — Non, je ne ____ veux pas.",answers:["la"]},
+  {type:"match",q:"Une el sustantivo con su pronom COD.",pairs:[["le livre","le"],["la pomme","la"],["les fleurs","les"],["l'eau","l'"]]},
+  {type:"mcq",q:"J'ai vu Marie → Je ____ ai vue.",options:["l'","le","la","les"],correct:0},
+  {type:"order",q:"Ordena la frase negativa:",words:["mange","Je","le","ne","pas"],correct:"Je ne le mange pas"},
+  {type:"fill",q:"Tu connais Paul? — Oui, je ____ connais bien.",answers:["le"]},
+  {type:"tf",q:"'Je le ai vu' est correct au passé composé.",correct:false}
+]},
+
+{id:"pronominaux",num:7,title:"Verbes Pronominaux",emoji:"🪞",cardDesc:"se lever, se laver — verbos reflexivos",
+explain:[
+  "<p>Los <b>verbes pronominaux</b> llevan un pronom réfléchi (me, te, se, nous, vous, se):</p>",
+  "<table class='reftable'><tr><th>Pronombre</th><th>Se lever</th></tr><tr><td>je</td><td class='formcol'>me lève</td></tr><tr><td>tu</td><td class='formcol'>te lèves</td></tr><tr><td>il/elle</td><td class='formcol'>se lève</td></tr><tr><td>nous</td><td class='formcol'>nous levons</td></tr><tr><td>vous</td><td class='formcol'>vous levez</td></tr><tr><td>ils/elles</td><td class='formcol'>se lèvent</td></tr></table>",
+  "<p>Verbos comunes: <span class='ex-fr'>se réveiller · se lever · se laver · s'habiller · se coucher · s'appeler · se promener · se souvenir</span></p>",
+  "<p>Au passé composé: usan <b>être</b>: <span class='ex-fr'>Je me suis levé(e) tôt ce matin.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Je me ____ à 7h du matin. (lever)",answers:["lève"]},
+  {type:"fill",q:"Elle ____ avant de sortir. (s'habiller)",answers:["s'habille"]},
+  {type:"mcq",q:"Nous ____ bien amusés hier soir! (passé composé)",options:["nous sommes","avons","nous avons","sommes"],correct:0},
+  {type:"fill",q:"Comment tu ____? — Je m'appelle Marie. (s'appeler)",answers:["t'appelles"]},
+  {type:"tf",q:"Les verbes pronominaux utilisent 'être' au passé composé.",correct:true},
+  {type:"match",q:"Une el pronombre con sa forme (se laver).",pairs:[["je","me lave"],["tu","te laves"],["il","se lave"],["nous","nous lavons"]]},
+  {type:"fill",q:"Ils ____ tard le samedi soir. (se coucher)",answers:["se couchent"]},
+  {type:"mcq",q:"Elle ____ les mains avant de manger. (se laver)",options:["se lave","se laves","me lave","te lave"],correct:0},
+  {type:"order",q:"Ordena la oración:",words:["suis","je","me","réveillé","tôt"],correct:"je me suis réveillé tôt"},
+  {type:"fill",q:"Vous ____ souvent dans le parc? (se promener)",answers:["vous promenez"]}
+]},
+
+{id:"ville",num:8,title:"La Ville",emoji:"🏙️",cardDesc:"la mairie, la gare, la pharmacie — lugares de la ciudad",
+isVocab:true,
+explain:["<p>Aprende los lugares esenciales de la ciudad en francés. Haz clic en cada palabra para escucharla pronunciada.</p>"],
+vocab:[
+  {cat:"🏛️ Lieux publics",items:[
+    {e:"🏛️",w:"la mairie",p:"alcaldía"},
+    {e:"📚",w:"la bibliothèque",p:"biblioteca"},
+    {e:"🚉",w:"la gare",p:"estación de tren"},
+    {e:"🖼️",w:"le musée",p:"museo"},
+    {e:"🏥",w:"l'hôpital",p:"hospital"},
+    {e:"💊",w:"la pharmacie",p:"farmacia"},
+    {e:"🥖",w:"la boulangerie",p:"panadería"},
+    {e:"📮",w:"la poste",p:"correos"}
+  ]},
+  {cat:"🛒 Commerces et services",items:[
+    {e:"🛒",w:"le supermarché",p:"supermercado"},
+    {e:"📖",w:"la librairie",p:"librería"},
+    {e:"🏦",w:"la banque",p:"banco"},
+    {e:"🍽️",w:"le restaurant",p:"restaurante"},
+    {e:"☕",w:"le café",p:"cafetería"},
+    {e:"💈",w:"le salon de coiffure",p:"peluquería"}
+  ]}
+],
+exercises:[
+  {type:"mcq",q:"Pour acheter des médicaments, tu vas à ___",options:["la pharmacie","la gare","le musée","la mairie"],correct:0},
+  {type:"fill",q:"Je vais emprunter un livre à la ____.",answers:["bibliothèque"]},
+  {type:"match",q:"Une le lieu avec son utilité.",pairs:[["la gare","prendre le train"],["la pharmacie","acheter des médicaments"],["la banque","retirer de l'argent"],["la boulangerie","acheter du pain"]]},
+  {type:"mcq",q:"Où achète-t-on du pain?",options:["À la boulangerie","À la banque","À la pharmacie","À la mairie"],correct:0},
+  {type:"tf",q:"La mairie est le bâtiment administratif de la ville.",correct:true},
+  {type:"fill",q:"Pour prendre le train, je vais à la ____.",answers:["gare"]},
+  {type:"mcq",q:"Où peut-on voir des tableaux et sculptures?",options:["au musée","au supermarché","à la poste","à la bibliothèque"],correct:0},
+  {type:"fill",q:"Je retire de l'argent à la ____.",answers:["banque"]},
+  {type:"mcq",q:"Pour envoyer une lettre, tu vas ___",options:["à la poste","au marché","à la gare","à la bibliothèque"],correct:0},
+  {type:"tf",q:"Le supermarché est un petit magasin spécialisé.",correct:false}
+]},
+
+{id:"transports",num:9,title:"Les Transports",emoji:"🚌",cardDesc:"prendre le bus, en voiture, à pied — cómo moverse",
+explain:[
+  "<p>Para hablar de transporte en francés usamos construcciones diferentes según el tipo:</p>",
+  "<table class='reftable'><tr><th>Construcción</th><th>Uso</th><th>Ejemplo</th></tr><tr><td class='formcol'>prendre le/la</td><td>vehículo público</td><td>prendre le bus / le métro</td></tr><tr><td class='formcol'>en + véhicule</td><td>vehículo privado</td><td>en voiture / en avion</td></tr><tr><td class='formcol'>à + moyen</td><td>sin motor / bici</td><td>à pied / à vélo / à moto</td></tr></table>",
+  "<p>Ejemplos: <span class='ex-fr'>Je prends le métro. · Elle va en voiture. · Il va à pied. · Nous prenons l'avion.</span></p>"
+],
+exercises:[
+  {type:"mcq",q:"Pour traverser Paris rapidement, je prends ___",options:["le métro","la piscine","le vélo","la bibliothèque"],correct:0},
+  {type:"fill",q:"Je vais à l'école ____ vélo. (à/en)",answers:["à"]},
+  {type:"match",q:"Une el transport con la construction correcte.",pairs:[["le bus","prendre"],["la voiture","en"],["le pied","à"],["l'avion","prendre"]]},
+  {type:"mcq",q:"Comment vas-tu au travail? — J'y vais ____ voiture.",options:["en","à","de","par"],correct:0},
+  {type:"tf",q:"On dit 'aller à voiture' pour parler d'un trajet en voiture.",correct:false},
+  {type:"fill",q:"Pour aller à New York depuis Paris, on prend l'____.",answers:["avion"]},
+  {type:"mcq",q:"J'habite près, donc j'y vais ___",options:["à pied","en avion","en taxi","en bateau"],correct:0},
+  {type:"fill",q:"Nous prenons le ____ Paris-Lyon, ça dure 2 heures.",answers:["train"]},
+  {type:"tf",q:"On dit 'prendre le métro' et 'aller en voiture'.",correct:true},
+  {type:"fill",q:"Je préfère aller ____ pied quand il fait beau.",answers:["à"]}
+]},
+
+{id:"logement",num:10,title:"Le Logement",emoji:"🏠",cardDesc:"l'appartement, les pièces — vivir y alquilar",
+isVocab:true,
+explain:["<p>El vocabulario del hogar en francés. Para alquilar se dice <b>louer</b>, para comprar <b>acheter</b>, y se paga <b>le loyer</b> (el alquiler).</p>"],
+vocab:[
+  {cat:"🏡 Types de logement",items:[
+    {e:"🏢",w:"le studio",p:"estudio (1 pieza)"},
+    {e:"🏠",w:"l'appartement",p:"apartamento"},
+    {e:"🏡",w:"la maison",p:"casa"},
+    {e:"🌴",w:"la villa",p:"villa"},
+    {e:"🏗️",w:"la résidence",p:"residencia"}
+  ]},
+  {cat:"🛋️ Les pièces de la maison",items:[
+    {e:"🍳",w:"la cuisine",p:"cocina"},
+    {e:"🛋️",w:"le salon",p:"sala de estar"},
+    {e:"🛏️",w:"la chambre",p:"habitación"},
+    {e:"🚿",w:"la salle de bains",p:"baño"},
+    {e:"🚽",w:"les toilettes",p:"inodoro / WC"},
+    {e:"💻",w:"le bureau",p:"oficina / escritorio"},
+    {e:"🌿",w:"le jardin",p:"jardín"},
+    {e:"🏖️",w:"la terrasse",p:"terraza"}
+  ]}
+],
+exercises:[
+  {type:"mcq",q:"Où est-ce qu'on dort?",options:["Dans la chambre","Dans la cuisine","Dans le salon","Dans les toilettes"],correct:0},
+  {type:"fill",q:"Je prépare le dîner dans la ____.",answers:["cuisine"]},
+  {type:"match",q:"Une la pièce avec son activité.",pairs:[["la cuisine","cuisiner"],["le salon","regarder la TV"],["la chambre","dormir"],["le bureau","travailler"]]},
+  {type:"mcq",q:"Un logement pour une seule personne (petit):",options:["un studio","une villa","une résidence","un appartement 4 pièces"],correct:0},
+  {type:"tf",q:"Le salon est la pièce où on cuisine.",correct:false},
+  {type:"fill",q:"Je travaille dans mon ____ à la maison.",answers:["bureau"]},
+  {type:"mcq",q:"Pour louer un appartement, on paie ___",options:["le loyer","la cuisine","le salon","le jardin"],correct:0},
+  {type:"fill",q:"Ma maison a un grand ____ avec des roses. (jardín)",answers:["jardin"]},
+  {type:"mcq",q:"Une grande propriété avec piscine et jardin:",options:["une villa","un studio","une chambre","un appartement"],correct:0},
+  {type:"tf",q:"La salle de bains est la pièce pour se laver.",correct:true}
+]},
+
+{id:"sante",num:11,title:"La Santé",emoji:"🏥",cardDesc:"j'ai mal à la tête, chez le médecin — cuerpo y salud",
+isVocab:true,
+explain:[
+  "<p>Para expresar dolor usamos <b>avoir mal à + partie du corps</b>:</p>",
+  "<table class='reftable'><tr><th>Artículo</th><th>Uso</th><th>Ejemplo</th></tr><tr><td class='formcol'>à la</td><td>femenino</td><td>j'ai mal à la gorge</td></tr><tr><td class='formcol'>au (à+le)</td><td>masculino</td><td>j'ai mal au dos</td></tr><tr><td class='formcol'>aux (à+les)</td><td>plural</td><td>j'ai mal aux pieds</td></tr></table>"
+],
+vocab:[
+  {cat:"🫀 Le corps",items:[
+    {e:"🧠",w:"la tête",p:"cabeza"},
+    {e:"👀",w:"les yeux",p:"ojos"},
+    {e:"👃",w:"le nez",p:"nariz"},
+    {e:"👄",w:"la bouche",p:"boca"},
+    {e:"🗣️",w:"la gorge",p:"garganta"},
+    {e:"💪",w:"le bras",p:"brazo"},
+    {e:"🦵",w:"la jambe",p:"pierna"},
+    {e:"🦶",w:"le pied",p:"pie"},
+    {e:"🦴",w:"le dos",p:"espalda"},
+    {e:"🫃",w:"le ventre",p:"barriga"}
+  ]},
+  {cat:"🤒 Maladies et symptômes",items:[
+    {e:"🤧",w:"un rhume",p:"resfriado"},
+    {e:"🌡️",w:"la fièvre",p:"fiebre"},
+    {e:"😴",w:"la fatigue",p:"cansancio"},
+    {e:"🤢",w:"la nausée",p:"náusea"},
+    {e:"💊",w:"un médicament",p:"medicamento"},
+    {e:"👨‍⚕️",w:"le médecin",p:"médico/a"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"J'ai ____ à la tête. (dolor — mal)",answers:["mal"]},
+  {type:"mcq",q:"J'ai mal ____ dos. (masculino singulier)",options:["au","à la","à l'","aux"],correct:0},
+  {type:"fill",q:"Il a de la ____ — 39 degrés. (fiebre)",answers:["fièvre"]},
+  {type:"match",q:"Une la partie du corps con son article.",pairs:[["la tête","à la tête"],["le dos","au dos"],["les pieds","aux pieds"],["l'oreille","à l'oreille"]]},
+  {type:"tf",q:"On dit 'j'ai mal à les pieds'.",correct:false},
+  {type:"fill",q:"J'ai mal ____ pieds après la randonnée.",answers:["aux"]},
+  {type:"mcq",q:"Pour voir le médecin, on ___",options:["prend rendez-vous","va au musée","achète un livre","prend le train"],correct:0},
+  {type:"fill",q:"Je suis ____. Je dois rester à la maison. (enfermo)",answers:["malade"]},
+  {type:"mcq",q:"Il éternue beaucoup. Il a ___",options:["un rhume","mal au dos","de la fièvre","rendez-vous"],correct:0},
+  {type:"tf",q:"La pharmacie vend des médicaments.",correct:true}
+]},
+
+{id:"vetements",num:12,title:"Les Vêtements",emoji:"👗",cardDesc:"porter, mettre, acheter — ropa y moda",
+isVocab:true,
+explain:["<p>Verbos clave: <b>porter</b> (llevar puesto) · <b>mettre</b> (ponerse) · <b>enlever</b> (quitarse) · <b>essayer</b> (probarse) · <b>acheter</b> (comprar).</p>"],
+vocab:[
+  {cat:"👕 Vêtements",items:[
+    {e:"👕",w:"un t-shirt",p:"camiseta"},
+    {e:"👖",w:"un pantalon",p:"pantalón"},
+    {e:"👗",w:"une robe",p:"vestido"},
+    {e:"🧥",w:"une veste",p:"chaqueta"},
+    {e:"🧥",w:"un manteau",p:"abrigo"},
+    {e:"🧣",w:"un pull",p:"suéter"},
+    {e:"👟",w:"des chaussures",p:"zapatos"},
+    {e:"🎩",w:"un chapeau",p:"sombrero"},
+    {e:"🩱",w:"une jupe",p:"falda"},
+    {e:"🧤",w:"des gants",p:"guantes"}
+  ]},
+  {cat:"🌡️ Según la temporada",items:[
+    {e:"☀️",w:"en été",p:"en verano"},
+    {e:"❄️",w:"en hiver",p:"en invierno"},
+    {e:"🍂",w:"en automne",p:"en otoño"},
+    {e:"🌸",w:"au printemps",p:"en primavera"}
+  ]}
+],
+exercises:[
+  {type:"mcq",q:"En hiver, je porte ___",options:["un manteau","un t-shirt","une robe légère","des sandales"],correct:0},
+  {type:"fill",q:"Elle ____ une belle robe rouge ce soir. (porter)",answers:["porte"]},
+  {type:"match",q:"Une le vêtement avec son emoji.",pairs:[["un t-shirt","👕"],["un pantalon","👖"],["une robe","👗"],["un chapeau","🎩"]]},
+  {type:"fill",q:"Je vais ____ ce pantalon pour voir s'il me va. (essayer)",answers:["essayer"]},
+  {type:"mcq",q:"En été, on porte:",options:["un t-shirt","un manteau","un pull épais","des gants"],correct:0},
+  {type:"tf",q:"'Mettre' et 'enlever' sont des contraires.",correct:true},
+  {type:"fill",q:"Tu peux ____ ton manteau, il fait très chaud ici. (quitarse)",answers:["enlever"]},
+  {type:"mcq",q:"Pour aller à une fête élégante, elle met ___",options:["une belle robe","un t-shirt","un pantalon de sport","un manteau"],correct:0},
+  {type:"fill",q:"J'adore ces chaussures! Je vais les ____. (comprar)",answers:["acheter"]},
+  {type:"tf",q:"Un pull est un vêtement chaud pour l'hiver.",correct:true}
+]},
+
+{id:"loisirs",num:13,title:"Les Loisirs",emoji:"⚽",cardDesc:"faire du sport, jouer au foot — actividades y tiempo libre",
+isVocab:true,
+explain:[
+  "<p>Para hablar de actividades de ocio en francés:</p>",
+  "<table class='reftable'><tr><th>Construcción</th><th>Uso</th><th>Ejemplo</th></tr><tr><td class='formcol'>faire du/de la</td><td>deportes sin pelota</td><td>faire du yoga / de la natation</td></tr><tr><td class='formcol'>jouer au/à la</td><td>deportes con pelota</td><td>jouer au foot / au tennis</td></tr><tr><td class='formcol'>jouer de/du</td><td>instrumento musical</td><td>jouer du piano / de la guitare</td></tr></table>"
+],
+vocab:[
+  {cat:"⚽ Sports",items:[
+    {e:"⚽",w:"le football",p:"fútbol"},
+    {e:"🎾",w:"le tennis",p:"tenis"},
+    {e:"🏊",w:"la natation",p:"natación"},
+    {e:"🚴",w:"le cyclisme",p:"ciclismo"},
+    {e:"🧘",w:"le yoga",p:"yoga"},
+    {e:"🥾",w:"la randonnée",p:"senderismo"},
+    {e:"🏀",w:"le basketball",p:"baloncesto"},
+    {e:"🏋️",w:"la musculation",p:"musculación"}
+  ]},
+  {cat:"🎨 Activités culturelles",items:[
+    {e:"📚",w:"lire",p:"leer"},
+    {e:"🎵",w:"écouter de la musique",p:"escuchar música"},
+    {e:"🎬",w:"regarder des films",p:"ver películas"},
+    {e:"🎮",w:"jouer aux jeux vidéo",p:"jugar videojuegos"},
+    {e:"🎨",w:"peindre",p:"pintar"},
+    {e:"✈️",w:"voyager",p:"viajar"}
+  ]}
+],
+exercises:[
+  {type:"mcq",q:"Je ____ foot avec mes amis le dimanche.",options:["joue au","fais du","pratique du","fais de"],correct:0},
+  {type:"fill",q:"Elle aime faire ____ la natation.",answers:["de"]},
+  {type:"match",q:"Une le sport avec son emoji.",pairs:[["le football","⚽"],["la natation","🏊"],["le tennis","🎾"],["le yoga","🧘"]]},
+  {type:"mcq",q:"Le weekend, j'aime ___",options:["faire de la randonnée","rester sans bouger","étudier toute la journée","travailler"],correct:0},
+  {type:"fill",q:"Il joue ____ guitare très bien. (de la/du)",answers:["de la"]},
+  {type:"tf",q:"On dit 'faire du yoga' et 'jouer au tennis'.",correct:true},
+  {type:"fill",q:"Nous faisons ____ cyclisme le dimanche. (du/de la)",answers:["du"]},
+  {type:"mcq",q:"Pour regarder un film au grand écran, je vais ___",options:["au cinéma","au stade","à la piscine","au musée"],correct:0},
+  {type:"fill",q:"J'aime lire des ____ le soir. (livres/libros)",answers:["livres"]},
+  {type:"mcq",q:"Elle fait ____ danse classique depuis l'âge de 5 ans.",options:["de la","du","des","de"],correct:0}
+]},
+
+{id:"cuisine-fr",num:14,title:"La Cuisine",emoji:"👨‍🍳",cardDesc:"cuisiner, les recettes — en la cocina",
+explain:[
+  "<p>La cuisine française es famosa mundialmente. Verbos útiles: <b>faire cuire</b> (cocinar/hornear) · <b>mélanger</b> (mezclar) · <b>ajouter</b> (añadir) · <b>couper</b> (cortar) · <b>faire fondre</b> (derretir) · <b>préparer</b> (preparar).</p>",
+  "<p>Ingrédients de base: <span class='ex-fr'>la farine (harina) · le beurre (mantequilla) · les œufs (huevos) · le lait (leche) · le sucre (azúcar) · l'huile (aceite) · le sel (sal) · le poivre (pimienta)</span></p>",
+  "<p>Expresiones: <span class='ex-fr'>J'adore faire la cuisine! · C'est délicieux! · La recette dit de... · Bon appétit!</span></p>"
+],
+exercises:[
+  {type:"mcq",q:"Pour faire une omelette, on utilise ___",options:["des œufs","de la farine","du sucre","du riz"],correct:0},
+  {type:"fill",q:"Je ____ la cuisine tous les dimanches. (faire)",answers:["fais"]},
+  {type:"match",q:"Une l'action en cuisine avec son sens.",pairs:[["couper","✂️ cortar"],["mélanger","🥣 mezclar"],["faire cuire","🔥 cocinar"],["ajouter","➕ añadir"]]},
+  {type:"fill",q:"Ajoutez du sel et du ____ pour assaisonner. (pimienta)",answers:["poivre"]},
+  {type:"mcq",q:"Pour faire un gâteau, on a besoin de ___",options:["farine, œufs et beurre","viande et légumes","poisson et riz","sel et poivre seulement"],correct:0},
+  {type:"tf",q:"'Cuisiner' et 'faire la cuisine' ont le même sens.",correct:true},
+  {type:"fill",q:"Ce plat est vraiment ____! (delicioso)",answers:["délicieux"]},
+  {type:"mcq",q:"Pour faire une sauce, on ____ du beurre dans la poêle.",options:["fait fondre","coupe","mélange","sert"],correct:0},
+  {type:"fill",q:"La recette dit: ____ 3 œufs dans le bol. (ajouter, imperatif)",answers:["Ajoutez"]},
+  {type:"tf",q:"Le sel et le sucre sont deux ingrédients opposés.",correct:true}
+]}
+];
+
+window.LP_TOPICS['fr-2'].push({
+  id:"conversation2",num:15,title:"Salle de Conversation",emoji:"💬",
+  cardDesc:"Pratique tout le Niveau 2 avec Léo",
+  isChat:true,
+  explain:["<p>Practica conversaciones reales con todo lo aprendido en el <b>Niveau 2</b>. Usa el passé composé, el imparfait, el futur simple y el vocabulario de la vida cotidiana. Léo usa vocabulario de nivel A2.</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['fr-2'] = {
+  weekend:{
+    name:"🗓️ Plans de Weekend",
+    hint:"Usa futur simple para hablar de tus planes",
+    steps:[
+      {bot:"Salut! Tu as des plans pour ce weekend?", sugg:["Oui! Je vais faire du sport.","Ce weekend, j'irai au cinéma.","Je resterai à la maison."], expect:["je vais","j'irai","je ferai","je resterai","weekend","samedi","dimanche"]},
+      {bot:"Super! Et avec qui? Tu sors avec des amis?", sugg:["Oui, je sortirai avec mes amis.","Non, je resterai seul(e).","Avec ma famille!"], expect:["amis","famille","avec","seul","sortir","je"]},
+      {bot:"C'est cool! Et qu'est-ce que vous ferez ensemble?", sugg:["Nous irons au restaurant.","On fera du vélo.","Nous regarderons un film."], expect:["nous","on","irons","ferons","regarderons","restaurant","film","vélo"]},
+      {bot:"Et samedi soir, tu as quelque chose de prévu?", sugg:["Je ferai la cuisine pour mes amis.","Je sortirai en boîte.","Je me coucherai tôt."], expect:["ferai","sortirai","coucherai","samedi","soir","cuisine","amis"]},
+      {bot:"Et dimanche, tu te lèveras à quelle heure?", sugg:["Je me lèverai tard, vers 10h.","Je me réveillerai tôt.","Je resterai au lit!"], expect:["je","me lèverai","me réveillerai","resterai","heure","dimanche"]},
+      {bot:"Ça a l'air d'un super weekend! Profites-en bien!", sugg:["Merci! Et toi, tu as des plans?","Oui! À bientôt Léo!","Ce sera un weekend parfait!"], expect:["merci","toi","bientôt","parfait","super","weekend"]}
+    ]
+  },
+  medecin:{
+    name:"🏥 Chez le Médecin",
+    hint:"Usa 'j'ai mal à...' para describir síntomas",
+    steps:[
+      {bot:"Bonjour! Asseyez-vous. Qu'est-ce qui vous amène aujourd'hui?", sugg:["J'ai mal à la tête depuis deux jours.","Je ne me sens pas bien.","J'ai mal au ventre et de la fièvre."], expect:["j'ai mal","je ne","tête","ventre","fièvre","gorge","dos"]},
+      {bot:"Je vois. Vous avez de la fièvre? Vous avez pris votre température?", sugg:["Oui, j'ai 38,5 degrés de fièvre.","Non, je n'ai pas de fièvre.","Je n'ai pas pris ma température."], expect:["oui","non","fièvre","degrés","température"]},
+      {bot:"Et depuis combien de temps vous n'allez pas bien?", sugg:["Depuis hier soir.","Depuis deux jours.","Depuis ce matin."], expect:["depuis","hier","deux jours","matin","semaine"]},
+      {bot:"Est-ce que vous avez d'autres symptômes? Vous toussez?", sugg:["Oui, je tousse beaucoup.","Non, mais j'ai le nez qui coule.","J'ai aussi mal à la gorge."], expect:["oui","non","je tousse","nez","gorge","mal","symptômes"]},
+      {bot:"D'accord. Je vais vous prescrire des médicaments. Vous êtes allergique à quelque chose?", sugg:["Non, je ne suis pas allergique.","Oui, je suis allergique à la pénicilline.","Je ne sais pas."], expect:["non","oui","allergique","médicaments","pénicilline"]},
+      {bot:"Très bien. Reposez-vous et buvez beaucoup d'eau. Revenez si ça ne va pas mieux.", sugg:["Merci docteur! Au revoir!","Combien de fois par jour?","Merci beaucoup!"], expect:["merci","docteur","au revoir","fois","combien","mieux"]}
+    ]
+  },
+  voyages:{
+    name:"✈️ Planifier un Voyage",
+    hint:"Mezcla passé composé + futur para hablar de viajes",
+    steps:[
+      {bot:"Tu aimes voyager? Tu es déjà allé(e) en France?", sugg:["Oui! Je suis allé(e) à Paris l'année dernière.","Non, mais j'irai un jour.","Je n'ai jamais voyagé en Europe."], expect:["oui","non","je suis allé","j'irai","paris","france","jamais"]},
+      {bot:"Et pour ton prochain voyage, où voudrais-tu aller?", sugg:["J'aimerais visiter Lyon.","Je voudrais aller à la mer.","Je rêve d'aller à Paris!"], expect:["j'aimerais","je voudrais","je rêve","paris","lyon","mer","montagne","voyage"]},
+      {bot:"Comment tu voyageras? En avion, en train?", sugg:["Je prendrai l'avion.","J'irai en train.","Je voyagerai en voiture avec ma famille."], expect:["je prendrai","j'irai","je voyagerai","avion","train","voiture","famille"]},
+      {bot:"Et qu'est-ce que tu feras là-bas? Quelles activités?", sugg:["Je visiterai les musées.","Je ferai de la randonnée.","Je mangerai dans des restaurants locaux."], expect:["je visiterai","je ferai","je mangerai","musées","randonnée","restaurants","activités"]},
+      {bot:"Tu as déjà commencé à préparer ton voyage?", sugg:["Oui, j'ai réservé l'hôtel.","Non, pas encore. Je chercherai bientôt.","J'ai acheté les billets!"], expect:["oui","non","j'ai réservé","j'ai acheté","bientôt","hôtel","billets"]},
+      {bot:"Génial! J'espère que tu passeras un excellent voyage!", sugg:["Merci Léo! J'ai hâte!","Oui, ce sera magnifique!","Merci! Je t'enverrai des photos!"], expect:["merci","j'ai hâte","ce sera","magnifique","photos","léo"]}
+    ]
+  }
+};
+
 </script>
 <script>
 // ══════════════════════════════════
@@ -605,7 +1023,7 @@ const LANGUAGES = [
 const LEVELS = {
   fr:[
     {id:'fr-1',num:1,name:'Niveau 1',desc:'Bases: salutations, être/avoir, articles, nombres',active:true},
-    {id:'fr-2',num:2,name:'Niveau 2',desc:'Próximamente',active:false},
+    {id:'fr-2',num:2,name:'Niveau 2',desc:'Passé composé, imparfait, futur, vida cotidiana',active:true},
     {id:'fr-3',num:3,name:'Niveau 3',desc:'Próximamente',active:false},
     {id:'fr-4',num:4,name:'Niveau 4',desc:'Próximamente',active:false},
     {id:'fr-5',num:5,name:'Niveau 5',desc:'Próximamente',active:false},
@@ -745,19 +1163,28 @@ function updateScore(){
   document.getElementById('scoreText').textContent = `${done}/${total}`;
 }
 
+function isTopicLocked(idx){
+  if(idx===0) return false;
+  const prev = TOPICS[idx-1];
+  if(prev.isChat) return false;
+  const arr = progress[prev.id]||[];
+  return arr.length===0 || arr.filter(Boolean).length < arr.length;
+}
+
 function renderMap(){
   const list = document.getElementById('pathList');
-  list.innerHTML = TOPICS.map(t=>{
+  list.innerHTML = TOPICS.map((t,idx)=>{
+    const locked = isTopicLocked(idx);
     let statTxt='', isDone=false;
     if(t.isChat){
-      statTxt = '💬 Chat';
+      statTxt = locked ? '🔒' : '💬 Chat';
     } else {
       const arr = progress[t.id]||[];
       const d = arr.filter(Boolean).length;
       isDone = d===arr.length && arr.length>0;
-      statTxt = `${d}/${arr.length}`;
+      statTxt = locked ? '🔒' : `${d}/${arr.length}`;
     }
-    return `<div class="node ${isDone?'done':''}" onclick="openTopic('${t.id}')">
+    return `<div class="node ${isDone?'done':''} ${locked?'locked':''}" onclick="openTopic('${t.id}')">
       <span class="nnum">${t.num}</span>
       <div class="nbadge">${t.emoji}</div>
       <div class="ninfo"><h3>${t.title}</h3><p>${t.cardDesc}</p></div>
@@ -777,7 +1204,9 @@ let currentExIndex = 0;
 let currentTopic = null;
 
 function openTopic(id){
-  const t = TOPICS.find(x=>x.id===id);
+  const idx = TOPICS.findIndex(x=>x.id===id);
+  if(isTopicLocked(idx)){ toast('🔒 ¡Completa la estación anterior para desbloquear esta!'); return; }
+  const t = TOPICS[idx];
   if(!t) return;
   currentTopic = t;
   document.getElementById('mapview').style.display='none';
@@ -1045,7 +1474,7 @@ function pushBotStep(){
 }
 function appendMsg(who, text){
   const msgs = document.getElementById('chatMsgs');
-  const avatar = who==='bot' ? '🦉' : '🙂';
+  const avatar = who==='bot' ? '🐨' : '🙂';
   const speakBtn = who==='bot' ? `<button class="chat-speak-btn" onclick="speak('${text.replace(/'/g,"\\'")}',0.8)">🔊</button>` : '';
   msgs.insertAdjacentHTML('beforeend', `<div class="chat-msg ${who}">
     <div class="chat-avatar">${avatar}</div>
