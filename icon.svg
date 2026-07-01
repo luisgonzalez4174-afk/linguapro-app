@@ -1,28 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1A73E8"/>
-      <stop offset="100%" stop-color="#0D47A1"/>
-    </linearGradient>
-    <linearGradient id="dot" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#42A5F5"/>
-      <stop offset="100%" stop-color="#1976D2"/>
+      <stop offset="0%" stop-color="#065F46"/>
+      <stop offset="100%" stop-color="#10B981"/>
     </linearGradient>
   </defs>
-
-  <!-- Background: deep blue rounded square -->
   <rect width="192" height="192" rx="40" fill="url(#bg)"/>
-
-  <!-- Back speech bubble (white semi-transparent) -->
-  <rect x="14" y="22" width="114" height="66" rx="16" fill="rgba(255,255,255,0.22)"/>
-  <path d="M 34 88 L 14 114 L 58 92 Z" fill="rgba(255,255,255,0.22)"/>
-
-  <!-- Front speech bubble (solid white) -->
-  <rect x="64" y="78" width="114" height="66" rx="16" fill="#FFFFFF"/>
-  <path d="M 128 144 L 154 166 L 158 144 Z" fill="#FFFFFF"/>
-
-  <!-- Three typing dots inside front bubble -->
-  <circle cx="93"  cy="111" r="7" fill="url(#dot)"/>
-  <circle cx="121" cy="111" r="7" fill="url(#dot)"/>
-  <circle cx="149" cy="111" r="7" fill="url(#dot)"/>
+  <!-- Globe -->
+  <circle cx="82" cy="82" r="52" fill="none" stroke="white" stroke-width="5"/>
+  <ellipse cx="82" cy="82" rx="20" ry="52" fill="none" stroke="white" stroke-width="4"/>
+  <line x1="30" y1="82" x2="134" y2="82" stroke="white" stroke-width="4"/>
+  <path d="M44 56 Q82 68 120 56" fill="none" stroke="white" stroke-width="3.5"/>
+  <path d="M44 108 Q82 96 120 108" fill="none" stroke="white" stroke-width="3.5"/>
+  <!-- Speech bubble -->
+  <rect x="112" y="106" width="64" height="46" rx="13" fill="white"/>
+  <path d="M118 152 L100 170 L132 158 Z" fill="white"/>
+  <circle cx="128" cy="129" r="5.5" fill="#059669"/>
+  <circle cx="144" cy="129" r="5.5" fill="#059669"/>
+  <circle cx="160" cy="129" r="5.5" fill="#059669"/>
 </svg>
