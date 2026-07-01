@@ -1,4 +1,4 @@
-const CACHE = 'linguapro-v3';
+const CACHE = 'linguapro-v4';
 const ASSETS = ['./', './index.html', './manifest.json', './icon.svg', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
