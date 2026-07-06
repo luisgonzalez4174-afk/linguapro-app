@@ -242,9 +242,26 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .start-ex-btn:hover{transform:translateY(-2px);}
 .start-ex-btn:active{transform:translateY(3px);box-shadow:none;}
 .start-ex-btn .excount{opacity:.75;font-weight:600;font-size:13px;margin-left:4px;}
-/* ─── vocab play hint ─── */
-.vocabcard .vc-play{font-size:13px;margin-top:5px;display:block;opacity:.5;transition:.12s;}
-.vocabcard:hover .vc-play{opacity:1;}
+/* ─── vocab audio button ─── */
+.vocabcard .vc-play{margin-top:9px;display:inline-flex;align-items:center;justify-content:center;gap:4px;background:var(--green);color:#fff;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;transition:.15s;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;}
+.vocabcard:hover .vc-play{transform:scale(1.06);}
+.vocabcard:active .vc-play{transform:scale(.93);}
+/* ─── registration screen ─── */
+#screen-register{position:fixed;inset:0;z-index:9000;display:none;background:linear-gradient(150deg,#DBEAFE,#EFF6FF);align-items:center;justify-content:center;padding:24px;}
+.reg-wrap{background:#fff;border-radius:24px;padding:36px 28px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(29,155,240,.18);}
+.reg-koala{font-size:72px;display:block;margin-bottom:10px;}
+.reg-title{font-size:25px;font-weight:800;color:var(--ink);margin:0 0 11px;line-height:1.25;}
+.reg-sub{font-size:14px;color:var(--dim);margin:0 0 22px;line-height:1.55;}
+.reg-input{width:100%;box-sizing:border-box;border:2px solid var(--line);border-radius:12px;padding:14px 16px;font-size:16px;font-family:'Space Grotesk',sans-serif;font-weight:600;outline:none;transition:.2s;margin-bottom:14px;display:block;}
+.reg-input:focus{border-color:var(--green);}
+.reg-input.shake{animation:reg-shake .3s ease;}
+@keyframes reg-shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.reg-btn{width:100%;background:linear-gradient(145deg,var(--green),var(--green-deep));color:#fff;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:700;font-family:'Space Grotesk',sans-serif;cursor:pointer;margin-bottom:16px;box-shadow:0 4px 0 var(--green-deep);display:block;}
+.reg-btn:active{transform:translateY(3px);box-shadow:none;}
+.reg-note{font-size:12.5px;color:var(--dim);display:flex;align-items:center;justify-content:center;gap:5px;}
+.user-tag{font-size:12px;color:var(--dim);cursor:pointer;text-decoration:underline;margin-top:4px;display:inline-block;}
+.user-tag:hover{color:var(--green);}
+#topbarSub{cursor:pointer;}
 /* ─── donebar upgrade ─── */
 .donebar{display:none;flex-direction:column;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(29,155,240,.12),rgba(29,155,240,.05));border:2px solid rgba(29,155,240,.4);color:var(--green-deep);font-family:'Space Grotesk',sans-serif;font-weight:700;padding:18px;border-radius:var(--radius);margin-top:12px;font-size:15px;text-align:center;}
 .donebar.show{display:flex;}
@@ -256,7 +273,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
   <div class="topbar">
     <div class="brand">
       <div class="brand-badge">🐨</div>
-      <div class="brand-text"><h1>LinguaPro</h1><p id="topbarSub">Aprende Idiomas</p></div>
+      <div class="brand-text"><h1>LinguaPro</h1><p id="topbarSub" onclick="resetUser()" title="Toca para cambiar nombre">Aprende Idiomas</p></div>
     </div>
     <div class="topbar-right">
       <div class="streak-pill">🔥 <span id="streakCount">0</span></div>
@@ -264,10 +281,22 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
     </div>
   </div>
 
+  <!-- SCREEN 0: Registration -->
+  <div id="screen-register" style="display:none">
+    <div class="reg-wrap">
+      <span class="reg-koala">🐨</span>
+      <h2 class="reg-title">¡Bienvenido a<br>LinguaPro!</h2>
+      <p class="reg-sub">Ingresa tu nombre para guardar tu progreso permanentemente en este dispositivo.</p>
+      <input id="regInput" class="reg-input" type="text" placeholder="Tu nombre..." maxlength="25" autocomplete="given-name" onkeydown="if(event.key==='Enter')doRegister()">
+      <button type="button" class="reg-btn" onclick="doRegister()">🚀 Empezar a aprender</button>
+      <div class="reg-note">💾 Tu progreso nunca se borrará</div>
+    </div>
+  </div>
+
   <!-- SCREEN 1: Language selector -->
   <div id="screen-langs">
     <div class="hero">
-      <h2>¡Bienvenido a LinguaPro! 🐨</h2>
+      <h2 id="langsHero">¡Bienvenido a LinguaPro! 🐨</h2>
       <p>Elige el idioma que quieres aprender. Cada idioma tiene su propio curso completo con niveles, ejercicios interactivos, vocabulario ilustrado y conversación real.</p>
     </div>
     <div class="selgrid" id="langGrid"></div>
@@ -1343,9 +1372,12 @@ function renderExplanation(t){
     t.vocab.forEach(cat=>{
       html += `<div class="card"><h4>${cat.cat}</h4><div class="vocabgrid">`;
       cat.items.forEach(it=>{
-        html += `<div class="vocabcard" onclick="speak('${it.w.replace(/'/g,"\\'")}',0.8)">
-          <span class="ve">${it.e}</span><span class="vw">${it.w}</span><span class="vp">${it.p}</span>
-          <span class="vc-play">🔊 escuchar</span>
+        const ws = it.w.replace(/'/g,"\\'");
+        html += `<div class="vocabcard" onclick="speak('${ws}',0.8)">
+          <span class="ve">${it.e}</span>
+          <span class="vw">${it.w}</span>
+          <span class="vp">${it.p}</span>
+          <span class="vc-play">🔊 Escuchar</span>
         </div>`;
       });
       html += `</div></div>`;
@@ -1905,11 +1937,60 @@ document.addEventListener('mouseup', function(e){
 });
 
 // ══════════════════════════════════
+//  USER REGISTRATION
+// ══════════════════════════════════
+function getUserName(){ return localStorage.getItem('lp_user_name')||''; }
+
+function initApp(){
+  const name = getUserName();
+  if(!name){
+    const reg = document.getElementById('screen-register');
+    reg.style.display = 'flex';
+    setTimeout(()=>{ const inp=document.getElementById('regInput'); if(inp) inp.focus(); }, 120);
+  } else {
+    startApp();
+  }
+}
+
+function doRegister(){
+  const inp = document.getElementById('regInput');
+  const name = (inp.value||'').trim();
+  if(name.length < 2){
+    inp.classList.add('shake');
+    setTimeout(()=>inp.classList.remove('shake'), 400);
+    inp.focus();
+    return;
+  }
+  localStorage.setItem('lp_user_name', name);
+  document.getElementById('screen-register').style.display = 'none';
+  startApp();
+}
+
+function startApp(){
+  const name = getUserName();
+  const sub = document.getElementById('topbarSub');
+  if(sub && name) sub.textContent = `Hola, ${name} 👋`;
+  const hero = document.getElementById('langsHero');
+  if(hero && name) hero.textContent = `¡Hola, ${name}! 🐨`;
+  showLangScreen();
+  initGamification();
+  history.replaceState({lp:'langs'},'');
+}
+
+function resetUser(){
+  if(!confirm('¿Cambiar de nombre? Tu progreso se mantendrá.')) return;
+  const newName = prompt('Nuevo nombre:', getUserName());
+  if(newName && newName.trim().length >= 2){
+    localStorage.setItem('lp_user_name', newName.trim());
+    const sub = document.getElementById('topbarSub');
+    if(sub) sub.textContent = `Hola, ${newName.trim()} 👋`;
+  }
+}
+
+// ══════════════════════════════════
 //  INIT
 // ══════════════════════════════════
-showLangScreen();
-history.replaceState({lp:'langs'},'');
-initGamification();
+initApp();
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
 }
