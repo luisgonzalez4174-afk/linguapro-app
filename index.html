@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#45A302">
+<meta name="theme-color" content="#1D9BF0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -17,7 +17,7 @@
 <style>
 :root{
   --bg:#F7F7F7;--bg2:#FFFFFF;--card:#FFFFFF;--card2:#F7F9FC;
-  --green:#58CC02;--green-deep:#45A302;--blue:#1CB0F6;--blue-deep:#1899D6;
+  --green:#1D9BF0;--green-deep:#1578C3;--blue:#7C3AED;--blue-deep:#6D28D9;
   --gold:#FFC800;--red:#FF4B4B;--purple:#CE82FF;
   --ink:#3C3C3C;--ink-soft:#777777;--line:#E5E5E5;
   --radius:18px;--radius-sm:12px;
@@ -42,11 +42,11 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 .backbtn:hover{border-color:var(--green);color:var(--green-deep);}
 
 /* ─── hero ─── */
-.hero{background:linear-gradient(150deg,#E9FBDC,#FFFFFF);border:2px solid var(--line);border-radius:var(--radius);padding:20px 20px 18px;margin-bottom:22px;position:relative;overflow:hidden;}
-.hero::after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(88,204,2,.15),transparent 70%);}
+.hero{background:linear-gradient(150deg,#DBEAFE,#FFFFFF);border:2px solid var(--line);border-radius:var(--radius);padding:20px 20px 18px;margin-bottom:22px;position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;background:radial-gradient(circle,rgba(29,155,240,.15),transparent 70%);}
 .hero h2{font-size:22px;margin:0 0 6px;color:var(--ink);}
 .hero p{margin:0;color:var(--ink-soft);font-size:14.5px;line-height:1.5;}
-.hero .tag{display:inline-block;margin-top:12px;background:rgba(88,204,2,.12);color:var(--green-deep);border:1px solid rgba(88,204,2,.35);font-size:12.5px;font-weight:700;padding:5px 11px;border-radius:999px;}
+.hero .tag{display:inline-block;margin-top:12px;background:rgba(29,155,240,.12);color:var(--green-deep);border:1px solid rgba(29,155,240,.35);font-size:12.5px;font-weight:700;padding:5px 11px;border-radius:999px;}
 
 /* ─── selection grid (langs / levels) ─── */
 .selgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
@@ -60,7 +60,7 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 .selcard h3{font-size:15px;margin:0 0 3px;color:var(--ink);}
 .selcard p{margin:0;font-size:11.5px;color:var(--ink-soft);}
 .selcard .lockbadge{position:absolute;top:8px;right:8px;background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:2px 8px;font-size:10px;font-weight:700;color:var(--ink-soft);}
-.selcard.active .lockbadge{background:rgba(88,204,2,.15);color:var(--green-deep);border-color:rgba(88,204,2,.4);}
+.selcard.active .lockbadge{background:rgba(29,155,240,.15);color:var(--green-deep);border-color:rgba(29,155,240,.4);}
 
 /* ─── map path ─── */
 .path{position:relative;padding-left:26px;}
@@ -97,22 +97,17 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 .ex-fr{color:#fff;background:var(--blue);padding:1px 6px;border-radius:6px;font-weight:600;}
 .sectionlabel{font-size:13px;color:var(--purple);margin:0 0 6px;font-weight:700;font-family:'Space Grotesk',sans-serif;}
 .reftable{width:100%;border-collapse:collapse;font-size:13px;margin:2px 0 16px;}
-.reftable th{background:rgba(88,204,2,.12);color:var(--green-deep);text-align:left;padding:8px 9px;font-size:11.5px;text-transform:uppercase;font-family:'Space Grotesk',sans-serif;}
+.reftable th{background:rgba(29,155,240,.12);color:var(--green-deep);text-align:left;padding:8px 9px;font-size:11.5px;text-transform:uppercase;font-family:'Space Grotesk',sans-serif;}
 .reftable td{padding:8px 9px;border-top:1px solid var(--line);color:var(--ink);}
 .reftable td.formcol{color:var(--blue-deep);font-weight:700;}
 .reftable tr:nth-child(even) td{background:rgba(0,0,0,.015);}
 .keynote{border:1px solid rgba(255,200,0,.5);background:rgba(255,200,0,.08);border-radius:12px;padding:12px 14px;margin:2px 0 4px;}
 .keynote .keyhead{display:block;color:#B98900;font-family:'Space Grotesk',sans-serif;font-size:13.5px;margin-bottom:6px;}
 
-/* ─── video ─── */
-.videowrap{position:relative;width:100%;padding-top:56.25%;border-radius:var(--radius-sm);overflow:hidden;background:#000;margin-bottom:8px;}
-.videowrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
-.videonote{font-size:12px;color:var(--ink-soft);text-align:center;margin:0;}
-
 /* ─── vocab grid ─── */
 .vocabgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:11px;margin-bottom:8px;}
 .vocabcard{background:var(--card2);border:2px solid var(--line);border-radius:14px;padding:18px 10px 13px;text-align:center;cursor:pointer;transition:.18s;position:relative;overflow:hidden;}
-.vocabcard:hover{border-color:var(--green);background:linear-gradient(160deg,#EFFCE5,#F7FFE9);transform:translateY(-3px);box-shadow:0 6px 0 rgba(88,204,2,.18);}
+.vocabcard:hover{border-color:var(--green);background:linear-gradient(160deg,#DBEAFE,#EFF6FF);transform:translateY(-3px);box-shadow:0 6px 0 rgba(29,155,240,.18);}
 .vocabcard:active{transform:translateY(1px);}
 .vocabcard .ve{font-size:46px;display:block;margin-bottom:8px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.1));}
 .vocabcard .vw{font-size:13px;font-weight:700;color:var(--ink);display:block;margin-bottom:5px;line-height:1.2;}
@@ -120,30 +115,37 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 
 /* ─── exercise ─── */
 .exwrap{margin-bottom:10px;}
-.exq{font-size:15px;font-weight:600;margin-bottom:12px;line-height:1.5;color:var(--ink);}
-.options{display:flex;flex-direction:column;gap:9px;}
-.opt{background:var(--card2);border:2px solid var(--line);border-radius:13px;padding:12px 15px;font-size:14px;cursor:pointer;transition:.12s;color:var(--ink);}
-.opt:hover{border-color:var(--green);}
-.opt.correct{background:rgba(88,204,2,.15);border-color:var(--green);color:var(--green-deep);font-weight:700;}
+.exq{font-size:17px;font-weight:700;margin-bottom:16px;line-height:1.5;color:var(--ink);}
+.options{display:flex;flex-direction:column;gap:10px;}
+.opt{background:var(--card2);border:2px solid var(--line);border-radius:14px;padding:15px 18px;font-size:15.5px;font-weight:600;cursor:pointer;transition:.12s;color:var(--ink);}
+.opt:hover{border-color:var(--green);transform:translateY(-1px);}
+.opt.correct{background:rgba(29,155,240,.15);border-color:var(--green);color:var(--green-deep);font-weight:700;}
 .opt.wrong{background:rgba(255,75,75,.12);border-color:var(--red);color:var(--red);animation:shakeit .4s;}
 .fillrow{display:flex;gap:8px;}
-.fillinput{flex:1;background:var(--card2);border:2px solid var(--line);color:var(--ink);font-family:'Inter';font-size:14.5px;padding:11px 13px;border-radius:11px;}
+.fillinput{flex:1;background:var(--card2);border:2px solid var(--line);color:var(--ink);font-family:'Inter';font-size:15px;padding:13px 15px;border-radius:12px;}
 .fillinput:focus{outline:none;border-color:var(--green);}
-.checkbtn{background:linear-gradient(145deg,var(--green),var(--green-deep));color:#fff;border:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13.5px;padding:11px 18px;border-radius:11px;cursor:pointer;box-shadow:0 3px 0 var(--green-deep);}
+.checkbtn{background:linear-gradient(145deg,var(--green),var(--green-deep));color:#fff;border:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;padding:13px 20px;border-radius:12px;cursor:pointer;box-shadow:0 3px 0 var(--green-deep);}
 .checkbtn:active{transform:translateY(2px);box-shadow:none;}
-.feedback{margin-top:10px;padding:11px 14px;border-radius:11px;font-size:13.5px;font-weight:600;display:none;}
+.feedback{margin-top:12px;padding:13px 16px;border-radius:12px;font-size:14px;font-weight:700;display:none;}
 .feedback.show{display:block;}
-.feedback.correct{background:rgba(88,204,2,.12);color:var(--green-deep);}
+.feedback.correct{background:rgba(29,155,240,.12);color:var(--green-deep);}
 .feedback.wrong{background:rgba(255,75,75,.1);color:var(--red);}
-.speakbox{display:flex;align-items:center;gap:10px;background:var(--card2);border-radius:13px;padding:14px;}
-.speakbtn{width:46px;height:46px;border-radius:50%;background:var(--blue);border:none;color:#fff;font-size:18px;cursor:pointer;flex:none;}
-.speak-phrase{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px;}
-.speak-translation{font-size:12.5px;color:var(--ink-soft);}
-.micbtn{width:50px;height:50px;border-radius:50%;background:var(--red);border:none;color:#fff;font-size:20px;cursor:pointer;flex:none;}
+.speakbox{display:flex;align-items:center;gap:10px;background:var(--card2);border-radius:14px;padding:16px;}
+.speakbtn{width:50px;height:50px;border-radius:50%;background:var(--green);border:none;color:#fff;font-size:20px;cursor:pointer;flex:none;box-shadow:0 3px 0 var(--green-deep);}
+.speak-phrase{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+.speak-translation{font-size:13px;color:var(--ink-soft);}
+.micbtn{width:52px;height:52px;border-radius:50%;background:var(--red);border:none;color:#fff;font-size:22px;cursor:pointer;flex:none;}
 .micbtn.recording{animation:listening .7s ease-in-out infinite;}
 .speak-status{font-size:12px;color:var(--ink-soft);margin-top:7px;font-style:italic;}
 @keyframes shakeit{10%,90%{transform:translateX(-2px);}20%,80%{transform:translateX(3px);}30%,50%,70%{transform:translateX(-5px);}40%,60%{transform:translateX(5px);}}
 @keyframes listening{0%,100%{transform:scale(1);background:var(--red);}50%{transform:scale(1.15);background:#ff2244;}}
+/* ─── listen exercise ─── */
+.listen-char{display:flex;align-items:center;gap:14px;background:var(--card2);border:2px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:14px;}
+.char-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-deep));display:flex;align-items:center;justify-content:center;font-size:38px;flex:none;box-shadow:0 3px 0 var(--green-deep);}
+.char-name{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.char-says{font-size:12.5px;color:var(--ink-soft);}
+.listen-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--green),var(--green-deep));color:#fff;border:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;padding:15px;border-radius:13px;cursor:pointer;margin-bottom:16px;box-shadow:0 4px 0 var(--green-deep);}
+.listen-btn:active{transform:translateY(3px);box-shadow:none;}
 
 /* ─── nav ─── */
 .exnav{display:flex;align-items:center;justify-content:space-between;margin-top:14px;}
@@ -153,7 +155,7 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 .nextbtn:disabled{opacity:.4;cursor:not-allowed;}
 
 /* ─── CHAT station ─── */
-.chat-header{background:linear-gradient(150deg,#E9FBDC,#FFFFFF);border:2px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin-bottom:14px;}
+.chat-header{background:linear-gradient(150deg,#DBEAFE,#FFFFFF);border:2px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin-bottom:14px;}
 .chat-header h3{font-size:17px;margin:0 0 6px;color:var(--ink);}
 .scenario-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
 .scenario-pill{background:var(--card);border:2px solid var(--line);color:var(--ink);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12.5px;padding:8px 13px;border-radius:999px;cursor:pointer;transition:.12s;}
@@ -181,7 +183,7 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 .sugg-pill:hover{border-color:var(--blue);background:rgba(28,176,246,.18);}
 .chat-progress{font-size:13px;font-weight:700;color:var(--green-deep);padding:8px 14px;border-top:1px solid var(--line);font-family:'Space Grotesk',sans-serif;}
 
-.donebar{display:none;align-items:center;gap:10px;background:rgba(88,204,2,.1);border:1px solid rgba(88,204,2,.4);color:var(--green-deep);font-family:'Space Grotesk',sans-serif;font-weight:700;padding:13px 16px;border-radius:var(--radius);margin-top:6px;font-size:14.5px;}
+.donebar{display:none;align-items:center;gap:10px;background:rgba(29,155,240,.1);border:1px solid rgba(29,155,240,.4);color:var(--green-deep);font-family:'Space Grotesk',sans-serif;font-weight:700;padding:13px 16px;border-radius:var(--radius);margin-top:6px;font-size:14.5px;}
 .donebar.show{display:flex;}
 footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;opacity:.7;}
 @media(min-width:560px){.hero h2{font-size:25px;}}
@@ -211,7 +213,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .match-card{background:var(--card2);border:2px solid var(--line);border-radius:11px;padding:10px 11px;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;text-align:center;transition:.12s;min-height:44px;display:flex;align-items:center;justify-content:center;line-height:1.3;}
 .match-card:hover{border-color:var(--blue);background:rgba(28,176,246,.06);}
 .match-card.selected{border-color:var(--blue);background:rgba(28,176,246,.14);box-shadow:0 0 0 3px rgba(28,176,246,.25);}
-.match-card.matched{background:rgba(88,204,2,.12);border-color:var(--green);color:var(--green-deep);pointer-events:none;font-weight:700;}
+.match-card.matched{background:rgba(29,155,240,.12);border-color:var(--green);color:var(--green-deep);pointer-events:none;font-weight:700;}
 .match-card.wrong-flash{animation:wrongFlash .45s;}
 @keyframes wrongFlash{0%,100%{border-color:var(--line);background:var(--card2);}40%,60%{border-color:var(--red);background:rgba(255,75,75,.1);}}
 .match-hint{font-size:12px;color:var(--ink-soft);margin-bottom:10px;font-style:italic;}
@@ -224,11 +226,11 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .mission-bar-wrap{height:6px;background:var(--line);border-radius:999px;overflow:hidden;}
 .mission-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--green-deep));border-radius:999px;transition:width .4s;}
 .mission-reward{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:12px;color:var(--gold);flex:none;background:rgba(255,200,0,.12);border:2px solid rgba(255,200,0,.3);padding:5px 9px;border-radius:999px;white-space:nowrap;}
-.mission-reward.claimed{background:rgba(88,204,2,.1);border-color:rgba(88,204,2,.3);color:var(--green-deep);}
-.mission-reward.ready{background:rgba(88,204,2,.18);border-color:rgba(88,204,2,.5);color:var(--green-deep);cursor:pointer;animation:pulse 1.2s ease-in-out infinite;}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(88,204,2,.4);}50%{box-shadow:0 0 0 6px rgba(88,204,2,0);}}
+.mission-reward.claimed{background:rgba(29,155,240,.1);border-color:rgba(29,155,240,.3);color:var(--green-deep);}
+.mission-reward.ready{background:rgba(29,155,240,.18);border-color:rgba(29,155,240,.5);color:var(--green-deep);cursor:pointer;animation:pulse 1.2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(29,155,240,.4);}50%{box-shadow:0 0 0 6px rgba(29,155,240,0);}}
 /* ─── donebar upgrade ─── */
-.donebar{display:none;flex-direction:column;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(88,204,2,.12),rgba(88,204,2,.05));border:2px solid rgba(88,204,2,.4);color:var(--green-deep);font-family:'Space Grotesk',sans-serif;font-weight:700;padding:18px;border-radius:var(--radius);margin-top:12px;font-size:15px;text-align:center;}
+.donebar{display:none;flex-direction:column;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(29,155,240,.12),rgba(29,155,240,.05));border:2px solid rgba(29,155,240,.4);color:var(--green-deep);font-family:'Space Grotesk',sans-serif;font-weight:700;padding:18px;border-radius:var(--radius);margin-top:12px;font-size:15px;text-align:center;}
 .donebar.show{display:flex;}
 .donebar .done-koala{font-size:48px;display:block;}
 </style>
@@ -250,7 +252,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
   <div id="screen-langs">
     <div class="hero">
       <h2>¡Bienvenido a LinguaPro! 🐨</h2>
-      <p>Elige el idioma que quieres aprender. Cada idioma tiene su propio curso completo con niveles, ejercicios, videos, vocabulario y conversación real.</p>
+      <p>Elige el idioma que quieres aprender. Cada idioma tiene su propio curso completo con niveles, ejercicios interactivos, vocabulario ilustrado y conversación real.</p>
     </div>
     <div class="selgrid" id="langGrid"></div>
     <div id="missionsWidget" style="margin-top:20px"></div>
@@ -261,7 +263,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
     <button class="backbtn" onclick="showLangScreen()">← Idiomas</button>
     <div class="hero">
       <h2 id="levelsHeroTitle">Français 🇫🇷</h2>
-      <p id="levelsHeroDesc">Elige tu nivel. Cada nivel tiene estaciones con gramática, videos, vocabulario, ejercicios y una sala de conversación.</p>
+      <p id="levelsHeroDesc">Elige tu nivel. Cada nivel tiene estaciones con gramática, vocabulario, ejercicios interactivos y una sala de conversación.</p>
     </div>
     <div class="selgrid" id="levelGrid"></div>
   </div>
@@ -309,7 +311,10 @@ exercises:[
   {type:"fill",q:"Ça ____ bien, merci! (va — verbo aller)",answers:["va"]},
   {type:"mcq",q:"Alguien te dice 'Enchanté!' ¿Qué respondes?",options:["Au revoir!","Enchanté(e) aussi!","Merci beaucoup!"],correct:1},
   {type:"speak",phrase:"Bonjour! Je m'appelle Sophie. Comment vous appelez-vous?",translation:"¡Hola! Me llamo Sophie. ¿Cómo se llama usted?"},
-  {type:"fill",q:"____ revoir! (adiós)",answers:["Au"]}
+  {type:"fill",q:"____ revoir! (adiós)",answers:["Au"]},
+  {type:"listen",q:"¿Qué saludo escuchaste?",phrase:"bonjour",char:{emoji:"🧑‍🏫",name:"Léo"},options:["Bonjour","Bonsoir","Au revoir","Salut"],correct:0},
+  {type:"listen",q:"¿Qué frase de presentación escuchaste?",phrase:"je m'appelle Marie",char:{emoji:"👩",name:"Marie"},options:["Je m'appelle Marie","Comment ça va?","Je suis étudiant","Au revoir!"],correct:0},
+  {type:"listen",q:"¿Cómo dice Léo 'hasta pronto'?",phrase:"à bientôt",char:{emoji:"🧑‍🏫",name:"Léo"},options:["À bientôt!","Bonjour!","Merci!","Enchanté!"],correct:0}
 ]},
 
 {id:"etre",num:2,title:"Être — Verbo Ser/Estar",emoji:"🧍",cardDesc:"je suis, tu es, il est — el verbo más importante",
@@ -1112,6 +1117,17 @@ function showLangScreen(){
   document.getElementById('topicview').classList.remove('active');
   renderLangGrid();
 }
+function isLevelLocked(langId, levelIdx){
+  if(levelIdx===0) return false;
+  const levels = LEVELS[langId]||[];
+  const prevLv = levels[levelIdx-1];
+  if(!prevLv) return false;
+  const prevTopics = (window.LP_TOPICS[prevLv.id]||[]).filter(t=>!t.isChat);
+  if(prevTopics.length===0) return false;
+  const done = lsGet('done_topics')||[];
+  const completedCount = prevTopics.filter(t=>done.includes(t.id)).length;
+  return completedCount < Math.ceil(prevTopics.length*0.5);
+}
 function showLevelScreen(){
   document.getElementById('screen-langs').style.display='none';
   document.getElementById('screen-levels').style.display='block';
@@ -1121,17 +1137,30 @@ function showLevelScreen(){
   document.getElementById('levelsHeroTitle').textContent = `${lang.name} ${lang.flag}`;
   document.getElementById('topbarSub').textContent = lang.name;
   const grid = document.getElementById('levelGrid');
-  grid.innerHTML = (LEVELS[currentLangId]||[]).map(lv=>`
-    <div class="selcard ${lv.active?'active':'locked'}" onclick="selectLevel('${lv.id}')">
-      <span class="lockbadge">${lv.active?'Disponible':'🔒 Pronto'}</span>
-      <span class="selflag">${lv.active?'📖':'🔒'}</span>
+  const lvList = LEVELS[currentLangId]||[];
+  grid.innerHTML = lvList.map((lv,idx)=>{
+    const comingSoon = !lv.active;
+    const locked = isLevelLocked(currentLangId,idx);
+    const isLocked = comingSoon||locked;
+    let badge, flag;
+    if(comingSoon){ badge='🔒 Pronto'; flag='🔒'; }
+    else if(locked){ badge='🔒 Bloqueado'; flag='🔒'; }
+    else { badge='Disponible'; flag='📖'; }
+    return `<div class="selcard ${isLocked?'locked':'active'}" onclick="selectLevel('${lv.id}')">
+      <span class="lockbadge">${badge}</span>
+      <span class="selflag">${flag}</span>
       <h3>${lv.name}</h3>
       <p>${lv.desc}</p>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 function selectLevel(id){
-  const lv = (LEVELS[currentLangId]||[]).find(l=>l.id===id);
-  if(!lv.active){ toast('🔒 Este nivel estará disponible pronto. ¡Empieza con el Nivel 1!'); return; }
+  const levels = LEVELS[currentLangId]||[];
+  const idx = levels.findIndex(l=>l.id===id);
+  const lv = levels[idx];
+  if(!lv) return;
+  if(!lv.active){ toast('🔒 Este nivel estará disponible pronto.'); return; }
+  if(isLevelLocked(currentLangId,idx)){ toast('🔒 ¡Completa al menos el 50% del nivel anterior para desbloquear este!'); return; }
   currentLevelId = id;
   TOPICS = (window.LP_TOPICS[id]||[]).map(t=>t);
   progress.length = 0;
@@ -1275,12 +1304,6 @@ function renderTopic(t){
 
   html += `<div class="card"><h4>📘 Explication</h4><div class="explain">${t.explain.join('')}</div></div>`;
 
-  if(t.video){
-    html += `<div class="card"><h4>🎬 Vidéo</h4>
-      <div class="videowrap"><iframe src="https://www.youtube.com/embed/${t.video}" allowfullscreen></iframe></div>
-      <p class="videonote">${t.videoNote||''}</p></div>`;
-  }
-
   if(t.vocab){
     t.vocab.forEach(cat=>{
       html += `<div class="card"><h4>${cat.cat}</h4><div class="vocabgrid">`;
@@ -1346,6 +1369,21 @@ function renderExercise(){
       <button type="button" class="checkbtn" onclick="checkOrder()">Vérifier</button>
       <div class="feedback" id="fb"></div>`;
     window._orderPicked = [];
+  } else if(ex.type==='listen'){
+    const ch = ex.char||{emoji:'🧑‍🏫',name:'Léo'};
+    body += `<div class="listen-char">
+      <div class="char-avatar">${ch.emoji}</div>
+      <div><div class="char-name">${ch.name} dice...</div>
+        <div class="char-says">Escucha y elige la opción correcta</div>
+      </div>
+    </div>
+    <button type="button" class="listen-btn" id="listenPlayBtn" onclick="speak('${ex.phrase.replace(/'/g,"\\'")}',0.75)">
+      🔊 &nbsp;Escuchar de nuevo
+    </button>
+    <div class="exq">${ex.q}</div>
+    <div class="options" id="optsWrap">`;
+    ex.options.forEach((o,idx)=>{ body+=`<div class="opt" onclick="checkMcq(${idx})" data-idx="${idx}">${o}</div>`; });
+    body+=`</div><div class="feedback" id="fb"></div>`;
   } else if(ex.type==='speak'){
     body += `<div class="speakbox">
       <button type="button" class="speakbtn" onclick="speak('${ex.phrase.replace(/'/g,"\\'")}',0.75)">🔊</button>
@@ -1364,6 +1402,8 @@ function renderExercise(){
     <button type="button" class="nextbtn" id="nextBtn" onclick="nextExercise()" ${progress[t.id][i]?'':'disabled'}>Suivant →</button>
   </div>`;
   card.innerHTML = body;
+
+  if(ex.type==='listen'){ setTimeout(()=>speak(ex.phrase,0.75),350); }
 
   if(progress[t.id][i]){
     markCardAnswered(ex);
@@ -1390,6 +1430,8 @@ function enableNext(){
     if(!card.querySelector('.donebar')){
       card.innerHTML += `<div class="donebar show"><span class="done-koala">🐨</span>¡Estación completada! +50 XP</div>`;
       if(wasNew){
+        const doneTops = lsGet('done_topics')||[];
+        if(!doneTops.includes(currentTopic.id)){ doneTops.push(currentTopic.id); lsSet('done_topics',doneTops); }
         lsSet('xp',getXP()+50);
         const xpEl=document.getElementById('xpCount'); if(xpEl) xpEl.textContent=getXP();
         updateMissionProgress('station',1);
