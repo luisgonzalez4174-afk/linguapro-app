@@ -229,6 +229,22 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .mission-reward.claimed{background:rgba(29,155,240,.1);border-color:rgba(29,155,240,.3);color:var(--green-deep);}
 .mission-reward.ready{background:rgba(29,155,240,.18);border-color:rgba(29,155,240,.5);color:var(--green-deep);cursor:pointer;animation:pulse 1.2s ease-in-out infinite;}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(29,155,240,.4);}50%{box-shadow:0 0 0 6px rgba(29,155,240,0);}}
+/* ─── lesson illustration ─── */
+.lesson-illus{background:linear-gradient(135deg,#DBEAFE 0%,#EFF6FF 100%);border:2px solid rgba(29,155,240,.18);border-radius:18px;padding:26px 18px 20px;text-align:center;margin-bottom:18px;}
+.illus-chars{display:flex;justify-content:center;align-items:flex-end;gap:8px;margin-bottom:14px;}
+.illus-koala{font-size:60px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.12));display:block;}
+.illus-emoji{font-size:42px;margin-bottom:8px;filter:drop-shadow(0 2px 5px rgba(0,0,0,.1));display:block;}
+.illus-bubble{background:#fff;border-radius:14px;padding:12px 20px;box-shadow:0 3px 14px rgba(0,0,0,.08);position:relative;display:inline-block;max-width:92%;}
+.illus-bubble::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%);border:10px solid transparent;border-bottom-color:#fff;border-top:none;}
+.illus-text{font-size:14.5px;font-weight:700;color:var(--ink);font-style:italic;line-height:1.4;}
+/* ─── start exercises button ─── */
+.start-ex-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(145deg,var(--green),var(--green-deep));color:#fff;border:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;padding:18px;border-radius:14px;cursor:pointer;margin:10px 0 24px;box-shadow:0 4px 0 var(--green-deep);}
+.start-ex-btn:hover{transform:translateY(-2px);}
+.start-ex-btn:active{transform:translateY(3px);box-shadow:none;}
+.start-ex-btn .excount{opacity:.75;font-weight:600;font-size:13px;margin-left:4px;}
+/* ─── vocab play hint ─── */
+.vocabcard .vc-play{font-size:13px;margin-top:5px;display:block;opacity:.5;transition:.12s;}
+.vocabcard:hover .vc-play{opacity:1;}
 /* ─── donebar upgrade ─── */
 .donebar{display:none;flex-direction:column;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(29,155,240,.12),rgba(29,155,240,.05));border:2px solid rgba(29,155,240,.4);color:var(--green-deep);font-family:'Space Grotesk',sans-serif;font-weight:700;padding:18px;border-radius:var(--radius);margin-top:12px;font-size:15px;text-align:center;}
 .donebar.show{display:flex;}
@@ -1109,6 +1125,7 @@ function selectLang(id){
   if(!lang.active){ toast('🔒 Este idioma estará disponible pronto. ¡Empieza con Français!'); return; }
   currentLangId = id;
   showLevelScreen();
+  history.pushState({lp:'levels',lang:id},'');
 }
 function showLangScreen(){
   document.getElementById('screen-langs').style.display='block';
@@ -1166,6 +1183,7 @@ function selectLevel(id){
   progress.length = 0;
   TOPICS.forEach(t=>{ if(!t.isChat) progress[t.id]=new Array(t.exercises.length).fill(false); });
   showMapView();
+  history.pushState({lp:'map',level:id},'');
 }
 function showLevelScreenBack(){ showLevelScreen(); }
 function showMapView(){
@@ -1292,34 +1310,70 @@ function openTopic(id){
   document.getElementById('mapview').style.display='none';
   const view = document.getElementById('topicview');
   view.classList.add('active');
-  if(t.isChat){ updateMissionProgress('chat',1); renderChatStation(t); return; }
+  if(t.isChat){ topicPhase='chat'; updateMissionProgress('chat',1); renderChatStation(t); history.pushState({lp:'chat',id:t.id},''); return; }
   currentExIndex = 0;
-  renderTopic(t);
+  renderExplanation(t);
+  history.pushState({lp:'explain',id:t.id},'');
 }
 
-function renderTopic(t){
+let topicPhase = 'explain';
+
+function getExamplePhrase(t){
+  for(const h of (t.explain||[])){
+    const m = h.match(/class=.ex-fr.[^>]*>([^<]+)<\/span>/);
+    if(m) return m[1].split('·')[0].trim().split('.')[0].trim();
+  }
+  return t.cardDesc;
+}
+
+function renderExplanation(t){
+  topicPhase = 'explain';
   const view = document.getElementById('topicview');
-  let html = `<button class="backbtn" onclick="backToMap()">← Volver al mapa</button>
-  <div class="thead"><div class="nbadge">${t.emoji}</div><div><h2>${t.title}</h2><span>${t.cardDesc}</span></div></div>`;
-
-  html += `<div class="card"><h4>📘 Explication</h4><div class="explain">${t.explain.join('')}</div></div>`;
-
+  view.classList.add('active');
+  document.getElementById('mapview').style.display='none';
+  const example = getExamplePhrase(t);
+  let html = `<button type="button" class="backbtn" onclick="backToMap()">← Volver al mapa</button>
+  <div class="thead"><div class="nbadge">${t.emoji}</div><div><h2>${t.title}</h2><span>${t.cardDesc}</span></div></div>
+  <div class="lesson-illus">
+    <div class="illus-chars"><span class="illus-koala">🐨</span><span class="illus-emoji">${t.emoji}</span></div>
+    <div class="illus-bubble"><div class="illus-text">${example}</div></div>
+  </div>
+  <div class="card"><h4>📘 Explication</h4><div class="explain">${t.explain.join('')}</div></div>`;
   if(t.vocab){
     t.vocab.forEach(cat=>{
       html += `<div class="card"><h4>${cat.cat}</h4><div class="vocabgrid">`;
-      cat.items.forEach((it,i)=>{
+      cat.items.forEach(it=>{
         html += `<div class="vocabcard" onclick="speak('${it.w.replace(/'/g,"\\'")}',0.8)">
           <span class="ve">${it.e}</span><span class="vw">${it.w}</span><span class="vp">${it.p}</span>
+          <span class="vc-play">🔊 escuchar</span>
         </div>`;
       });
       html += `</div></div>`;
     });
   }
-
-  html += `<div class="card" id="exCard"></div>`;
+  const done = (progress[t.id]||[]).filter(Boolean).length;
+  const total = (t.exercises||[]).length;
+  const lbl = done===total&&total>0 ? '🔄 Repasar ejercicios' : '🚀 Comenzar ejercicios';
+  html += `<button type="button" class="start-ex-btn" onclick="startExercises()">
+    ${lbl}<span class="excount">(${total} ejercicios)</span>
+  </button>`;
   view.innerHTML = html;
-  renderExercise();
 }
+
+function startExercises(){
+  topicPhase = 'exercises';
+  const t = currentTopic;
+  if(!t) return;
+  currentExIndex = 0;
+  const view = document.getElementById('topicview');
+  view.innerHTML = `<button type="button" class="backbtn" onclick="renderExplanation(currentTopic)">← Explicación</button>
+  <div class="thead"><div class="nbadge">${t.emoji}</div><div><h2>${t.title}</h2><span>${t.cardDesc}</span></div></div>
+  <div class="card" id="exCard"></div>`;
+  renderExercise();
+  history.pushState({lp:'exercises',id:t.id},'');
+}
+
+function renderTopic(t){ renderExplanation(t); }
 
 function renderExercise(){
   const t = currentTopic;
@@ -1810,9 +1864,51 @@ function initGamification(){
 }
 
 // ══════════════════════════════════
+//  NAVIGATION — keyboard / back button
+// ══════════════════════════════════
+function navigateBack(){
+  const topicActive = document.getElementById('topicview').classList.contains('active');
+  if(topicActive && topicPhase==='exercises'){ renderExplanation(currentTopic); }
+  else if(topicActive){ backToMap(); }
+  else if(document.getElementById('mapview').style.display!=='none'){ showLevelScreen(); }
+  else if(document.getElementById('screen-levels').style.display!=='none'){ showLangScreen(); }
+}
+
+window.addEventListener('popstate', navigateBack);
+
+document.addEventListener('keydown', function(e){
+  const tag = e.target.tagName;
+  const inInput = tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT';
+  if(e.key==='Enter' && !inInput){
+    e.preventDefault();
+    const chk = document.querySelector('.checkbtn');
+    const nxt = document.getElementById('nextBtn');
+    const sta = document.querySelector('.start-ex-btn');
+    if(chk && chk.offsetParent!==null && !chk.disabled) chk.click();
+    else if(nxt && !nxt.disabled) nxt.click();
+    else if(sta) sta.click();
+  }
+  if((e.key==='ArrowRight'||(e.key===' '&&!inInput)) && !inInput){
+    e.preventDefault();
+    const nxt = document.getElementById('nextBtn');
+    const sta = document.querySelector('.start-ex-btn');
+    if(nxt && !nxt.disabled) nxt.click();
+    else if(sta) sta.click();
+  }
+  if(e.key==='ArrowLeft' && !inInput){ e.preventDefault(); navigateBack(); }
+  if(e.key==='Escape'){ e.preventDefault(); navigateBack(); }
+});
+
+document.addEventListener('mouseup', function(e){
+  if(e.button===3){ e.preventDefault(); navigateBack(); }
+  if(e.button===4){ e.preventDefault(); history.forward(); }
+});
+
+// ══════════════════════════════════
 //  INIT
 // ══════════════════════════════════
 showLangScreen();
+history.replaceState({lp:'langs'},'');
 initGamification();
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
