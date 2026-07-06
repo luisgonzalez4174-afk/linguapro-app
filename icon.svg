@@ -6,7 +6,5 @@
     </linearGradient>
   </defs>
   <rect width="192" height="192" rx="40" fill="url(#bg)"/>
-  <text x="96" y="128" text-anchor="middle"
-    font-family="Impact,'Arial Black',sans-serif"
-    font-weight="900" font-size="108" fill="white" letter-spacing="-6">LP</text>
+  <text x="96" y="135" text-anchor="middle" font-size="120">🐨</text>
 </svg>

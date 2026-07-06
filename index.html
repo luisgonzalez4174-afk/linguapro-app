@@ -110,12 +110,13 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 .videonote{font-size:12px;color:var(--ink-soft);text-align:center;margin:0;}
 
 /* ─── vocab grid ─── */
-.vocabgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:8px;margin-bottom:6px;}
-.vocabcard{background:var(--card2);border:1px solid var(--line);border-radius:11px;padding:10px 6px;text-align:center;cursor:pointer;transition:.12s;}
-.vocabcard:hover{border-color:var(--green);background:#EFFCE5;}
-.vocabcard .ve{font-size:24px;display:block;margin-bottom:4px;}
-.vocabcard .vw{font-size:11px;font-weight:700;color:var(--ink);display:block;}
-.vocabcard .vp{font-size:9.5px;color:var(--ink-soft);}
+.vocabgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:11px;margin-bottom:8px;}
+.vocabcard{background:var(--card2);border:2px solid var(--line);border-radius:14px;padding:18px 10px 13px;text-align:center;cursor:pointer;transition:.18s;position:relative;overflow:hidden;}
+.vocabcard:hover{border-color:var(--green);background:linear-gradient(160deg,#EFFCE5,#F7FFE9);transform:translateY(-3px);box-shadow:0 6px 0 rgba(88,204,2,.18);}
+.vocabcard:active{transform:translateY(1px);}
+.vocabcard .ve{font-size:46px;display:block;margin-bottom:8px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.1));}
+.vocabcard .vw{font-size:13px;font-weight:700;color:var(--ink);display:block;margin-bottom:5px;line-height:1.2;}
+.vocabcard .vp{font-size:11px;color:var(--blue-deep);font-weight:600;background:rgba(28,176,246,.1);border:1px solid rgba(28,176,246,.2);padding:3px 8px;border-radius:999px;display:inline-block;}
 
 /* ─── exercise ─── */
 .exwrap{margin-bottom:10px;}
@@ -184,6 +185,52 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 .donebar.show{display:flex;}
 footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;opacity:.7;}
 @media(min-width:560px){.hero h2{font-size:25px;}}
+
+/* ─── gamification pills ─── */
+.topbar-right{display:flex;align-items:center;gap:6px;}
+.streak-pill{display:flex;align-items:center;gap:5px;background:rgba(255,75,75,.1);border:2px solid rgba(255,75,75,.3);padding:7px 11px;border-radius:999px;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:13px;color:#FF4B4B;white-space:nowrap;}
+.xp-pill{display:flex;align-items:center;gap:5px;background:rgba(255,200,0,.12);border:2px solid rgba(255,200,0,.4);padding:7px 11px;border-radius:999px;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:13px;color:#B98900;white-space:nowrap;}
+/* ─── XP pop ─── */
+.xp-pop{position:fixed;pointer-events:none;z-index:9999;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:22px;color:var(--gold);text-shadow:0 2px 8px rgba(0,0,0,.2);animation:xpPop .9s ease-out forwards;}
+@keyframes xpPop{0%{opacity:1;transform:translateY(0) scale(1.1);}100%{opacity:0;transform:translateY(-70px) scale(1.4);}}
+/* ─── confetti ─── */
+@keyframes confettiFall{0%{opacity:1;}100%{opacity:0;transform:translateY(110vh) rotate(540deg);}}
+/* ─── exercise progress bar ─── */
+.exbar-wrap{height:8px;background:var(--line);border-radius:999px;margin-bottom:14px;overflow:hidden;}
+.exbar{height:100%;background:linear-gradient(90deg,var(--green),var(--green-deep));border-radius:999px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+/* ─── word tiles (order exercises) ─── */
+.word-tile{display:inline-flex;align-items:center;background:var(--card);border:2px solid var(--blue);color:var(--blue-deep);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;padding:9px 15px;border-radius:11px;cursor:pointer;transition:.12s;box-shadow:0 3px 0 var(--blue-deep);-webkit-user-select:none;user-select:none;}
+.word-tile:hover{background:rgba(28,176,246,.08);transform:translateY(-1px);}
+.word-tile:active{transform:translateY(2px);box-shadow:none;}
+.word-tile.used{opacity:.22;pointer-events:none;transform:translateY(2px);box-shadow:none;}
+.tile-bank{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:12px;min-height:46px;}
+.tile-built{min-height:54px;border:2px dashed var(--line);border-radius:11px;padding:10px 12px;margin-bottom:10px;display:flex;flex-wrap:wrap;gap:7px;align-items:center;background:var(--card2);}
+/* ─── tap-to-match ─── */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;}
+.match-col{display:flex;flex-direction:column;gap:7px;}
+.match-card{background:var(--card2);border:2px solid var(--line);border-radius:11px;padding:10px 11px;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;text-align:center;transition:.12s;min-height:44px;display:flex;align-items:center;justify-content:center;line-height:1.3;}
+.match-card:hover{border-color:var(--blue);background:rgba(28,176,246,.06);}
+.match-card.selected{border-color:var(--blue);background:rgba(28,176,246,.14);box-shadow:0 0 0 3px rgba(28,176,246,.25);}
+.match-card.matched{background:rgba(88,204,2,.12);border-color:var(--green);color:var(--green-deep);pointer-events:none;font-weight:700;}
+.match-card.wrong-flash{animation:wrongFlash .45s;}
+@keyframes wrongFlash{0%,100%{border-color:var(--line);background:var(--card2);}40%,60%{border-color:var(--red);background:rgba(255,75,75,.1);}}
+.match-hint{font-size:12px;color:var(--ink-soft);margin-bottom:10px;font-style:italic;}
+/* ─── missions ─── */
+.mission-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);}
+.mission-item:last-child{border-bottom:none;padding-bottom:0;}
+.mission-icon{font-size:26px;flex:none;}
+.mission-info{flex:1;min-width:0;}
+.mission-label{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+.mission-bar-wrap{height:6px;background:var(--line);border-radius:999px;overflow:hidden;}
+.mission-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--green-deep));border-radius:999px;transition:width .4s;}
+.mission-reward{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:12px;color:var(--gold);flex:none;background:rgba(255,200,0,.12);border:2px solid rgba(255,200,0,.3);padding:5px 9px;border-radius:999px;white-space:nowrap;}
+.mission-reward.claimed{background:rgba(88,204,2,.1);border-color:rgba(88,204,2,.3);color:var(--green-deep);}
+.mission-reward.ready{background:rgba(88,204,2,.18);border-color:rgba(88,204,2,.5);color:var(--green-deep);cursor:pointer;animation:pulse 1.2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(88,204,2,.4);}50%{box-shadow:0 0 0 6px rgba(88,204,2,0);}}
+/* ─── donebar upgrade ─── */
+.donebar{display:none;flex-direction:column;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(88,204,2,.12),rgba(88,204,2,.05));border:2px solid rgba(88,204,2,.4);color:var(--green-deep);font-family:'Space Grotesk',sans-serif;font-weight:700;padding:18px;border-radius:var(--radius);margin-top:12px;font-size:15px;text-align:center;}
+.donebar.show{display:flex;}
+.donebar .done-koala{font-size:48px;display:block;}
 </style>
 </head>
 <body>
@@ -193,7 +240,10 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
       <div class="brand-badge">🐨</div>
       <div class="brand-text"><h1>LinguaPro</h1><p id="topbarSub">Aprende Idiomas</p></div>
     </div>
-    <div class="score-pill">⭐ <span id="scoreText">0/0</span></div>
+    <div class="topbar-right">
+      <div class="streak-pill">🔥 <span id="streakCount">0</span></div>
+      <div class="xp-pill">⭐ <span id="xpCount">0</span></div>
+    </div>
   </div>
 
   <!-- SCREEN 1: Language selector -->
@@ -203,6 +253,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
       <p>Elige el idioma que quieres aprender. Cada idioma tiene su propio curso completo con niveles, ejercicios, videos, vocabulario y conversación real.</p>
     </div>
     <div class="selgrid" id="langGrid"></div>
+    <div id="missionsWidget" style="margin-top:20px"></div>
   </div>
 
   <!-- SCREEN 2: Level selector (per language) -->
@@ -1093,6 +1144,7 @@ function showMapView(){
   document.getElementById('screen-levels').style.display='none';
   document.getElementById('mapview').style.display='block';
   document.getElementById('topicview').classList.remove('active');
+  updateStreakDisplay();
   const lang = LANGUAGES.find(l=>l.id===currentLangId);
   const lv = (LEVELS[currentLangId]||[]).find(l=>l.id===currentLevelId);
   document.getElementById('mapHeroTitle').textContent = `${lv.name} — ${lang.name} ${lang.flag}`;
@@ -1158,9 +1210,8 @@ function createRecognizer(onResult,onEnd){
 }
 
 function updateScore(){
-  let done=0,total=0;
-  TOPICS.forEach(t=>{ if(!t.isChat){ total+=t.exercises.length; done+=progress[t.id].filter(Boolean).length; } });
-  document.getElementById('scoreText').textContent = `${done}/${total}`;
+  const el=document.getElementById('xpCount');
+  if(el) el.textContent=getXP();
 }
 
 function isTopicLocked(idx){
@@ -1212,7 +1263,7 @@ function openTopic(id){
   document.getElementById('mapview').style.display='none';
   const view = document.getElementById('topicview');
   view.classList.add('active');
-  if(t.isChat){ renderChatStation(t); return; }
+  if(t.isChat){ updateMissionProgress('chat',1); renderChatStation(t); return; }
   currentExIndex = 0;
   renderTopic(t);
 }
@@ -1253,12 +1304,14 @@ function renderExercise(){
   const ex = t.exercises[i];
   const card = document.getElementById('exCard');
   const total = t.exercises.length;
-  let body = `<h4>✏️ Exercice ${i+1}/${total}</h4><div class="exwrap">`;
+  const pct = Math.round((i/total)*100);
+  let body = `<div class="exbar-wrap"><div class="exbar" style="width:${pct}%"></div></div>
+    <h4>✏️ Exercice ${i+1}/${total}</h4><div class="exwrap">`;
 
   if(ex.type==='fill'){
     body += `<div class="exq">${ex.q}</div>
-      <div class="fillrow"><input class="fillinput" id="fillIn" placeholder="Écris ta réponse..." autocomplete="off">
-      <button class="checkbtn" onclick="checkFill()">Vérifier</button></div>
+      <div class="fillrow"><input class="fillinput" id="fillIn" placeholder="Écris ta réponse..." autocomplete="off" onkeydown="if(event.key==='Enter')checkFill()">
+      <button type="button" class="checkbtn" onclick="checkFill()">Vérifier</button></div>
       <div class="feedback" id="fb"></div>`;
   } else if(ex.type==='mcq' || ex.type==='emoji'){
     body += `<div class="exq">${ex.q}</div><div class="options" id="optsWrap">`;
@@ -1270,46 +1323,45 @@ function renderExercise(){
       <div class="opt" onclick="checkTf(false)">❌ Faux</div>
       </div><div class="feedback" id="fb"></div>`;
   } else if(ex.type==='match'){
-    const shuffled = ex.pairs.map(p=>p[1]).sort(()=>Math.random()-0.5);
+    const shuffledRight = ex.pairs.map(p=>p[1]).sort(()=>Math.random()-0.5);
+    window._matchLeft=null; window._matchTotal=ex.pairs.length; window._matchDone=0;
     body += `<div class="exq">${ex.q}</div>
-      <div style="display:flex;flex-direction:column;gap:8px" id="matchWrap">`;
-    ex.pairs.forEach((p,idx)=>{
-      body += `<div style="display:flex;gap:8px;align-items:center">
-        <div class="opt" style="flex:1;cursor:default">${p[0]}</div>
-        <select class="fillinput" style="flex:1" data-correct="${p[1].replace(/"/g,'&quot;')}" id="matchSel${idx}">
-          <option value="">— elige —</option>
-          ${shuffled.map(s=>`<option value="${s.replace(/"/g,'&quot;')}">${s}</option>`).join('')}
-        </select>
-      </div>`;
-    });
-    body += `</div><div style="margin-top:10px"><button class="checkbtn" onclick="checkMatch(${ex.pairs.length})">Vérifier</button></div>
+      <p class="match-hint">Toca un término de la izquierda y luego su pareja en la derecha.</p>
+      <div class="match-grid" id="matchWrap">
+        <div class="match-col" id="matchLeft">
+          ${ex.pairs.map((p,idx)=>`<div class="match-card left-card" data-idx="${idx}" onclick="selectMatchLeft(this,${idx})">${p[0]}</div>`).join('')}
+        </div>
+        <div class="match-col" id="matchRight">
+          ${shuffledRight.map(val=>`<div class="match-card right-card" data-val="${val.replace(/"/g,'&quot;')}" onclick="selectMatchRight(this)">${val}</div>`).join('')}
+        </div>
+      </div>
       <div class="feedback" id="fb"></div>`;
   } else if(ex.type==='order'){
     const words = [...ex.words].sort(()=>Math.random()-0.5);
     body += `<div class="exq">${ex.q}</div>
-      <div id="orderBank" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px">
-        ${words.map(w=>`<span class="opt" style="padding:8px 12px;cursor:pointer" onclick="pickWord(this,'${w.replace(/'/g,"\\'")}')">${w}</span>`).join('')}
+      <div id="orderBank" class="tile-bank">
+        ${words.map(w=>`<span class="word-tile" onclick="pickWord(this,'${w.replace(/'/g,"\\'")}')">${w}</span>`).join('')}
       </div>
-      <div id="orderBuilt" style="min-height:46px;border:2px dashed var(--line);border-radius:11px;padding:10px;font-size:14.5px;color:var(--ink);margin-bottom:10px"></div>
-      <button class="checkbtn" onclick="checkOrder()">Vérifier</button>
+      <div id="orderBuilt" class="tile-built"></div>
+      <button type="button" class="checkbtn" onclick="checkOrder()">Vérifier</button>
       <div class="feedback" id="fb"></div>`;
     window._orderPicked = [];
   } else if(ex.type==='speak'){
     body += `<div class="speakbox">
-      <button class="speakbtn" onclick="speak('${ex.phrase.replace(/'/g,"\\'")}',0.75)">🔊</button>
+      <button type="button" class="speakbtn" onclick="speak('${ex.phrase.replace(/'/g,"\\'")}',0.75)">🔊</button>
       <div><div class="speak-phrase">${ex.phrase}</div><div class="speak-translation">${ex.translation}</div></div>
       </div>
       <div style="margin-top:12px;display:flex;align-items:center;gap:10px">
-        <button class="micbtn" id="micBtn" onclick="toggleMic()">🎤</button>
+        <button type="button" class="micbtn" id="micBtn" onclick="toggleMic()">🎤</button>
         <div class="speak-status" id="speakStatus">Toca el micrófono y repite la frase en voz alta.</div>
       </div>
-      <div style="margin-top:10px"><button class="checkbtn" onclick="markSpeakDone()">Ya practiqué ✓</button></div>
+      <div style="margin-top:10px"><button type="button" class="checkbtn" onclick="markSpeakDone()">Ya practiqué ✓</button></div>
       <div class="feedback" id="fb"></div>`;
   }
 
   body += `</div><div class="exnav">
     <span>${i+1} de ${total}</span>
-    <button class="nextbtn" id="nextBtn" onclick="nextExercise()" ${progress[t.id][i]?'':'disabled'}>Suivant →</button>
+    <button type="button" class="nextbtn" id="nextBtn" onclick="nextExercise()" ${progress[t.id][i]?'':'disabled'}>Suivant →</button>
   </div>`;
   card.innerHTML = body;
 
@@ -1326,23 +1378,37 @@ function markCardAnswered(ex){
 function enableNext(){
   const btn = document.getElementById('nextBtn');
   if(btn) btn.disabled = false;
+  const wasNew = !progress[currentTopic.id][currentExIndex];
   progress[currentTopic.id][currentExIndex] = true;
-  updateScore();
+  if(wasNew){
+    addXP(10);
+    updateMissionProgress('correct',1);
+  }
   const arr = progress[currentTopic.id];
   if(arr.every(Boolean)){
     const card = document.getElementById('exCard');
-    card.innerHTML += `<div class="donebar show">🎉 ¡Estación completada! Todos los ejercicios correctos.</div>`;
+    if(!card.querySelector('.donebar')){
+      card.innerHTML += `<div class="donebar show"><span class="done-koala">🐨</span>¡Estación completada! +50 XP</div>`;
+      if(wasNew){
+        lsSet('xp',getXP()+50);
+        const xpEl=document.getElementById('xpCount'); if(xpEl) xpEl.textContent=getXP();
+        updateMissionProgress('station',1);
+      }
+      playSound('complete');
+      showConfetti();
+    }
   }
 }
+
+function fbOk(msg){ const fb=document.getElementById('fb'); fb.className='feedback show correct'; fb.innerHTML='🐨 '+msg; playSound('correct'); }
+function fbBad(msg){ const fb=document.getElementById('fb'); fb.className='feedback show wrong'; fb.textContent='✗ '+msg; playSound('wrong'); }
 
 function checkFill(){
   const ex = currentTopic.exercises[currentExIndex];
   const val = (document.getElementById('fillIn').value||'').trim().toLowerCase();
-  const ok = ex.answers.some(a=>a.toLowerCase()===val);
-  const fb = document.getElementById('fb');
-  fb.classList.add('show');
-  if(ok){ fb.classList.add('correct'); fb.classList.remove('wrong'); fb.textContent='✓ Correct !'; enableNext(); }
-  else { fb.classList.add('wrong'); fb.classList.remove('correct'); fb.textContent=`✗ Essaie encore. Réponse: ${ex.answers[0]}`; }
+  const ok = ex.answers.some(a=>a.toLowerCase()===val||a.toLowerCase().replace(/'/g,"'")===val);
+  if(ok){ fbOk('Correct !'); enableNext(); }
+  else { fbBad('Réponse correcte: '+ex.answers[0]); }
 }
 function checkMcq(idx){
   const ex = currentTopic.exercises[currentExIndex];
@@ -1351,10 +1417,8 @@ function checkMcq(idx){
     if(i===ex.correct) o.classList.add('correct');
     if(i===idx && idx!==ex.correct) o.classList.add('wrong');
   });
-  const fb = document.getElementById('fb');
-  fb.classList.add('show');
-  if(idx===ex.correct){ fb.classList.add('correct'); fb.textContent='✓ Correct !'; enableNext(); }
-  else { fb.classList.add('wrong'); fb.textContent='✗ Pas tout à fait. Regarde la bonne réponse en vert.'; }
+  if(idx===ex.correct){ fbOk('Correct !'); enableNext(); }
+  else { fbBad('Regarde la respuesta correcta en verde.'); }
 }
 function checkTf(val){
   const ex = currentTopic.exercises[currentExIndex];
@@ -1365,36 +1429,31 @@ function checkTf(val){
     if(isTrue===ex.correct) o.classList.add('correct');
     if(isTrue===val && !ok) o.classList.add('wrong');
   });
-  const fb = document.getElementById('fb');
-  fb.classList.add('show');
-  if(ok){ fb.classList.add('correct'); fb.textContent='✓ Correct !'; enableNext(); }
-  else { fb.classList.add('wrong'); fb.textContent='✗ Pas correct.'; }
+  if(ok){ fbOk('Correct !'); enableNext(); }
+  else { fbBad('Pas correct. La respuesta es '+(ex.correct?'Vrai':'Faux')+'.'); }
 }
-function checkMatch(n){
-  const ex = currentTopic.exercises[currentExIndex];
-  let allOk = true;
-  for(let i=0;i<n;i++){
-    const sel = document.getElementById('matchSel'+i);
-    if(sel.value !== ex.pairs[i][1]) allOk=false;
-  }
-  const fb = document.getElementById('fb');
-  fb.classList.add('show');
-  if(allOk){ fb.classList.add('correct'); fb.textContent='✓ Correct !'; enableNext(); }
-  else { fb.classList.add('wrong'); fb.textContent='✗ Algunas no coinciden. Intenta de nuevo.'; }
-}
+function checkMatch(){ /* auto-handled by selectMatchRight */ }
 function pickWord(el,w){
   if(el.classList.contains('used')) return;
-  el.classList.add('used'); el.style.opacity='.3'; el.style.pointerEvents='none';
+  el.classList.add('used');
   window._orderPicked.push(w);
-  document.getElementById('orderBuilt').textContent = window._orderPicked.join(' ');
+  const built=document.getElementById('orderBuilt');
+  const tile=document.createElement('span');
+  tile.className='word-tile';
+  tile.style.cssText='font-size:13px;padding:6px 11px;box-shadow:0 2px 0 var(--blue-deep);';
+  tile.textContent=w;
+  tile.onclick=function(){
+    const idx=window._orderPicked.lastIndexOf(w);
+    if(idx>-1) window._orderPicked.splice(idx,1);
+    tile.remove(); el.classList.remove('used');
+  };
+  built.appendChild(tile);
 }
 function checkOrder(){
   const ex = currentTopic.exercises[currentExIndex];
   const built = window._orderPicked.join(' ');
-  const fb = document.getElementById('fb');
-  fb.classList.add('show');
-  if(built.trim()===ex.correct.trim()){ fb.classList.add('correct'); fb.textContent='✓ Correct !'; enableNext(); }
-  else { fb.classList.add('wrong'); fb.textContent=`✗ Pas correct. Réponse: "${ex.correct}"`; }
+  if(built.trim()===ex.correct.trim()){ fbOk('Correct !'); enableNext(); }
+  else { fbBad('Réponse: "'+ex.correct+'"'); }
 }
 function toggleMic(){
   const btn = document.getElementById('micBtn');
@@ -1509,9 +1568,210 @@ function chatToggleMic(){
 }
 
 // ══════════════════════════════════
+//  GAMIFICATION SYSTEMS
+// ══════════════════════════════════
+
+// ── Local storage helpers ──
+function lsGet(k){ try{ return JSON.parse(localStorage.getItem('lp_'+k)); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem('lp_'+k,JSON.stringify(v)); }catch(e){} }
+
+// ── Sound effects (Web Audio API, no files needed) ──
+function playSound(type){
+  try{
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const master = ctx.createGain();
+    master.connect(ctx.destination);
+    master.gain.value = 0.18;
+    if(type==='correct'){
+      [[523,.0],[659,.1],[784,.2]].forEach(([f,t])=>{
+        const o=ctx.createOscillator(); o.connect(master);
+        o.frequency.value=f; o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+0.18);
+      });
+    } else if(type==='wrong'){
+      const o=ctx.createOscillator(); o.connect(master);
+      o.type='sawtooth';
+      o.frequency.setValueAtTime(200,ctx.currentTime);
+      o.frequency.linearRampToValueAtTime(100,ctx.currentTime+0.28);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime+0.28);
+      master.gain.value=0.12;
+    } else if(type==='complete'){
+      [[523,.0],[659,.13],[784,.26],[1047,.39]].forEach(([f,t])=>{
+        const o=ctx.createOscillator(); const g=ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.frequency.value=f;
+        g.gain.setValueAtTime(0,ctx.currentTime+t);
+        g.gain.linearRampToValueAtTime(0.2,ctx.currentTime+t+0.06);
+        g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+t+0.38);
+        o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+0.38);
+      });
+    }
+  }catch(e){}
+}
+
+// ── Confetti ──
+function showConfetti(){
+  const colors=['#58CC02','#FFC800','#FF4B4B','#1CB0F6','#CE82FF','#FF9600','#fff'];
+  for(let i=0;i<55;i++){
+    const el=document.createElement('div');
+    const size=5+Math.random()*8;
+    el.style.cssText=`position:fixed;z-index:9999;pointer-events:none;width:${size}px;height:${size}px;background:${colors[i%colors.length]};left:${5+Math.random()*90}vw;top:-18px;border-radius:${Math.random()>.5?'50%':'2px'};transform:rotate(${Math.random()*360}deg);animation:confettiFall ${1.1+Math.random()*1.6}s ${Math.random()*0.55}s ease-in forwards;`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),3000);
+  }
+}
+
+// ── XP pop animation ──
+function showXPPop(n){
+  const pop=document.createElement('div');
+  pop.className='xp-pop';
+  pop.textContent='+'+n+' XP';
+  pop.style.cssText+='right:18px;top:72px;';
+  document.body.appendChild(pop);
+  setTimeout(()=>pop.remove(),950);
+}
+
+// ── Streak ──
+function getStreak(){
+  const today=new Date().toDateString();
+  const last=lsGet('lastPlay');
+  let streak=lsGet('streak')||0;
+  if(last===today) return streak;
+  const yesterday=new Date(Date.now()-864e5).toDateString();
+  streak = (last===yesterday) ? streak+1 : 1;
+  lsSet('streak',streak);
+  lsSet('lastPlay',today);
+  return streak;
+}
+function updateStreakDisplay(){
+  const s=getStreak();
+  const el=document.getElementById('streakCount');
+  if(el) el.textContent=s;
+}
+
+// ── XP ──
+function getXP(){ return lsGet('xp')||0; }
+function addXP(n){
+  const v=getXP()+n;
+  lsSet('xp',v);
+  const el=document.getElementById('xpCount');
+  if(el) el.textContent=v;
+  showXPPop(n);
+}
+
+// ── Daily missions ──
+const MISSION_DEFS=[
+  {id:'station',icon:'🗺️',label:'Completa 1 estación',target:1,xp:50},
+  {id:'correct',icon:'✅',label:'Responde 10 ejercicios',target:10,xp:30},
+  {id:'chat',icon:'💬',label:'Practica la conversación',target:1,xp:40},
+];
+function getMissions(){
+  const today=new Date().toDateString();
+  const m=lsGet('missions');
+  if(!m||m.date!==today){
+    const fresh={date:today,progress:{station:0,correct:0,chat:0},claimed:{}};
+    lsSet('missions',fresh); return fresh;
+  }
+  return m;
+}
+function updateMissionProgress(type, amount){
+  amount = amount||1;
+  const m=getMissions();
+  m.progress[type]=(m.progress[type]||0)+amount;
+  lsSet('missions',m);
+  renderMissionsWidget();
+  const def=MISSION_DEFS.find(d=>d.id===type);
+  if(def && !m.claimed[type] && m.progress[type]>=def.target){
+    setTimeout(()=>claimMission(type),400);
+  }
+}
+function claimMission(id){
+  const m=getMissions();
+  const def=MISSION_DEFS.find(d=>d.id===id);
+  if(!def||m.claimed[id]) return;
+  if((m.progress[id]||0)<def.target) return;
+  m.claimed[id]=true;
+  lsSet('missions',m);
+  lsSet('xp',(getXP()+def.xp));
+  const el=document.getElementById('xpCount');
+  if(el) el.textContent=getXP();
+  playSound('complete');
+  toast('🎯 ¡Misión completada! +'+def.xp+' XP');
+  renderMissionsWidget();
+}
+function renderMissionsWidget(){
+  const w=document.getElementById('missionsWidget');
+  if(!w) return;
+  const m=getMissions();
+  w.innerHTML=`<div class="card"><h4>🎯 Misiones Diarias</h4>`+
+    MISSION_DEFS.map(def=>{
+      const prog=m.progress[def.id]||0;
+      const claimed=m.claimed[def.id];
+      const pct=Math.min(100,Math.round((prog/def.target)*100));
+      const rewardClass=claimed?'claimed':(prog>=def.target?'ready':'');
+      const onclick=(!claimed&&prog>=def.target)?`onclick="claimMission('${def.id}')"`:' ';
+      return `<div class="mission-item">
+        <span class="mission-icon">${def.icon}</span>
+        <div class="mission-info">
+          <div class="mission-label">${def.label}</div>
+          <div class="mission-bar-wrap"><div class="mission-bar" style="width:${pct}%"></div></div>
+        </div>
+        <div class="mission-reward ${rewardClass}" ${onclick}>${claimed?'✓ Listo':'+'+def.xp+' XP'}</div>
+      </div>`;
+    }).join('')+
+  `</div>`;
+}
+
+// ── Tap-to-match state ──
+window._matchLeft = null;
+window._matchTotal = 0;
+window._matchDone = 0;
+
+function selectMatchLeft(el, idx){
+  if(el.classList.contains('matched')) return;
+  document.querySelectorAll('.left-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  window._matchLeft = {el, idx};
+}
+function selectMatchRight(el){
+  if(el.classList.contains('matched')) return;
+  if(!window._matchLeft) return;
+  const leftEl=window._matchLeft.el;
+  const leftIdx=window._matchLeft.idx;
+  const rightVal=el.dataset.val;
+  const pairs=currentTopic.exercises[currentExIndex].pairs;
+  if(pairs[leftIdx][1]===rightVal){
+    leftEl.classList.add('matched'); leftEl.classList.remove('selected');
+    el.classList.add('matched');
+    window._matchLeft=null;
+    playSound('correct');
+    window._matchDone++;
+    if(window._matchDone>=window._matchTotal){
+      const fb=document.getElementById('fb');
+      fb.classList.add('show','correct');
+      fb.textContent='✓ ¡Parfait! Todas las parejas correctas 🐨🎉';
+      enableNext();
+    }
+  } else {
+    leftEl.classList.add('wrong-flash');
+    el.classList.add('wrong-flash');
+    setTimeout(()=>{ leftEl.classList.remove('wrong-flash','selected'); el.classList.remove('wrong-flash'); window._matchLeft=null; },500);
+    playSound('wrong');
+  }
+}
+
+// ── Init gamification on load ──
+function initGamification(){
+  updateStreakDisplay();
+  const el=document.getElementById('xpCount');
+  if(el) el.textContent=getXP();
+  renderMissionsWidget();
+}
+
+// ══════════════════════════════════
 //  INIT
 // ══════════════════════════════════
 showLangScreen();
+initGamification();
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
 }
