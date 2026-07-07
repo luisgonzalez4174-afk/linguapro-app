@@ -305,6 +305,12 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .sett-btn{background:var(--line);border:none;border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;white-space:nowrap;}
 .sett-btn:hover{background:#ddd;}
 .sett-btn.danger{background:rgba(255,75,75,.12);color:#c0392b;}
+.install-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--green),var(--green-deep));color:#fff;border:none;border-radius:14px;padding:14px 20px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Space Grotesk',sans-serif;margin-top:8px;}
+.install-btn:hover{opacity:.9;}
+.install-ios-hint{margin-top:10px;font-size:12.5px;color:var(--dim);background:rgba(29,155,240,.08);border:1px solid rgba(29,155,240,.2);border-radius:10px;padding:10px 13px;line-height:1.6;display:none;}
+.install-ios-hint.show{display:block;}
+#installSection{display:none;}
+#installSection.show{display:block;}
 /* toggle switch */
 .toggle-switch{position:relative;display:inline-block;width:44px;height:26px;flex-shrink:0;}
 .toggle-switch input{opacity:0;width:0;height:0;}
@@ -405,6 +411,13 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
     <div class="settings-section">
       <h4>🔊 Audio</h4>
       <div class="settings-row"><span>Pronunciar al tocar palabras</span><label class="toggle-switch"><input type="checkbox" id="audioTapToggle" aria-label="Pronunciar al tocar palabras" onchange="localStorage.setItem('lp_audio_tap',this.checked?'1':'0')"><span class="toggle-knob"></span></label></div>
+    </div>
+    <div class="settings-section" id="installSection">
+      <h4>📲 Descargar App</h4>
+      <button type="button" class="install-btn" id="installAppBtn" onclick="triggerInstall()">⬇️ Instalar en este dispositivo</button>
+      <div class="install-ios-hint" id="iosHint">
+        📱 <b>En iPhone/iPad:</b> toca el botón <b>Compartir</b> (□↑) en Safari y luego <b>"Añadir a pantalla de inicio"</b> para instalar la app.
+      </div>
     </div>
     <div class="settings-section">
       <h4>🔧 Desarrollador</h4>
@@ -1537,12 +1550,12 @@ const LANGUAGES = [
 
 const LEVELS = {
   fr:[
-    {id:'fr-1',num:1,name:'Niveau 1',desc:'Bases: salutations, être/avoir, articles, nombres',active:true},
-    {id:'fr-2',num:2,name:'Niveau 2',desc:'Passé composé, imparfait, futur, vida cotidiana',active:true},
-    {id:'fr-3',num:3,name:'Niveau 3',desc:'Próximamente',active:false},
-    {id:'fr-4',num:4,name:'Niveau 4',desc:'Próximamente',active:false},
-    {id:'fr-5',num:5,name:'Niveau 5',desc:'Próximamente',active:false},
-    {id:'fr-6',num:6,name:'Niveau 6',desc:'Próximamente',active:false},
+    {id:'fr-1',num:1,name:'Niveau 1 — A1',desc:'Bases: salutations, être/avoir, articles, números, familia',active:true},
+    {id:'fr-2',num:2,name:'Niveau 2 — A2',desc:'Passé composé, imparfait, futur, vida cotidiana',active:true},
+    {id:'fr-3',num:3,name:'Niveau 3 — B1',desc:'Subjonctif, conditionnel, discours indirect, voyages, travail',active:true},
+    {id:'fr-4',num:4,name:'Niveau 4 — B2',desc:'Conditionnel passé, voix passive, gérondif, société, nuances',active:true},
+    {id:'fr-5',num:5,name:'Niveau 5 — C1',desc:'Concordance des temps, registres, idiomes, rédaction avancée',active:true},
+    {id:'fr-6',num:6,name:'Niveau 6 — C2',desc:'Maîtrise totale: stylistique, littérature, rhétorique, culture',active:true},
   ]
 };
 
@@ -2540,6 +2553,1515 @@ initApp();
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
 }
+
+// ── PWA INSTALL ──────────────────────
+let _deferredInstall = null;
+const _isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+const _isInstalled = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _deferredInstall = e;
+  document.getElementById('installSection').classList.add('show');
+});
+
+function triggerInstall(){
+  if(_deferredInstall){
+    _deferredInstall.prompt();
+    _deferredInstall.userChoice.then(()=>{ _deferredInstall=null; });
+  }
+}
+
+function initInstallSection(){
+  const sec = document.getElementById('installSection');
+  const iosHint = document.getElementById('iosHint');
+  if(_isInstalled){ sec.style.display='none'; return; }
+  if(_isIOS){ sec.classList.add('show'); document.getElementById('installAppBtn').style.display='none'; iosHint.classList.add('show'); return; }
+}
+initInstallSection();
 </script>
+
+<script>
+// ══════════════════════════════════
+//  FRENCH — NIVEAU 3 (B1)
+// ══════════════════════════════════
+window.LP_TOPICS['fr-3'] = [
+
+{id:"subjonctif",num:1,title:"Le Subjonctif Présent",emoji:"🌀",cardDesc:"il faut que tu parles — el modo del deseo y la duda",
+explain:[
+  "<p>El <b>subjonctif</b> expresa deseos, dudas, emociones y necesidades. Se usa siempre después de ciertos verbos o expresiones seguidos de <b>que</b>.</p>",
+  "<p>Formación: raíz de la forma <b>ils</b> (presente) + terminaciones <span class='ex-fr'>-e · -es · -e · -ions · -iez · -ent</span>. Ej: parler → ils parlent → parl- → <b>que je parle, que tu parles...</b></p>",
+  "<p>Desencadenantes clave: <span class='ex-fr'>vouloir que · il faut que · être content/triste que · douter que · bien que · pour que · avant que · il est important que</span></p>",
+  "<p>Irregulares importantes: <span class='ex-fr'>être → soit · avoir → ait · aller → aille · faire → fasse · pouvoir → puisse · savoir → sache · venir → vienne</span></p>"
+],
+video:"xVNbJR6YSnI",videoNote:"Le Subjonctif Présent — Français avec Pierre",
+vocab:[
+  {cat:"🌀 Déclencheurs du Subjonctif",items:[
+    {e:"🙏",w:"vouloir que",p:"querer que"},
+    {e:"📋",w:"il faut que",p:"es necesario que"},
+    {e:"😊",w:"être content que",p:"estar contento de que"},
+    {e:"😢",w:"être triste que",p:"estar triste de que"},
+    {e:"🤔",w:"douter que",p:"dudar que"},
+    {e:"🎯",w:"pour que",p:"para que"},
+    {e:"⏰",w:"avant que",p:"antes de que"},
+    {e:"⚡",w:"bien que",p:"aunque"}
+  ]},
+  {cat:"⚠️ Formes Irrégulières",items:[
+    {e:"🦋",w:"être → soit",p:"ser/estar → sea"},
+    {e:"💪",w:"avoir → ait",p:"tener → tenga"},
+    {e:"🚶",w:"aller → aille",p:"ir → vaya"},
+    {e:"💼",w:"faire → fasse",p:"hacer → haga"},
+    {e:"💡",w:"pouvoir → puisse",p:"poder → pueda"},
+    {e:"📚",w:"savoir → sache",p:"saber → sepa"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Il faut que tu ____ tes devoirs. (faire)",answers:["fasses"]},
+  {type:"mcq",q:"¿Cuándo se usa el subjonctif?",options:["Después de 'je pense que'","Después de 'il faut que'","Para acciones pasadas","Para el futuro siempre"],correct:1},
+  {type:"fill",q:"Je veux que vous ____ à l'heure. (être)",answers:["soyez"]},
+  {type:"tf",q:"'Il est important que tu viennes' → 'viennes' est au subjonctif.",correct:true},
+  {type:"match",q:"Une el infinitivo con su forma de subjonctif (je).",pairs:[["parler","parle"],["finir","finisse"],["être","sois"],["avoir","aie"]]},
+  {type:"fill",q:"Bien qu'il ____ fatigué, il travaille. (être)",answers:["soit"]},
+  {type:"order",q:"Ordena la oración:",words:["que","parles","Il","tu","faut","français."],correct:"Il faut que tu parles français."},
+  {type:"mcq",q:"'Je doute qu'il ____' — forma correcta de 'venir':",options:["vient","viendra","vienne","venait"],correct:2},
+  {type:"fill",q:"Pour que nous ____ mieux, il faut pratiquer. (apprendre)",answers:["apprenions"]},
+  {type:"tf",q:"Después de 'je crois que' se usa el subjonctif.",correct:false}
+]},
+
+{id:"conditionnel",num:2,title:"Le Conditionnel Présent",emoji:"💭",cardDesc:"je voudrais, tu irais — deseos, hipótesis y cortesía",
+explain:[
+  "<p>El <b>conditionnel présent</b> expresa hipótesis, deseos y cortesía. Formación: <b>raíz del futur simple</b> + terminaciones del imparfait <span class='ex-fr'>-ais · -ais · -ait · -ions · -iez · -aient</span>.</p>",
+  "<table class='reftable'><tr><th>Pronom</th><th>Parler</th><th>Être</th><th>Avoir</th></tr><tr><td>je</td><td class='formcol'>parlerais</td><td class='formcol'>serais</td><td class='formcol'>aurais</td></tr><tr><td>tu</td><td class='formcol'>parlerais</td><td class='formcol'>serais</td><td class='formcol'>aurais</td></tr><tr><td>il</td><td class='formcol'>parlerait</td><td class='formcol'>serait</td><td class='formcol'>aurait</td></tr><tr><td>nous</td><td class='formcol'>parlerions</td><td class='formcol'>serions</td><td class='formcol'>aurions</td></tr></table>",
+  "<p>Usos: <span class='ex-fr'>1. Cortesía: Je voudrais un café. · 2. Hipótesis (si + imparfait): Si j'avais de l'argent, je voyagerais. · 3. Futuro en el pasado: Il a dit qu'il viendrait.</span></p>"
+],
+video:"PEajQ3AwJJw",videoNote:"Le Conditionnel Présent — French Grammar",
+vocab:[
+  {cat:"💭 Conditionnel — Usages",items:[
+    {e:"☕",w:"Je voudrais...",p:"Quisiera... (cortesía)"},
+    {e:"💡",w:"Tu pourrais...",p:"Podrías..."},
+    {e:"🎯",w:"Il faudrait...",p:"Habría que..."},
+    {e:"🌍",w:"Si j'avais...",p:"Si yo tuviera..."},
+    {e:"✈️",w:"je voyagerais",p:"yo viajaría"},
+    {e:"🏠",w:"j'achèterais",p:"yo compraría"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Je ____ un café, s'il vous plaît. (vouloir — cortés)",answers:["voudrais"]},
+  {type:"fill",q:"Si elle avait le temps, elle ____. (voyager)",answers:["voyagerait"]},
+  {type:"mcq",q:"¿Cuál es la forma correcta del conditionnel de 'être' para 'nous'?",options:["serions","serais","serait","serez"],correct:0},
+  {type:"tf",q:"El conditionnel se forma con la raíz del futur + terminaciones del imparfait.",correct:true},
+  {type:"order",q:"Ordena la frase:",words:["de","Si","argent,","j'avais","voyagerais.","je","l'"],correct:"Si j'avais de l'argent, je voyagerais."},
+  {type:"fill",q:"Il a dit qu'il ____ demain. (venir — conditionnel)",answers:["viendrait"]},
+  {type:"match",q:"Une el verbo con su conditionnel (je).",pairs:[["aller","irais"],["faire","ferais"],["pouvoir","pourrais"],["vouloir","voudrais"]]},
+  {type:"mcq",q:"¿Cómo pides algo cortésmente?",options:["Je veux du pain.","Je voudrais du pain.","Je dois du pain.","J'ai du pain."],correct:1},
+  {type:"fill",q:"Nous ____ heureux si tu venais. (être)",answers:["serions"]},
+  {type:"tf",q:"'Si je suis riche, je voyagerais' es correcto.",correct:false}
+]},
+
+{id:"futur-anterieur",num:3,title:"Le Futur Antérieur",emoji:"⏭️",cardDesc:"j'aurai fini — acción futura completada antes de otra",
+explain:[
+  "<p>El <b>futur antérieur</b> indica una acción que se habrá completado antes de otra acción futura. Formación: <b>futur simple de être/avoir</b> + participe passé.</p>",
+  "<table class='reftable'><tr><th>Pronom</th><th>Avoir (ex: manger)</th><th>Être (ex: partir)</th></tr><tr><td>j'</td><td class='formcol'>aurai mangé</td><td class='formcol'>serai parti(e)</td></tr><tr><td>tu</td><td class='formcol'>auras mangé</td><td class='formcol'>seras parti(e)</td></tr><tr><td>il</td><td class='formcol'>aura mangé</td><td class='formcol'>sera parti</td></tr></table>",
+  "<p>Se usa con conjunciones temporales: <span class='ex-fr'>quand · lorsque · dès que · aussitôt que · une fois que</span> + futur antérieur → futur simple. Ej: <span class='ex-fr'>Quand j'aurai fini, je sortirai.</span></p>"
+],
+video:"3FQU0jP0eUM",videoNote:"Le Futur Antérieur — French Grammar",
+vocab:[
+  {cat:"⏭️ Conjonctions Temporelles",items:[
+    {e:"⏰",w:"quand / lorsque",p:"cuando"},
+    {e:"⚡",w:"dès que",p:"en cuanto / tan pronto como"},
+    {e:"✅",w:"aussitôt que",p:"tan pronto como"},
+    {e:"1️⃣",w:"une fois que",p:"una vez que"},
+    {e:"🏁",w:"après que",p:"después de que"},
+    {e:"🔜",w:"avant que",p:"antes de que"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Quand j'____ fini, je te téléphonerai. (avoir)",answers:["aurai"]},
+  {type:"mcq",q:"'Dès qu'elle ____ arrivée, nous mangerons.' — forma correcta:",options:["a","aura","sera","est"],correct:2},
+  {type:"tf",q:"El futur antérieur se usa para una acción que ocurrirá ANTES de otra acción futura.",correct:true},
+  {type:"fill",q:"Ils ____ terminé le projet avant vendredi. (avoir)",answers:["auront"]},
+  {type:"order",q:"Ordena la frase:",words:["je","Quand","partirai.","mangé,","aurai","j'"],correct:"Quand j'aurai mangé, je partirai."},
+  {type:"mcq",q:"¿Cuál frase usa correctamente el futur antérieur?",options:["Quand je finirais, je sortirai.","Dès que j'aurai fini, je sortirai.","Quand j'ai fini, je sors.","Si j'aurai fini, je sors."],correct:1},
+  {type:"fill",q:"Elle ____ partie avant ton arrivée. (être — futur antérieur)",answers:["sera"]},
+  {type:"match",q:"Une la conjonction con su traducción.",pairs:[["dès que","en cuanto"],["aussitôt que","tan pronto como"],["une fois que","una vez que"],["lorsque","cuando"]]},
+  {type:"tf",q:"'Après qu'il aura mangé, il dormira' — el futur antérieur está bien usado aquí.",correct:true},
+  {type:"fill",q:"Nous ____ réussi quand nous aurons travaillé dur. (avoir)",answers:["aurons"]}
+]},
+
+{id:"pronoms-coi",num:4,title:"Pronoms COI",emoji:"📨",cardDesc:"lui, leur — reemplaza 'à + persona'",
+explain:[
+  "<p>Los <b>pronoms COI</b> (complément d'objet indirect) reemplazan <b>à + persona</b>. A diferencia del COD, responden a la pregunta '¿a quién?'</p>",
+  "<table class='reftable'><tr><th>Persona</th><th>Pronom COI</th><th>Ejemplo</th></tr><tr><td>me / m'</td><td class='formcol'>me</td><td>Il me parle.</td></tr><tr><td>te / t'</td><td class='formcol'>te</td><td>Je te donne un livre.</td></tr><tr><td>lui (sg.)</td><td class='formcol'>lui</td><td>Je lui écris.</td></tr><tr><td>nous</td><td class='formcol'>nous</td><td>Il nous explique.</td></tr><tr><td>vous</td><td class='formcol'>vous</td><td>Je vous réponds.</td></tr><tr><td>leur (pl.)</td><td class='formcol'>leur</td><td>Je leur téléphone.</td></tr></table>",
+  "<p>Verbos que llevan COI: <span class='ex-fr'>parler à · téléphoner à · écrire à · donner à · demander à · répondre à · obéir à · ressembler à</span></p>",
+  "<p>¡Ojo! COD vs COI: <span class='ex-fr'>Je le vois (COD: veo A él) ≠ Je lui parle (COI: le hablo A él).</span></p>"
+],
+video:"oqxK6TWZK0g",videoNote:"Pronoms COI — Grammaire française",
+vocab:[
+  {cat:"📨 Pronoms COI",items:[
+    {e:"👤",w:"me / m'",p:"me (a mí)"},
+    {e:"👥",w:"te / t'",p:"te (a ti)"},
+    {e:"🧑",w:"lui",p:"le / la (a él/ella)"},
+    {e:"👫",w:"nous",p:"nos (a nosotros)"},
+    {e:"👨‍👩‍👦",w:"vous",p:"os / les (a vosotros/Uds.)"},
+    {e:"👨‍👩‍👧‍👦",w:"leur",p:"les (a ellos/ellas)"}
+  ]},
+  {cat:"🗣️ Verbes avec COI",items:[
+    {e:"📞",w:"téléphoner à",p:"llamar por teléfono a"},
+    {e:"✉️",w:"écrire à",p:"escribir a"},
+    {e:"🎁",w:"donner à",p:"dar a"},
+    {e:"❓",w:"demander à",p:"pedir / preguntar a"},
+    {e:"💬",w:"parler à",p:"hablar a"},
+    {e:"↩️",w:"répondre à",p:"responder a"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Je parle à Marie → Je ____ parle. (COI)",answers:["lui"]},
+  {type:"mcq",q:"'Il téléphone à ses parents' → Il ____ téléphone.",options:["les","lui","leur","se"],correct:2},
+  {type:"tf",q:"'Je lui vois' est correct. (le verbe 'voir' prend un COI)",correct:false},
+  {type:"fill",q:"Elle écrit à moi → Elle ____ écrit.",answers:["m'","me"]},
+  {type:"match",q:"Une la personne con su pronom COI.",pairs:[["à moi","me"],["à lui / elle","lui"],["à eux / elles","leur"],["à vous","vous"]]},
+  {type:"order",q:"Ordena la frase:",words:["donne","Je","livre.","un","lui"],correct:"Je lui donne un livre."},
+  {type:"fill",q:"Il nous ____ la vérité. (dire — COI 'nous')",answers:["dit"]},
+  {type:"mcq",q:"¿Cuál frase es correcta?",options:["Je le téléphone.","Je lui téléphone.","Je leur téléphones.","Je les téléphone."],correct:1},
+  {type:"fill",q:"Tu demandes à tes amis → Tu ____ demandes.",answers:["leur"]},
+  {type:"tf",q:"'Lui' puede reemplazar tanto a un hombre como a una mujer en función COI.",correct:true}
+]},
+
+{id:"pronoms-yen",num:5,title:"Les Pronoms Y et EN",emoji:"🔀",cardDesc:"j'y vais, j'en veux — los pronombres más versátiles",
+explain:[
+  "<p><b>Y</b> reemplaza: <b>à/en/dans + lugar</b> (je vais à Paris → j'y vais) o <b>à + cosa/infinitivo</b> (je pense à ce problème → j'y pense).</p>",
+  "<p><b>EN</b> reemplaza: <b>de + sustantivo</b> (du partitif / de la cantidad): je veux du café → j'en veux · j'ai deux frères → j'en ai deux · je parle de ce film → j'en parle.</p>",
+  "<p>Posición: igual que los otros pronombres, <b>antes del verbo</b>. Au impératif affirmatif van después: <span class='ex-fr'>Vas-y! Prends-en!</span></p>",
+  "<p>¡Atención! <span class='ex-fr'>Tu vas à Paris? — Oui, j'y vais. (lugar) · Tu penses à ta mère? — Oui, je pense à elle. (persona → no Y)</span></p>"
+],
+video:"gWFpN6LRNO8",videoNote:"Pronoms Y et EN — Français avec Pierre",
+vocab:[
+  {cat:"🔀 Y — Remplace Lieu / À + chose",items:[
+    {e:"📍",w:"j'y vais",p:"voy (allí)"},
+    {e:"🏠",w:"j'y habite",p:"vivo (allí)"},
+    {e:"🤔",w:"j'y pense",p:"pienso en ello"},
+    {e:"✅",w:"j'y réponds",p:"respondo a ello"},
+    {e:"🚶",w:"vas-y!",p:"¡ve (allá)!"},
+    {e:"📝",w:"je m'y intéresse",p:"me intereso por ello"}
+  ]},
+  {cat:"📦 EN — Remplace DE + nom",items:[
+    {e:"☕",w:"j'en veux",p:"quiero (de ello)"},
+    {e:"💬",w:"j'en parle",p:"hablo de ello"},
+    {e:"🔢",w:"j'en ai deux",p:"tengo dos (de ellos)"},
+    {e:"🏪",w:"je reviens",p:"vengo de allí"},
+    {e:"📤",w:"prends-en!",p:"¡toma (de ello)!"},
+    {e:"❌",w:"je n'en ai pas",p:"no tengo (de ello)"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Tu vas à la bibliothèque? — Oui, j'____ vais.",answers:["y"]},
+  {type:"fill",q:"Tu veux du café? — Oui, j'____ veux bien.",answers:["en"]},
+  {type:"mcq",q:"'Je pense à ce problème' → remplace avec pronom:",options:["Je le pense.","J'y pense.","J'en pense.","Je lui pense."],correct:1},
+  {type:"tf",q:"'J'y pense à ma mère' est correct si on parle d'une personne.",correct:false},
+  {type:"fill",q:"Tu parles de ton voyage? — Oui, j'____ parle souvent.",answers:["en"]},
+  {type:"order",q:"Ordena la frase:",words:["Oui,","j'y","vas?","vais.","Tu","à Paris"],correct:"Tu vas à Paris? Oui, j'y vais."},
+  {type:"match",q:"Une la frase con su forma con pronom.",pairs:[["aller à Lyon","y aller"],["parler du film","en parler"],["penser à ce plan","y penser"],["acheter des pommes","en acheter"]]},
+  {type:"fill",q:"Il y a des croissants? — Oui, il ____ a trois.",answers:["en"]},
+  {type:"mcq",q:"¿Cuándo NO se usa Y para reemplazar?",options:["un lugar","una cosa con à","una persona","un lugar indefinido"],correct:2},
+  {type:"tf",q:"Au impératif affirmatif, Y et EN vont APRÈS le verbe: Vas-y!",correct:true}
+]},
+
+{id:"discours-indirect",num:6,title:"Le Discours Indirect",emoji:"💬",cardDesc:"Il dit qu'il est... — reportar lo que alguien dijo",
+explain:[
+  "<p>El <b>discours indirect</b> (estilo indirecto) reporta palabras sin comillas. Introduce con: <b>dire que, demander si, demander où/quand/comment...</b></p>",
+  "<p>Cambios de tiempo cuando el verbo introductorio está en pasado:<br><span class='ex-fr'>présent → imparfait · PC → PQP · futur → conditionnel · impératif → de + infinitif</span></p>",
+  "<table class='reftable'><tr><th>Discours Direct</th><th>Discours Indirect (passé)</th></tr><tr><td>«Je suis fatigué»</td><td class='formcol'>Il a dit qu'il était fatigué.</td></tr><tr><td>«J'ai mangé»</td><td class='formcol'>Il a dit qu'il avait mangé.</td></tr><tr><td>«Je viendrai»</td><td class='formcol'>Il a dit qu'il viendrait.</td></tr><tr><td>«Viens!»</td><td class='formcol'>Il m'a dit de venir.</td></tr></table>",
+  "<p>Preguntas: <span class='ex-fr'>«Où vas-tu?» → Il a demandé où j'allais. · «Est-ce que tu viens?» → Il a demandé si je venais.</span></p>"
+],
+video:"9WUkT5rNd4A",videoNote:"Le Discours Indirect — French Grammar",
+exercises:[
+  {type:"fill",q:"«Je suis content» → Il a dit qu'il ____ content.",answers:["était"]},
+  {type:"mcq",q:"«Je viendrai» → Elle a dit qu'elle ____.",options:["viendra","venait","viendrait","est venue"],correct:2},
+  {type:"fill",q:"«Viens!» → Il m'a dit ____ venir.",answers:["de"]},
+  {type:"tf",q:"Pour rapporter une question oui/non, on utilise 'si': Il a demandé si je venais.",correct:true},
+  {type:"order",q:"Transforma al discours indirect:",words:["dit","Il","fatiguée.","qu'elle","était","a"],correct:"Il a dit qu'elle était fatiguée."},
+  {type:"mcq",q:"«Où habites-tu?» → Il a demandé ____.",options:["où j'habitais.","si j'habitais.","où j'habite.","que j'habitais."],correct:0},
+  {type:"fill",q:"«J'ai mangé» → Elle a dit qu'elle ____ mangé.",answers:["avait"]},
+  {type:"match",q:"Une la frase directa con su forma indirecta.",pairs:[["Je suis","il/elle était"],["Je viendrai","il/elle viendrait"],["J'ai vu","il/elle avait vu"],["Viens!","de venir"]]},
+  {type:"fill",q:"«Est-ce que tu travailles?» → Il a demandé ____ je travaillais.",answers:["si"]},
+  {type:"tf",q:"Dans le discours indirect, les guillemets («») disparaissent.",correct:true}
+]},
+
+{id:"comparatifs",num:7,title:"Comparatifs et Superlatifs",emoji:"🏆",cardDesc:"plus grand que, le meilleur — comparar y superlativar",
+explain:[
+  "<p><b>Comparatif</b>: <span class='ex-fr'>plus + adj + que (más que) · moins + adj + que (menos que) · aussi + adj + que (tan... como)</span>. Ej: <span class='ex-fr'>Paris est plus grand que Lyon.</span></p>",
+  "<p><b>Superlatif</b>: <span class='ex-fr'>le/la/les + plus/moins + adj</span>. Ej: <span class='ex-fr'>C'est la plus belle ville de France.</span> Après le superlatif: <b>de</b> (no 'en'): <span class='ex-fr'>le meilleur restaurant de la ville.</span></p>",
+  "<p>Irregulares: <span class='ex-fr'>bon → meilleur(e) (comparatif) → le meilleur (superlatif) · mauvais → pire → le pire · bien → mieux → le mieux</span></p>",
+  "<p>Comparatif de noms: <span class='ex-fr'>plus de / moins de / autant de + nom: Il a plus d'argent que moi.</span></p>"
+],
+video:"JJeZMYMT_pM",videoNote:"Comparatifs et Superlatifs — French Grammar",
+vocab:[
+  {cat:"🏆 Comparatifs",items:[
+    {e:"⬆️",w:"plus... que",p:"más... que"},
+    {e:"⬇️",w:"moins... que",p:"menos... que"},
+    {e:"↔️",w:"aussi... que",p:"tan... como"},
+    {e:"📊",w:"plus de... que",p:"más de... que (sustantivos)"},
+    {e:"🥇",w:"meilleur(e) que",p:"mejor que"},
+    {e:"👎",w:"pire que",p:"peor que"}
+  ]},
+  {cat:"🌟 Superlatifs",items:[
+    {e:"🥇",w:"le/la plus...",p:"el/la más..."},
+    {e:"🥈",w:"le/la moins...",p:"el/la menos..."},
+    {e:"🏆",w:"le meilleur",p:"el mejor"},
+    {e:"💩",w:"le pire",p:"el peor"},
+    {e:"✨",w:"le mieux",p:"lo mejor"},
+    {e:"🌍",w:"de + lieu",p:"de + lugar (después del superl.)"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Paris est ____ grand ____ Lyon. (más grande que)",answers:["plus","que"]},
+  {type:"mcq",q:"¿Cuál es el comparatif de 'bon'?",options:["plus bon","meilleur","bonneur","meilleurement"],correct:1},
+  {type:"fill",q:"C'est le ____ film de l'année! (meilleur)",answers:["meilleur"]},
+  {type:"tf",q:"'Elle est la plus belle fille en la classe' — el uso de 'en' es correcto.",correct:false},
+  {type:"order",q:"Ordena la frase:",words:["aussi","Tu","moi.","es","grand","que"],correct:"Tu es aussi grand que moi."},
+  {type:"fill",q:"Il a ____ argent que moi. (menos — sustantivo)",answers:["moins de"]},
+  {type:"match",q:"Une el adjetivo con su forma superlativa.",pairs:[["bon","le meilleur"],["mauvais","le pire"],["bien","le mieux"],["petit","le plus petit"]]},
+  {type:"mcq",q:"'C'est le meilleur restaurant __ la ville.' — preposición correcta:",options:["en","dans","de","à"],correct:2},
+  {type:"fill",q:"Cette solution est ____ (pire) que l'autre.",answers:["pire"]},
+  {type:"tf",q:"'Il court mieux que toi' utiliza correctamente el comparatif de 'bien'.",correct:true}
+]},
+
+{id:"si-conditionnel",num:8,title:"Hypothèse avec Si",emoji:"🔀",cardDesc:"si j'avais... je ferais — tres tipos de hipótesis",
+explain:[
+  "<p>Las frases con <b>si</b> expresan condiciones hipotéticas. Hay 3 tipos según la probabilidad:</p>",
+  "<table class='reftable'><tr><th>Tipo</th><th>Si + ...</th><th>Resultado</th><th>Significado</th></tr><tr><td>1 — Real</td><td class='formcol'>présent</td><td>futur simple</td><td>si llega tarde, saldremos</td></tr><tr><td>2 — Irréel présent</td><td class='formcol'>imparfait</td><td>conditionnel présent</td><td>si tuviera dinero, viajaría</td></tr><tr><td>3 — Irréel passé</td><td class='formcol'>plus-que-parfait</td><td>conditionnel passé</td><td>si hubiera estudiado, habría pasado</td></tr></table>",
+  "<p>Ej: <span class='ex-fr'>Type 1: Si tu viens, nous sortirons. · Type 2: Si tu venais, nous sortirions. · Type 3: Si tu étais venu, nous serions sortis.</span></p>",
+  "<p>¡Regla de oro! <b>JAMÁS</b> se usa futur ni conditionnel directamente después de <b>si</b> hipotético.</p>"
+],
+video:"kFzByqgd_c0",videoNote:"Les Phrases avec Si — Hypothèse",
+exercises:[
+  {type:"mcq",q:"Si tu ____ le temps, tu réussirais. (avoir — type 2)",options:["as","avais","auras","aurais"],correct:1},
+  {type:"fill",q:"Si il pleut, nous ____ à la maison. (rester — type 1)",answers:["resterons"]},
+  {type:"tf",q:"'Si j'aurais de l'argent' est correct en français.",correct:false},
+  {type:"fill",q:"Si j'avais étudié, j'____ réussi. (avoir — type 3)",answers:["aurais"]},
+  {type:"order",q:"Ordena la frase (type 2):",words:["j'avais","Si","voyagerais.","de","je","l'argent,"],correct:"Si j'avais de l'argent, je voyagerais."},
+  {type:"mcq",q:"¿Cuál es el tipo 1 (réelle) correcto?",options:["Si tu venais, je serais content.","Si tu viens, je serai content.","Si tu seras venu, je suis content.","Si tu viendrais, je serais content."],correct:1},
+  {type:"fill",q:"Si nous ____ partis plus tôt, nous n'aurions pas raté le train. (être — type 3)",answers:["étions"]},
+  {type:"match",q:"Une el tipo con la estructura.",pairs:[["Type 1","si + présent → futur"],["Type 2","si + imparfait → conditionnel"],["Type 3","si + PQP → cond. passé"],["Toujours vrai","si + présent → présent"]]},
+  {type:"fill",q:"Si elle venait, je lui ____ tout expliquer. (pouvoir — cond.)",answers:["pourrais"]},
+  {type:"tf",q:"Type 3: Si + plus-que-parfait → conditionnel passé.",correct:true}
+]},
+
+{id:"travail",num:9,title:"Le Monde du Travail",emoji:"💼",cardDesc:"chercher un emploi, l'entretien — vocabulario laboral",
+isVocab:true,
+explain:[
+  "<p>Vocabulario esencial para hablar del trabajo en francés: entrevistas, contrato, empresa, roles profesionales. Clic en cada tarjeta para escuchar la pronunciación.</p>"
+],
+vocab:[
+  {cat:"💼 L'Entreprise",items:[
+    {e:"🏢",w:"l'entreprise",p:"la empresa"},
+    {e:"👔",w:"le directeur / la directrice",p:"el/la director/a"},
+    {e:"👥",w:"les collègues",p:"los colegas"},
+    {e:"📋",w:"le contrat",p:"el contrato"},
+    {e:"💰",w:"le salaire",p:"el salario"},
+    {e:"⏰",w:"les horaires",p:"los horarios"},
+    {e:"🏖️",w:"les congés",p:"las vacaciones"},
+    {e:"📊",w:"la réunion",p:"la reunión"}
+  ]},
+  {cat:"🔍 Chercher un Emploi",items:[
+    {e:"📄",w:"le CV",p:"el currículum"},
+    {e:"✉️",w:"la lettre de motivation",p:"la carta de presentación"},
+    {e:"🤝",w:"l'entretien d'embauche",p:"la entrevista de trabajo"},
+    {e:"📢",w:"l'offre d'emploi",p:"la oferta de trabajo"},
+    {e:"🔍",w:"chercher un emploi",p:"buscar trabajo"},
+    {e:"✅",w:"être embauché(e)",p:"ser contratado/a"},
+    {e:"❌",w:"être licencié(e)",p:"ser despedido/a"},
+    {e:"🚀",w:"une promotion",p:"un ascenso"}
+  ]},
+  {cat:"🧑‍💼 Métiers",items:[
+    {e:"👨‍⚕️",w:"médecin",p:"médico"},
+    {e:"⚖️",w:"avocat(e)",p:"abogado/a"},
+    {e:"🔧",w:"ingénieur(e)",p:"ingeniero/a"},
+    {e:"📰",w:"journaliste",p:"periodista"},
+    {e:"🧑‍🍳",w:"chef cuisinier",p:"chef cocinero"},
+    {e:"🧑‍💻",w:"développeur / développeuse",p:"desarrollador/a"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Pour postuler, il faut envoyer un ____ et une lettre de motivation.",answers:["CV"]},
+  {type:"mcq",q:"¿Cómo se llama la reunión entre empleador y candidato?",options:["le contrat","l'entretien","la réunion","le salaire"],correct:1},
+  {type:"fill",q:"Il a été ____ parce que l'entreprise a fermé. (licencié)",answers:["licencié"]},
+  {type:"match",q:"Une la palabra con su traducción.",pairs:[["le salaire","el salario"],["les congés","las vacaciones"],["l'entreprise","la empresa"],["une promotion","un ascenso"]]},
+  {type:"mcq",q:"¿Qué dice alguien que acaba de conseguir trabajo?",options:["J'ai été licencié.","J'ai été embauché.","J'ai démissionné.","Je cherche un emploi."],correct:1},
+  {type:"fill",q:"Le ____ est la personne qui dirige une entreprise.",answers:["directeur"]},
+  {type:"tf",q:"'La lettre de motivation' sert à expliquer pourquoi tu veux le poste.",correct:true},
+  {type:"fill",q:"Mon ____ de travail commence à 9h et finit à 18h. (horaire)",answers:["horaire"]},
+  {type:"mcq",q:"Un(e) avocat(e) travaille dans:",options:["un hôpital","un tribunal","une école","un restaurant"],correct:1},
+  {type:"tf",q:"'L'offre d'emploi' est une annonce pour trouver un travail.",correct:true}
+]},
+
+{id:"voyages",num:10,title:"Les Voyages",emoji:"✈️",cardDesc:"à l'aéroport, à l'hôtel — vocabulario de viajes",
+isVocab:true,
+explain:[
+  "<p>Vocabulario para viajar en francés: aeropuerto, hotel, transacciones. Toca cada tarjeta para escuchar la pronunciación correcta.</p>"
+],
+vocab:[
+  {cat:"✈️ L'Aéroport",items:[
+    {e:"🛫",w:"l'aéroport",p:"el aeropuerto"},
+    {e:"🎫",w:"le billet d'avion",p:"el billete de avión"},
+    {e:"🧳",w:"les bagages",p:"el equipaje"},
+    {e:"🪪",w:"le passeport",p:"el pasaporte"},
+    {e:"🚪",w:"la porte d'embarquement",p:"la puerta de embarque"},
+    {e:"🕐",w:"le décollage / l'atterrissage",p:"el despegue / el aterrizaje"}
+  ]},
+  {cat:"🏨 L'Hôtel",items:[
+    {e:"🏨",w:"l'hôtel",p:"el hotel"},
+    {e:"🔑",w:"la chambre",p:"la habitación"},
+    {e:"🛏️",w:"le lit",p:"la cama"},
+    {e:"🍳",w:"le petit-déjeuner inclus",p:"el desayuno incluido"},
+    {e:"📅",w:"la réservation",p:"la reservación"},
+    {e:"🏊",w:"la piscine",p:"la piscina"}
+  ]},
+  {cat:"🗺️ Expressions de Voyage",items:[
+    {e:"🗺️",w:"faire un voyage",p:"hacer un viaje"},
+    {e:"🌍",w:"à l'étranger",p:"en el extranjero"},
+    {e:"🏕️",w:"partir en vacances",p:"irse de vacaciones"},
+    {e:"📸",w:"visiter les monuments",p:"visitar los monumentos"},
+    {e:"🎒",w:"voyageur / voyageuse",p:"viajero/a"},
+    {e:"💱",w:"changer de l'argent",p:"cambiar dinero"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Je dois montrer mon ____ à la douane. (pasaporte)",answers:["passeport"]},
+  {type:"mcq",q:"¿Qué documento necesitas para viajar en avión?",options:["le CV","le passeport","le contrat","la lettre"],correct:1},
+  {type:"fill",q:"J'ai fait une ____ à l'hôtel pour deux nuits. (reservación)",answers:["réservation"]},
+  {type:"match",q:"Une la palabra con su traducción.",pairs:[["les bagages","el equipaje"],["la chambre","la habitación"],["à l'étranger","en el extranjero"],["le billet","el billete"]]},
+  {type:"mcq",q:"¿Cómo se dice 'irse de vacaciones'?",options:["partir en voyage","partir en vacances","aller à l'hôtel","voyager en train"],correct:1},
+  {type:"fill",q:"L'avion a eu un retard au ____. (despegue)",answers:["décollage"]},
+  {type:"tf",q:"'La porte d'embarquement' est là où on monte dans l'avion.",correct:true},
+  {type:"fill",q:"Le ____ est inclus dans le prix de la chambre. (desayuno)",answers:["petit-déjeuner"]},
+  {type:"speak",phrase:"Je voudrais réserver une chambre pour deux nuits, s'il vous plaît.",translation:"Quisiera reservar una habitación por dos noches, por favor."},
+  {type:"tf",q:"'Faire un voyage' signifie faire une course en voiture.",correct:false}
+]},
+
+{id:"medias",num:11,title:"Les Médias et Internet",emoji:"📱",cardDesc:"réseaux sociaux, actualités — el mundo digital",
+isVocab:true,
+explain:[
+  "<p>En el mundo moderno, hablar de medios y tecnología es esencial. Aprende el vocabulario digital y mediático en francés.</p>"
+],
+vocab:[
+  {cat:"📱 Réseaux Sociaux & Internet",items:[
+    {e:"📱",w:"les réseaux sociaux",p:"las redes sociales"},
+    {e:"📸",w:"publier une photo",p:"publicar una foto"},
+    {e:"❤️",w:"aimer / liker",p:"dar me gusta"},
+    {e:"🔁",w:"partager",p:"compartir"},
+    {e:"💬",w:"commenter",p:"comentar"},
+    {e:"📡",w:"la connexion Wi-Fi",p:"la conexión Wi-Fi"},
+    {e:"🔔",w:"s'abonner",p:"suscribirse"},
+    {e:"📧",w:"l'e-mail",p:"el correo electrónico"}
+  ]},
+  {cat:"📰 Les Actualités",items:[
+    {e:"📰",w:"les actualités / les nouvelles",p:"las noticias"},
+    {e:"🗞️",w:"le journal",p:"el periódico"},
+    {e:"📺",w:"le journal télévisé",p:"el telediario"},
+    {e:"📻",w:"la radio",p:"la radio"},
+    {e:"🎙️",w:"le reportage",p:"el reportaje"},
+    {e:"📡",w:"diffuser en direct",p:"transmitir en directo"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Il a ____ une belle photo sur Instagram. (publicar)",answers:["publié"]},
+  {type:"mcq",q:"¿Cómo se dice 'las noticias'?",options:["les réseaux","les actualités","les reportages","les journaux"],correct:1},
+  {type:"fill",q:"Est-ce que tu as la ____ Wi-Fi ici? (conexión)",answers:["connexion"]},
+  {type:"match",q:"Une el verbo con su traducción.",pairs:[["partager","compartir"],["commenter","comentar"],["s'abonner","suscribirse"],["aimer","dar me gusta"]]},
+  {type:"tf",q:"'Le journal télévisé' est diffusé à la télévision.",correct:true},
+  {type:"fill",q:"Elle écoute les ____ à la radio tous les matins. (noticias)",answers:["actualités","nouvelles"]},
+  {type:"mcq",q:"¿Qué haces para recibir notificaciones de un canal YouTube?",options:["partager","commenter","s'abonner","liker"],correct:2},
+  {type:"fill",q:"Le journaliste fait un ____ sur la guerre. (reportaje)",answers:["reportage"]},
+  {type:"tf",q:"'Diffuser en direct' signifie streamer en temps réel.",correct:true},
+  {type:"speak",phrase:"Je regarde les actualités tous les soirs et je lis le journal en ligne.",translation:"Veo las noticias todas las noches y leo el periódico en línea."}
+]},
+
+{id:"environnement",num:12,title:"L'Environnement",emoji:"🌍",cardDesc:"le réchauffement climatique — hablar del medio ambiente",
+isVocab:true,
+explain:[
+  "<p>El cambio climático es un tema central en la sociedad francesa. Aprende a hablar sobre medioambiente, sostenibilidad y ecología en francés.</p>"
+],
+vocab:[
+  {cat:"🌍 L'Écologie",items:[
+    {e:"🌡️",w:"le réchauffement climatique",p:"el calentamiento global"},
+    {e:"♻️",w:"recycler",p:"reciclar"},
+    {e:"🌱",w:"le développement durable",p:"el desarrollo sostenible"},
+    {e:"💨",w:"la pollution",p:"la contaminación"},
+    {e:"🌊",w:"la montée des eaux",p:"la subida del nivel del mar"},
+    {e:"🌲",w:"la déforestation",p:"la deforestación"},
+    {e:"☀️",w:"les énergies renouvelables",p:"las energías renovables"},
+    {e:"🌿",w:"l'empreinte carbone",p:"la huella de carbono"}
+  ]},
+  {cat:"🌿 Actions Éco-responsables",items:[
+    {e:"🚲",w:"utiliser le vélo",p:"usar la bicicleta"},
+    {e:"🌱",w:"planter des arbres",p:"plantar árboles"},
+    {e:"💡",w:"économiser l'énergie",p:"ahorrar energía"},
+    {e:"🚿",w:"réduire la consommation d'eau",p:"reducir el consumo de agua"},
+    {e:"🛒",w:"acheter local",p:"comprar local"},
+    {e:"🌾",w:"l'agriculture biologique",p:"la agricultura ecológica"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Le ____ climatique est le principal défi de notre siècle. (réchauffement)",answers:["réchauffement"]},
+  {type:"mcq",q:"¿Qué significa 'recycler'?",options:["contaminar","reciclar","plantar","ahorrar"],correct:1},
+  {type:"fill",q:"Les énergies ____ comme le soleil et le vent sont propres. (renouvelables)",answers:["renouvelables"]},
+  {type:"match",q:"Une el problema con su traducción.",pairs:[["la pollution","la contaminación"],["la déforestation","la deforestación"],["la montée des eaux","la subida del mar"],["l'empreinte carbone","la huella de carbono"]]},
+  {type:"tf",q:"'Le développement durable' cherche à protéger la planète pour l'avenir.",correct:true},
+  {type:"fill",q:"Pour réduire la pollution, on peut ____ le vélo au lieu de la voiture. (utiliser)",answers:["utiliser"]},
+  {type:"mcq",q:"¿Qué es 'l'agriculture biologique'?",options:["agricultura digital","agricultura ecológica","agricultura industrial","agricultura rápida"],correct:1},
+  {type:"speak",phrase:"Il faut agir maintenant contre le réchauffement climatique pour protéger notre planète.",translation:"Hay que actuar ahora contra el calentamiento global para proteger nuestro planeta."},
+  {type:"fill",q:"On devrait ____ l'énergie en éteignant les lumières. (économiser)",answers:["économiser"]},
+  {type:"tf",q:"Planter des arbres aide à combattre la déforestation.",correct:true}
+]},
+
+{id:"culture-b1",num:13,title:"La Culture Française",emoji:"🗼",cardDesc:"gastronomie, cinéma, histoire — la identidad cultural",
+isVocab:true,
+explain:[
+  "<p>La cultura francesa es una de las más ricas del mundo. Desde la gastronomía hasta el cine, el arte y la historia, descubre los elementos clave de la identidad francesa.</p>"
+],
+vocab:[
+  {cat:"🍷 Gastronomie",items:[
+    {e:"🥖",w:"la baguette",p:"la baguette"},
+    {e:"🧀",w:"le fromage",p:"el queso"},
+    {e:"🍷",w:"le vin",p:"el vino"},
+    {e:"🐌",w:"les escargots",p:"los caracoles"},
+    {e:"🥐",w:"le croissant",p:"el croissant"},
+    {e:"🍮",w:"la crème brûlée",p:"la crema quemada"}
+  ]},
+  {cat:"🎬 Art & Culture",items:[
+    {e:"🗼",w:"la Tour Eiffel",p:"la Torre Eiffel"},
+    {e:"🖼️",w:"le Louvre",p:"el Louvre"},
+    {e:"🎬",w:"le cinéma français",p:"el cine francés"},
+    {e:"📚",w:"Victor Hugo",p:"Victor Hugo (escritor)"},
+    {e:"🎨",w:"Claude Monet",p:"Claude Monet (pintor)"},
+    {e:"🏆",w:"la Révolution française",p:"la Revolución francesa"}
+  ]}
+],
+exercises:[
+  {type:"mcq",q:"¿Cuál es el símbolo más famoso de París?",options:["l'Arc de Triomphe","la Tour Eiffel","le Louvre","Notre-Dame"],correct:1},
+  {type:"fill",q:"Le ____ est l'aliment de base français: une longue baguette de pain.",answers:["pain"]},
+  {type:"tf",q:"La Révolution française a eu lieu en 1789.",correct:true},
+  {type:"match",q:"Une el artista con su domaine.",pairs:[["Victor Hugo","littérature"],["Claude Monet","peinture"],["Auguste Rodin","sculpture"],["Jean-Luc Godard","cinéma"]]},
+  {type:"fill",q:"Le ____ est le plus grand musée du monde et se trouve à Paris. (Louvre)",answers:["Louvre"]},
+  {type:"mcq",q:"¿Cuál es un plato típico francés?",options:["la paella","les escargots","el sushi","los tacos"],correct:1},
+  {type:"speak",phrase:"La France est connue pour sa gastronomie, son vin, son art et sa mode.",translation:"Francia es conocida por su gastronomía, su vino, su arte y su moda."},
+  {type:"fill",q:"La ____ brûlée est un dessert français classique. (crème)",answers:["crème"]},
+  {type:"tf",q:"Claude Monet était un écrivain français.",correct:false},
+  {type:"mcq",q:"¿Cuándo fue la Revolución francesa?",options:["1689","1789","1889","1989"],correct:1}
+]},
+
+{id:"causatif",num:14,title:"Faire Causatif",emoji:"🔧",cardDesc:"faire faire, faire réparer — mandar a hacer algo",
+explain:[
+  "<p>La construction <b>faire + infinitif</b> (causatif) significa hacer que alguien haga algo o mandar hacer. Ej: <span class='ex-fr'>Je fais réparer ma voiture (Hago reparar mi coche = mando arreglarlo).</span></p>",
+  "<p>Estructura: <b>sujet + faire + infinitif + complément</b>. El sujeto no hace la acción directamente — alguien más la hace. Ej: <span class='ex-fr'>Elle fait nettoyer l'appartement. · Il fait construire une maison.</span></p>",
+  "<p>Con pronombre: <span class='ex-fr'>Je fais réparer ma voiture → Je la fais réparer.</span> El COD del infinitif se convierte en COD del verbe faire.</p>",
+  "<p>Otros verbos similares: <b>laisser</b> (dejar que), <b>regarder</b> (ver que), <b>entendre</b> (oír que): <span class='ex-fr'>Je l'entends chanter. Je le laisse partir.</span></p>"
+],
+video:"8nGGz3vFiKA",videoNote:"Faire Causatif — French Grammar",
+exercises:[
+  {type:"fill",q:"Je fais ____ ma voiture. (réparer — causatif)",answers:["réparer"]},
+  {type:"mcq",q:"'Elle fait construire une maison' significa:",options:["Ella construye una casa","Ella manda construir una casa","Ella está construyendo","Ella construirá"],correct:1},
+  {type:"tf",q:"Dans le causatif, le sujet fait lui-même l'action.",correct:false},
+  {type:"fill",q:"Le professeur fait ____ les élèves. (lire — causatif)",answers:["lire"]},
+  {type:"order",q:"Ordena la frase:",words:["fais","Je","ma","réparer","voiture."],correct:"Je fais réparer ma voiture."},
+  {type:"mcq",q:"'Je la fais réparer' — que remplace 'la'?",options:["ma maison","ma voiture","mon vélo","ma montre"],correct:1},
+  {type:"fill",q:"Il laisse son chien ____ dans le parc. (courir — laisser causatif)",answers:["courir"]},
+  {type:"match",q:"Une la frase con su significado.",pairs:[["faire réparer","mandar reparar"],["faire construire","mandar construir"],["laisser partir","dejar ir"],["entendre chanter","oír cantar"]]},
+  {type:"fill",q:"Nous ____ nettoyer la maison par une société. (faire causatif)",answers:["faisons"]},
+  {type:"tf",q:"'Je l'entends chanter' — 'chanter' est un infinitif dans une construction causative.",correct:true}
+]},
+
+];
+
+// ── CONVERSATION STATION (B1) ──
+window.LP_TOPICS['fr-3'].push({
+  id:"conversation-b1",num:15,title:"Salle de Conversation B1",emoji:"💬",
+  cardDesc:"Debates y conversaciones intermedias",
+  isChat:true,
+  explain:["<p>Practica conversaciones de nivel B1 con todo lo aprendido: hipótesis, opiniones, comparaciones, viajes y cultura. Usa el subjonctif y el conditionnel cuando puedas.</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['fr-3'] = {
+  scenarios:[
+    {id:"job-interview",title:"Entretien d'embauche",emoji:"💼",setup:"Eres candidato/a en una entrevista de trabajo en París.",partner:{emoji:"👔",name:"M. Lambert"},opener:"Bonjour! Parlez-moi de vous et pourquoi vous voulez ce poste."},
+    {id:"travel-plan",title:"Planifier un voyage",emoji:"✈️",setup:"Estás planeando un viaje a Francia con un amigo francés.",partner:{emoji:"🧑",name:"Thomas"},opener:"Alors, où est-ce que tu voudrais aller en France? Qu'est-ce qui t'intéresse le plus?"},
+    {id:"environment",title:"Débat: l'environnement",emoji:"🌍",setup:"Participas en un debate sobre el cambio climático.",partner:{emoji:"👩",name:"Léa"},opener:"Selon toi, que faut-il faire en priorité pour protéger l'environnement?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  FRENCH — NIVEAU 4 (B2)
+// ══════════════════════════════════
+window.LP_TOPICS['fr-4'] = [
+
+{id:"subjonctif-passe",num:1,title:"Le Subjonctif Passé",emoji:"🌀⏮️",cardDesc:"bien qu'il soit parti — subjonctif de acción completada",
+explain:[
+  "<p>El <b>subjonctif passé</b> expresa una acción ya completada en la esfera del subjonctif. Formación: <b>subjonctif de avoir/être + participe passé</b>.</p>",
+  "<table class='reftable'><tr><th>Pronom</th><th>Avec avoir (parler)</th><th>Avec être (partir)</th></tr><tr><td>que je</td><td class='formcol'>aie parlé</td><td class='formcol'>sois parti(e)</td></tr><tr><td>que tu</td><td class='formcol'>aies parlé</td><td class='formcol'>sois parti(e)</td></tr><tr><td>qu'il</td><td class='formcol'>ait parlé</td><td class='formcol'>soit parti</td></tr></table>",
+  "<p>Se usa cuando la acción subordinada es anterior a la principal: <span class='ex-fr'>Je suis content qu'il soit venu (que haya venido). · Bien qu'elle ait travaillé dur, elle n'a pas réussi.</span></p>"
+],
+video:"Gk4PGkMXGvg",videoNote:"Subjonctif Passé — Grammaire française",
+exercises:[
+  {type:"fill",q:"Je suis content qu'il ____ venu. (être — subj. passé)",answers:["soit"]},
+  {type:"mcq",q:"'Bien qu'elle ____ étudié, elle a échoué.' — forma correcta:",options:["a","avait","ait","aurait"],correct:2},
+  {type:"fill",q:"Il est dommage que vous ____ raté cette occasion. (avoir — subj. passé)",answers:["ayez"]},
+  {type:"tf",q:"'Je suis triste qu'il soit parti' utilise le subjonctif passé car 'partir' prend être.",correct:true},
+  {type:"order",q:"Ordena la frase:",words:["content","suis","Je","tu","que","aies","réussi."],correct:"Je suis content que tu aies réussi."},
+  {type:"fill",q:"Bien qu'ils ____ fait des efforts, le projet a échoué. (avoir — subj. passé)",answers:["aient"]},
+  {type:"match",q:"Une el infinitif con su subjonctif passé (il).",pairs:[["manger","ait mangé"],["partir","soit parti"],["se lever","se soit levé"],["voir","ait vu"]]},
+  {type:"mcq",q:"¿Cuándo se usa el subjonctif passé en lugar del présent?",options:["Para acciones simultáneas","Para acciones anteriores a la principal","Para acciones futuras","Para acciones habituales"],correct:1},
+  {type:"fill",q:"Je cherche quelqu'un qui ____ vécu en France. (avoir — subj. passé)",answers:["ait"]},
+  {type:"tf",q:"'Quoiqu'il ait travaillé' = aunque haya trabajado.",correct:true}
+]},
+
+{id:"conditionnel-passe",num:2,title:"Le Conditionnel Passé",emoji:"💭⏮️",cardDesc:"j'aurais fait — hipótesis sobre el pasado",
+explain:[
+  "<p>El <b>conditionnel passé</b> expresa lo que hubiera/habría ocurrido bajo otras condiciones pasadas. Formación: <b>conditionnel de avoir/être + participe passé</b>.</p>",
+  "<table class='reftable'><tr><th>Pronom</th><th>Avoir (manger)</th><th>Être (partir)</th></tr><tr><td>j'</td><td class='formcol'>aurais mangé</td><td class='formcol'>serais parti(e)</td></tr><tr><td>tu</td><td class='formcol'>aurais mangé</td><td class='formcol'>serais parti(e)</td></tr><tr><td>il</td><td class='formcol'>aurait mangé</td><td class='formcol'>serait parti</td></tr></table>",
+  "<p>Usos: <b>1. Tipo 3 hipótesis</b>: <span class='ex-fr'>Si j'avais étudié, j'aurais réussi.</span> · <b>2. Reproche</b>: <span class='ex-fr'>Tu aurais pu me le dire! · Vous auriez dû venir.</span> · <b>3. Información no verificada</b>: <span class='ex-fr'>Il aurait démissionné hier.</span></p>"
+],
+video:"eL1VLqdMF_w",videoNote:"Le Conditionnel Passé — French Grammar",
+exercises:[
+  {type:"fill",q:"Si j'avais étudié, j'____ réussi. (avoir — cond. passé)",answers:["aurais"]},
+  {type:"mcq",q:"Tu aurais ____ me prévenir! — que expresa esta frase?",options:["Una hipótesis futura","Un reproche","Una cortesía","Un deseo actual"],correct:1},
+  {type:"fill",q:"Elle ____ venue si elle avait su. (être — cond. passé)",answers:["serait"]},
+  {type:"tf",q:"'Il aurait démissionné' peut indiquer une information non confirmée.",correct:true},
+  {type:"order",q:"Ordena la frase:",words:["étudié,","j'avais","aurais","Si","réussi.","j'"],correct:"Si j'avais étudié, j'aurais réussi."},
+  {type:"fill",q:"Vous ____ dû partir plus tôt. (avoir — cond. passé — reproche)",answers:["auriez"]},
+  {type:"match",q:"Une la frase con su función.",pairs:[["Si j'avais su, je serais venu.","hipótesis pasada"],["Tu aurais pu téléphoner.","reproche"],["Il aurait gagné le match.","info no verificada"],["Nous aurions voulu venir.","deseo pasado"]]},
+  {type:"fill",q:"Si nous avions pris le bus, nous n'____ pas raté le train. (avoir)",answers:["aurions"]},
+  {type:"mcq",q:"¿Cuál expresa un reproche?",options:["Je serais parti.","Tu aurais dû m'écouter.","Si j'avais mangé.","Il serait venu."],correct:1},
+  {type:"tf",q:"'J'aurais aimé te voir' exprime un désir passé non réalisé.",correct:true}
+]},
+
+{id:"plus-que-parfait",num:3,title:"Le Plus-que-parfait",emoji:"⏮️⏮️",cardDesc:"j'avais mangé — pasado antes del pasado",
+explain:[
+  "<p>El <b>plus-que-parfait</b> (pluscuamperfecto) indica una acción anterior a otra acción pasada. Formación: <b>imparfait de avoir/être + participe passé</b>.</p>",
+  "<table class='reftable'><tr><th>Pronom</th><th>Avoir (lire)</th><th>Être (arriver)</th></tr><tr><td>j'</td><td class='formcol'>avais lu</td><td class='formcol'>étais arrivé(e)</td></tr><tr><td>tu</td><td class='formcol'>avais lu</td><td class='formcol'>étais arrivé(e)</td></tr><tr><td>il</td><td class='formcol'>avait lu</td><td class='formcol'>était arrivé</td></tr><tr><td>nous</td><td class='formcol'>avions lu</td><td class='formcol'>étions arrivé(e)s</td></tr></table>",
+  "<p>Usos: <span class='ex-fr'>1. Antes que otro pasado: Quand je suis arrivé, il était déjà parti. · 2. Hipótesis tipo 3: Si j'avais su... · 3. Discours indirect: Il a dit qu'il avait mangé.</span></p>"
+],
+video:"TXaJfIZVWlc",videoNote:"Le Plus-que-parfait — French Grammar",
+exercises:[
+  {type:"fill",q:"Quand je suis arrivé, il ____ déjà parti. (être — PQP)",answers:["était"]},
+  {type:"mcq",q:"'J'avais mangé avant de dormir' — quelle est la chronologie?",options:["dormir → manger","manger → dormir","simultané","aucun ordre"],correct:1},
+  {type:"fill",q:"Elle a dit qu'elle ____ fini son travail. (avoir — PQP dans discours indirect)",answers:["avait"]},
+  {type:"tf",q:"Le PQP se forme avec l'imparfait de avoir/être + participe passé.",correct:true},
+  {type:"order",q:"Ordena la frase:",words:["déjà","arrivé,","je","Quand","était","il","suis","parti."],correct:"Quand je suis arrivé, il était déjà parti."},
+  {type:"fill",q:"Ils ____ voyagé pendant 3 ans avant de s'installer. (avoir — PQP)",answers:["avaient"]},
+  {type:"match",q:"Une el uso con un ejemplo.",pairs:[["antes que otro pasado","Quand il est parti, j'avais déjà mangé."],["hipótesis tipo 3","Si j'avais su, je serais venu."],["discours indirect passé","Il a dit qu'il avait vu."],["PQP de partir","j'étais parti"]]},
+  {type:"fill",q:"Nous ____ pas encore commencé quand le prof est entré. (avoir — PQP nég.)",answers:["n'avions"]},
+  {type:"mcq",q:"¿Qué tiempo va con el PQP en una frase de tipo 3?",options:["futur simple","conditionnel présent","conditionnel passé","subjonctif"],correct:2},
+  {type:"tf",q:"'Il était arrivé' = le PQP du verbe 'arriver' pour il.",correct:true}
+]},
+
+{id:"voix-passive",num:4,title:"La Voix Passive",emoji:"🔄",cardDesc:"le livre est lu par... — la voz pasiva en francés",
+explain:[
+  "<p>La <b>voix passive</b> pone el objeto en posición de sujeto. Formación: <b>sujet + être (conjugué) + participe passé + par + agent</b>.</p>",
+  "<p>Actif → Passif: <span class='ex-fr'>Le chat mange la souris → La souris est mangée par le chat.</span> El participio concuerda con el sujeto pasivo.</p>",
+  "<table class='reftable'><tr><th>Temps</th><th>Actif</th><th>Passif</th></tr><tr><td>Présent</td><td>On le lit</td><td class='formcol'>Il est lu</td></tr><tr><td>Passé</td><td>On l'a lu</td><td class='formcol'>Il a été lu</td></tr><tr><td>Futur</td><td>On le lira</td><td class='formcol'>Il sera lu</td></tr></table>",
+  "<p>Alternativa frecuente: <b>on</b> activo en lugar del pasivo formal: <span class='ex-fr'>On parle français ici. (en vez de Le français est parlé ici.)</span></p>"
+],
+video:"tRw1V_Y3Imo",videoNote:"La Voix Passive — French Grammar",
+exercises:[
+  {type:"fill",q:"La lettre ____ écrite par Marie. (être — présent passif)",answers:["est"]},
+  {type:"mcq",q:"'Le policier arrête le voleur' en voz pasiva es:",options:["Le voleur est arrêté par le policier.","Le policier est arrêté par le voleur.","Le voleur arrête le policier.","Le voleur a arrêté."],correct:0},
+  {type:"fill",q:"Le livre ____ lu par des milliers de personnes. (être — passé composé passif)",answers:["a été"]},
+  {type:"tf",q:"Dans la voix passive, le participe passé s'accorde avec le sujet.",correct:true},
+  {type:"order",q:"Transforma al pasivo:",words:["par","Marie.","est","La","maison","construite"],correct:"La maison est construite par Marie."},
+  {type:"fill",q:"Ce film ____ tourné en 2020. (être — passé composé passif)",answers:["a été"]},
+  {type:"match",q:"Une el tiempo activo con su equivalente pasivo.",pairs:[["on lit","il est lu"],["on a lu","il a été lu"],["on lira","il sera lu"],["on lisait","il était lu"]]},
+  {type:"mcq",q:"¿Cuál frase usa correctamente la voz pasiva?",options:["Il est mange.","Il est mangé par le lion.","Il est mangé le lion.","Il est manger."],correct:1},
+  {type:"fill",q:"Les résultats ____ annoncés demain. (être — futur passif)",answers:["seront"]},
+  {type:"tf",q:"'On parle français ici' et 'Le français est parlé ici' ont le même sens.",correct:true}
+]},
+
+{id:"gerondif",num:5,title:"Le Gérondif",emoji:"🔄💬",cardDesc:"en parlant, en faisant — dos acciones simultáneas",
+explain:[
+  "<p>El <b>gérondif</b> (gerundio) expresa simultaneidad, causa o condición. Formación: <b>en + participe présent</b>. El participe présent: raíz de <b>nous</b> (présent) + <b>-ant</b>.</p>",
+  "<p>Ej: parler → nous parlons → parl- → <b>parlant → en parlant</b>. Irregulares: <span class='ex-fr'>être → étant · avoir → ayant · savoir → sachant</span></p>",
+  "<p>Usos: <span class='ex-fr'>Simultanéité: Il travaille en écoutant la radio. · Moyen: C'est en forgeant qu'on devient forgeron. · Condition: En travaillant plus, tu réussirais.</span></p>",
+  "<p>El sujeto del gérondif y el del verbo principal deben ser el <b>mismo</b>: <span class='ex-fr'>En arrivant, il a vu Marie. ✓ (él llegó y vio)</span></p>"
+],
+video:"kMTh3X8z7fY",videoNote:"Le Gérondif et Participe Présent",
+exercises:[
+  {type:"fill",q:"Il écoute de la musique ____ travaillant. (gérondif)",answers:["en"]},
+  {type:"fill",q:"Elle a appris le français en ____. (regarder — gérondif)",answers:["regardant"]},
+  {type:"mcq",q:"¿Qué expresa 'Il a réussi en travaillant dur'?",options:["Simultaneidad","Medio para lograr algo","Condición irreal","Consecuencia"],correct:1},
+  {type:"tf",q:"Le gérondif se forme avec 'en' + participe présent.",correct:true},
+  {type:"order",q:"Ordena la frase:",words:["musique,","en","Elle","la","chantait","marchant."],correct:"Elle chantait en marchant la musique."},
+  {type:"fill",q:"C'est ____ forgeant qu'on devient forgeron. (gérondif)",answers:["en"]},
+  {type:"match",q:"Une el infinitif con su participe présent.",pairs:[["parler","parlant"],["finir","finissant"],["être","étant"],["savoir","sachant"]]},
+  {type:"fill",q:"Tout ____ travaillant, il pensait à ses vacances. (en — gérondif insistant)",answers:["en"]},
+  {type:"mcq",q:"¿Cuál frase usa correctamente el gérondif?",options:["En dormant, elle a vu un film.","Il a appelé en mangeant.","Je lis en toi.","En a parlé."],correct:1},
+  {type:"tf",q:"Le gérondif implique que le sujet des deux actions est différent.",correct:false}
+]},
+
+{id:"pronoms-relatifs",num:6,title:"Pronoms Relatifs",emoji:"🔗",cardDesc:"dont, où, lequel — conectores relativos avanzados",
+explain:[
+  "<p>Más allá de <b>qui</b> y <b>que</b>, el francés tiene pronombres relativos avanzados:</p>",
+  "<p><b>Dont</b> = de qui / de quoi / duquel — reemplaza <b>de + antecedente</b>: <span class='ex-fr'>C'est le livre dont j'ai besoin. (necesito DE este libro) · L'homme dont je parle est là.</span></p>",
+  "<p><b>Où</b> = lugar o tiempo: <span class='ex-fr'>La ville où j'habite est belle. · Le jour où je suis né.</span></p>",
+  "<p><b>Lequel / laquelle / lesquels</b> = reemplaza <b>preposición + cosa/persona</b>: <span class='ex-fr'>La table sur laquelle je travaille. · Les raisons pour lesquelles je pars.</span> Contrae con à y de: <span class='ex-fr'>auquel, duquel, auxquels...</span></p>"
+],
+video:"Z3YFqMUoUxY",videoNote:"Pronoms Relatifs Avancés — dont, où, lequel",
+exercises:[
+  {type:"fill",q:"C'est le film ____ j'ai besoin. (reemplaza 'de ce film')",answers:["dont"]},
+  {type:"fill",q:"La ville ____ je suis né est en Espagne. (tiempo/lugar)",answers:["où"]},
+  {type:"mcq",q:"'La table ____ je travaille' — pronom correct:",options:["dont","sur laquelle","où","que"],correct:1},
+  {type:"tf",q:"'Dont' remplace toujours 'de + antécédent'.",correct:true},
+  {type:"order",q:"Ordena la frase:",words:["j'ai","C'est","besoin.","dont","le","livre"],correct:"C'est le livre dont j'ai besoin."},
+  {type:"fill",q:"L'homme à ____ je pense est parti. (lequel — à + personne)",answers:["qui"]},
+  {type:"match",q:"Une el pronom con su función.",pairs:[["qui","sujeto de verbo rel."],["que","objeto de verbo rel."],["dont","reemplaza de + antecedente"],["où","lugar o tiempo"]]},
+  {type:"fill",q:"C'est la raison pour ____ je pars. (laquelle)",answers:["laquelle"]},
+  {type:"mcq",q:"'Le jour ____ nous nous sommes rencontrés était magnifique.'",options:["dont","que","où","qui"],correct:2},
+  {type:"tf",q:"'Duquel' = de + lequel (contraction).",correct:true}
+]},
+
+{id:"nominalisation",num:7,title:"La Nominalisation",emoji:"📝",cardDesc:"arriver → arrivée — convertir verbos en sustantivos",
+explain:[
+  "<p>La <b>nominalisation</b> transforma verbos o adjetivos en sustantivos. Es muy frecuente en el francés formal, periodístico y académico.</p>",
+  "<p>Sufijos comunes: <span class='ex-fr'>-tion/-sion: polluer → pollution · -ment: développer → développement · -age: recycler → recyclage · -ure: couvrir → couverture · -ée: arriver → arrivée · -ance/-ence: tolérer → tolérance</span></p>",
+  "<p>Ventajas del estilo nominalisé: más formal, más compacto: <span class='ex-fr'>«Les gens arrivent» → «L'arrivée des gens» · «Le gouvernement a décidé» → «La décision du gouvernement»</span></p>"
+],
+video:"bKaFJPr3Kwc",videoNote:"La Nominalisation en Français",
+vocab:[
+  {cat:"📝 Nominalisations Courantes",items:[
+    {e:"💨",w:"polluer → la pollution",p:"contaminar → la contaminación"},
+    {e:"🌱",w:"développer → le développement",p:"desarrollar → el desarrollo"},
+    {e:"♻️",w:"recycler → le recyclage",p:"reciclar → el reciclaje"},
+    {e:"✈️",w:"arriver → l'arrivée",p:"llegar → la llegada"},
+    {e:"🚪",w:"partir → le départ",p:"partir → la partida"},
+    {e:"📊",w:"améliorer → l'amélioration",p:"mejorar → la mejora"},
+    {e:"🔬",w:"découvrir → la découverte",p:"descubrir → el descubrimiento"},
+    {e:"⚖️",w:"décider → la décision",p:"decidir → la decisión"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"polluer → la ____",answers:["pollution"]},
+  {type:"fill",q:"arriver → l'____",answers:["arrivée"]},
+  {type:"mcq",q:"¿Cuál es la nominalización de 'développer'?",options:["la développement","le développement","le développer","la développation"],correct:1},
+  {type:"tf",q:"La nominalisation est très fréquente dans le langage formel et journalistique.",correct:true},
+  {type:"match",q:"Une el verbo con su nominalisation.",pairs:[["recycler","le recyclage"],["décider","la décision"],["découvrir","la découverte"],["améliorer","l'amélioration"]]},
+  {type:"fill",q:"«Les étudiants arrivent» → «L'____ des étudiants» (nominalisation)",answers:["arrivée"]},
+  {type:"fill",q:"partir → le ____",answers:["départ"]},
+  {type:"mcq",q:"'Le gouvernement a décidé' → version nominalisée:",options:["La décision du gouvernement","Le gouvernement décider","La décidement","Gouverner la décision"],correct:0},
+  {type:"fill",q:"tolérer → la ____",answers:["tolérance"]},
+  {type:"tf",q:"'Le départ du train' est une nominalisation de 'partir'.",correct:true}
+]},
+
+{id:"politique",num:8,title:"La Politique et la Société",emoji:"🗳️",cardDesc:"élections, droits, citoyenneté — vocabulario cívico",
+isVocab:true,
+explain:[
+  "<p>Vocabulario esencial para hablar de política y sociedad en francés. Fundamental para noticias, debates y vida ciudadana.</p>"
+],
+vocab:[
+  {cat:"🗳️ La Politique",items:[
+    {e:"🗳️",w:"les élections",p:"las elecciones"},
+    {e:"👤",w:"le candidat / la candidate",p:"el/la candidato/a"},
+    {e:"🏛️",w:"le gouvernement",p:"el gobierno"},
+    {e:"📜",w:"la loi",p:"la ley"},
+    {e:"🗣️",w:"le débat",p:"el debate"},
+    {e:"✋",w:"voter",p:"votar"},
+    {e:"🏅",w:"le président / la présidente",p:"el/la presidente/a"},
+    {e:"📊",w:"les sondages",p:"las encuestas"}
+  ]},
+  {cat:"⚖️ Droits et Société",items:[
+    {e:"⚖️",w:"les droits de l'homme",p:"los derechos humanos"},
+    {e:"🤝",w:"l'égalité",p:"la igualdad"},
+    {e:"🚫",w:"la discrimination",p:"la discriminación"},
+    {e:"🆓",w:"la liberté d'expression",p:"la libertad de expresión"},
+    {e:"🏘️",w:"la citoyenneté",p:"la ciudadanía"},
+    {e:"📢",w:"manifester",p:"manifestarse"},
+    {e:"💸",w:"les impôts",p:"los impuestos"},
+    {e:"🌐",w:"la mondialisation",p:"la globalización"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"En France, les ____ présidentielles ont lieu tous les 5 ans. (élections)",answers:["élections"]},
+  {type:"mcq",q:"¿Qué significa 'manifester'?",options:["manifestarse en la calle","hablar en público","votar","pagar impuestos"],correct:0},
+  {type:"fill",q:"La ____ d'expression est un droit fondamental. (liberté)",answers:["liberté"]},
+  {type:"match",q:"Une la palabra con su traducción.",pairs:[["les sondages","las encuestas"],["la loi","la ley"],["voter","votar"],["la citoyenneté","la ciudadanía"]]},
+  {type:"tf",q:"'Les droits de l'homme' inclut la liberté et l'égalité.",correct:true},
+  {type:"fill",q:"Le ____ dirige le pays avec son équipe de ministres. (gouvernement)",answers:["gouvernement"]},
+  {type:"mcq",q:"¿Cómo se dice 'los impuestos'?",options:["les emplois","les impôts","les imports","les imposants"],correct:1},
+  {type:"speak",phrase:"Dans une démocratie, les citoyens ont le droit de voter et de s'exprimer librement.",translation:"En una democracia, los ciudadanos tienen el derecho de votar y de expresarse libremente."},
+  {type:"fill",q:"La ____ est le processus d'intégration économique mondiale. (mondialisation)",answers:["mondialisation"]},
+  {type:"tf",q:"'La discrimination' viole les droits de l'homme.",correct:true}
+]},
+
+{id:"economie",num:9,title:"L'Économie",emoji:"📈",cardDesc:"la croissance, le chômage — vocabulario económico",
+isVocab:true,
+explain:[
+  "<p>Vocabulario clave para comprender y hablar de economía en francés: conceptos esenciales del mercado laboral, finanzas y crecimiento.</p>"
+],
+vocab:[
+  {cat:"📈 La Macroéconomie",items:[
+    {e:"📈",w:"la croissance économique",p:"el crecimiento económico"},
+    {e:"📉",w:"la récession",p:"la recesión"},
+    {e:"💹",w:"le PIB (Produit Intérieur Brut)",p:"el PIB"},
+    {e:"💰",w:"l'inflation",p:"la inflación"},
+    {e:"🏦",w:"la Banque centrale",p:"el Banco Central"},
+    {e:"💱",w:"le taux de change",p:"el tipo de cambio"}
+  ]},
+  {cat:"👥 Le Marché du Travail",items:[
+    {e:"😔",w:"le chômage",p:"el desempleo"},
+    {e:"💼",w:"l'emploi",p:"el empleo"},
+    {e:"📊",w:"le taux de chômage",p:"la tasa de desempleo"},
+    {e:"🔄",w:"la reconversion",p:"la reconversión profesional"},
+    {e:"💡",w:"les start-ups",p:"las startups"},
+    {e:"🌐",w:"le commerce international",p:"el comercio internacional"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Le ____ mesure la richesse totale produite dans un pays. (PIB)",answers:["PIB"]},
+  {type:"mcq",q:"¿Qué es 'le chômage'?",options:["el crecimiento","el desempleo","la inflación","el comercio"],correct:1},
+  {type:"fill",q:"Pendant une ____, l'économie se contracte. (récession)",answers:["récession"]},
+  {type:"match",q:"Une la palabra con su traducción.",pairs:[["la croissance","el crecimiento"],["l'inflation","la inflación"],["le taux de change","el tipo de cambio"],["l'emploi","el empleo"]]},
+  {type:"tf",q:"'La Banque centrale' régule la monnaie et le crédit dans un pays.",correct:true},
+  {type:"fill",q:"La France a un taux de ____ d'environ 7%. (chômage)",answers:["chômage"]},
+  {type:"speak",phrase:"La croissance économique dépend de l'emploi, de l'investissement et du commerce international.",translation:"El crecimiento económico depende del empleo, la inversión y el comercio internacional."},
+  {type:"mcq",q:"¿Qué es 'la reconversion'?",options:["crear una empresa","cambiar de profesión","subir el PIB","comercio exterior"],correct:1},
+  {type:"fill",q:"Les ____ sont des nouvelles entreprises innovantes à forte croissance. (start-ups)",answers:["start-ups"]},
+  {type:"tf",q:"L'inflation signifie que les prix baissent.",correct:false}
+]},
+
+{id:"sciences",num:10,title:"Sciences et Technologies",emoji:"🔬",cardDesc:"l'IA, l'ADN, les découvertes — vocabulario científico",
+isVocab:true,
+explain:[
+  "<p>El vocabulario científico y tecnológico es indispensable en el francés moderno. Aprende los términos clave para hablar de innovación y ciencia.</p>"
+],
+vocab:[
+  {cat:"🔬 Les Sciences",items:[
+    {e:"🔬",w:"la recherche scientifique",p:"la investigación científica"},
+    {e:"🧬",w:"l'ADN",p:"el ADN"},
+    {e:"💊",w:"la médecine",p:"la medicina"},
+    {e:"🌌",w:"l'astronomie",p:"la astronomía"},
+    {e:"⚗️",w:"la chimie",p:"la química"},
+    {e:"🔭",w:"une découverte",p:"un descubrimiento"}
+  ]},
+  {cat:"💻 Les Technologies",items:[
+    {e:"🤖",w:"l'intelligence artificielle",p:"la inteligencia artificial"},
+    {e:"☁️",w:"le cloud",p:"la nube"},
+    {e:"🔐",w:"la cybersécurité",p:"la ciberseguridad"},
+    {e:"🖨️",w:"l'impression 3D",p:"la impresión 3D"},
+    {e:"🚗",w:"la voiture autonome",p:"el coche autónomo"},
+    {e:"🌐",w:"le numérique",p:"lo digital"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"L'____ artificielle transforme tous les secteurs économiques. (intelligence)",answers:["intelligence"]},
+  {type:"mcq",q:"¿Qué estudia 'la chimie'?",options:["los astros","las sustancias y reacciones","los genes","los ordenadores"],correct:1},
+  {type:"fill",q:"Les scientifiques ont fait une grande ____ médicale cette année. (découverte)",answers:["découverte"]},
+  {type:"match",q:"Une la tecnología con su descripción.",pairs:[["le cloud","almacenamiento en línea"],["l'IA","inteligencia artificial"],["la cybersécurité","protección digital"],["l'impression 3D","fabricación en capas"]]},
+  {type:"tf",q:"'Le numérique' se réfère au monde digital et informatique.",correct:true},
+  {type:"fill",q:"La ____ étudie l'univers et les planètes. (astronomie)",answers:["astronomie"]},
+  {type:"speak",phrase:"L'intelligence artificielle et les technologies numériques transforment notre société.",translation:"La inteligencia artificial y las tecnologías digitales transforman nuestra sociedad."},
+  {type:"fill",q:"La ____ protège les systèmes informatiques des attaques. (cybersécurité)",answers:["cybersécurité"]},
+  {type:"mcq",q:"¿Qué es 'l'ADN'?",options:["un ordenador","el material genético","un medicamento","una IA"],correct:1},
+  {type:"tf",q:"'La voiture autonome' se conduit sans conducteur humain.",correct:true}
+]},
+
+{id:"art-culture",num:11,title:"L'Art et la Culture",emoji:"🎨",cardDesc:"cinema, musique, littérature — vocabulario artístico",
+isVocab:true,
+explain:[
+  "<p>El arte y la cultura son temas ineludibles en el francés avanzado. Aprende a hablar de películas, música, literatura y arte visual.</p>"
+],
+vocab:[
+  {cat:"🎬 Le Cinéma",items:[
+    {e:"🎬",w:"réaliser un film",p:"dirigir una película"},
+    {e:"🏆",w:"le César / la Palme d'Or",p:"los premios de cine francés"},
+    {e:"🎭",w:"le scénario",p:"el guión"},
+    {e:"🎞️",w:"le tournage",p:"el rodaje"},
+    {e:"⭐",w:"le/la protagoniste",p:"el/la protagonista"},
+    {e:"📽️",w:"le documentaire",p:"el documental"}
+  ]},
+  {cat:"🎵 La Musique et Littérature",items:[
+    {e:"🎵",w:"composer",p:"componer"},
+    {e:"🎤",w:"interpréter",p:"interpretar"},
+    {e:"📚",w:"un chef-d'œuvre",p:"una obra maestra"},
+    {e:"✍️",w:"rédiger",p:"redactar"},
+    {e:"📖",w:"la narration",p:"la narración"},
+    {e:"🖼️",w:"une exposition",p:"una exposición"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Spielberg a ____ plus de 30 films au cours de sa carrière. (réaliser)",answers:["réalisé"]},
+  {type:"mcq",q:"¿Cuál es el mayor premio del cine francés?",options:["l'Oscar","la Palme d'Or","le César","le Molière"],correct:2},
+  {type:"fill",q:"Le ____ est le texte sur lequel se base un film. (scénario)",answers:["scénario"]},
+  {type:"match",q:"Une el término con su definición.",pairs:[["le tournage","período de filmación"],["un chef-d'œuvre","obra maestra"],["une exposition","muestra de arte"],["la narration","relato de una historia"]]},
+  {type:"tf",q:"'La Palme d'Or' est décernée au Festival de Cannes.",correct:true},
+  {type:"fill",q:"Ce roman est considéré comme un vrai chef-d'____. (œuvre)",answers:["œuvre"]},
+  {type:"speak",phrase:"Le cinéma français est reconnu dans le monde entier pour sa créativité et sa profondeur.",translation:"El cine francés es reconocido en todo el mundo por su creatividad y profundidad."},
+  {type:"fill",q:"La chanteuse va ____ une nouvelle chanson lors du concert. (interpréter)",answers:["interpréter"]},
+  {type:"mcq",q:"Un 'documentaire' es:",options:["una película de ficción","un film sobre la realidad","una comedia","una serie"],correct:1},
+  {type:"tf",q:"'Composer' signifie écrire ou créer de la musique.",correct:true}
+]},
+
+{id:"argumentation",num:12,title:"L'Argumentation",emoji:"⚖️",cardDesc:"d'une part... d'autre part — estructurar argumentos",
+explain:[
+  "<p>Saber argumentar en francés es clave para el nivel B2. Los textos argumentativos tienen una estructura clara: <b>thèse → arguments → exemples → conclusion</b>.</p>",
+  "<p>Conectores esenciales:</p>",
+  "<p><b>Introducir</b>: <span class='ex-fr'>Tout d'abord... · En premier lieu... · Il convient de noter que...</span></p>",
+  "<p><b>Añadir</b>: <span class='ex-fr'>De plus... · Par ailleurs... · En outre... · D'une part... d'autre part...</span></p>",
+  "<p><b>Concesión</b>: <span class='ex-fr'>Certes... · Il est vrai que... · Bien que + subjonctif... · Quoique...</span></p>",
+  "<p><b>Concluir</b>: <span class='ex-fr'>En conclusion... · Pour conclure... · En définitive... · Finalement...</span></p>"
+],
+vocab:[
+  {cat:"🔗 Connecteurs Logiques",items:[
+    {e:"1️⃣",w:"tout d'abord",p:"en primer lugar"},
+    {e:"➕",w:"de plus / en outre",p:"además"},
+    {e:"↔️",w:"d'une part... d'autre part",p:"por un lado... por otro"},
+    {e:"⚖️",w:"certes... mais",p:"ciertamente... pero"},
+    {e:"↩️",w:"cependant / néanmoins",p:"sin embargo"},
+    {e:"🎯",w:"en conclusion",p:"en conclusión"},
+    {e:"💡",w:"c'est pourquoi",p:"es por eso que"},
+    {e:"📌",w:"par ailleurs",p:"por otra parte"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"____ d'abord, il faut comprendre le problème. (En primer lugar)",answers:["Tout"]},
+  {type:"mcq",q:"¿Cuál conector introduce una concesión?",options:["de plus","en conclusion","certes","c'est pourquoi"],correct:2},
+  {type:"fill",q:"D'une part, l'éducation est importante. D'autre ____, le travail l'est aussi.",answers:["part"]},
+  {type:"order",q:"Ordena los conectores de un texto:",words:["Tout","De plus,","d'abord,","En conclusion,","Par ailleurs,"],correct:"Tout d'abord, De plus, Par ailleurs, En conclusion,"},
+  {type:"match",q:"Une el conector con su función.",pairs:[["tout d'abord","introducir"],["de plus","añadir"],["cependant","contrastar"],["en conclusion","concluir"]]},
+  {type:"fill",q:"____, il travaille beaucoup. Néanmoins, il n'a pas réussi. (Certes)",answers:["Certes"]},
+  {type:"tf",q:"'C'est pourquoi' introduit une conséquence logique.",correct:true},
+  {type:"fill",q:"Par ____, il faut mentionner les inégalités. (ailleurs)",answers:["ailleurs"]},
+  {type:"speak",phrase:"Tout d'abord, le réchauffement climatique est un problème urgent. De plus, il affecte toute la planète.",translation:"En primer lugar, el calentamiento global es un problema urgente. Además, afecta a todo el planeta."},
+  {type:"tf",q:"'Néanmoins' signifie 'sin embargo' et introduit une opposition.",correct:true}
+]},
+
+{id:"nuances",num:13,title:"Nuances Sémantiques",emoji:"🎭",cardDesc:"dire vs parler — matices y precisión del vocabulario",
+explain:[
+  "<p>En el nivel B2, la precisión léxica es fundamental. Muchas palabras parecen sinónimas pero tienen matices importantes.</p>",
+  "<p><b>Dire vs Parler vs Raconter</b>: <span class='ex-fr'>dire (decir algo específico) · parler (hablar en general) · raconter (contar una historia)</span></p>",
+  "<p><b>Savoir vs Connaître</b>: <span class='ex-fr'>savoir (saber hacer / saber que) · connaître (conocer a alguien o algo)</span>. Ej: <span class='ex-fr'>Je sais nager. Je connais Paris.</span></p>",
+  "<p><b>Penser vs Croire vs Trouver</b>: <span class='ex-fr'>penser (pensar, opinar) · croire (creer, tener fe) · trouver (encontrar, considerar)</span>. Ej: <span class='ex-fr'>Je trouve ce film ennuyeux.</span></p>"
+],
+exercises:[
+  {type:"mcq",q:"'Je ____ nager depuis l'âge de 5 ans.' — verbe correct:",options:["connais","sais","trouve","pense"],correct:1},
+  {type:"fill",q:"Je ____ très bien Paris, c'est une belle ville. (connaître)",answers:["connais"]},
+  {type:"mcq",q:"'Il m'a ____ une histoire incroyable.' — verbe pour 'contar':",options:["dit","parlé","raconté","trouvé"],correct:2},
+  {type:"tf",q:"'Je sais Marie' est incorrect en français — on utilise 'connaître'.",correct:true},
+  {type:"match",q:"Une el verbe con son usage.",pairs:[["savoir","savoir une info / une compétence"],["connaître","conocer a alguien o un lugar"],["raconter","contar una historia"],["trouver","considerar / hallar"]]},
+  {type:"fill",q:"Il ____ que tu as raison. (croire — opiner con fe)",answers:["croit"]},
+  {type:"mcq",q:"'Je ____ ce restaurant fantastique' — ¿cómo decir 'lo encuentro fantástico'?",options:["sais","pense","trouve","connais"],correct:2},
+  {type:"fill",q:"Elle ____ de son voyage en Asie. (raconter)",answers:["raconte"]},
+  {type:"tf",q:"'Dire' et 'parler' sont exactement synonymes en français.",correct:false},
+  {type:"speak",phrase:"Je connais bien Paris et je sais que c'est une ville magnifique. Je la trouve fascinante.",translation:"Conozco bien París y sé que es una ciudad magnífica. La encuentro fascinante."}
+]},
+
+{id:"revision-b2",num:14,title:"Révision B2",emoji:"🏅",cardDesc:"repaso completo del nivel B2 — todo lo aprendido",
+explain:[
+  "<p>¡Felicidades por llegar al nivel B2! En este repaso practicarás todos los puntos del nivel: condicionnel passé, voix passive, gérondif, pronoms relatifs, argumentation y más.</p>",
+  "<p>Este nivel te permite: <span class='ex-fr'>Comprender textos complejos · Expresar opiniones matizadas · Argumentar en debates · Entender películas y noticias sin subtítulos · Interactuar fluidamente con nativos.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Si j'avais su, je ____. (ne pas venir — cond. passé)",answers:["ne serais pas venu","ne serais pas venue"]},
+  {type:"mcq",q:"La voix passive de 'on a construit ce pont': ",options:["Ce pont a été construit.","Ce pont est construit par on.","On est construit.","Le pont construire."],correct:0},
+  {type:"fill",q:"Il travaille ____ écoutant de la musique. (gérondif)",answers:["en"]},
+  {type:"fill",q:"C'est le livre ____ j'avais besoin. (dont)",answers:["dont"]},
+  {type:"mcq",q:"¿Cuál conector expresa una adición?",options:["cependant","de plus","certes","c'est pourquoi"],correct:1},
+  {type:"fill",q:"Bien qu'il ____ travaillé, il n'a pas réussi. (avoir — subj. passé)",answers:["ait"]},
+  {type:"match",q:"Une el concepto con su ejemplo.",pairs:[["conditionnel passé","j'aurais fait"],["voix passive","il est lu par..."],["gérondif","en faisant"],["subjonctif passé","qu'il ait fini"]]},
+  {type:"fill",q:"polluer → la ____ (nominalisation)",answers:["pollution"]},
+  {type:"speak",phrase:"Certes, le travail à distance a des avantages. Cependant, il peut nuire aux relations professionnelles.",translation:"Ciertamente, el teletrabajo tiene ventajas. Sin embargo, puede perjudicar las relaciones profesionales."},
+  {type:"tf",q:"Au niveau B2, on peut comprendre des textes complexes et argumenter avec nuance.",correct:true}
+]}
+
+];
+
+window.LP_TOPICS['fr-4'].push({
+  id:"conversation-b2",num:15,title:"Salle de Conversation B2",emoji:"💬",
+  cardDesc:"Debates complejos, argumentación y matices",
+  isChat:true,
+  explain:["<p>Practica debates y conversaciones de nivel B2: argumenta, concede y contraargumenta. Usa la voix passive, les pronoms relatifs avancés y l'argumentation.</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['fr-4'] = {
+  scenarios:[
+    {id:"debate-tech",title:"Débat: Technologie et société",emoji:"🤖",setup:"Debatís sobre el impacto de la IA en el empleo.",partner:{emoji:"👩‍💻",name:"Sophie"},opener:"Selon vous, l'intelligence artificielle va-t-elle détruire des emplois ou en créer?"},
+    {id:"article-press",title:"Analyser un article",emoji:"📰",setup:"Analizáis un artículo de prensa sobre la politique économique.",partner:{emoji:"📊",name:"Julien"},opener:"Qu'est-ce que vous pensez de la politique économique actuelle du gouvernement?"},
+    {id:"culture-compare",title:"Cultures comparées",emoji:"🌍",setup:"Compares la cultura francesa con la tuya.",partner:{emoji:"🗼",name:"Camille"},opener:"Quelles différences culturelles avez-vous remarquées entre la France et votre pays?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  FRENCH — NIVEAU 5 (C1)
+// ══════════════════════════════════
+window.LP_TOPICS['fr-5'] = [
+
+{id:"concordance-temps",num:1,title:"Concordance des Temps",emoji:"⏱️🔗",cardDesc:"la chronologie correcta de verbos en oraciones complejas",
+explain:[
+  "<p>La <b>concordance des temps</b> asegura que los verbos en una oración compleja reflejen correctamente la cronología entre la acción principal y la subordinada.</p>",
+  "<table class='reftable'><tr><th>V. principal</th><th>Simultáneo</th><th>Anterior</th><th>Posterior</th></tr><tr><td>Présent</td><td class='formcol'>présent</td><td>passé composé</td><td>futur</td></tr><tr><td>Passé</td><td class='formcol'>imparfait</td><td>plus-que-parfait</td><td>conditionnel</td></tr></table>",
+  "<p>Ej: <span class='ex-fr'>Je pense qu'il travaille. (simultáneo) · Je pense qu'il a travaillé. (anterior) · Je pensais qu'il travaillait. (pasado, simultáneo) · Je pensais qu'il avait travaillé. (pasado, anterior)</span></p>",
+  "<p>En el subjonctif: al nivel C1 se usa principalmente subjonctif présent (simultáneo/posterior) y subjonctif passé (anterior).</p>"
+],
+exercises:[
+  {type:"fill",q:"Je pense qu'il ____ en ce moment. (travailler — simultáneo présent)",answers:["travaille"]},
+  {type:"fill",q:"Je pensais qu'il ____ quand je suis arrivé. (dormir — simultáneo passé)",answers:["dormait"]},
+  {type:"mcq",q:"'Elle savait qu'il ____ la veille.' (manger — anterior au passé)",options:["mange","mangera","avait mangé","mangerait"],correct:2},
+  {type:"fill",q:"Il m'a dit qu'il ____ le lendemain. (partir — posterior au passé)",answers:["partirait"]},
+  {type:"tf",q:"Après un verbe principal au passé, l'action simultanée se met à l'imparfait.",correct:true},
+  {type:"order",q:"Ordena la frase:",words:["savait","Elle","qu'il","avait","la","menti","veille."],correct:"Elle savait qu'il avait menti la veille."},
+  {type:"fill",q:"Je crois qu'il ____ demain. (venir — posterior présent)",answers:["viendra"]},
+  {type:"match",q:"Une la combinación con el tiempo correcto.",pairs:[["présent + simultáneo","présent"],["passé + simultáneo","imparfait"],["passé + anterior","PQP"],["passé + posterior","conditionnel"]]},
+  {type:"fill",q:"Elle pensait qu'il ____ déjà parti quand elle est arrivée.",answers:["était"]},
+  {type:"tf",q:"En discours indirect au passé, le futur devient conditionnel présent.",correct:true}
+]},
+
+{id:"subordonnees",num:2,title:"Propositions Subordonnées",emoji:"🔗📝",cardDesc:"bien que, pour que, à condition que — subordinadas avanzadas",
+explain:[
+  "<p>Las <b>propositions subordonnées</b> de nivel C1 requieren el <b>subjonctif</b> en muchos casos. Categorías principales:</p>",
+  "<p><b>Concesión</b>: <span class='ex-fr'>bien que · quoique · même si (+ indicatif) · malgré + nom · quelle que soit...</span></p>",
+  "<p><b>But (finalidad)</b>: <span class='ex-fr'>pour que · afin que · de peur que (ne) · de crainte que (ne)</span> → siempre subjonctif.</p>",
+  "<p><b>Condition</b>: <span class='ex-fr'>à condition que · pourvu que · à moins que (ne) · en admettant que</span> → subjonctif.</p>",
+  "<p><b>Temps</b>: <span class='ex-fr'>avant que (ne) + subj. · après que + indicatif (¡no subj.!) · jusqu'à ce que + subj.</span></p>"
+],
+vocab:[
+  {cat:"🔗 Conjonctions C1",items:[
+    {e:"⚖️",w:"bien que / quoique",p:"aunque (+ subj.)"},
+    {e:"🎯",w:"pour que / afin que",p:"para que (+ subj.)"},
+    {e:"✅",w:"à condition que",p:"a condición de que (+ subj.)"},
+    {e:"⚠️",w:"à moins que (ne)",p:"a menos que (+ subj.)"},
+    {e:"⏰",w:"avant que (ne)",p:"antes de que (+ subj.)"},
+    {e:"🔚",w:"jusqu'à ce que",p:"hasta que (+ subj.)"},
+    {e:"😨",w:"de peur que (ne)",p:"por miedo a que (+ subj.)"},
+    {e:"🔄",w:"après que",p:"después de que (+ indicatif)"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Bien qu'il ____ riche, il est très modeste. (être — subj.)",answers:["soit"]},
+  {type:"mcq",q:"'Pour que tu ____...' — ¿qué modo verbal va aquí?",options:["indicatif","conditionnel","subjonctif","infinitif"],correct:2},
+  {type:"fill",q:"Je partirai à condition que tu ____ aussi. (venir — subj.)",answers:["viennes"]},
+  {type:"tf",q:"'Après que' prend le subjonctif en français standard.",correct:false},
+  {type:"fill",q:"Il travaille jusqu'à ce qu'il ____ épuisé. (être — subj.)",answers:["soit"]},
+  {type:"order",q:"Ordena la frase:",words:["parte.","tu","que","Appelle-moi","avant"],correct:"Appelle-moi avant que tu partes."},
+  {type:"fill",q:"De peur qu'il ne ____, elle a répété l'information. (oublier — subj.)",answers:["oublie"]},
+  {type:"match",q:"Une la conjonction con su función.",pairs:[["bien que","concesión"],["pour que","finalidad"],["à condition que","condición"],["jusqu'à ce que","límite temporal"]]},
+  {type:"fill",q:"À moins qu'il ____ un problème, il sera là. (y avoir — subj.)",answers:["y ait"]},
+  {type:"tf",q:"'Malgré' est suivi d'un nom (pas d'un verbe conjugué).",correct:true}
+]},
+
+{id:"registres",num:3,title:"Les Registres de Langue",emoji:"🎭",cardDesc:"soutenu, courant, familier — adaptar el nivel lingüístico",
+explain:[
+  "<p>El francés tiene tres registros principales que varían según el contexto social:</p>",
+  "<p><b>Soutenu/formel</b>: écrit officiel, discours, littérature. <span class='ex-fr'>Je ne saurais vous dire. · Il convient de noter que... · Nonobstant ce fait...</span></p>",
+  "<p><b>Courant/standard</b>: conversación normal, medios. <span class='ex-fr'>Je ne sais pas. · Il faut remarquer que...</span></p>",
+  "<p><b>Familier/populaire</b>: amigos, coloquial. <span class='ex-fr'>J'sais pas. · Chui fatigué. · C'est pas cool. · Il y a → Y'a · Tu as → T'as</span></p>",
+  "<p>Conocer los tres registros es esencial para: <span class='ex-fr'>1. No sonar demasiado formal en contextos informales. 2. No sonar vulgar en contextos formales. 3. Comprender el francés real (películas, series, música).</span></p>"
+],
+vocab:[
+  {cat:"🎭 Équivalences de Registres",items:[
+    {e:"📝",w:"je ne sais pas → j'sais pas",p:"no sé (formal → coloquial)"},
+    {e:"🏠",w:"je suis fatigué → chui crevé",p:"estoy cansado → estoy agotado (argot)"},
+    {e:"👋",w:"bonjour → salut / coucou",p:"hola formal → hola informal"},
+    {e:"🚗",w:"une voiture → une bagnole",p:"coche → coche (argot)"},
+    {e:"💰",w:"de l'argent → du fric / du blé",p:"dinero → pasta (argot)"},
+    {e:"😊",w:"c'est bien → c'est cool / c'est top",p:"está bien → está guay (informal)"},
+    {e:"👮",w:"la police → les flics",p:"la policía → la poli (argot)"},
+    {e:"📱",w:"téléphoner → appeler / sonner",p:"telefonear → llamar (varios registros)"}
+  ]}
+],
+exercises:[
+  {type:"mcq",q:"'J'sais pas' appartient à quel registre?",options:["soutenu","courant","familier","littéraire"],correct:2},
+  {type:"fill",q:"En registre ____, on écrit 'je ne sais pas' (pas d'élision). (soutenu/standard)",answers:["standard","courant","soutenu"]},
+  {type:"match",q:"Une la expresión formal con su equivalente familiar.",pairs:[["je ne sais pas","j'sais pas"],["une voiture","une bagnole"],["de l'argent","du fric"],["la police","les flics"]]},
+  {type:"tf",q:"'Nonobstant' est un terme du registre soutenu.",correct:true},
+  {type:"mcq",q:"En una entrevista de trabajo, ¿qué registro usarías?",options:["familier","courant ou soutenu","argot","les trois"],correct:1},
+  {type:"fill",q:"'Chui crevé' est une forme ____ de 'je suis fatigué'. (familiar)",answers:["familière","familier"]},
+  {type:"speak",phrase:"En français, on adapte son langage selon le contexte: soutenu à l'écrit formel, familier avec les amis.",translation:"En francés, adaptamos el lenguaje según el contexto: formal en escritura oficial, coloquial con amigos."},
+  {type:"fill",q:"'Y'a pas de problème!' est une forme ____ de 'Il n'y a pas de problème'.",answers:["familière","populaire"]},
+  {type:"tf",q:"'Coucou' est une salutation familière qu'on utilise avec des amis proches.",correct:true},
+  {type:"mcq",q:"¿Cuál pertenece al registro soutenu?",options:["J'sais pas","Je ne saurais vous dire","C'est pas cool","T'as raison"],correct:1}
+]},
+
+{id:"idiomes",num:4,title:"Expressions Idiomatiques",emoji:"🦁",cardDesc:"avoir le cafard, casser les pieds — locuciones francesas",
+explain:[
+  "<p>Las <b>expressions idiomatiques</b> son locuciones cuyo significado no se puede deducir literalmente. Son esenciales para sonar natural en francés.</p>",
+  "<p>Algunas de las más frecuentes: <span class='ex-fr'>avoir le cafard (estar deprimido) · casser les pieds à quelqu'un (fastidiar a alguien) · avoir le coup de foudre (enamorarse a primera vista) · poser un lapin (dejar plantado) · avoir d'autres chats à fouetter (tener otras prioridades)</span></p>",
+  "<p>Con el cuerpo: <span class='ex-fr'>avoir les pieds sur terre (ser realista) · coûter les yeux de la tête (costar un ojo de la cara) · mettre les pieds dans le plat (meter la pata) · en avoir ras-le-bol (estar harto)</span></p>"
+],
+vocab:[
+  {cat:"🦁 Expressions du Corps",items:[
+    {e:"🐛",w:"avoir le cafard",p:"estar deprimido/con el bajón"},
+    {e:"🦶",w:"casser les pieds",p:"fastidiar / dar la lata"},
+    {e:"⚡",w:"coup de foudre",p:"amor a primera vista"},
+    {e:"🐱",w:"poser un lapin",p:"dejar plantado/a"},
+    {e:"👁️",w:"coûter les yeux de la tête",p:"costar un ojo de la cara"},
+    {e:"🌍",w:"avoir les pieds sur terre",p:"ser realista / con los pies en la tierra"},
+    {e:"🍽️",w:"mettre les pieds dans le plat",p:"meter la pata"},
+    {e:"😤",w:"en avoir ras-le-bol",p:"estar harto/a"}
+  ]},
+  {cat:"🐱 Plus d'Expressions",items:[
+    {e:"☔",w:"il pleut des cordes",p:"llover a cántaros"},
+    {e:"🎯",w:"avoir d'autres chats à fouetter",p:"tener otras prioridades (lit. otros gatos que azotar)"},
+    {e:"🌹",w:"ne pas être sorti de l'auberge",p:"no haber salido del paso aún"},
+    {e:"🤫",w:"garder un secret sous le coude",p:"guardar un secreto bajo la manga"},
+    {e:"🐔",w:"quand les poules auront des dents",p:"cuando las ranas críen pelo (nunca)"},
+    {e:"🥶",w:"avoir froid aux yeux",p:"ser cobarde (tener miedo)"}
+  ]}
+],
+exercises:[
+  {type:"mcq",q:"'Il a le cafard ce soir' significa:",options:["Está con cucarachas","Está deprimido","Tiene frío","Está feliz"],correct:1},
+  {type:"fill",q:"Ce voyage a coûté les ____ de la tête! (très cher)",answers:["yeux"]},
+  {type:"match",q:"Une la expresión con su traducción.",pairs:[["poser un lapin","dejar plantado"],["casser les pieds","fastidiar"],["coup de foudre","amor a primera vista"],["en avoir ras-le-bol","estar harto"]]},
+  {type:"tf",q:"'Mettre les pieds dans le plat' significa hacer algo elegantemente.",correct:false},
+  {type:"fill",q:"Elle a les pieds sur ____, elle sait ce qu'elle veut. (terre)",answers:["terre"]},
+  {type:"mcq",q:"'Il pleut des cordes' significa:",options:["hay cuerdas en la calle","llueve a cántaros","hay concierto","están de fiesta"],correct:1},
+  {type:"fill",q:"J'____ ras-le-bol de cette situation! (en avoir — estar harto)",answers:["en ai"]},
+  {type:"tf",q:"'Quand les poules auront des dents' signifie que quelque chose arrivera sûrement.",correct:false},
+  {type:"speak",phrase:"J'en ai ras-le-bol! Il m'a encore posé un lapin et ça m'a coûté les yeux de la tête.",translation:"¡Estoy harto! Me volvió a dejar plantado y me costó un ojo de la cara."},
+  {type:"mcq",q:"'Avoir d'autres chats à fouetter' significa:",options:["gustar los gatos","tener otras prioridades","jugar con animales","estar ocupado con gatos"],correct:1}
+]},
+
+{id:"redaction",num:5,title:"La Rédaction Formelle",emoji:"✍️",cardDesc:"lettre formelle, essai, synthèse — escribir en francés avanzado",
+explain:[
+  "<p>La escritura formal en francés tiene convenciones específicas. Para una <b>lettre formelle</b>:</p>",
+  "<p>Apertura: <span class='ex-fr'>Madame, Monsieur, · Je me permets de vous écrire au sujet de... · Suite à notre conversation...</span></p>",
+  "<p>Desarrollo: <span class='ex-fr'>Je souhaiterais vous informer que... · Il convient de préciser que... · Je vous serais reconnaissant(e) de bien vouloir...</span></p>",
+  "<p>Cierre: <span class='ex-fr'>Dans l'attente de votre réponse, je vous prie d'agréer, Madame/Monsieur, l'expression de mes salutations distinguées.</span></p>",
+  "<p>Para un <b>essai argumentatif</b>: <b>Introduction</b> (contexte + problématique + annonce du plan) → <b>Développement</b> (thèse/antithèse/synthèse) → <b>Conclusion</b> (bilan + ouverture).</p>"
+],
+exercises:[
+  {type:"fill",q:"Une lettre formelle commence par: 'Madame, ____,' (Monsieur)",answers:["Monsieur"]},
+  {type:"mcq",q:"¿Cómo se cierra formalmente una carta en francés?",options:["Bisous","Cordialement / Salutations distinguées","À bientôt!","Merci et au revoir"],correct:1},
+  {type:"fill",q:"'Je vous serais ____ de bien vouloir répondre.' (reconnaissant — formal)",answers:["reconnaissant","reconnaissante"]},
+  {type:"order",q:"Ordena las partes de un essai:",words:["Conclusion","Introduction","Développement"],correct:"Introduction Développement Conclusion"},
+  {type:"tf",q:"'Suite à notre conversation' est une formule pour débuter une lettre formelle.",correct:true},
+  {type:"fill",q:"'Il ____ de préciser que...' est une formule soutenue. (convient)",answers:["convient"]},
+  {type:"match",q:"Une la función con su fórmula.",pairs:[["abrir una carta","Je me permets de vous écrire"],["pedir algo formalmente","Je vous serais reconnaissant de"],["presentar un argumento","D'une part... D'autre part..."],["concluir un essai","En définitive, on peut conclure que"]]},
+  {type:"fill",q:"Dans un essai, la ____ présente le sujet et la problématique. (introduction)",answers:["introduction"]},
+  {type:"speak",phrase:"Je me permets de vous écrire au sujet du poste que vous avez publié. Je vous serais reconnaissant d'étudier ma candidature.",translation:"Me permito escribirles con respecto al puesto que publicaron. Les agradecería que estudien mi candidatura."},
+  {type:"tf",q:"Un essai argumentatif en français suit souvent le plan thèse-antithèse-synthèse.",correct:true}
+]},
+
+{id:"analyse-litteraire",num:6,title:"L'Analyse Littéraire",emoji:"📖",cardDesc:"figures de style, narration, personnages — analizar textos",
+explain:[
+  "<p>Para analizar un texto literario en francés se usan herramientas específicas de <b>figures de style</b> y vocabulario de análisis narrativo.</p>",
+  "<p><b>Figures de style clés</b>: <span class='ex-fr'>métaphore (comparación implícita) · simile/comparaison (como/pareil à) · personnification (atribuir cualidades humanas) · hyperbole (exageración) · ironie (decir lo contrario) · allitération (repetición de sonidos)</span></p>",
+  "<p>Vocabulario narrativo: <span class='ex-fr'>le narrateur · le point de vue (interne/externe/omniscient) · le temps du récit · le cadre spatio-temporel · le personnage principal / secondaire · le dénouement</span></p>"
+],
+vocab:[
+  {cat:"🖊️ Figures de Style",items:[
+    {e:"🌹",w:"métaphore",p:"metáfora"},
+    {e:"👁️",w:"comparaison",p:"comparación (como...)"},
+    {e:"🌊",w:"personnification",p:"personificación"},
+    {e:"📢",w:"hyperbole",p:"hipérbole (exageración)"},
+    {e:"😏",w:"ironie",p:"ironía"},
+    {e:"🔤",w:"allitération",p:"aliteración"}
+  ]},
+  {cat:"📖 Vocabulaire Narratif",items:[
+    {e:"👤",w:"le narrateur",p:"el narrador"},
+    {e:"👁️",w:"le point de vue",p:"el punto de vista"},
+    {e:"🏰",w:"le cadre spatio-temporel",p:"el marco espacio-temporal"},
+    {e:"🎭",w:"le personnage",p:"el personaje"},
+    {e:"🔚",w:"le dénouement",p:"el desenlace"},
+    {e:"📝",w:"le thème",p:"el tema"}
+  ]}
+],
+exercises:[
+  {type:"mcq",q:"'La vie est un long fleuve tranquille' est une:",options:["comparaison","métaphore","hyperbole","ironie"],correct:1},
+  {type:"fill",q:"'Il est CENT FOIS plus intelligent que toi' est une ____. (exageración)",answers:["hyperbole"]},
+  {type:"match",q:"Une la figure con su definición.",pairs:[["métaphore","comparación implícita"],["ironie","decir lo contrario de lo que se piensa"],["personnification","dar vida humana a un objeto"],["allitération","repetición de sonidos"]]},
+  {type:"fill",q:"Le ____ est la personne qui raconte l'histoire. (narrateur)",answers:["narrateur"]},
+  {type:"tf",q:"'Le dénouement' est la partie finale d'une histoire où les conflits se résolvent.",correct:true},
+  {type:"fill",q:"Le ____ spatio-temporel décrit le lieu et l'époque de l'histoire. (cadre)",answers:["cadre"]},
+  {type:"mcq",q:"'Comme un lion en cage' est:",options:["une métaphore","une ironie","une comparaison","une hyperbole"],correct:2},
+  {type:"speak",phrase:"Dans ce roman, le narrateur omniscient décrit les pensées des personnages avec une grande précision.",translation:"En esta novela, el narrador omnisciente describe los pensamientos de los personajes con gran precisión."},
+  {type:"fill",q:"L'____ consiste à dire le contraire de ce qu'on pense, souvent pour critiquer. (ironie)",answers:["ironie"]},
+  {type:"tf",q:"Le 'point de vue interne' signifie que le narrateur connaît les pensées d'un seul personnage.",correct:true}
+]},
+
+{id:"philosophie-fr",num:7,title:"La Philosophie Française",emoji:"🤔",cardDesc:"Descartes, Sartre, Simone de Beauvoir — pensamiento francés",
+explain:[
+  "<p>La filosofía francesa ha influido profundamente en el pensamiento occidental. Conceptos clave para entender el debate intelectual francés.</p>",
+  "<p><b>Descartes</b> (s. XVII): <span class='ex-fr'>«Je pense, donc je suis» (Cogito ergo sum)</span> — el racionalismo. La razón como fuente del conocimiento.</p>",
+  "<p><b>Sartre & l'Existentialisme</b> (s. XX): <span class='ex-fr'>«L'existence précède l'essence»</span> — somos lo que hacemos, no hay naturaleza humana predeterminada. <b>Liberté, responsabilité, mauvaise foi.</b></p>",
+  "<p><b>Simone de Beauvoir</b>: <span class='ex-fr'>«On ne naît pas femme, on le devient»</span> — el feminismo existencialiste. El género como construcción social.</p>",
+  "<p>Conceptos filosóficos clave: <span class='ex-fr'>la raison · la liberté · l'être · le néant · l'absurde (Camus) · la déconstruction (Derrida)</span></p>"
+],
+vocab:[
+  {cat:"🤔 Concepts Philosophiques",items:[
+    {e:"💡",w:"la raison",p:"la razón"},
+    {e:"🆓",w:"la liberté",p:"la libertad"},
+    {e:"🌀",w:"l'être et le néant",p:"el ser y la nada (Sartre)"},
+    {e:"😵",w:"l'absurde",p:"el absurdo (Camus)"},
+    {e:"🔬",w:"le rationalisme",p:"el racionalismo"},
+    {e:"🙋",w:"l'existentialisme",p:"el existencialismo"},
+    {e:"♀️",w:"le féminisme",p:"el feminismo"},
+    {e:"📚",w:"la déconstruction",p:"la deconstrucción (Derrida)"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Descartes a dit: «Je pense, donc ____». (je suis)",answers:["je suis"]},
+  {type:"mcq",q:"¿Qué corriente representa Sartre?",options:["racionalismo","existencialismo","empirismo","estructuralismo"],correct:1},
+  {type:"fill",q:"Simone de Beauvoir a écrit: «On ne naît pas femme, on le ____». (devient)",answers:["devient"]},
+  {type:"tf",q:"Pour Sartre, 'l'existence précède l'essence' signifie que nous créons notre propre identité.",correct:true},
+  {type:"match",q:"Une el filósofo con su idea clave.",pairs:[["Descartes","Je pense, donc je suis"],["Sartre","l'existence précède l'essence"],["Simone de Beauvoir","on ne naît pas femme"],["Camus","l'absurde"]]},
+  {type:"fill",q:"L'____ est un mouvement philosophique qui affirme la liberté totale de l'être humain. (existentialisme)",answers:["existentialisme"]},
+  {type:"mcq",q:"¿Cuál filósofo francés desarrolló 'la déconstruction'?",options:["Sartre","Camus","Derrida","Voltaire"],correct:2},
+  {type:"speak",phrase:"La philosophie française a profondément influencé la pensée mondiale avec Descartes, Sartre et Simone de Beauvoir.",translation:"La filosofía francesa ha influido profundamente en el pensamiento mundial con Descartes, Sartre y Simone de Beauvoir."},
+  {type:"fill",q:"Pour Camus, l'____ est la confrontation entre le désir de sens et le silence du monde. (absurde)",answers:["absurde"]},
+  {type:"tf",q:"Le racionalisme de Descartes place la raison au centre de la connaissance.",correct:true}
+]},
+
+{id:"humour-ironie",num:8,title:"L'Humour et l'Ironie",emoji:"😄",cardDesc:"le second degré, les jeux de mots — el humor francés",
+explain:[
+  "<p>El humor francés se caracteriza por el <b>second degré</b> (ironía e indirección), los <b>jeux de mots</b> (juegos de palabras) y la <b>dérision</b> (burla de todo, incluido de uno mismo).</p>",
+  "<p><b>Jeux de mots</b> (calembours): explotan la homofonía o polisemia: <span class='ex-fr'>«Un crocodile ne mange pas d'avocat» (abogado/aguacate). «Pourquoi les plongeurs plongent-ils en arrière? Parce que s'ils plongeaient en avant, ils tomberaient dans le bateau!»</span></p>",
+  "<p><b>L'ironie</b>: decir lo contrario de lo que se piensa para criticar o humorizar. Frecuente en prensa, literatura y conversación francesa: <span class='ex-fr'>«Super, encore de la pluie à Paris!»</span></p>",
+  "<p><b>L'auto-dérision</b>: reírse de uno mismo — muy valorado en la cultura francesa.</p>"
+],
+exercises:[
+  {type:"mcq",q:"¿Qué es el 'second degré' en el humor francés?",options:["Doble entendido / ironía","Humor grosero","Chistes de números","Humor infantil"],correct:0},
+  {type:"fill",q:"Un jeu de mots qui exploite des sons similaires s'appelle un ____. (calembour)",answers:["calembour"]},
+  {type:"tf",q:"L'ironie consiste à dire littéralement ce qu'on pense.",correct:false},
+  {type:"mcq",q:"'Quelle belle journée!' dit quelqu'un sous la pluie. C'est:",options:["un compliment","de l'ironie","un jeu de mots","de l'humour noir"],correct:1},
+  {type:"fill",q:"L'____ est la capacité de se moquer de soi-même avec humour. (auto-dérision)",answers:["auto-dérision"]},
+  {type:"match",q:"Une el tipo de humor con su descripción.",pairs:[["ironie","decir lo contrario",""],["calembour","juego de palabras homófonas",""],["second degré","doble lectura o ironía",""],["auto-dérision","reírse de uno mismo",""]]},
+  {type:"fill",q:"Le ____ français apprécie particulièrement le second degré et l'ironie. (humour)",answers:["humour"]},
+  {type:"speak",phrase:"L'humour français est souvent basé sur le second degré, l'ironie et les jeux de mots.",translation:"El humor francés se basa a menudo en el doble sentido, la ironía y los juegos de palabras."},
+  {type:"tf",q:"'Un calembour' est un jeu de mots basé sur la ressemblance sonore entre deux mots.",correct:true},
+  {type:"mcq",q:"¿Qué característica define más el humor francés?",options:["los chistes físicos","el second degré y la dérision","el humor de situación","los chistes verdes"],correct:1}
+]},
+
+{id:"expression-orale",num:9,title:"Expression Orale Avancée",emoji:"🎙️",cardDesc:"débat, nuances, hésitation — hablar como un nativo",
+explain:[
+  "<p>Al nivel C1, no basta con ser correcto — hay que sonar <b>natural</b>. Aprende las marcas del discurso oral avanzado en francés.</p>",
+  "<p><b>Marcadores de hesitación</b> (normales y necesarios): <span class='ex-fr'>Euh... · Hm... · Comment dire... · C'est-à-dire... · En quelque sorte... · Dans un sens...</span></p>",
+  "<p><b>Matizar y conceder</b>: <span class='ex-fr'>Certes... mais... · Il faut nuancer... · Ce n'est pas si simple... · Ça dépend des cas... · En règle générale, mais pas toujours...</span></p>",
+  "<p><b>Reformular</b>: <span class='ex-fr'>Autrement dit... · En d'autres termes... · Si je comprends bien... · Ce que je veux dire, c'est que...</span></p>"
+],
+vocab:[
+  {cat:"🎙️ Expressions Orales",items:[
+    {e:"💭",w:"comment dire...",p:"cómo decirlo..."},
+    {e:"↔️",w:"c'est-à-dire",p:"es decir"},
+    {e:"🔄",w:"autrement dit",p:"dicho de otro modo"},
+    {e:"⚖️",w:"il faut nuancer",p:"hay que matizar"},
+    {e:"🎯",w:"ce que je veux dire",p:"lo que quiero decir"},
+    {e:"📌",w:"en règle générale",p:"por regla general"},
+    {e:"🤔",w:"ça dépend des cas",p:"depende del caso"},
+    {e:"🔍",w:"si je comprends bien",p:"si entiendo bien"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Pour reformuler: '______ dit, il n'est pas d'accord.' (autrement)",answers:["Autrement"]},
+  {type:"mcq",q:"'Il faut nuancer' signifie:",options:["Hay que gritar","Hay que matizar","Hay que repetir","Hay que callar"],correct:1},
+  {type:"fill",q:"'____ dépend des cas' — phrase pour relativiser.",answers:["Ça"]},
+  {type:"tf",q:"Les marqueurs d'hésitation comme 'euh' sont à éviter totalement dans le discours C1.",correct:false},
+  {type:"order",q:"Ordena para reformular:",words:["dire,","je","que...","veux","Ce","c'est"],correct:"Ce que je veux dire, c'est que..."},
+  {type:"match",q:"Une la fonction con su expresión.",pairs:[["hésitation","comment dire..."],["concesión","certes... mais..."],["reformulación","autrement dit"],["generalización","en règle générale"]]},
+  {type:"fill",q:"Pour introduire une explication: '____-à-dire que c'est difficile.' (c'est)",answers:["c'est"]},
+  {type:"speak",phrase:"Certes, il a raison sur ce point. Mais il faut nuancer: ça dépend des cas et du contexte.",translation:"Ciertamente tiene razón en ese punto. Pero hay que matizar: depende del caso y del contexto."},
+  {type:"fill",q:"'____ je comprends bien, tu n'es pas d'accord.' (Si)",answers:["Si"]},
+  {type:"tf",q:"'En quelque sorte' est une expression pour atténuer ou nuancer ce qu'on dit.",correct:true}
+]},
+
+{id:"revision-c1",num:10,title:"Révision C1",emoji:"🎓",cardDesc:"síntesis completa del nivel C1 — dominio avanzado",
+explain:[
+  "<p>¡Nivel C1 — Usuario Competente! A este nivel puedes expresarte con fluidez, precisión y matiz en casi todas las situaciones. Este repaso consolida lo esencial del C1.</p>",
+  "<p>Capacidades C1: <span class='ex-fr'>Comprender textos largos y complejos · Expresarse espontáneamente · Usar el lenguaje de forma flexible · Comprender el humor, la ironía y las connotaciones · Escribir textos claros y bien estructurados sobre temas complejos.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Bien qu'il ____ travaillé dur, il n'a pas réussi. (subjonctif passé)",answers:["ait"]},
+  {type:"mcq",q:"¿Qué registro usa 'Je vous serais reconnaissant de'?",options:["familier","courant","soutenu","argot"],correct:2},
+  {type:"fill",q:"'Il pleut des ____' — expression idiomatique pour une forte pluie.",answers:["cordes"]},
+  {type:"fill",q:"La vie est un long fleuve tranquille → figure de style: ____",answers:["métaphore"]},
+  {type:"mcq",q:"¿Cuál filósofo dijo 'l'existence précède l'essence'?",options:["Descartes","Camus","Sartre","Derrida"],correct:2},
+  {type:"fill",q:"Pour reformuler: 'Autrement ____, il refuse.' (dit)",answers:["dit"]},
+  {type:"match",q:"Une el nivel con el concepto.",pairs:[["C1 subjonctif","bien que + subj. passé"],["C1 registre","soutenu / courant / familier"],["C1 idiomes","avoir le cafard"],["C1 analyse","métaphore, ironie, narrateur"]]},
+  {type:"fill",q:"Un calembour est un ____ de mots. (jeu)",answers:["jeu"]},
+  {type:"speak",phrase:"En tant qu'utilisateur C1, je peux m'exprimer avec précision, nuance et spontanéité dans presque toutes les situations.",translation:"Como usuario C1, puedo expresarme con precisión, matiz y espontaneidad en casi todas las situaciones."},
+  {type:"tf",q:"Au niveau C1, on comprend les sous-entendus, l'ironie et les expressions idiomatiques.",correct:true}
+]}
+
+];
+
+window.LP_TOPICS['fr-5'].push({
+  id:"conversation-c1",num:11,title:"Salle de Conversation C1",emoji:"💬",
+  cardDesc:"Debates filosóficos, humor y análisis cultural",
+  isChat:true,
+  explain:["<p>Conversaciones avanzadas de nivel C1: debates filosóficos, humor con second degré, análisis literarios y expresión oral matizada. ¡Aquí eres casi bilingüe!</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['fr-5'] = {
+  scenarios:[
+    {id:"philo-debate",title:"Débat philosophique",emoji:"🤔",setup:"Debatís sobre la libertad y la responsabilité existentialiste.",partner:{emoji:"🧑‍🎓",name:"Prof. Moreau"},opener:"Sartre disait que nous sommes «condamnés à être libres». Qu'est-ce que cela signifie pour vous?"},
+    {id:"literary-analysis",title:"Analyse d'un texte",emoji:"📖",setup:"Analizáis un extracto de novela francesa.",partner:{emoji:"📚",name:"Isabelle"},opener:"Quel est, selon vous, le point de vue narratif de cet extrait et quelles figures de style y remarquez-vous?"},
+    {id:"humor-culture",title:"L'humour et la culture",emoji:"😄",setup:"Habláis del humor y las diferencias culturales.",partner:{emoji:"😄",name:"Antoine"},opener:"Vous trouvez que l'humour français est difficile à comprendre? Qu'est-ce qui vous fait rire?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  FRENCH — NIVEAU 6 (C2)
+// ══════════════════════════════════
+window.LP_TOPICS['fr-6'] = [
+
+{id:"stylistique",num:1,title:"La Stylistique",emoji:"🖊️✨",cardDesc:"rhythm, tonalité, registre — el arte de escribir en francés",
+explain:[
+  "<p>La <b>stylistique</b> estudia cómo el estilo de un texto crea efectos de sentido. Al nivel C2 comprendes y produces textos con un estilo consciente y elaborado.</p>",
+  "<p><b>Rythme</b>: la organización de las frases crea ritmo. Frases cortas → urgencia, impacto: <span class='ex-fr'>«Il vint. Il vit. Il vainquit.»</span> Frases largas → reflexión, amplitud.</p>",
+  "<p><b>Tonalité</b>: el tono emocional del texto. <span class='ex-fr'>tonalité lyrique (emotiva) · tragique · comique · satirique · épique · polémique</span></p>",
+  "<p><b>Niveau de langue</b>: la elección del vocabulario (soutenu/courant/familier) define el registro y el efecto del texto.</p>",
+  "<p>Técnicas avanzadas: <span class='ex-fr'>l'anaphore (répétition en tête de phrase) · l'oxymore (contraste: lumière obscure) · la litote (atténuation: ce n'est pas mauvais = c'est bon) · le chiasme (AB/BA: il faut manger pour vivre, et non vivre pour manger)</span></p>"
+],
+vocab:[
+  {cat:"🖊️ Figures de Style Avancées",items:[
+    {e:"🔄",w:"anaphore",p:"anáfora (repetición al inicio)"},
+    {e:"⚫⚪",w:"oxymore",p:"oxímoron (contraste: silencio estruendoso)"},
+    {e:"🤏",w:"litote",p:"lítote (atenuar: no está mal = está bien)"},
+    {e:"✖️",w:"chiasme",p:"quiasmo (AB/BA)"},
+    {e:"🎭",w:"périphrase",p:"perífrasis (rodeo verbal)"},
+    {e:"📢",w:"anaphore",p:"anáfora"},
+    {e:"🔢",w:"énumération",p:"enumeración"},
+    {e:"🌙",w:"euphémisme",p:"eufemismo"}
+  ]}
+],
+exercises:[
+  {type:"mcq",q:"'Il vint. Il vit. Il vainquit.' — l'effet des phrases courtes est:",options:["ambiguïté","impact et urgence","longueur","hésitation"],correct:1},
+  {type:"fill",q:"'Ce n'est pas mauvais du tout!' pour dire 'c'est excellent' est une ____. (litote)",answers:["litote"]},
+  {type:"match",q:"Une la figura con su descripción.",pairs:[["oxymore","contraste en dos palabras juntas"],["anaphore","repetición al inicio de frases"],["chiasme","estructura AB/BA"],["euphémisme","atenuar una realidad dura"]]},
+  {type:"fill",q:"Un texte épique a une tonalité ____ et héroïque. (grandiose/épique)",answers:["épique","grandiose"]},
+  {type:"tf",q:"La litote consiste à dire moins pour signifier plus.",correct:true},
+  {type:"fill",q:"'Manger pour vivre et non vivre pour manger' est un ____. (chiasme)",answers:["chiasme"]},
+  {type:"speak",phrase:"La stylistique analyse comment le rythme, le registre et les figures de style créent des effets dans un texte.",translation:"La estilística analiza cómo el ritmo, el registro y las figuras del habla crean efectos en un texto."},
+  {type:"mcq",q:"'Lumière obscure' es un ejemplo de:",options:["anaphore","litote","oxymore","chiasme"],correct:2},
+  {type:"fill",q:"La ____ satírica critique la société avec humour. (tonalité)",answers:["tonalité"]},
+  {type:"tf",q:"L'anaphore crée un effet de rythme et d'insistance par la répétition.",correct:true}
+]},
+
+{id:"rhetorique",num:2,title:"La Rhétorique",emoji:"🗣️🏛️",cardDesc:"ethos, pathos, logos — el arte de la persuasión",
+explain:[
+  "<p>La <b>rhétorique</b> es el arte de la persuasión, heredado de los griegos. Al nivel C2 comprendes cómo funciona el discurso persuasivo.</p>",
+  "<p>Los tres pilares aristotélicos: <span class='ex-fr'>Ethos (la credibilidad del orador) · Pathos (apelar a las emociones del público) · Logos (la lógica y los argumentos racionales)</span></p>",
+  "<p>Técnicas retóricas: <span class='ex-fr'>question rhétorique (pregunta sin respuesta esperada) · tricolon (lista de tres: «veni, vidi, vici») · antithèse (oposición: «La vie est courte, l'art est long») · concession rhétorique (admitir para luego refutar mejor)</span></p>",
+  "<p>El discurso político y periodístico usa intensamente estos recursos. Reconocerlos permite analizar críticamente los medios.</p>"
+],
+exercises:[
+  {type:"mcq",q:"¿Qué es el 'pathos' en retórica?",options:["la lógica argumentativa","la credibilidad del orador","el llamado a las emociones","el uso de datos"],correct:2},
+  {type:"fill",q:"'N'est-ce pas évident?' est une ____ rhétorique. (question)",answers:["question"]},
+  {type:"match",q:"Une el concepto retórico con su descripción.",pairs:[["ethos","credibilidad del hablante"],["pathos","apela a emociones"],["logos","argumento racional"],["tricolon","lista de tres elementos"]]},
+  {type:"tf",q:"La 'question rhétorique' attend toujours une réponse précise de l'interlocuteur.",correct:false},
+  {type:"fill",q:"'Veni, vidi, vici' est un exemple de ____. (tricolon)",answers:["tricolon"]},
+  {type:"mcq",q:"'La vie est courte, l'art est long' es una:",options:["métaphore","antithèse","question rhétorique","litote"],correct:1},
+  {type:"fill",q:"Reconnaître les techniques ____ permet d'analyser critiquement les discours politiques. (rhétoriques)",answers:["rhétoriques"]},
+  {type:"speak",phrase:"Un bon orateur combine l'ethos, le pathos et le logos pour convaincre efficacement son auditoire.",translation:"Un buen orador combina el ethos, el pathos y el logos para convencer eficazmente a su audiencia."},
+  {type:"tf",q:"La concession rhétorique consiste à admettre un point adverse pour mieux le réfuter ensuite.",correct:true},
+  {type:"fill",q:"'Liberté, Égalité, Fraternité' est un ____ célèbre. (tricolon)",answers:["tricolon"]}
+]},
+
+{id:"litterature-classique",num:3,title:"Littérature Classique",emoji:"📚🕯️",cardDesc:"Molière, Proust, Camus — los grandes de la literatura francesa",
+explain:[
+  "<p>La literatura francesa es una de las más influyentes del mundo. Conocer sus grandes autores y obras es esencial al nivel C2.</p>",
+  "<p><b>Clásicos siglo XVII-XVIII</b>: <span class='ex-fr'>Molière (Le Misanthrope, Tartuffe — comédie classique) · Racine (Phèdre — tragédie classique) · Voltaire (Candide — conte philosophique)</span></p>",
+  "<p><b>Siglo XIX</b>: <span class='ex-fr'>Victor Hugo (Les Misérables, Notre-Dame de Paris) · Gustave Flaubert (Madame Bovary — réalisme) · Émile Zola (Germinal — naturalisme) · Baudelaire (Les Fleurs du Mal — symbolisme)</span></p>",
+  "<p><b>Siglo XX</b>: <span class='ex-fr'>Marcel Proust (À la recherche du temps perdu) · Albert Camus (L'Étranger, La Peste) · Simone de Beauvoir (Le Deuxième Sexe) · Samuel Beckett (En attendant Godot)</span></p>"
+],
+vocab:[
+  {cat:"📚 Auteurs et Œuvres",items:[
+    {e:"🎭",w:"Molière — Le Misanthrope",p:"comedia clásica (s. XVII)"},
+    {e:"⚡",w:"Voltaire — Candide",p:"cuento filosófico (s. XVIII)"},
+    {e:"🏰",w:"Victor Hugo — Les Misérables",p:"novela romántica (s. XIX)"},
+    {e:"💔",w:"Flaubert — Madame Bovary",p:"realismo (s. XIX)"},
+    {e:"🌹",w:"Baudelaire — Les Fleurs du Mal",p:"simbolismo (s. XIX)"},
+    {e:"⏳",w:"Proust — À la recherche du temps perdu",p:"modernismo (s. XX)"},
+    {e:"🌊",w:"Camus — L'Étranger",p:"absurdismo (s. XX)"},
+    {e:"🚪",w:"Beckett — En attendant Godot",p:"teatro del absurdo (s. XX)"}
+  ]}
+],
+exercises:[
+  {type:"mcq",q:"¿Quién escribió 'Les Misérables'?",options:["Flaubert","Zola","Victor Hugo","Proust"],correct:2},
+  {type:"fill",q:"'L'Étranger' est le roman de Camus qui explore l'____ de l'existence. (absurde)",answers:["absurde"]},
+  {type:"match",q:"Une el autor con su obra.",pairs:[["Molière","Le Misanthrope"],["Voltaire","Candide"],["Flaubert","Madame Bovary"],["Camus","L'Étranger"]]},
+  {type:"tf",q:"Marcel Proust est l'auteur de 'À la recherche du temps perdu'.",correct:true},
+  {type:"fill",q:"Baudelaire est l'auteur de 'Les Fleurs du ____'. (Mal)",answers:["Mal"]},
+  {type:"mcq",q:"¿A qué movimiento pertenece Zola?",options:["classicisme","romantisme","naturalisme","symbolisme"],correct:2},
+  {type:"speak",phrase:"La littérature française, de Molière à Camus, reflète l'histoire intellectuelle et culturelle de la France.",translation:"La literatura francesa, de Molière a Camus, refleja la historia intelectual y cultural de Francia."},
+  {type:"fill",q:"'En attendant Godot' de Beckett est une pièce de théâtre de l'____. (absurde)",answers:["absurde"]},
+  {type:"tf",q:"Simone de Beauvoir a écrit 'Le Deuxième Sexe', une œuvre féministe fondamentale.",correct:true},
+  {type:"mcq",q:"Racine appartient au courant du:",options:["naturalisme","classicisme du XVIIe siècle","romantisme","existentialisme"],correct:1}
+]},
+
+{id:"linguistique",num:4,title:"La Linguistique Française",emoji:"🔬💬",cardDesc:"phonologie, syntaxe, évolution de la langue française",
+explain:[
+  "<p>La <b>linguistique</b> es el estudio científico de la lengua. Conocer los fundamentos de la lingüística francesa te da una comprensión profunda del idioma.</p>",
+  "<p><b>Phonologie</b>: el francés tiene 37 fonemas. Características únicas: <span class='ex-fr'>les sons nasaux (in, on, an, un) · la liaison (les_amis) · l'élision (je → j') · l'enchaînement (il est → il-est)</span></p>",
+  "<p><b>Évolution historique</b>: latín vulgar → ancien français (s. IX) → moyen français (s. XIV-XVI) → français classique (s. XVII) → français moderne. La <b>Académie française</b> (fondée 1635) vela por la lengua.</p>",
+  "<p><b>Variations</b>: <span class='ex-fr'>le français québécois · le français africain · le créole · les patois régionaux · le verlan (argot inversé: l'envers → le verlan)</span></p>"
+],
+vocab:[
+  {cat:"🔬 Concepts Linguistiques",items:[
+    {e:"🔊",w:"la phonologie",p:"la fonología"},
+    {e:"🔗",w:"la liaison",p:"la liaison (enlace entre palabras)"},
+    {e:"🗣️",w:"la syntaxe",p:"la sintaxis"},
+    {e:"📖",w:"la sémantique",p:"la semántica"},
+    {e:"🔤",w:"l'étymologie",p:"la etimología"},
+    {e:"🗺️",w:"la dialectologie",p:"la dialectología"},
+    {e:"🔄",w:"le verlan",p:"el verlan (argot invertido)"},
+    {e:"🏛️",w:"l'Académie française",p:"la Academia francesa"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Le français a évolué du latin vulgar jusqu'au français ____. (moderne)",answers:["moderne"]},
+  {type:"mcq",q:"¿Qué es 'le verlan'?",options:["una región de Francia","un argot con palabras invertidas","un dialecto normando","un acento belga"],correct:1},
+  {type:"fill",q:"'Les_amis' — le phénomène qui relie les mots à l'oral s'appelle la ____. (liaison)",answers:["liaison"]},
+  {type:"match",q:"Une la concept linguístico con su definición.",pairs:[["phonologie","estudio de los sonidos"],["sémantique","estudio del significado"],["syntaxe","estudio de la estructura"],["étymologie","estudio del origen"]]},
+  {type:"tf",q:"L'Académie française a été fondée au XVIIe siècle pour réguler la langue française.",correct:true},
+  {type:"fill",q:"'L'envers' en verlan devient '____'. (verlan)",answers:["verlan"]},
+  {type:"speak",phrase:"La langue française a évolué sur plus de mille ans, depuis le latin jusqu'au français contemporain.",translation:"La lengua francesa ha evolucionado durante más de mil años, desde el latín hasta el francés contemporáneo."},
+  {type:"fill",q:"Les sons nasaux comme [ɑ̃] dans 'enfant' sont une caractéristique de la ____ française. (phonologie)",answers:["phonologie"]},
+  {type:"tf",q:"Le français québécois est une variété régionale du français parlée au Canada.",correct:true},
+  {type:"mcq",q:"¿Cuántos fonemas tiene aproximadamente el francés?",options:["20","37","50","15"],correct:1}
+]},
+
+{id:"jeux-de-mots",num:5,title:"Jeux de Mots et Créativité",emoji:"🎲💬",cardDesc:"calembours, contrepèteries, néologismes — creatividad lingüística",
+explain:[
+  "<p>Los <b>jeux de mots</b> son la cumbre de la maestría lingüística en francés. Requieren dominar homofonía, polisemia y la cultura de la lengua.</p>",
+  "<p><b>Calembour</b> (juego de palabras homófonas/polisémicas): <span class='ex-fr'>«Un crocodile ne mange pas d'avocat» (abogado/aguacate). «Je suis entré dans la boulangerie et j'ai demandé si c'était bien à pain» (en vain = en balde / à pain = de pan).</span></p>",
+  "<p><b>Contrepèterie</b> (inversión de sílabas cómica): técnica de humor muy francesa, frecuente en revistas satíricas como Le Canard Enchaîné.</p>",
+  "<p><b>Néologismes</b>: creación de palabras nuevas — el francés adopta y crea: <span class='ex-fr'>courriel (e-mail), baladodiffusion (podcast), logiciel (software), informatique.</span></p>"
+],
+exercises:[
+  {type:"mcq",q:"Un calembour exploite:",options:["la grammaire","la homofonía y polisemia","la sintaxis","la morphologie"],correct:1},
+  {type:"fill",q:"'Courriel' est le néologisme français pour ____. (email)",answers:["e-mail","email","mail"]},
+  {type:"tf",q:"'Le Canard Enchaîné' est un journal satirique français connu pour ses jeux de mots.",correct:true},
+  {type:"fill",q:"'Logiciel' est le néologisme français pour ____. (software)",answers:["software"]},
+  {type:"mcq",q:"¿Qué es una 'contrepèterie'?",options:["repetición de palabras","inversión cómica de sílabas","pregunta retórica","anáfora"],correct:1},
+  {type:"fill",q:"'Baladodiffusion' est le terme français pour ____. (podcast)",answers:["podcast"]},
+  {type:"speak",phrase:"Les jeux de mots en français révèlent une maîtrise totale de la phonologie, de la sémantique et de la culture.",translation:"Los juegos de palabras en francés revelan un dominio total de la fonología, la semántica y la cultura."},
+  {type:"fill",q:"Un ____ exploite la ressemblance sonore entre deux mots de sens différents. (calembour)",answers:["calembour"]},
+  {type:"tf",q:"'Informatique' est un néologisme français créé à partir de 'information' et 'automatique'.",correct:true},
+  {type:"mcq",q:"¿Qué revista satírica francesa es famosa por sus jeux de mots y contrepèteries?",options:["Le Monde","Le Canard Enchaîné","L'Express","Libération"],correct:1}
+]},
+
+{id:"textes-authentiques",num:6,title:"Textes Authentiques",emoji:"📰🎬",cardDesc:"presse, cinéma, chanson — comprender el francés real",
+explain:[
+  "<p>Al nivel C2 debes poder comprender <b>cualquier texto auténtico</b> sin dificultad: prensa de opinión, diálogos de películas, letras de canciones, discursos políticos.</p>",
+  "<p><b>Presse d'opinion</b>: Le Monde, Le Figaro, Libération — cada diario tiene su línea editorial. Vocabulario: <span class='ex-fr'>l'éditorial · la chronique · la rubrique · le billet · l'enquête · le reportage</span></p>",
+  "<p><b>Cinéma</b>: comprender actores hablando rápido con argot, elisions, liaison. Directores esenciales: Truffaut, Godard (Nouvelle Vague), Luc Besson, Agnès Varda.</p>",
+  "<p><b>Chanson française</b>: Piaf, Brel, Gainsbourg, Stromae — rica en referencias culturales, argot y juegos de mots.</p>"
+],
+vocab:[
+  {cat:"📰 Presse et Médias",items:[
+    {e:"📝",w:"l'éditorial",p:"el editorial"},
+    {e:"✍️",w:"la chronique",p:"la crónica"},
+    {e:"🔍",w:"l'enquête",p:"la investigación periodística"},
+    {e:"📌",w:"la rubrique",p:"la sección (del periódico)"},
+    {e:"💬",w:"le billet",p:"el artículo de opinión breve"},
+    {e:"🎬",w:"la Nouvelle Vague",p:"la Nouvelle Vague (movimiento cine)"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"'L'éditorial' est l'article qui exprime la position de la ____. (rédaction / ligne éditoriale)",answers:["rédaction","ligne éditoriale"]},
+  {type:"mcq",q:"¿Cuál director pertenece a la Nouvelle Vague?",options:["Luc Besson","François Truffaut","Jean-Pierre Jeunet","Patrice Leconte"],correct:1},
+  {type:"fill",q:"Jacques Brel et Édith Piaf sont des icônes de la ____ française. (chanson)",answers:["chanson"]},
+  {type:"match",q:"Une el término con su significado.",pairs:[["éditorial","posición del periódico"],["chronique","crónica regular"],["enquête","investigación periodística"],["rubrique","sección del diario"]]},
+  {type:"tf",q:"Stromae est un artiste belge francophone contemporain très populaire.",correct:true},
+  {type:"fill",q:"La ____ Vague est un mouvement cinématographique français des années 1960. (Nouvelle)",answers:["Nouvelle"]},
+  {type:"speak",phrase:"Comprendre la presse, le cinéma et la chanson françaises est la marque d'une maîtrise C2.",translation:"Comprender la prensa, el cine y la canción francesa es la señal del dominio C2."},
+  {type:"fill",q:"'Libération' est un journal français de tendance ____. (gauche/progressiste)",answers:["gauche","progressiste"]},
+  {type:"tf",q:"Agnès Varda est une cinéaste française pionnière de la Nouvelle Vague.",correct:true},
+  {type:"mcq",q:"¿Qué es 'un billet' dans la presse?",options:["un titre","un article d'opinion court","une photo","une publicité"],correct:1}
+]},
+
+{id:"france-contemporaine",num:7,title:"La France Contemporaine",emoji:"🇫🇷🌐",cardDesc:"laïcité, identité nationale, francophonie — la Francia actual",
+explain:[
+  "<p>Para dominar el francés a nivel C2 es indispensable entender los grandes debates de la sociedad francesa contemporánea.</p>",
+  "<p><b>La laïcité</b>: principio fundamental desde 1905 — separación total de la Iglesia y el Estado. Debate permanente sobre el lugar de la religión en el espacio público.</p>",
+  "<p><b>La francophonie</b>: 300 millones de hablantes de francés en el mundo. La <b>Organisation Internationale de la Francophonie (OIF)</b> reúne 88 países. El francés es lengua oficial en 29 países.</p>",
+  "<p><b>La question identitaire</b>: debates sobre inmigración, integración, diversité culturelle. El modelo francés de integración (republicano/asimilacionista) vs. modelos multiculturales.</p>"
+],
+vocab:[
+  {cat:"🇫🇷 Enjeux Contemporains",items:[
+    {e:"⚖️",w:"la laïcité",p:"la laicidad"},
+    {e:"🌍",w:"la francophonie",p:"la francofonía"},
+    {e:"🤝",w:"l'intégration",p:"la integración"},
+    {e:"🌈",w:"la diversité culturelle",p:"la diversidad cultural"},
+    {e:"🏛️",w:"la République",p:"la República"},
+    {e:"🗣️",w:"l'identité nationale",p:"la identidad nacional"},
+    {e:"📜",w:"la Déclaration des droits",p:"la Declaración de derechos (1789)"},
+    {e:"🌐",w:"l'OIF",p:"Organización Internacional de la Francofonía"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"La ____ est le principe de séparation de l'Église et de l'État en France. (laïcité)",answers:["laïcité"]},
+  {type:"mcq",q:"Combien de personnes parlent français dans le monde (environ)?",options:["50 millions","150 millions","300 millions","500 millions"],correct:2},
+  {type:"fill",q:"L'OIF réunit des pays qui partagent la ____ française. (langue/francophonie)",answers:["langue","francophonie"]},
+  {type:"match",q:"Une el concepto con su descripción.",pairs:[["laïcité","separación Iglesia-Estado"],["francophonie","comunidad mundial de hablantes de francés"],["intégration","proceso de asimilación cultural"],["République","sistema político francés"]]},
+  {type:"tf",q:"La laïcité française a été établie par la loi de 1905.",correct:true},
+  {type:"fill",q:"Le français est langue officielle dans ____ pays. (29 environ)",answers:["29"]},
+  {type:"speak",phrase:"La France contemporaine débat de la laïcité, de l'identité nationale et de sa place dans la francophonie mondiale.",translation:"La Francia contemporánea debate sobre la laicidad, la identidad nacional y su lugar en la francofonía mundial."},
+  {type:"fill",q:"La Déclaration des droits de l'homme a été adoptée en ____. (1789)",answers:["1789"]},
+  {type:"tf",q:"Le modèle républicain français favorise l'intégration individuelle plutôt que le communautarisme.",correct:true},
+  {type:"mcq",q:"¿Qué defiende el principio de laïcité?",options:["la religión de Estado","la separación Iglesia-Estado","la obligación religiosa","el ateísmo del Estado"],correct:1}
+]},
+
+{id:"expression-ecrite-c2",num:8,title:"Expression Écrite C2",emoji:"✍️🏆",cardDesc:"dissertation, commentaire composé — escritura de maestría",
+explain:[
+  "<p>Al nivel C2 la escritura en francés es indistinguible de la de un nativo culto. Los géneros principales a dominar:</p>",
+  "<p><b>La dissertation</b>: texto argumentativo que sigue el plan <b>thèse-antithèse-synthèse</b>. Cada parte tiene 2-3 sous-parties con argumento + ilustración + transition. Introducción: accroche → contextualisation → problématique → annonce du plan.</p>",
+  "<p><b>Le commentaire composé</b>: análisis literario organizado por <b>axes</b> (no cronológico). Cada axe estudia un aspecto del texto: el estilo, los temas, la psicología de los personajes.</p>",
+  "<p><b>La synthèse de documents</b>: résumé objetivo y estructurado de varios documentos sobre un tema.</p>"
+],
+exercises:[
+  {type:"fill",q:"La dissertation suit le plan ____-antithèse-synthèse. (thèse)",answers:["thèse"]},
+  {type:"mcq",q:"¿Cómo se llama la pregunta central de una dissertation?",options:["l'accroche","la problématique","le plan","la synthèse"],correct:1},
+  {type:"fill",q:"Un commentaire composé s'organise par ____, pas chronologiquement. (axes)",answers:["axes"]},
+  {type:"tf",q:"L'introduction d'une dissertation commence par une accroche qui attire l'attention.",correct:true},
+  {type:"order",q:"Ordena las partes de una introduction de dissertation:",words:["Problématique","Accroche","Plan","Contextualisation"],correct:"Accroche Contextualisation Problématique Plan"},
+  {type:"fill",q:"La ____ de documents résume objectivement plusieurs textes sur un même thème. (synthèse)",answers:["synthèse"]},
+  {type:"match",q:"Une el género con su descripción.",pairs:[["dissertation","argumentatif thèse/antithèse/synthèse"],["commentaire composé","analyse d'un texte littéraire par axes"],["synthèse","résumé objectif de documents"],["lettre formelle","communication professionnelle"]]},
+  {type:"fill",q:"Chaque sous-partie d'une dissertation contient: argument + ____ + transition. (illustration)",answers:["illustration"]},
+  {type:"speak",phrase:"La maîtrise de la dissertation et du commentaire composé témoigne d'un niveau C2 en français.",translation:"El dominio de la disertación y del comentario compuesto demuestra un nivel C2 en francés."},
+  {type:"tf",q:"Dans une synthèse, on peut donner son opinion personnelle librement.",correct:false}
+]},
+
+{id:"maitrise-totale",num:9,title:"Maîtrise Totale — C2",emoji:"🏆👑",cardDesc:"¡Felicidades! Eres bilingüe en francés",
+explain:[
+  "<p>🎉 <b>¡Felicidades! Has alcanzado el nivel C2 — Maîtrise</b> — el nivel más alto del CECR. Esto significa que eres <b>funcionalmente bilingüe</b> en francés.</p>",
+  "<p>A este nivel puedes: <span class='ex-fr'>Comprender sin esfuerzo todo lo que lees y escuchas · Expresarte espontáneamente con gran fluidez y precisión · Distinguir matices de significado en situaciones complejas · Producir textos académicos y literarios elaborados · Comprender el humor, la ironía y las referencias culturales.</span></p>",
+  "<p>El camino recorrido: <span class='ex-fr'>A1 → Bases (être, avoir, salutations) · A2 → Pasado y cotidiano · B1 → Subjonctif, conditionnel, vida profesional · B2 → Voix passive, nuances, argumentation · C1 → Registros, filosofía, idiomes · C2 → Stylistique, rhétorique, littérature.</span></p>",
+  "<p>¡El francés es ahora tu lengua! <b>Bienvenue dans le club des francophones du monde entier!</b> 🇫🇷</p>"
+],
+exercises:[
+  {type:"fill",q:"Au niveau C2, on peut comprendre tout texte sans ____. (effort/difficulté)",answers:["effort","difficulté"]},
+  {type:"mcq",q:"¿Qué significa 'maîtrise' en el contexto del CECR?",options:["nivel intermedio","nivel avanzado","nivel de maestría (el más alto)","nivel básico"],correct:2},
+  {type:"fill",q:"Le CECR va de A1 à ____. (C2)",answers:["C2"]},
+  {type:"match",q:"Une el nivel con su descripción.",pairs:[["A1","usuario básico — saludos y frases simples"],["B1","usuario independiente — subjonctif, conditionnel"],["C1","usuario competente — registros, filosofía, idiomes"],["C2","maestría — bilingüe funcional"]]},
+  {type:"tf",q:"Au niveau C2, on peut produire des textes académiques complexes comme une dissertation.",correct:true},
+  {type:"speak",phrase:"Félicitations! Tu as atteint la maîtrise totale du français. Tu es maintenant un locuteur bilingue fonctionnel!",translation:"¡Felicidades! Has alcanzado el dominio total del francés. ¡Ahora eres un hablante bilingüe funcional!"},
+  {type:"fill",q:"'Bienvenue dans le club des ____!' (francophones)",answers:["francophones"]},
+  {type:"mcq",q:"¿Cuántos niveles tiene el Marco Europeo de Referencia para las Lenguas (CECR)?",options:["4","5","6","8"],correct:2},
+  {type:"fill",q:"C2 permet de comprendre les sous-entendus, l'____ et les références culturelles. (ironie)",answers:["ironie"]},
+  {type:"tf",q:"Le français est la langue officielle de 29 pays dans le monde entier.",correct:true}
+]}
+
+];
+
+window.LP_TOPICS['fr-6'].push({
+  id:"conversation-c2",num:10,title:"Salle de Conversation C2",emoji:"💬",
+  cardDesc:"Maestría — debates filosóficos, análisis literarios, humor avanzado",
+  isChat:true,
+  explain:["<p>Conversations de niveau C2 : analyse stylistique, débats rhétoriques, jeux de mots, réflexion sur la langue et la culture française. Tu es bilingüe — montre-le ! 🏆</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['fr-6'] = {
+  scenarios:[
+    {id:"dissertation",title:"Préparer une dissertation",emoji:"✍️",setup:"Preparas una dissertation sobre la liberté.",partner:{emoji:"🎓",name:"Prof. Dupont"},opener:"Voici la problématique: 'La liberté est-elle compatible avec l'ordre social?' Comment allez-vous construire votre plan?"},
+    {id:"style-analysis",title:"Analyser un style",emoji:"🖊️",setup:"Analizáis el estilo de un extrait de Proust.",partner:{emoji:"📚",name:"Madeleine"},opener:"Quelles sont les caractéristiques stylistiques de cet extrait de Proust? Quelles figures de style identifiez-vous?"},
+    {id:"word-games",title:"Jeux de mots",emoji:"🎲",setup:"Competís en juegos de palabras en francés.",partner:{emoji:"😄",name:"Pierre"},opener:"À toi de jouer! Peux-tu créer un calembour avec les mots 'avocat' et 'pois'?"}
+  ]
+};
+</script>
+
 </body>
 </html>
