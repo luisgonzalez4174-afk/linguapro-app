@@ -95,6 +95,8 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 .explain p:last-child{margin-bottom:0;}
 .explain b{color:var(--green-deep);}
 .ex-fr{color:#fff;background:var(--blue);padding:1px 6px;border-radius:6px;font-weight:600;}
+.ex-fr.enhanced{background:none !important;color:inherit !important;padding:0 !important;border-radius:0 !important;font-weight:inherit !important;}
+.ex-fr.phrase-enhanced{background:rgba(29,155,240,.1) !important;color:var(--green-deep) !important;padding:2px 9px !important;border-radius:8px !important;cursor:pointer;}
 .sectionlabel{font-size:13px;color:var(--purple);margin:0 0 6px;font-weight:700;font-family:'Space Grotesk',sans-serif;}
 .reftable{width:100%;border-collapse:collapse;font-size:13px;margin:2px 0 16px;}
 .reftable th{background:rgba(29,155,240,.12);color:var(--green-deep);text-align:left;padding:8px 9px;font-size:11.5px;text-transform:uppercase;font-family:'Space Grotesk',sans-serif;}
@@ -263,11 +265,11 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .user-tag:hover{color:var(--green);}
 #topbarSub{cursor:pointer;}
 /* ─── audio chips in explanation ─── */
-.audio-chip{display:inline-flex;align-items:center;gap:3px;background:rgba(29,155,240,.1);border:1.5px solid rgba(29,155,240,.28);border-radius:22px;padding:4px 11px 4px 9px;margin:3px 2px;cursor:pointer;font-size:13.5px;font-weight:700;color:var(--green-deep);transition:.13s;-webkit-user-select:none;user-select:none;line-height:1.3;vertical-align:middle;}
-.audio-chip:hover{background:rgba(29,155,240,.2);border-color:var(--green);transform:translateY(-1px);box-shadow:0 3px 8px rgba(29,155,240,.2);}
-.audio-chip:active{transform:scale(.93);}
-.ex-audio-btn{background:none;border:none;cursor:pointer;font-size:15px;padding:1px 4px;vertical-align:middle;transition:.12s;}
-.ex-audio-btn:hover{opacity:.7;}
+.audio-chip{display:inline-flex;align-items:center;gap:4px;background:#EFF6FF;border:1.5px solid #93C5FD;border-radius:22px;padding:5px 12px 5px 10px;margin:3px 3px;cursor:pointer;font-size:13.5px;font-weight:700;color:#1560A8;transition:.13s;-webkit-user-select:none;user-select:none;line-height:1.3;vertical-align:middle;white-space:nowrap;}
+.audio-chip:hover{background:#DBEAFE;border-color:#1D9BF0;transform:translateY(-2px);box-shadow:0 4px 10px rgba(29,155,240,.22);}
+.audio-chip:active{transform:scale(.92);}
+.ex-audio-btn{background:rgba(29,155,240,.12);border:1.5px solid rgba(29,155,240,.3);border-radius:50%;cursor:pointer;font-size:13px;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;transition:.12s;margin-left:4px;}
+.ex-audio-btn:hover{background:rgba(29,155,240,.25);}
 .explain .ex-fr{cursor:pointer;}
 /* ─── gear button + dev badge ─── */
 .gear-btn{background:rgba(0,0,0,.06);border:none;border-radius:50%;width:35px;height:35px;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s;}
@@ -1484,6 +1486,7 @@ function renderExplanation(t){
   </button>`;
   view.innerHTML = html;
   enhanceExplainAudio();
+  window.scrollTo(0, 0);
 }
 
 function startExercises(){
@@ -1496,6 +1499,7 @@ function startExercises(){
   <div class="thead"><div class="nbadge">${t.emoji}</div><div><h2>${t.title}</h2><span>${t.cardDesc}</span></div></div>
   <div class="card" id="exCard"></div>`;
   renderExercise();
+  window.scrollTo(0, 0);
   history.pushState({lp:'exercises',id:t.id},'');
 }
 
@@ -1708,6 +1712,7 @@ function nextExercise(){
   if(currentExIndex < currentTopic.exercises.length-1){
     currentExIndex++;
     renderExercise();
+    window.scrollTo(0, 0);
   } else {
     backToMap();
   }
@@ -2002,42 +2007,30 @@ function initGamification(){
 //  EXPLANATION AUDIO ENHANCEMENT
 // ══════════════════════════════════
 function enhanceExplainAudio(){
-  // Process every .ex-fr span in the explanation
-  document.querySelectorAll('.explain .ex-fr').forEach(span=>{
+  document.querySelectorAll('.explain .ex-fr, .keynote .ex-fr').forEach(span=>{
     const raw = span.textContent.trim();
     if(!raw || span.dataset.enhanced) return;
     span.dataset.enhanced = '1';
 
     if(raw.includes('·')){
-      // "0 zéro · 1 un · 2 deux" → individual audio chips per item
+      // "0 zéro · 1 un · 2 deux" → chips individuales; quitar fondo morado del span padre
+      span.classList.add('enhanced');
       const parts = raw.split('·').map(s=>s.trim()).filter(Boolean);
       span.innerHTML = parts.map(part=>{
-        // Extract just the word to speak (skip leading number+space like "1 ")
         const word = part.replace(/^\d+\s+/,'').replace(/[.!?,;:]+$/,'').trim();
         const safe = word.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-        return `<span class="audio-chip" onclick="speak('${safe}',0.85)" title="Escuchar: ${word}">${part} 🔊</span>`;
+        return `<span class="audio-chip" onclick="speak('${safe}',0.85)">🔊 ${part}</span>`;
       }).join('');
     } else {
-      // Full sentence/phrase → add a 🔊 button after the text
+      // Frase completa → fondo azul claro con botón 🔊
+      span.classList.add('phrase-enhanced');
       const safe = raw.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
       const origHtml = span.innerHTML;
-      span.innerHTML = `${origHtml}<button type="button" class="exq-speak ex-audio-btn" title="Escuchar" onclick="event.stopPropagation();speak('${safe}',0.85)">🔊</button>`;
-      span.style.cursor = 'pointer';
+      span.innerHTML = `${origHtml}<button type="button" class="ex-audio-btn" title="Escuchar" onclick="event.stopPropagation();speak('${safe}',0.85)">🔊</button>`;
       span.onclick = function(e){
         if(e.target.tagName!=='BUTTON') speak(raw, 0.85);
       };
     }
-  });
-
-  // Also process .keynote .ex-fr if present
-  document.querySelectorAll('.keynote .ex-fr').forEach(span=>{
-    if(span.dataset.enhanced) return;
-    span.dataset.enhanced = '1';
-    const raw = span.textContent.trim();
-    const safe = raw.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    span.style.cursor='pointer';
-    span.title='Toca para escuchar';
-    span.onclick = function(e){ speak(raw, 0.85); };
   });
 }
 
