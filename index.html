@@ -262,6 +262,54 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .user-tag{font-size:12px;color:var(--dim);cursor:pointer;text-decoration:underline;margin-top:4px;display:inline-block;}
 .user-tag:hover{color:var(--green);}
 #topbarSub{cursor:pointer;}
+/* ─── gear button + dev badge ─── */
+.gear-btn{background:rgba(0,0,0,.06);border:none;border-radius:50%;width:35px;height:35px;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s;}
+.gear-btn:hover{background:rgba(0,0,0,.12);}
+.dev-badge{background:linear-gradient(135deg,#ff6b35,#f7c59f);color:#7a2d00;font-size:10px;font-weight:900;padding:3px 8px;border-radius:20px;display:none;letter-spacing:.6px;align-items:center;}
+.dev-badge.active{display:inline-flex;}
+/* ─── dev skip button ─── */
+.dev-skip-btn{display:block;margin:10px auto 0;background:linear-gradient(135deg,#ff9533,#f7c59f);color:#7a2d00;border:none;border-radius:8px;padding:8px 20px;font-size:12px;font-weight:800;cursor:pointer;letter-spacing:.5px;font-family:'Space Grotesk',sans-serif;}
+.dev-skip-btn:active{transform:scale(.96);}
+/* ─── two-speed audio ─── */
+.listen-audio-row{display:flex;gap:10px;margin:12px 0;}
+.listen-speed-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(29,155,240,.1);border:2px solid rgba(29,155,240,.3);border-radius:14px;padding:12px;font-size:15px;font-weight:700;cursor:pointer;transition:.15s;font-family:'Space Grotesk',sans-serif;color:var(--green-deep);}
+.listen-speed-btn:hover{background:rgba(29,155,240,.18);border-color:var(--green);}
+.listen-speed-btn:active{transform:scale(.95);}
+.listen-speed-btn.slow{font-size:13px;}
+/* ─── exq speak icon ─── */
+.exq-speak{background:none;border:none;cursor:pointer;font-size:16px;padding:2px 4px;opacity:.6;vertical-align:middle;transition:.12s;}
+.exq-speak:hover{opacity:1;}
+/* ─── settings overlay ─── */
+.settings-backdrop{position:fixed;inset:0;z-index:7999;background:rgba(0,0,0,.4);display:none;opacity:0;transition:opacity .25s;}
+.settings-backdrop.open{display:block;opacity:1;}
+.settings-panel{position:fixed;bottom:0;left:0;right:0;z-index:8000;background:#fff;border-radius:22px 22px 0 0;box-shadow:0 -6px 40px rgba(0,0,0,.18);transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:88vh;overflow-y:auto;}
+.settings-panel.open{transform:translateY(0);}
+.settings-inner{padding:16px 20px 48px;}
+.settings-handle{width:40px;height:4px;background:var(--line);border-radius:4px;margin:0 auto 16px;}
+.settings-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.settings-header h3{font-size:17px;font-weight:800;margin:0;}
+.settings-close{background:rgba(0,0,0,.08);border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.settings-section{margin-bottom:14px;padding:15px;background:var(--card2);border-radius:14px;}
+.settings-section h4{font-size:11.5px;font-weight:800;color:var(--dim);text-transform:uppercase;letter-spacing:.7px;margin:0 0 12px;}
+.settings-row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px;font-weight:600;color:var(--ink);}
+.sett-btn{background:var(--line);border:none;border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;white-space:nowrap;}
+.sett-btn:hover{background:#ddd;}
+.sett-btn.danger{background:rgba(255,75,75,.12);color:#c0392b;}
+/* toggle switch */
+.toggle-switch{position:relative;display:inline-block;width:44px;height:26px;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-knob{position:absolute;cursor:pointer;inset:0;background:#d0d0d0;border-radius:26px;transition:.2s;}
+.toggle-knob:before{content:'';position:absolute;width:20px;height:20px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.toggle-switch input:checked+.toggle-knob{background:var(--green);}
+.toggle-switch input:checked+.toggle-knob:before{transform:translateX(18px);}
+/* developer section */
+.dev-lock-row{display:flex;gap:8px;margin-bottom:6px;}
+.dev-pass-input{flex:1;border:2px solid var(--line);border-radius:8px;padding:9px 12px;font-size:14px;font-family:'Space Grotesk',sans-serif;outline:none;transition:.2s;}
+.dev-pass-input:focus{border-color:var(--green);}
+.dev-lock-hint{font-size:12px;color:#c0392b;margin:0 0 4px;}
+.dev-info{font-size:12px;color:var(--dim);margin:6px 0 12px;line-height:1.4;}
+.dev-unlocked-panel{display:none;}
+.dev-unlocked-panel.visible{display:block;}
 /* ─── donebar upgrade ─── */
 .donebar{display:none;flex-direction:column;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(29,155,240,.12),rgba(29,155,240,.05));border:2px solid rgba(29,155,240,.4);color:var(--green-deep);font-family:'Space Grotesk',sans-serif;font-weight:700;padding:18px;border-radius:var(--radius);margin-top:12px;font-size:15px;text-align:center;}
 .donebar.show{display:flex;}
@@ -276,8 +324,10 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
       <div class="brand-text"><h1>LinguaPro</h1><p id="topbarSub" onclick="resetUser()" title="Toca para cambiar nombre">Aprende Idiomas</p></div>
     </div>
     <div class="topbar-right">
+      <div id="devBadge" class="dev-badge">⚡DEV</div>
       <div class="streak-pill">🔥 <span id="streakCount">0</span></div>
       <div class="xp-pill">⭐ <span id="xpCount">0</span></div>
+      <button type="button" class="gear-btn" onclick="openSettings()" title="Configuración">⚙️</button>
     </div>
   </div>
 
@@ -328,6 +378,40 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
   <div id="topicview" class="topicview"></div>
 
   <footer>LinguaPro · Aprende un idioma cada día 🌍</footer>
+</div>
+
+<!-- Settings panel -->
+<div id="settingsBackdrop" class="settings-backdrop" onclick="closeSettings()"></div>
+<div id="settingsPanel" class="settings-panel" role="dialog">
+  <div class="settings-inner">
+    <div class="settings-header">
+      <h3>⚙️ Configuración</h3>
+      <button type="button" class="settings-close" onclick="closeSettings()">✕</button>
+    </div>
+    <div class="settings-section">
+      <h4>👤 Mi Cuenta</h4>
+      <div class="settings-row"><span id="settingsUserName">Usuario</span><button type="button" class="sett-btn" onclick="changeNameFromSettings()">Cambiar nombre</button></div>
+    </div>
+    <div class="settings-section">
+      <h4>🔊 Audio</h4>
+      <div class="settings-row"><span>Pronunciar al tocar palabras</span><label class="toggle-switch"><input type="checkbox" id="audioTapToggle" aria-label="Pronunciar al tocar palabras" onchange="localStorage.setItem('lp_audio_tap',this.checked?'1':'0')"><span class="toggle-knob"></span></label></div>
+    </div>
+    <div class="settings-section">
+      <h4>🔧 Desarrollador</h4>
+      <div id="devLocked">
+        <div class="dev-lock-row">
+          <input type="password" id="devPassInput" class="dev-pass-input" placeholder="Contraseña..." onkeydown="if(event.key==='Enter')checkDevPass()">
+          <button type="button" class="sett-btn" onclick="checkDevPass()">Entrar</button>
+        </div>
+        <p class="dev-lock-hint" id="devPassHint"></p>
+      </div>
+      <div id="devUnlocked" class="dev-unlocked-panel">
+        <div class="settings-row"><span>Modo Desarrollador</span><label class="toggle-switch"><input type="checkbox" id="devModeToggle" aria-label="Activar modo desarrollador" onchange="toggleDevMode(this.checked)"><span class="toggle-knob"></span></label></div>
+        <p class="dev-info">Desbloquea todas las estaciones y permite saltar ejercicios.</p>
+        <button type="button" class="sett-btn danger" onclick="resetAllProgress()">🗑️ Resetear todo el progreso</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1164,6 +1248,7 @@ function showLangScreen(){
   renderLangGrid();
 }
 function isLevelLocked(langId, levelIdx){
+  if(isDevMode()) return false;
   if(levelIdx===0) return false;
   const levels = LEVELS[langId]||[];
   const prevLv = levels[levelIdx-1];
@@ -1291,6 +1376,7 @@ function updateScore(){
 }
 
 function isTopicLocked(idx){
+  if(isDevMode()) return false;
   if(idx===0) return false;
   const prev = TOPICS[idx-1];
   if(prev.isChat) return false;
@@ -1414,20 +1500,22 @@ function renderExercise(){
   const card = document.getElementById('exCard');
   const total = t.exercises.length;
   const pct = Math.round((i/total)*100);
+  const devSkip = isDevMode() ? `<button type="button" class="dev-skip-btn" onclick="skipExerciseDev()">⚡ Saltar [DEV]</button>` : '';
   let body = `<div class="exbar-wrap"><div class="exbar" style="width:${pct}%"></div></div>
-    <h4>✏️ Exercice ${i+1}/${total}</h4><div class="exwrap">`;
+    <h4>✏️ Exercice ${i+1}/${total}${isDevMode()?'  <span style="font-size:10px;opacity:.6">[DEV]</span>':''}</h4>${devSkip}<div class="exwrap">`;
 
+  const speakQ = (ex.phrase) ? `<button type="button" class="exq-speak" onclick="speak('${(ex.phrase||ex.q).replace(/'/g,"\\'")}',0.85)" title="Escuchar">🔊</button>` : '';
   if(ex.type==='fill'){
-    body += `<div class="exq">${ex.q}</div>
-      <div class="fillrow"><input class="fillinput" id="fillIn" placeholder="Écris ta réponse..." autocomplete="off" onkeydown="if(event.key==='Enter')checkFill()">
+    body += `<div class="exq">${ex.q}${speakQ}</div>
+      <div class="fillrow"><input class="fillinput" id="fillIn" placeholder="Écris ta réponse..." autocomplete="off" aria-label="Respuesta" onkeydown="if(event.key==='Enter')checkFill()">
       <button type="button" class="checkbtn" onclick="checkFill()">Vérifier</button></div>
       <div class="feedback" id="fb"></div>`;
   } else if(ex.type==='mcq' || ex.type==='emoji'){
-    body += `<div class="exq">${ex.q}</div><div class="options" id="optsWrap">`;
+    body += `<div class="exq">${ex.q}${speakQ}</div><div class="options" id="optsWrap">`;
     ex.options.forEach((o,idx)=>{ body += `<div class="opt" onclick="checkMcq(${idx})" data-idx="${idx}">${o}</div>`; });
     body += `</div><div class="feedback" id="fb"></div>`;
   } else if(ex.type==='tf'){
-    body += `<div class="exq">${ex.q}</div><div class="options" id="optsWrap">
+    body += `<div class="exq">${ex.q}${speakQ}</div><div class="options" id="optsWrap">
       <div class="opt" onclick="checkTf(true)">✅ Vrai</div>
       <div class="opt" onclick="checkTf(false)">❌ Faux</div>
       </div><div class="feedback" id="fb"></div>`;
@@ -1435,7 +1523,7 @@ function renderExercise(){
     const shuffledRight = ex.pairs.map(p=>p[1]).sort(()=>Math.random()-0.5);
     window._matchLeft=null; window._matchTotal=ex.pairs.length; window._matchDone=0;
     body += `<div class="exq">${ex.q}</div>
-      <p class="match-hint">Toca un término de la izquierda y luego su pareja en la derecha.</p>
+      <p class="match-hint">Toca un término — luego su pareja. 🔊 cada palabra al tocar.</p>
       <div class="match-grid" id="matchWrap">
         <div class="match-col" id="matchLeft">
           ${ex.pairs.map((p,idx)=>`<div class="match-card left-card" data-idx="${idx}" onclick="selectMatchLeft(this,${idx})">${p[0]}</div>`).join('')}
@@ -1447,7 +1535,8 @@ function renderExercise(){
       <div class="feedback" id="fb"></div>`;
   } else if(ex.type==='order'){
     const words = [...ex.words].sort(()=>Math.random()-0.5);
-    body += `<div class="exq">${ex.q}</div>
+    const phrase = ex.phrase || ex.words.join(' ');
+    body += `<div class="exq">${ex.q} <button type="button" class="exq-speak" onclick="speak('${phrase.replace(/'/g,"\\'")}',0.85)" title="Escuchar frase">🔊</button></div>
       <div id="orderBank" class="tile-bank">
         ${words.map(w=>`<span class="word-tile" onclick="pickWord(this,'${w.replace(/'/g,"\\'")}')">${w}</span>`).join('')}
       </div>
@@ -1457,15 +1546,17 @@ function renderExercise(){
     window._orderPicked = [];
   } else if(ex.type==='listen'){
     const ch = ex.char||{emoji:'🧑‍🏫',name:'Léo'};
+    const phr = ex.phrase.replace(/'/g,"\\'");
     body += `<div class="listen-char">
       <div class="char-avatar">${ch.emoji}</div>
       <div><div class="char-name">${ch.name} dice...</div>
         <div class="char-says">Escucha y elige la opción correcta</div>
       </div>
     </div>
-    <button type="button" class="listen-btn" id="listenPlayBtn" onclick="speak('${ex.phrase.replace(/'/g,"\\'")}',0.75)">
-      🔊 &nbsp;Escuchar de nuevo
-    </button>
+    <div class="listen-audio-row">
+      <button type="button" class="listen-speed-btn" onclick="speak('${phr}',0.85)">🔊 Normal</button>
+      <button type="button" class="listen-speed-btn slow" onclick="speak('${phr}',0.45)">🐢 Despacio</button>
+    </div>
     <div class="exq">${ex.q}</div>
     <div class="options" id="optsWrap">`;
     ex.options.forEach((o,idx)=>{ body+=`<div class="opt" onclick="checkMcq(${idx})" data-idx="${idx}">${o}</div>`; });
@@ -1540,6 +1631,7 @@ function checkFill(){
 }
 function checkMcq(idx){
   const ex = currentTopic.exercises[currentExIndex];
+  if(audioOnTap()) speak(ex.options[idx], 0.85);
   const opts = document.querySelectorAll('#optsWrap .opt');
   opts.forEach((o,i)=>{
     if(i===ex.correct) o.classList.add('correct');
@@ -1563,6 +1655,7 @@ function checkTf(val){
 function checkMatch(){ /* auto-handled by selectMatchRight */ }
 function pickWord(el,w){
   if(el.classList.contains('used')) return;
+  if(audioOnTap()) speak(w, 0.9);
   el.classList.add('used');
   window._orderPicked.push(w);
   const built=document.getElementById('orderBuilt');
@@ -1856,6 +1949,7 @@ window._matchDone = 0;
 
 function selectMatchLeft(el, idx){
   if(el.classList.contains('matched')) return;
+  if(audioOnTap()) speak(el.textContent.trim(), 0.9);
   document.querySelectorAll('.left-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
   window._matchLeft = {el, idx};
@@ -1863,6 +1957,7 @@ function selectMatchLeft(el, idx){
 function selectMatchRight(el){
   if(el.classList.contains('matched')) return;
   if(!window._matchLeft) return;
+  if(audioOnTap()) speak(el.textContent.trim(), 0.9);
   const leftEl=window._matchLeft.el;
   const leftIdx=window._matchLeft.idx;
   const rightVal=el.dataset.val;
@@ -1937,6 +2032,88 @@ document.addEventListener('mouseup', function(e){
 });
 
 // ══════════════════════════════════
+//  DEVELOPER MODE
+// ══════════════════════════════════
+const DEV_PASS = 'luis331413';
+function isDevMode(){ return localStorage.getItem('lp_devmode')==='1'; }
+function audioOnTap(){ return localStorage.getItem('lp_audio_tap')!=='0'; }
+
+function toggleDevMode(on){
+  localStorage.setItem('lp_devmode', on?'1':'0');
+  const badge = document.getElementById('devBadge');
+  if(badge) badge.classList.toggle('active', on);
+}
+
+function checkDevPass(){
+  const inp = document.getElementById('devPassInput');
+  const hint = document.getElementById('devPassHint');
+  if((inp.value||'').trim()===DEV_PASS){
+    document.getElementById('devLocked').style.display='none';
+    const panel = document.getElementById('devUnlocked');
+    panel.classList.add('visible');
+    const toggle = document.getElementById('devModeToggle');
+    if(toggle) toggle.checked = isDevMode();
+    hint.textContent='';
+  } else {
+    hint.textContent='❌ Contraseña incorrecta';
+    inp.value='';
+    inp.focus();
+  }
+}
+
+function resetAllProgress(){
+  if(!confirm('¿Borrar TODO el progreso? Esto no se puede deshacer.')) return;
+  ['lp_xp','lp_streak','lp_lastPlay','lp_missions','lp_done_topics','lp_devmode'].forEach(k=>localStorage.removeItem(k));
+  closeSettings();
+  location.reload();
+}
+
+function skipExerciseDev(){
+  const wasNew = !progress[currentTopic.id][currentExIndex];
+  progress[currentTopic.id][currentExIndex] = true;
+  if(wasNew){ addXP(10); }
+  const nxt = document.getElementById('nextBtn');
+  if(nxt){ nxt.disabled=false; nxt.click(); }
+}
+
+// ══════════════════════════════════
+//  SETTINGS PANEL
+// ══════════════════════════════════
+function openSettings(){
+  const panel = document.getElementById('settingsPanel');
+  const backdrop = document.getElementById('settingsBackdrop');
+  const nameEl = document.getElementById('settingsUserName');
+  if(nameEl) nameEl.textContent = getUserName()||'Sin nombre';
+  const audioToggle = document.getElementById('audioTapToggle');
+  if(audioToggle) audioToggle.checked = audioOnTap();
+  const devToggle = document.getElementById('devModeToggle');
+  if(devToggle) devToggle.checked = isDevMode();
+  if(isDevMode()){
+    document.getElementById('devLocked').style.display='none';
+    document.getElementById('devUnlocked').classList.add('visible');
+  }
+  panel.classList.add('open');
+  backdrop.classList.add('open');
+}
+
+function closeSettings(){
+  document.getElementById('settingsPanel').classList.remove('open');
+  document.getElementById('settingsBackdrop').classList.remove('open');
+}
+
+function changeNameFromSettings(){
+  closeSettings();
+  setTimeout(()=>{
+    const newName = prompt('Nuevo nombre:', getUserName());
+    if(newName && newName.trim().length >= 2){
+      localStorage.setItem('lp_user_name', newName.trim());
+      const sub = document.getElementById('topbarSub');
+      if(sub) sub.textContent = `Hola, ${newName.trim()} 👋`;
+    }
+  }, 300);
+}
+
+// ══════════════════════════════════
 //  USER REGISTRATION
 // ══════════════════════════════════
 function getUserName(){ return localStorage.getItem('lp_user_name')||''; }
@@ -1970,6 +2147,8 @@ function startApp(){
   const name = getUserName();
   const sub = document.getElementById('topbarSub');
   if(sub && name) sub.textContent = `Hola, ${name} 👋`;
+  const badge = document.getElementById('devBadge');
+  if(badge && isDevMode()) badge.classList.add('active');
   const hero = document.getElementById('langsHero');
   if(hero && name) hero.textContent = `¡Hola, ${name}! 🐨`;
   showLangScreen();
