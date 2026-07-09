@@ -1542,7 +1542,7 @@ window.LP_CHAT_SCENARIOS['fr-2'] = {
 // ══════════════════════════════════
 const LANGUAGES = [
   {id:'fr',flag:'🇫🇷',name:'Français',desc:'Aprende francés desde cero',active:true,voice:'fr-FR'},
-  {id:'en',flag:'🇬🇧',name:'English',desc:'Basado en Top Notch — Próximamente',active:false,voice:'en-US'},
+  {id:'en',flag:'🇺🇸',name:'English',desc:'From zero to fluency — 6 complete levels A1→C1',active:true,voice:'en-US'},
   {id:'pt',flag:'🇧🇷',name:'Português',desc:'Próximamente',active:false,voice:'pt-BR'},
   {id:'it',flag:'🇮🇹',name:'Italiano',desc:'Próximamente',active:false,voice:'it-IT'},
   {id:'de',flag:'🇩🇪',name:'Deutsch',desc:'Próximamente',active:false,voice:'de-DE'},
@@ -1556,6 +1556,14 @@ const LEVELS = {
     {id:'fr-4',num:4,name:'Niveau 4 — B2',desc:'Conditionnel passé, voix passive, gérondif, société, nuances',active:true},
     {id:'fr-5',num:5,name:'Niveau 5 — C1',desc:'Concordance des temps, registres, idiomes, rédaction avancée',active:true},
     {id:'fr-6',num:6,name:'Niveau 6 — C2',desc:'Maîtrise totale: stylistique, littérature, rhétorique, culture',active:true},
+  ],
+  en:[
+    {id:'en-1',num:1,name:'Level 1 — A1',desc:'Greetings, verb to be, articles, numbers, family, food, colors',active:true},
+    {id:'en-2',num:2,name:'Level 2 — A2',desc:'Simple Present & Past, Going To, modals, comparatives, travel',active:true},
+    {id:'en-3',num:3,name:'Level 3 — B1',desc:'Present Perfect, gerunds, passive voice, conditionals 0 & 1',active:true},
+    {id:'en-4',num:4,name:'Level 4 — B1+',desc:'Past Perfect, indirect speech, conditionals 2 & 3, adjective clauses',active:true},
+    {id:'en-5',num:5,name:'Level 5 — B2',desc:'Mixed conditionals, wish/if only, inversion, cleft sentences, business',active:true},
+    {id:'en-6',num:6,name:'Level 6 — C1',desc:'Subjunctive, hedging, idioms, register, academic writing, mastery',active:true},
   ]
 };
 
@@ -4059,6 +4067,1909 @@ window.LP_CHAT_SCENARIOS['fr-6'] = {
     {id:"dissertation",title:"Préparer une dissertation",emoji:"✍️",setup:"Preparas una dissertation sobre la liberté.",partner:{emoji:"🎓",name:"Prof. Dupont"},opener:"Voici la problématique: 'La liberté est-elle compatible avec l'ordre social?' Comment allez-vous construire votre plan?"},
     {id:"style-analysis",title:"Analyser un style",emoji:"🖊️",setup:"Analizáis el estilo de un extrait de Proust.",partner:{emoji:"📚",name:"Madeleine"},opener:"Quelles sont les caractéristiques stylistiques de cet extrait de Proust? Quelles figures de style identifiez-vous?"},
     {id:"word-games",title:"Jeux de mots",emoji:"🎲",setup:"Competís en juegos de palabras en francés.",partner:{emoji:"😄",name:"Pierre"},opener:"À toi de jouer! Peux-tu créer un calembour avec les mots 'avocat' et 'pois'?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  ENGLISH — LEVEL 1 (A1)
+// ══════════════════════════════════
+window.LP_TOPICS['en-1'] = [
+
+{id:"greetings-en",num:1,title:"Greetings & Farewells",emoji:"👋",cardDesc:"Hi! How are you? See you later! — everyday greetings",
+explain:[
+  "<p>Use <b>Hello / Hi</b> to greet someone. <b>Hi</b> is more informal. <b>Good morning / afternoon / evening</b> are formal greetings. Always respond to 'How are you?' with a short answer.</p>",
+  "<p>Common responses: <span class='ex-fr'>I'm fine, thanks! · Pretty good! · Not bad. · I'm great! · Could be better.</span></p>",
+  "<p>To say goodbye: <span class='ex-fr'>Bye! · Goodbye. · See you later! · Take care! · Have a good one!</span></p>",
+  "<p>Introducing yourself: <span class='ex-fr'>My name is... · I'm... · Nice to meet you! · Pleased to meet you.</span></p>"
+],
+video:"P8sJHSQg2_I",videoNote:"Basic English Greetings",
+vocab:[
+  {cat:"👋 Greetings",items:[
+    {e:"☀️",w:"Good morning",p:"buenos días"},
+    {e:"🌤️",w:"Good afternoon",p:"buenas tardes"},
+    {e:"🌙",w:"Good evening",p:"buenas noches"},
+    {e:"👋",w:"Hi / Hello",p:"hola"},
+    {e:"😄",w:"How are you?",p:"¿cómo estás?"},
+    {e:"✅",w:"I'm fine, thanks!",p:"estoy bien, ¡gracias!"}
+  ]},
+  {cat:"🚪 Farewells",items:[
+    {e:"👋",w:"Goodbye / Bye!",p:"adiós"},
+    {e:"👀",w:"See you later!",p:"hasta luego"},
+    {e:"🤝",w:"Nice to meet you!",p:"mucho gusto"},
+    {e:"💪",w:"Take care!",p:"¡cuídate!"},
+    {e:"🌟",w:"Have a good one!",p:"¡que te vaya bien!"},
+    {e:"😊",w:"You too!",p:"igualmente / tú también"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"____ morning! How are you? (formal greeting)",answers:["Good"]},
+  {type:"mcq",q:"Which greeting is INFORMAL?",options:["Good afternoon","Good evening","Hi there!","How do you do?"],correct:2},
+  {type:"fill",q:"A: How are you? B: I'm ____, thanks! (estoy bien)",answers:["fine","great","good"]},
+  {type:"tf",q:"'See you later!' is a way to say goodbye.",correct:true},
+  {type:"match",q:"Match the greeting with its context.",pairs:[["Good morning","early in the day"],["Good evening","after 6pm"],["Hi!","informal, any time"],["Goodbye","when leaving"]]},
+  {type:"order",q:"Put the conversation in order:",words:["Hi!","I'm","How","fine!","are","you?"],correct:"Hi! How are you? I'm fine!"},
+  {type:"fill",q:"My ____ is Maria. Nice to meet you! (nombre)",answers:["name"]},
+  {type:"mcq",q:"Someone says 'Nice to meet you!' You respond:",options:["Goodbye!","You too!","Good morning!","See you!"],correct:1},
+  {type:"speak",phrase:"Hello! My name is Alex. Nice to meet you! How are you?",translation:"¡Hola! Me llamo Alex. ¡Mucho gusto! ¿Cómo estás?"},
+  {type:"fill",q:"____ care! See you tomorrow! (despedida cariñosa)",answers:["Take"]}
+]},
+
+{id:"verb-be",num:2,title:"The Verb To Be",emoji:"🌟",cardDesc:"am / is / are — the most important verb in English",
+explain:[
+  "<p>The verb <b>to be</b> changes form with each subject: <b>I am · You are · He/She/It is · We are · You are · They are.</b></p>",
+  "<table class='reftable'><tr><th>Subject</th><th>Positive</th><th>Negative</th><th>Question</th></tr><tr><td>I</td><td class='formcol'>I am (I'm)</td><td>I'm not</td><td>Am I?</td></tr><tr><td>You</td><td class='formcol'>You are (You're)</td><td>You aren't</td><td>Are you?</td></tr><tr><td>He/She/It</td><td class='formcol'>He is (He's)</td><td>He isn't</td><td>Is he?</td></tr><tr><td>We/They</td><td class='formcol'>We are (We're)</td><td>We aren't</td><td>Are we?</td></tr></table>",
+  "<p>Use to be for: <span class='ex-fr'>Name: I'm Maria. · Nationality: She's Mexican. · Job: He's a teacher. · Age: I'm 25 years old. · Description: The car is red.</span></p>"
+],
+video:"j16VeViNXBw",videoNote:"The Verb To Be — English Grammar",
+vocab:[
+  {cat:"🌟 To Be — Conjugation",items:[
+    {e:"👤",w:"I am / I'm",p:"yo soy / estoy"},
+    {e:"👥",w:"You are / You're",p:"tú eres / estás"},
+    {e:"🧑",w:"He / She is",p:"él / ella es / está"},
+    {e:"👫",w:"We are / We're",p:"nosotros somos"},
+    {e:"👨‍👩‍👧‍👦",w:"They are / They're",p:"ellos/ellas son"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"I ____ a student. (to be, I)",answers:["am","'m"]},
+  {type:"fill",q:"She ____ from Mexico. (to be, She)",answers:["is","'s"]},
+  {type:"mcq",q:"'They ____ happy.' — correct form:",options:["am","is","are","be"],correct:2},
+  {type:"tf",q:"The contraction of 'He is' is 'He's'.",correct:true},
+  {type:"match",q:"Match subject with the correct form of TO BE.",pairs:[["I","am"],["He","is"],["We","are"],["They","are"]]},
+  {type:"fill",q:"We ____ not tired. (negative — we)",answers:["are","'re"]},
+  {type:"order",q:"Build the sentence:",words:["teacher.","a","She","is"],correct:"She is a teacher."},
+  {type:"mcq",q:"____ you a doctor?",options:["Am","Is","Are","Be"],correct:2},
+  {type:"fill",q:"It ____ cold today. (neutral subject)",answers:["is","'s"]},
+  {type:"speak",phrase:"I'm a student. I'm 20 years old. I'm from Colombia.",translation:"Soy estudiante. Tengo 20 años. Soy de Colombia."}
+]},
+
+{id:"articles-en",num:3,title:"Articles: a / an / the",emoji:"🔤",cardDesc:"a dog, an apple, the sun — when to use each one",
+explain:[
+  "<p><b>A / An</b> (indefinite article) = one of many. Use before a singular countable noun mentioned for the first time. <b>A</b> before consonant sounds, <b>An</b> before vowel sounds (a, e, i, o, u).</p>",
+  "<p><span class='ex-fr'>a dog · a car · a house · an apple · an egg · an umbrella · an hour (silent H!) · a university (sounds like 'yu-')</span></p>",
+  "<p><b>The</b> (definite article) = specific, already known. Use when both speaker and listener know which one: <span class='ex-fr'>Please close the door. (that specific door) · The sun is yellow. (only one sun)</span></p>",
+  "<p>No article: general ideas, uncountable nouns, plural general nouns: <span class='ex-fr'>I like music. · Coffee is hot. · Dogs are friendly.</span></p>"
+],
+video:"GqzZRyN-tx0",videoNote:"English Articles a/an/the",
+vocab:[
+  {cat:"🔤 A / An — Examples",items:[
+    {e:"🐕",w:"a dog",p:"un perro"},
+    {e:"🍎",w:"an apple",p:"una manzana"},
+    {e:"🥚",w:"an egg",p:"un huevo"},
+    {e:"🏠",w:"a house",p:"una casa"},
+    {e:"⏱️",w:"an hour",p:"una hora"},
+    {e:"🎓",w:"a university",p:"una universidad"}
+  ]},
+  {cat:"🎯 The — Examples",items:[
+    {e:"☀️",w:"the sun",p:"el sol"},
+    {e:"🌙",w:"the moon",p:"la luna"},
+    {e:"🌊",w:"the sea",p:"el mar"},
+    {e:"🗺️",w:"the world",p:"el mundo"},
+    {e:"🚪",w:"the door",p:"la puerta (esa específica)"},
+    {e:"🏫",w:"the school",p:"la escuela (esa específica)"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"I have ____ dog. His name is Max. (un perro)",answers:["a"]},
+  {type:"fill",q:"She ate ____ apple for breakfast. (una manzana)",answers:["an"]},
+  {type:"mcq",q:"'Please close ___ door.' Which article?",options:["a","an","the","no article"],correct:2},
+  {type:"tf",q:"We use 'an' before words that START with a vowel SOUND.",correct:true},
+  {type:"fill",q:"He is ____ English teacher. (un/una)",answers:["an"]},
+  {type:"mcq",q:"'___ music is great.' — which is correct for a general statement?",options:["A","An","The","no article"],correct:3},
+  {type:"match",q:"Match the noun with the correct article.",pairs:[["egg","an"],["book","a"],["sun","the"],["umbrella","an"]]},
+  {type:"fill",q:"____ sun rises in the east. (specific — the only sun)",answers:["The"]},
+  {type:"speak",phrase:"I have a cat and a dog. The cat is black and the dog is white.",translation:"Tengo un gato y un perro. El gato es negro y el perro es blanco."},
+  {type:"tf",q:"'I like the music.' is correct when talking about music in general.",correct:false}
+]},
+
+{id:"numbers-en",num:4,title:"Numbers & Telling Time",emoji:"🔢",cardDesc:"1-100, What time is it? — numbers and the clock",
+explain:[
+  "<p>Cardinals 1-20: <span class='ex-fr'>one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty.</span></p>",
+  "<p>Tens: <span class='ex-fr'>twenty (20), thirty (30), forty (40), fifty (50), sixty (60), seventy (70), eighty (80), ninety (90), one hundred (100).</span> For 21-99: <span class='ex-fr'>twenty-one, thirty-five, forty-eight...</span></p>",
+  "<p>Telling time: <span class='ex-fr'>It's 3:00 → It's three o'clock. · 3:15 → three fifteen / quarter past three. · 3:30 → three thirty / half past three. · 3:45 → three forty-five / quarter to four.</span></p>"
+],
+video:"r9Ld8AQ1F1Q",videoNote:"Numbers in English 1-100",
+vocab:[
+  {cat:"🔢 Numbers 1-20",items:[
+    {e:"1️⃣",w:"one",p:"uno"},
+    {e:"2️⃣",w:"two",p:"dos"},
+    {e:"5️⃣",w:"five",p:"cinco"},
+    {e:"🔟",w:"ten",p:"diez"},
+    {e:"1️⃣2️⃣",w:"twelve",p:"doce"},
+    {e:"2️⃣0️⃣",w:"twenty",p:"veinte"}
+  ]},
+  {cat:"⏰ Telling Time",items:[
+    {e:"🕒",w:"three o'clock",p:"las tres en punto"},
+    {e:"🕒",w:"quarter past three",p:"las tres y cuarto"},
+    {e:"🕞",w:"half past three",p:"las tres y media"},
+    {e:"🕟",w:"quarter to four",p:"las cuatro menos cuarto"},
+    {e:"🌅",w:"in the morning (a.m.)",p:"de la mañana"},
+    {e:"🌆",w:"in the afternoon (p.m.)",p:"de la tarde"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"The number 15 in English: ____",answers:["fifteen"]},
+  {type:"fill",q:"The number 40 in English: ____",answers:["forty"]},
+  {type:"mcq",q:"How do you say 3:30?",options:["three o'clock","half past three","quarter past three","quarter to three"],correct:1},
+  {type:"fill",q:"What time is 7:15? It's quarter ____ seven.",answers:["past"]},
+  {type:"match",q:"Match the number with its English word.",pairs:[["12","twelve"],["50","fifty"],["80","eighty"],["100","one hundred"]]},
+  {type:"fill",q:"75 in English: seventy-____",answers:["five"]},
+  {type:"mcq",q:"How do you say 4:45?",options:["quarter past four","half past four","quarter to five","four o'clock"],correct:2},
+  {type:"speak",phrase:"It's ten o'clock in the morning. My class starts at half past ten.",translation:"Son las diez de la mañana. Mi clase empieza a las diez y media."},
+  {type:"fill",q:"The number 13 in English: ____",answers:["thirteen"]},
+  {type:"tf",q:"'Quarter to four' means 3:45.",correct:true}
+]},
+
+{id:"jobs-en",num:5,title:"Jobs & Professions",emoji:"💼",cardDesc:"What do you do? — talking about work and jobs",
+isVocab:true,
+explain:["<p>Vocabulary for jobs and professions in English. Tap each card to hear the pronunciation. Notice: we say <b>'a + job'</b>: I'm <b>a</b> teacher. (NOT: I'm teacher.)</p>"],
+vocab:[
+  {cat:"🏥 Health & Education",items:[
+    {e:"👨‍⚕️",w:"doctor",p:"médico"},
+    {e:"👩‍⚕️",w:"nurse",p:"enfermero/a"},
+    {e:"👨‍🏫",w:"teacher",p:"maestro/a"},
+    {e:"👩‍🔬",w:"scientist",p:"científico/a"},
+    {e:"🦷",w:"dentist",p:"dentista"},
+    {e:"💊",w:"pharmacist",p:"farmacéutico/a"}
+  ]},
+  {cat:"🏗️ Other Professions",items:[
+    {e:"👨‍💻",w:"programmer",p:"programador/a"},
+    {e:"👩‍🍳",w:"chef",p:"chef / cocinero"},
+    {e:"👨‍🚒",w:"firefighter",p:"bombero"},
+    {e:"👮",w:"police officer",p:"policía"},
+    {e:"✈️",w:"pilot",p:"piloto"},
+    {e:"⚖️",w:"lawyer",p:"abogado/a"},
+    {e:"🏗️",w:"engineer",p:"ingeniero/a"},
+    {e:"🎨",w:"artist",p:"artista"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"A person who treats sick people is a ____.",answers:["doctor"]},
+  {type:"mcq",q:"'What do you ___?' is the question to ask about someone's job.",options:["make","do","work","be"],correct:1},
+  {type:"fill",q:"She flies airplanes. She's a ____.",answers:["pilot"]},
+  {type:"match",q:"Match the job with what they do.",pairs:[["teacher","works in a school"],["chef","cooks in a restaurant"],["lawyer","works in a court"],["firefighter","puts out fires"]]},
+  {type:"tf",q:"In English, we say 'I'm a doctor.' (with the article 'a').",correct:true},
+  {type:"fill",q:"He writes computer code. He's a ____.",answers:["programmer"]},
+  {type:"mcq",q:"Which job works in a hospital?",options:["lawyer","nurse","pilot","engineer"],correct:1},
+  {type:"speak",phrase:"I'm a teacher. I work at a school. I love my job!",translation:"Soy maestro/a. Trabajo en una escuela. ¡Amo mi trabajo!"},
+  {type:"fill",q:"A person who protects people and enforces laws is a police ____.",answers:["officer"]},
+  {type:"tf",q:"'She's engineer' is correct English.",correct:false}
+]},
+
+{id:"family-en",num:6,title:"Family Members",emoji:"👨‍👩‍👧‍👦",cardDesc:"mother, father, siblings — family vocabulary",
+isVocab:true,
+explain:["<p>Family vocabulary in English. Note key differences from Spanish: <b>siblings</b> = brothers and sisters together. <b>Parents</b> = mother AND father. <b>Relatives</b> = all family members.</p>"],
+vocab:[
+  {cat:"👪 Immediate Family",items:[
+    {e:"👨",w:"father / dad",p:"padre / papá"},
+    {e:"👩",w:"mother / mom",p:"madre / mamá"},
+    {e:"👦",w:"brother",p:"hermano"},
+    {e:"👧",w:"sister",p:"hermana"},
+    {e:"👴",w:"grandfather / grandpa",p:"abuelo"},
+    {e:"👵",w:"grandmother / grandma",p:"abuela"}
+  ]},
+  {cat:"👨‍👩‍👧 Extended Family",items:[
+    {e:"👨‍🦱",w:"uncle",p:"tío"},
+    {e:"👩‍🦰",w:"aunt",p:"tía"},
+    {e:"🧑",w:"cousin",p:"primo/a"},
+    {e:"👶",w:"nephew / niece",p:"sobrino / sobrina"},
+    {e:"💍",w:"husband / wife",p:"esposo / esposa"},
+    {e:"👫",w:"siblings",p:"hermanos (en general)"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"My mother's mother is my ____.",answers:["grandmother","grandma"]},
+  {type:"mcq",q:"'Siblings' means:",options:["only brothers","only sisters","brothers AND sisters","parents"],correct:2},
+  {type:"fill",q:"My father's brother is my ____.",answers:["uncle"]},
+  {type:"match",q:"Match the family member with the relationship.",pairs:[["aunt","my mother's sister"],["cousin","my uncle's child"],["nephew","my brother's son"],["grandpa","my father's father"]]},
+  {type:"tf",q:"'Parents' in English refers to mother and father together.",correct:true},
+  {type:"fill",q:"My sister's daughter is my ____.",answers:["niece"]},
+  {type:"mcq",q:"What do you call your brother or sister's child?",options:["cousin","niece or nephew","sibling","grandchild"],correct:1},
+  {type:"speak",phrase:"I have a big family. I have two brothers and one sister. My grandparents live nearby.",translation:"Tengo una familia grande. Tengo dos hermanos y una hermana. Mis abuelos viven cerca."},
+  {type:"fill",q:"My mother and father are my ____.",answers:["parents"]},
+  {type:"tf",q:"'Uncle' can refer to your mother's OR father's brother.",correct:true}
+]},
+
+{id:"colors-en",num:7,title:"Colors & Descriptions",emoji:"🌈",cardDesc:"red, blue, green — colors and basic adjectives",
+isVocab:true,
+explain:["<p>Colors in English are used as adjectives — they come BEFORE the noun: <b>a red car, blue eyes, green trees.</b> (Different from Spanish where they often come after)</p>"],
+vocab:[
+  {cat:"🎨 Basic Colors",items:[
+    {e:"🔴",w:"red",p:"rojo"},
+    {e:"🔵",w:"blue",p:"azul"},
+    {e:"🟢",w:"green",p:"verde"},
+    {e:"🟡",w:"yellow",p:"amarillo"},
+    {e:"⚫",w:"black",p:"negro"},
+    {e:"⚪",w:"white",p:"blanco"},
+    {e:"🟠",w:"orange",p:"naranja"},
+    {e:"🟣",w:"purple",p:"morado / violeta"}
+  ]},
+  {cat:"📝 Useful Adjectives",items:[
+    {e:"⬆️",w:"big / large",p:"grande"},
+    {e:"⬇️",w:"small / little",p:"pequeño"},
+    {e:"🔥",w:"hot",p:"caliente"},
+    {e:"🧊",w:"cold",p:"frío"},
+    {e:"💪",w:"strong",p:"fuerte"},
+    {e:"🪶",w:"light / lightweight",p:"ligero"},
+    {e:"😊",w:"happy",p:"feliz"},
+    {e:"😔",w:"sad",p:"triste"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"The sky is ____. (azul)",answers:["blue"]},
+  {type:"fill",q:"Grass is ____. (verde)",answers:["green"]},
+  {type:"mcq",q:"In English, adjectives go ___ the noun.",options:["after","before","behind","below"],correct:1},
+  {type:"match",q:"Match the color with an object of that color.",pairs:[["red","a fire truck"],["yellow","a banana"],["white","snow"],["black","the night sky"]]},
+  {type:"fill",q:"He has a ____ car. It's very dark, like the night. (negro)",answers:["black"]},
+  {type:"tf",q:"'A car red' is correct English word order.",correct:false},
+  {type:"fill",q:"She feels ____. She's smiling. (feliz)",answers:["happy"]},
+  {type:"mcq",q:"What color is a typical school bus in the USA?",options:["red","blue","yellow","green"],correct:2},
+  {type:"speak",phrase:"I love blue. My favorite shirt is blue. My room has white walls.",translation:"Me encanta el azul. Mi camisa favorita es azul. Mi cuarto tiene paredes blancas."},
+  {type:"tf",q:"'Orange' is both a color AND a fruit in English.",correct:true}
+]},
+
+{id:"food-en",num:8,title:"Food & Drinks",emoji:"🍎",cardDesc:"fruits, vegetables, drinks — essential food vocabulary",
+isVocab:true,
+explain:["<p>Food vocabulary is essential for everyday English. Key phrases: <b>I like / I love / I hate + noun. Do you like...? Yes, I love it! / No, I don't like it.</b></p>"],
+vocab:[
+  {cat:"🍎 Fruits & Vegetables",items:[
+    {e:"🍎",w:"apple",p:"manzana"},
+    {e:"🍌",w:"banana",p:"plátano"},
+    {e:"🍊",w:"orange",p:"naranja"},
+    {e:"🥕",w:"carrot",p:"zanahoria"},
+    {e:"🥦",w:"broccoli",p:"brócoli"},
+    {e:"🍅",w:"tomato",p:"tomate"},
+    {e:"🥑",w:"avocado",p:"aguacate"},
+    {e:"🍓",w:"strawberry",p:"fresa"}
+  ]},
+  {cat:"🍔 Meals & Drinks",items:[
+    {e:"🍞",w:"bread",p:"pan"},
+    {e:"🧀",w:"cheese",p:"queso"},
+    {e:"🥩",w:"meat",p:"carne"},
+    {e:"🍳",w:"eggs",p:"huevos"},
+    {e:"☕",w:"coffee",p:"café"},
+    {e:"🧃",w:"juice",p:"jugo"},
+    {e:"💧",w:"water",p:"agua"},
+    {e:"🍵",w:"tea",p:"té"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"I eat an ____ every morning. (manzana)",answers:["apple"]},
+  {type:"mcq",q:"Which of these is a vegetable?",options:["banana","carrot","apple","orange"],correct:1},
+  {type:"fill",q:"Do you like ____? Yes, I love it! (café)",answers:["coffee"]},
+  {type:"match",q:"Match the food with its category.",pairs:[["apple","fruit"],["carrot","vegetable"],["water","drink"],["bread","grain/bakery"]]},
+  {type:"tf",q:"In English, 'tomato' is used as a vegetable in cooking.",correct:true},
+  {type:"fill",q:"She drinks ____ every morning at breakfast. (té)",answers:["tea"]},
+  {type:"speak",phrase:"I love fruits and vegetables. My favorite fruit is mango. I drink juice every morning.",translation:"Me encantan las frutas y verduras. Mi fruta favorita es el mango. Tomo jugo cada mañana."},
+  {type:"mcq",q:"What do you drink with breakfast that gives you energy?",options:["water","juice or coffee","soup","ice cream"],correct:1},
+  {type:"fill",q:"____ is a yellow fruit. You peel it before eating. (plátano)",answers:["Banana","A banana"]},
+  {type:"tf",q:"'Avocado' is a fruit that comes from Mexico and Central America.",correct:true}
+]},
+
+{id:"possessives-en",num:9,title:"Possessives",emoji:"🔑",cardDesc:"my, your, his, her — who owns what",
+explain:[
+  "<p><b>Possessive adjectives</b> show ownership and go BEFORE the noun:</p>",
+  "<table class='reftable'><tr><th>Subject</th><th>Possessive Adj.</th><th>Example</th></tr><tr><td>I</td><td class='formcol'>my</td><td>my book</td></tr><tr><td>you</td><td class='formcol'>your</td><td>your car</td></tr><tr><td>he</td><td class='formcol'>his</td><td>his phone</td></tr><tr><td>she</td><td class='formcol'>her</td><td>her bag</td></tr><tr><td>we</td><td class='formcol'>our</td><td>our house</td></tr><tr><td>they</td><td class='formcol'>their</td><td>their dog</td></tr></table>",
+  "<p><b>Possessive 's</b>: add <b>'s</b> to a person's name or noun to show it belongs to them: <span class='ex-fr'>Maria's car · the teacher's book · John's sister.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"That is ____ car. (I — my car)",answers:["my"]},
+  {type:"fill",q:"She loves ____ cat. (she — her cat)",answers:["her"]},
+  {type:"mcq",q:"'They have a dog. ___ dog is big.'",options:["They","Their","There","Them"],correct:1},
+  {type:"tf",q:"'His' is used for both male AND female subjects.",correct:false},
+  {type:"match",q:"Match subject with its possessive adjective.",pairs:[["I","my"],["he","his"],["she","her"],["we","our"]]},
+  {type:"fill",q:"This is John. ____ phone is new. (John's phone — his)",answers:["His"]},
+  {type:"order",q:"Build the sentence:",words:["is","Maria's","beautiful.","house"],correct:"Maria's house is beautiful."},
+  {type:"fill",q:"We love ____ country. (our)",answers:["our"]},
+  {type:"speak",phrase:"My name is Carlos. My sister's name is Laura. Her cat is very friendly.",translation:"Mi nombre es Carlos. El nombre de mi hermana es Laura. Su gato es muy amigable."},
+  {type:"tf",q:"'Your' can refer to one person OR more than one person.",correct:true}
+]},
+
+{id:"simple-questions-en",num:10,title:"Yes/No & WH- Questions",emoji:"❓",cardDesc:"Are you? Do you? Where? What? — asking questions",
+explain:[
+  "<p><b>Yes/No questions with To Be</b>: invert subject and verb: <span class='ex-fr'>Are you a student? — Yes, I am. / No, I'm not. · Is she happy? — Yes, she is.</span></p>",
+  "<p><b>WH- question words</b>: <span class='ex-fr'>What (qué/cuál) · Where (dónde) · Who (quién) · When (cuándo) · Why (por qué) · How (cómo) · How many/much (cuántos/cuánto)</span></p>",
+  "<p><span class='ex-fr'>What is your name? — My name is Maria. · Where are you from? — I'm from Colombia. · How old are you? — I'm 22 years old.</span></p>"
+],
+vocab:[
+  {cat:"❓ WH- Question Words",items:[
+    {e:"🤔",w:"What",p:"qué / cuál"},
+    {e:"📍",w:"Where",p:"dónde"},
+    {e:"👤",w:"Who",p:"quién"},
+    {e:"⏰",w:"When",p:"cuándo"},
+    {e:"🤷",w:"Why",p:"por qué"},
+    {e:"🛠️",w:"How",p:"cómo"},
+    {e:"🔢",w:"How many",p:"cuántos (contables)"},
+    {e:"📊",w:"How much",p:"cuánto (incontables)"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"____ is your name? — My name is Alex. (qué / cuál)",answers:["What"]},
+  {type:"fill",q:"____ are you from? — I'm from Brazil. (dónde)",answers:["Where"]},
+  {type:"mcq",q:"To make a yes/no question with TO BE:",options:["Add 'do' before the subject","Move the verb before the subject","Add '?' at the end only","Add 'not' to the verb"],correct:1},
+  {type:"fill",q:"____ old are you? — I'm twenty. (cómo — para edad)",answers:["How"]},
+  {type:"match",q:"Match the question word with its meaning.",pairs:[["Why","por qué"],["Who","quién"],["When","cuándo"],["How much","cuánto (incontable)"]]},
+  {type:"order",q:"Build the question:",words:["from?","are","you","Where"],correct:"Where are you from?"},
+  {type:"fill",q:"____ are you happy? — Because it's my birthday! (por qué)",answers:["Why"]},
+  {type:"mcq",q:"'___ books do you have?' — (contable)",options:["How much","How many","What","Which"],correct:1},
+  {type:"speak",phrase:"What's your name? Where are you from? How old are you? What do you do?",translation:"¿Cómo te llamas? ¿De dónde eres? ¿Cuántos años tienes? ¿A qué te dedicas?"},
+  {type:"tf",q:"'Are you a student?' is a correct Yes/No question with the verb To Be.",correct:true}
+]},
+
+{id:"there-is-en",num:11,title:"There is / There are",emoji:"📍",cardDesc:"There's a park! There are two cats. — describing what exists",
+explain:[
+  "<p>Use <b>There is</b> (singular) and <b>There are</b> (plural) to say that something exists or is located somewhere.</p>",
+  "<p><b>Positive</b>: <span class='ex-fr'>There is a park near my house. / There are three bedrooms.</span></p>",
+  "<p><b>Negative</b>: <span class='ex-fr'>There isn't a pool. / There aren't any chairs.</span></p>",
+  "<p><b>Question</b>: <span class='ex-fr'>Is there a bank nearby? — Yes, there is. / No, there isn't. · Are there any students? — Yes, there are.</span></p>",
+  "<p>Contractions: <span class='ex-fr'>There is → There's · There are → There're (informal)</span></p>"
+],
+exercises:[
+  {type:"fill",q:"____ a supermarket near here. (singular)",answers:["There is","There's"]},
+  {type:"fill",q:"____ three cats in the garden. (plural)",answers:["There are"]},
+  {type:"mcq",q:"'____ any milk in the fridge?' (question)",options:["There are","Is there","Are there","There is"],correct:1},
+  {type:"tf",q:"'There are a cat' is incorrect because 'cat' is singular.",correct:true},
+  {type:"fill",q:"____ aren't any buses on Sunday. (there are — negative)",answers:["There"]},
+  {type:"order",q:"Build the sentence:",words:["in","There","students","are","the","classroom.","20"],correct:"There are 20 students in the classroom."},
+  {type:"fill",q:"Is ____ a hospital near here? — Yes, there is. (question — is there)",answers:["there"]},
+  {type:"mcq",q:"'There's a dog in the park.' 'There's' is the contraction of:",options:["There was","There is","There are","There has"],correct:1},
+  {type:"speak",phrase:"There's a beautiful park in my neighborhood. There are trees, benches, and a small lake.",translation:"Hay un parque hermoso en mi vecindario. Hay árboles, bancas y un lago pequeño."},
+  {type:"tf",q:"'Is there a bathroom?' is a correct way to ask if something exists.",correct:true}
+]},
+
+{id:"prepositions-basic-en",num:12,title:"Basic Prepositions",emoji:"📦",cardDesc:"in, on, at, under, next to — where things are",
+explain:[
+  "<p>Prepositions of place tell us WHERE something is:</p>",
+  "<p><span class='ex-fr'>in (dentro de) · on (sobre/encima de) · at (en un punto específico) · under (debajo de) · next to (al lado de) · behind (detrás de) · in front of (frente a) · between (entre dos) · near (cerca de)</span></p>",
+  "<p>Key rules: <b>in</b> = enclosed space or area: <span class='ex-fr'>in the box, in the city. · on</span> = surface: <span class='ex-fr'>on the table. · at</span> = specific point: <span class='ex-fr'>at the bus stop, at school.</span></p>"
+],
+vocab:[
+  {cat:"📦 Prepositions of Place",items:[
+    {e:"📦",w:"in",p:"dentro de / en"},
+    {e:"⬆️",w:"on",p:"sobre / encima de"},
+    {e:"📍",w:"at",p:"en (punto específico)"},
+    {e:"⬇️",w:"under",p:"debajo de"},
+    {e:"↔️",w:"next to",p:"al lado de"},
+    {e:"🔙",w:"behind",p:"detrás de"},
+    {e:"▶️",w:"in front of",p:"frente a / enfrente de"},
+    {e:"↕️",w:"between",p:"entre (dos cosas)"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"The cat is ____ the box. (dentro)",answers:["in"]},
+  {type:"fill",q:"The book is ____ the table. (sobre)",answers:["on"]},
+  {type:"mcq",q:"'She is ___ school right now.' — which preposition?",options:["in","on","at","under"],correct:2},
+  {type:"match",q:"Match the preposition with its meaning.",pairs:[["under","debajo de"],["behind","detrás de"],["next to","al lado de"],["between","entre dos cosas"]]},
+  {type:"fill",q:"The school is ____ the bank and the library. (entre dos)",answers:["between"]},
+  {type:"tf",q:"'The dog is on the chair' means the dog is sitting ON TOP of the chair.",correct:true},
+  {type:"fill",q:"I'm waiting ____ the bus stop. (en un punto específico)",answers:["at"]},
+  {type:"order",q:"Describe where the keys are:",words:["are","The","the","on","keys","table."],correct:"The keys are on the table."},
+  {type:"speak",phrase:"My house is next to a park. There's a supermarket in front of my house and a school behind it.",translation:"Mi casa está al lado de un parque. Hay un supermercado frente a mi casa y una escuela detrás."},
+  {type:"tf",q:"'At the airport' uses 'at' because an airport is a specific location point.",correct:true}
+]}
+
+];
+
+window.LP_TOPICS['en-1'].push({
+  id:"conversation-en1",num:13,title:"Conversation Station",emoji:"💬",
+  cardDesc:"Practice Level 1 English with Alex",
+  isChat:true,
+  explain:["<p>Practice real conversations with everything from Level 1: greetings, to be, articles, numbers, jobs, family, and basic questions. Your AI partner Alex speaks simple A1 English.</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['en-1'] = {
+  scenarios:[
+    {id:"first-meeting",title:"First Meeting",emoji:"🤝",setup:"You meet someone new at an English class.",partner:{emoji:"🧑",name:"Alex"},opener:"Hi! I'm Alex. What's your name? Where are you from?"},
+    {id:"my-family",title:"Talking about Family",emoji:"👨‍👩‍👧‍👦",setup:"You're showing photos of your family.",partner:{emoji:"👩",name:"Emma"},opener:"Oh, is this your family? Tell me about them! How many brothers and sisters do you have?"},
+    {id:"daily-life",title:"Daily Life",emoji:"🏠",setup:"Describing your home and neighborhood.",partner:{emoji:"🏘️",name:"Jordan"},opener:"Where do you live? Is there a park near your house?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  ENGLISH — LEVEL 2 (A2)
+// ══════════════════════════════════
+window.LP_TOPICS['en-2'] = [
+
+{id:"simple-present-en",num:1,title:"Simple Present",emoji:"⏰",cardDesc:"I work, she works — habits, routines and facts",
+explain:[
+  "<p>The <b>Simple Present</b> is used for habits, routines, and general facts. Add <b>-s</b> (or -es) for He/She/It.</p>",
+  "<table class='reftable'><tr><th>Subject</th><th>work</th><th>watch</th></tr><tr><td>I / You / We / They</td><td class='formcol'>work</td><td>watch</td></tr><tr><td>He / She / It</td><td class='formcol'>works</td><td>watches</td></tr></table>",
+  "<p><b>Negative</b>: <span class='ex-fr'>I don't work. / She doesn't work.</span> <b>Question</b>: <span class='ex-fr'>Do you work? / Does she work?</span></p>",
+  "<p>Time markers: <span class='ex-fr'>every day · always · usually · often · sometimes · never · on Mondays</span></p>"
+],
+video:"NjzdQDk2xfo",videoNote:"Simple Present — English Grammar",
+vocab:[
+  {cat:"⏰ Frequency Adverbs",items:[
+    {e:"💯",w:"always",p:"siempre"},
+    {e:"🔄",w:"usually",p:"generalmente"},
+    {e:"📅",w:"often",p:"a menudo"},
+    {e:"🔀",w:"sometimes",p:"a veces"},
+    {e:"🔻",w:"rarely",p:"rara vez"},
+    {e:"🚫",w:"never",p:"nunca"}
+  ]},
+  {cat:"🏃 Common Verbs",items:[
+    {e:"💼",w:"work",p:"trabajar"},
+    {e:"📚",w:"study",p:"estudiar"},
+    {e:"🏃",w:"exercise",p:"hacer ejercicio"},
+    {e:"🍽️",w:"eat",p:"comer"},
+    {e:"😴",w:"sleep",p:"dormir"},
+    {e:"📺",w:"watch TV",p:"ver televisión"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"She ____ to work every day. (go — 3rd person)",answers:["goes"]},
+  {type:"fill",q:"I ____ watch TV. I prefer reading. (negative)",answers:["don't"]},
+  {type:"mcq",q:"'He ___ English very well.' — correct form:",options:["speak","speaks","speaking","speaked"],correct:1},
+  {type:"tf",q:"For He/She/It in Simple Present, we add -s or -es to the verb.",correct:true},
+  {type:"order",q:"Build a question:",words:["play","you","Do","guitar?","the"],correct:"Do you play the guitar?"},
+  {type:"fill",q:"____ she work on weekends? (question)",answers:["Does"]},
+  {type:"match",q:"Match the frequency adverb with its percentage.",pairs:[["always","100%"],["usually","~80%"],["sometimes","~50%"],["never","0%"]]},
+  {type:"fill",q:"He ____ get up early. He's not a morning person. (negative — doesn't)",answers:["doesn't"]},
+  {type:"speak",phrase:"I usually wake up at 7am. I always have breakfast. I never skip exercise.",translation:"Generalmente me despierto a las 7am. Siempre desayuno. Nunca me salto el ejercicio."},
+  {type:"tf",q:"'She don't like coffee' is correct English.",correct:false}
+]},
+
+{id:"simple-past-en",num:2,title:"Simple Past",emoji:"📖",cardDesc:"I worked, she went — talking about finished actions",
+explain:[
+  "<p>Use the <b>Simple Past</b> for finished actions in the past. Regular verbs: add <b>-ed</b>. Irregular verbs must be memorized.</p>",
+  "<p><b>Regular</b>: <span class='ex-fr'>work → worked · play → played · study → studied · travel → traveled</span></p>",
+  "<p><b>Common irregulars</b>: <span class='ex-fr'>go → went · eat → ate · see → saw · come → came · have → had · get → got · make → made · take → took · say → said · buy → bought</span></p>",
+  "<p><b>Negative</b>: <span class='ex-fr'>I didn't work. (NOT: I didn't worked)</span> <b>Question</b>: <span class='ex-fr'>Did you work? — Yes, I did.</span></p>"
+],
+video:"FZ8TvI2YoeI",videoNote:"Simple Past Tense — English Grammar",
+vocab:[
+  {cat:"📖 Irregular Verbs — Past",items:[
+    {e:"🚶",w:"go → went",p:"ir → fui/fue"},
+    {e:"👁️",w:"see → saw",p:"ver → vi/vio"},
+    {e:"🍽️",w:"eat → ate",p:"comer → comí/comió"},
+    {e:"🤲",w:"get → got",p:"obtener → obtuve"},
+    {e:"💡",w:"have → had",p:"tener → tuve/tuvo"},
+    {e:"📝",w:"write → wrote",p:"escribir → escribí"},
+    {e:"🏃",w:"run → ran",p:"correr → corrí"},
+    {e:"🛒",w:"buy → bought",p:"comprar → compré"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Yesterday I ____ to the park. (go → irregular)",answers:["went"]},
+  {type:"fill",q:"She ____ a pizza for dinner. (eat → ate)",answers:["ate"]},
+  {type:"mcq",q:"'I didn't ____ TV last night.' — which form?",options:["watched","watch","watching","watches"],correct:1},
+  {type:"tf",q:"'She goed to school' is the correct past tense of 'go'.",correct:false},
+  {type:"match",q:"Match the verb with its irregular past form.",pairs:[["see","saw"],["buy","bought"],["run","ran"],["write","wrote"]]},
+  {type:"fill",q:"____ you go to the party? — Yes, I did! (question)",answers:["Did"]},
+  {type:"order",q:"Build the sentence:",words:["last","I","the","saw","night.","movie"],correct:"I saw the movie last night."},
+  {type:"fill",q:"We ____ lunch at a great restaurant. (have → had)",answers:["had"]},
+  {type:"speak",phrase:"Last weekend I went to the beach. I ate seafood and I saw a beautiful sunset.",translation:"El fin de semana pasado fui a la playa. Comí mariscos y vi un hermoso atardecer."},
+  {type:"fill",q:"He ____ read the book yet. He ____ it yesterday. (didn't / bought)",answers:["didn't","bought"]}
+]},
+
+{id:"present-continuous-en",num:3,title:"Present Continuous",emoji:"🔄",cardDesc:"I am working — actions happening right now",
+explain:[
+  "<p>The <b>Present Continuous</b> describes actions happening NOW or around now. Formation: <b>to be + verb-ing</b>.</p>",
+  "<p>Spelling: <span class='ex-fr'>work → working · sit → sitting (double final consonant) · make → making (drop -e)</span></p>",
+  "<p><b>Uses</b>: <span class='ex-fr'>Now: I'm studying English right now. · Around now: She's working on a project this week. · Future plans: We're meeting at 7pm tonight.</span></p>",
+  "<p><b>State verbs (don't use -ing)</b>: <span class='ex-fr'>know, like, love, hate, want, need, believe, understand, seem, belong</span></p>"
+],
+exercises:[
+  {type:"fill",q:"She ____ a book right now. (read → present continuous)",answers:["is reading"]},
+  {type:"fill",q:"They ____ football in the park. (play — right now)",answers:["are playing"]},
+  {type:"mcq",q:"'I am ____ TV right now.' — correct -ing form:",options:["watchs","watched","watching","watches"],correct:2},
+  {type:"tf",q:"'I am knowing the answer' is correct because knowing is happening now.",correct:false},
+  {type:"order",q:"Build the sentence:",words:["dinner.","cooking","is","She"],correct:"She is cooking dinner."},
+  {type:"fill",q:"____ you doing homework right now? — Yes, I am! (question)",answers:["Are"]},
+  {type:"fill",q:"He isn't ____ — he's reading. (watch — negative)",answers:["watching"]},
+  {type:"match",q:"Match the use with an example.",pairs:[["action now","I'm writing a message",""],["action around now","She's learning Spanish this month",""],["future plan","We're flying to London tonight",""],["state verb — NO -ing","I know the answer",""]]},
+  {type:"speak",phrase:"Right now I'm sitting in a café. I'm drinking coffee and studying English.",translation:"Ahora mismo estoy sentado en un café. Estoy tomando café y estudiando inglés."},
+  {type:"tf",q:"We use Present Continuous for habits and routines.",correct:false}
+]},
+
+{id:"going-to-en",num:4,title:"Going To — Future Plans",emoji:"🔮",cardDesc:"I'm going to travel — plans and predictions",
+explain:[
+  "<p><b>Going to</b> is used for future plans and intentions (already decided) and predictions based on evidence.</p>",
+  "<p>Structure: <b>Subject + am/is/are + going to + base verb</b>.</p>",
+  "<p><span class='ex-fr'>I'm going to study medicine. (plan) · She's going to have a baby! (evidence — look at her) · They're going to be late. (prediction)</span></p>",
+  "<p>vs. <b>Will</b>: use <b>will</b> for spontaneous decisions and pure predictions: <span class='ex-fr'>I'll help you! (decided right now) · I think it will rain tomorrow.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"I ____ study medicine next year. (going to — future plan)",answers:["am going to","'m going to"]},
+  {type:"fill",q:"She ____ travel to Japan in summer. (going to — she)",answers:["is going to","'s going to"]},
+  {type:"mcq",q:"'Look at those clouds! It ___ rain.' — which is best?",options:["will","is going to","goes to","going to"],correct:1},
+  {type:"tf",q:"'Going to' is used for plans we decided BEFORE the moment of speaking.",correct:true},
+  {type:"order",q:"Build the sentence:",words:["going","is","He","cook","to","dinner."],correct:"He is going to cook dinner."},
+  {type:"fill",q:"____ you going to come to the party? — Yes, I am! (question)",answers:["Are"]},
+  {type:"fill",q:"We aren't ____ to watch the game. (going to — negative)",answers:["going"]},
+  {type:"match",q:"Match the situation with the correct structure.",pairs:[["decided plan","going to"],["spontaneous decision","will"],["evidence-based prediction","going to"],["general future fact","will"]]},
+  {type:"speak",phrase:"Next year I'm going to learn a new language and travel to Europe. I'm going to work hard!",translation:"El próximo año voy a aprender un nuevo idioma y viajar a Europa. ¡Voy a trabajar duro!"},
+  {type:"tf",q:"'I'm going to call you' and 'I'll call you' are always interchangeable.",correct:false}
+]},
+
+{id:"modals-en",num:5,title:"Modal Verbs",emoji:"⚡",cardDesc:"can, should, must, might — ability, advice and obligation",
+explain:[
+  "<p>Modals are special verbs that express <b>ability, advice, necessity, permission and possibility</b>. They NEVER take -s and are always followed by the base verb.</p>",
+  "<table class='reftable'><tr><th>Modal</th><th>Meaning</th><th>Example</th></tr><tr><td>can</td><td>ability / permission</td><td class='formcol'>I can swim.</td></tr><tr><td>can't</td><td>inability</td><td class='formcol'>She can't drive.</td></tr><tr><td>should</td><td>advice</td><td class='formcol'>You should rest.</td></tr><tr><td>must</td><td>strong obligation</td><td class='formcol'>You must pay taxes.</td></tr><tr><td>might</td><td>possibility</td><td class='formcol'>It might rain.</td></tr><tr><td>have to</td><td>external obligation</td><td class='formcol'>I have to work.</td></tr></table>"
+],
+exercises:[
+  {type:"fill",q:"She ____ speak three languages. (ability — can)",answers:["can"]},
+  {type:"fill",q:"You ____ smoke in hospitals. It's forbidden. (prohibition — can't/must not)",answers:["can't","cannot","must not"]},
+  {type:"mcq",q:"'You ___ see a doctor. You look terrible!' — advice",options:["can","might","should","must"],correct:2},
+  {type:"tf",q:"After modal verbs, we always use the base form (infinitive without 'to').",correct:true},
+  {type:"match",q:"Match the modal with its function.",pairs:[["can","ability"],["should","advice"],["must","strong obligation"],["might","possibility"]]},
+  {type:"fill",q:"It ____ rain tomorrow — I'm not sure. (possibility)",answers:["might","could","may"]},
+  {type:"order",q:"Build the advice sentence:",words:["You","more.","should","sleep"],correct:"You should sleep more."},
+  {type:"fill",q:"He ____ pay rent on the first of every month. (external obligation)",answers:["has to"]},
+  {type:"speak",phrase:"You should exercise every day. You must eat well. You might feel better very soon!",translation:"Deberías hacer ejercicio todos los días. Debes comer bien. ¡Quizás te sientas mejor muy pronto!"},
+  {type:"tf",q:"'She cans swim' is correct English.",correct:false}
+]},
+
+{id:"comparatives-en",num:6,title:"Comparatives & Superlatives",emoji:"📊",cardDesc:"bigger, the biggest — comparing people and things",
+explain:[
+  "<p><b>Comparatives</b> compare two things. <b>Superlatives</b> describe the extreme in a group.</p>",
+  "<p>Short adjectives (1 syllable): add <b>-er / -est</b>: <span class='ex-fr'>big → bigger → the biggest · fast → faster → the fastest</span></p>",
+  "<p>Long adjectives (2+ syllables): use <b>more / most</b>: <span class='ex-fr'>beautiful → more beautiful → the most beautiful · expensive → more expensive → the most expensive</span></p>",
+  "<p>Irregulars: <span class='ex-fr'>good → better → the best · bad → worse → the worst · far → farther → the farthest</span></p>",
+  "<p>Structure: <span class='ex-fr'>A is + comparative + than + B. · The + superlative + in/of...</span></p>"
+],
+exercises:[
+  {type:"fill",q:"This car is ____ than that one. (fast — comparativo)",answers:["faster"]},
+  {type:"fill",q:"Mount Everest is ____ mountain in the world. (high — superlativo)",answers:["the highest"]},
+  {type:"mcq",q:"'This movie is ___ interesting than the first one.' — 2-syllable adj.",options:["interestinger","more interesting","most interesting","the most interesting"],correct:1},
+  {type:"fill",q:"He's a ____ student in the class. (good — superlativo irregular)",answers:["the best"]},
+  {type:"match",q:"Match the adjective with its comparative form.",pairs:[["bad","worse"],["good","better"],["beautiful","more beautiful"],["fast","faster"]]},
+  {type:"order",q:"Build the comparison:",words:["is","New","than","York","bigger","London."],correct:"New York is bigger than London."},
+  {type:"fill",q:"This is ____ expensive restaurant in the city. (the most)",answers:["the most"]},
+  {type:"tf",q:"'She is more tall than me' is correct English.",correct:false},
+  {type:"speak",phrase:"My city is bigger than yours, but yours is more beautiful and the most peaceful.",translation:"Mi ciudad es más grande que la tuya, pero la tuya es más hermosa y la más tranquila."},
+  {type:"fill",q:"Today is ____ than yesterday. (bad → worse)",answers:["worse"]}
+]},
+
+{id:"count-noncount-en",num:7,title:"Count & Non-count Nouns",emoji:"🔢",cardDesc:"some, any, much, many — talking about quantities",
+explain:[
+  "<p><b>Count nouns</b> = things you can count individually. Have singular and plural: <span class='ex-fr'>one apple / two apples · a student / students</span></p>",
+  "<p><b>Non-count nouns</b> = cannot be counted individually. No plural form: <span class='ex-fr'>water, milk, rice, music, advice, information, money, furniture</span></p>",
+  "<p>Quantifiers: <span class='ex-fr'>many + count (many books) · much + non-count (much water) · a few + count (a few people) · a little + non-count (a little sugar) · some (positive) · any (negative/question)</span></p>"
+],
+vocab:[
+  {cat:"🔢 Quantifiers",items:[
+    {e:"📚",w:"many books",p:"muchos libros (contable)"},
+    {e:"💧",w:"much water",p:"mucha agua (incontable)"},
+    {e:"👥",w:"a few people",p:"algunas personas (contable)"},
+    {e:"🍯",w:"a little honey",p:"un poco de miel (incontable)"},
+    {e:"✅",w:"some (positive)",p:"algo de / algunos (positivo)"},
+    {e:"❓",w:"any (negative/question)",p:"algo de / ningún (neg./preg.)"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"How ____ students are in your class? (muchos — contable)",answers:["many"]},
+  {type:"fill",q:"I don't have ____ money right now. (mucho — incontable)",answers:["much"]},
+  {type:"mcq",q:"'Water' is a non-count noun. How do you ask for some?",options:["How many waters?","Can I have some water?","I want a water.","Give me waters."],correct:1},
+  {type:"tf",q:"'Informations' is the correct plural of 'information'.",correct:false},
+  {type:"match",q:"Match with many or much.",pairs:[["books","many"],["music","much"],["friends","many"],["advice","much"]]},
+  {type:"fill",q:"There is ____ sugar in this coffee. (a little — a little or a few?)",answers:["a little"]},
+  {type:"fill",q:"Are there ____ apples left? — No, there aren't any. (any — pregunta)",answers:["any"]},
+  {type:"speak",phrase:"I don't have much time, but I have a few minutes. Can I have some water please?",translation:"No tengo mucho tiempo, pero tengo unos minutos. ¿Puedo tomar un poco de agua, por favor?"},
+  {type:"mcq",q:"'A few' is used with:",options:["non-count nouns","count nouns","both","neither"],correct:1},
+  {type:"fill",q:"She doesn't have ____ friends in the new city. (many/few)",answers:["many"]}
+]},
+
+{id:"prepositions-time-en",num:8,title:"Prepositions of Time & Place",emoji:"📍",cardDesc:"at 5pm, on Monday, in July, in the kitchen — time & place",
+explain:[
+  "<p><b>AT</b>: specific times and places: <span class='ex-fr'>at 3pm · at night · at the bus stop · at school · at home</span></p>",
+  "<p><b>ON</b>: days and dates; surfaces: <span class='ex-fr'>on Monday · on July 4th · on my birthday · on the table · on the wall</span></p>",
+  "<p><b>IN</b>: months, years, periods; enclosed spaces: <span class='ex-fr'>in July · in 2020 · in the morning · in the afternoon · in the kitchen · in the city · in a box</span></p>",
+  "<p>Memory trick: Think of the containers getting bigger: AT (small/specific) → ON (medium/surface) → IN (large/enclosed)</p>"
+],
+exercises:[
+  {type:"fill",q:"My class starts ____ 9 o'clock. (tiempo específico)",answers:["at"]},
+  {type:"fill",q:"We have class ____ Monday. (día de la semana)",answers:["on"]},
+  {type:"fill",q:"I was born ____ 2001. (año)",answers:["in"]},
+  {type:"mcq",q:"'She's ___ the kitchen cooking dinner.' — place preposition",options:["at","on","in","by"],correct:2},
+  {type:"match",q:"Match with at, on, or in.",pairs:[["5pm","at"],["Tuesday","on"],["March","in"],["my birthday","on"]]},
+  {type:"fill",q:"Let's meet ____ the coffee shop at 4pm. (lugar específico)",answers:["at"]},
+  {type:"tf",q:"'I was born in December' uses 'in' because December is a month.",correct:true},
+  {type:"fill",q:"He works ____ the morning and relaxes ____ the evening.",answers:["in","in"]},
+  {type:"speak",phrase:"I wake up at 7am. On Mondays I go to the gym. In the summer I usually travel.",translation:"Me despierto a las 7am. Los lunes voy al gimnasio. En el verano generalmente viajo."},
+  {type:"fill",q:"The book is ____ the shelf. (sobre la repisa)",answers:["on"]}
+]},
+
+{id:"hobbies-en",num:9,title:"Hobbies & Free Time",emoji:"🎸",cardDesc:"What do you do in your free time? — leisure activities",
+isVocab:true,
+explain:["<p>Talk about hobbies and interests in English. Key phrases: <b>I enjoy... / I love... / I'm into... / I'm keen on... / I can't stand...</b> + verb-ing or noun.</p>"],
+vocab:[
+  {cat:"🎯 Sports & Physical",items:[
+    {e:"⚽",w:"play football/soccer",p:"jugar fútbol"},
+    {e:"🏊",w:"swim / go swimming",p:"nadar"},
+    {e:"🏋️",w:"go to the gym",p:"ir al gimnasio"},
+    {e:"🚴",w:"go cycling",p:"andar en bicicleta"},
+    {e:"🧘",w:"do yoga",p:"hacer yoga"},
+    {e:"🥊",w:"do martial arts",p:"practicar artes marciales"}
+  ]},
+  {cat:"🎨 Creative & Relaxing",items:[
+    {e:"📚",w:"read books",p:"leer libros"},
+    {e:"🎵",w:"listen to music",p:"escuchar música"},
+    {e:"🎨",w:"paint / draw",p:"pintar / dibujar"},
+    {e:"🎮",w:"play video games",p:"jugar videojuegos"},
+    {e:"🎬",w:"watch movies",p:"ver películas"},
+    {e:"🧶",w:"knit / sew",p:"tejer / coser"},
+    {e:"🍳",w:"cook",p:"cocinar"},
+    {e:"📸",w:"take photos",p:"tomar fotos"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"What do you do in your ____ time? — I love reading. (free)",answers:["free"]},
+  {type:"mcq",q:"'I'm really ___ playing guitar.' — informal way to say you enjoy something",options:["interested","into","on","about"],correct:1},
+  {type:"fill",q:"She ____ yoga every morning. She loves it. (do — simple present)",answers:["does"]},
+  {type:"match",q:"Match the hobby with its category.",pairs:[["swimming","physical/sport"],["drawing","creative"],["cooking","practical/creative"],["reading","relaxing"]]},
+  {type:"tf",q:"'I enjoy to swim' is correct English grammar.",correct:false},
+  {type:"fill",q:"He's very ____ photography. He takes pictures everywhere. (into/keen on)",answers:["into","keen on"]},
+  {type:"speak",phrase:"In my free time I love watching movies and listening to music. On weekends I go cycling.",translation:"En mi tiempo libre me encanta ver películas y escuchar música. Los fines de semana voy a andar en bicicleta."},
+  {type:"fill",q:"We often ____ to the gym after work. (go — frequent action)",answers:["go"]},
+  {type:"mcq",q:"Which sentence is grammatically correct?",options:["I enjoy to read.","I enjoy reading.","I enjoy read.","I am enjoy reading."],correct:1},
+  {type:"tf",q:"'Go swimming' and 'go to swim' mean the same thing in English.",correct:false}
+]},
+
+{id:"travel-en",num:10,title:"Travel & Vacations",emoji:"✈️",cardDesc:"booking a trip, at the airport, at the hotel — travel vocabulary",
+isVocab:true,
+explain:["<p>Essential vocabulary for traveling in English. Practice phrases for airports, hotels, and asking for directions.</p>"],
+vocab:[
+  {cat:"✈️ At the Airport",items:[
+    {e:"🛫",w:"flight",p:"vuelo"},
+    {e:"🎫",w:"boarding pass",p:"tarjeta de embarque"},
+    {e:"🧳",w:"luggage / suitcase",p:"equipaje / maleta"},
+    {e:"🪪",w:"passport",p:"pasaporte"},
+    {e:"🚪",w:"gate",p:"puerta de embarque"},
+    {e:"⏱️",w:"delay",p:"retraso / demora"}
+  ]},
+  {cat:"🏨 At the Hotel",items:[
+    {e:"🔑",w:"check in / check out",p:"registrarse / salir del hotel"},
+    {e:"🛏️",w:"single / double room",p:"habitación sencilla / doble"},
+    {e:"📅",w:"reservation / booking",p:"reservación"},
+    {e:"🍳",w:"room service",p:"servicio a la habitación"},
+    {e:"🏊",w:"amenities",p:"servicios / instalaciones"},
+    {e:"🧾",w:"receipt / bill",p:"recibo / cuenta"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"I need to show my ____ at the airport to board the plane. (pasaporte)",answers:["passport"]},
+  {type:"fill",q:"My ____ is at 6pm from Gate 12. (vuelo)",answers:["flight"]},
+  {type:"mcq",q:"When you arrive at the hotel, you need to:",options:["check out","check in","check up","check around"],correct:1},
+  {type:"match",q:"Match the word with its definition.",pairs:[["boarding pass","document to get on the plane"],["delay","flight is late"],["luggage","your bags and suitcases"],["gate","where you board the plane"]]},
+  {type:"fill",q:"My ____ is from August 10th to August 15th. (reservación)",answers:["reservation","booking"]},
+  {type:"tf",q:"'Check out' means leaving the hotel and paying the bill.",correct:true},
+  {type:"fill",q:"I'd like a ____ room, please. For one person. (sencilla)",answers:["single"]},
+  {type:"speak",phrase:"I have a flight at 8am. I need to be at the airport by 6am. My gate is B7.",translation:"Tengo un vuelo a las 8am. Necesito estar en el aeropuerto a las 6am. Mi puerta es la B7."},
+  {type:"fill",q:"Sorry, my flight has a 2-hour ____. It will arrive late. (retraso)",answers:["delay"]},
+  {type:"mcq",q:"What do you need to show to get on a plane?",options:["credit card","boarding pass and passport","hotel key","receipt"],correct:1}
+]},
+
+{id:"would-like-en",num:11,title:"Would Like & Requests",emoji:"🙏",cardDesc:"I'd like..., Could you...? — polite requests",
+explain:[
+  "<p><b>Would like</b> is the polite form of 'want'. Use it in shops, restaurants, and formal situations.</p>",
+  "<p><span class='ex-fr'>I'd like a coffee, please. · She'd like to order now. · Would you like some water?</span></p>",
+  "<p>Making polite requests: <span class='ex-fr'>Could you help me, please? · Can you open the window? (less formal) · Would you mind closing the door?</span></p>",
+  "<p>Offering: <span class='ex-fr'>Would you like...? · Can I get you...? · How about...?</span></p>"
+],
+exercises:[
+  {type:"fill",q:"I ____ like a glass of water, please. (would → contraction)",answers:["'d","would"]},
+  {type:"fill",q:"Would you ____ to order now? — Yes, please! (like)",answers:["like"]},
+  {type:"mcq",q:"'___ you help me carry this?' — polite request",options:["Will","Should","Could","Must"],correct:2},
+  {type:"tf",q:"'I'd like' is more polite than 'I want'.",correct:true},
+  {type:"order",q:"Build a polite request:",words:["the","Could","you","open","window?"],correct:"Could you open the window?"},
+  {type:"fill",q:"____ you like some coffee? — Yes, thank you! (offer)",answers:["Would"]},
+  {type:"fill",q:"She ____ like to try the chocolate cake. (would → she'd)",answers:["'d like","would like"]},
+  {type:"match",q:"Match the situation with the correct phrase.",pairs:[["ordering in a restaurant","I'd like the steak, please."],["asking for help","Could you help me?"],["offering something","Would you like some tea?"],["declining an offer","No, thank you."]]},
+  {type:"speak",phrase:"Excuse me, I'd like to book a table for two. Could you help me, please?",translation:"Disculpe, quisiera reservar una mesa para dos. ¿Podría ayudarme, por favor?"},
+  {type:"tf",q:"'Would you mind closing the door?' is a very polite way to make a request.",correct:true}
+]},
+
+{id:"directions-en",num:12,title:"Giving Directions",emoji:"🗺️",cardDesc:"turn left, go straight — asking and giving directions",
+explain:[
+  "<p>Essential phrases for giving and asking for directions in English.</p>",
+  "<p><b>Asking</b>: <span class='ex-fr'>Excuse me, where is...? · How do I get to...? · Is there a ... near here?</span></p>",
+  "<p><b>Giving directions</b>: <span class='ex-fr'>Turn left / right. · Go straight ahead. · Take the first/second left/right. · It's on your left/right. · Go past the traffic lights. · It's next to / across from / opposite the...</span></p>"
+],
+vocab:[
+  {cat:"🗺️ Direction Phrases",items:[
+    {e:"⬆️",w:"go straight ahead",p:"siga derecho"},
+    {e:"⬅️",w:"turn left",p:"gire a la izquierda"},
+    {e:"➡️",w:"turn right",p:"gire a la derecha"},
+    {e:"🔙",w:"go back",p:"regrese / dé la vuelta"},
+    {e:"🚦",w:"traffic lights",p:"semáforo"},
+    {e:"↔️",w:"across from / opposite",p:"enfrente de"},
+    {e:"📍",w:"on the corner",p:"en la esquina"},
+    {e:"🏁",w:"it's on your right/left",p:"está a su derecha/izquierda"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Go ____ ahead and then turn left at the lights. (recto)",answers:["straight"]},
+  {type:"fill",q:"____ right at the corner. (gire)",answers:["Turn"]},
+  {type:"mcq",q:"'It's ___ from the bank.' — means facing the bank.",options:["next","on","across","behind"],correct:2},
+  {type:"match",q:"Match the direction with its meaning.",pairs:[["turn left","gire a la izquierda"],["go straight","siga derecho"],["on the corner","en la esquina"],["traffic lights","semáforo"]]},
+  {type:"order",q:"Build the directions:",words:["straight,","traffic","Go","at","lights.","left","the","turn","then"],correct:"Go straight, then turn left at the traffic lights."},
+  {type:"fill",q:"Excuse me, ____ is the nearest subway station? (dónde)",answers:["where"]},
+  {type:"fill",q:"The hotel is ____ the museum — they are facing each other. (across from)",answers:["across from"]},
+  {type:"speak",phrase:"Go straight for two blocks, then turn right. The bank is on your left, next to the supermarket.",translation:"Siga recto dos cuadras, luego gire a la derecha. El banco está a su izquierda, al lado del supermercado."},
+  {type:"tf",q:"'Take the second left' means turn left at the second street.",correct:true},
+  {type:"fill",q:"How do I ____ to the train station? (llegar)",answers:["get"]}
+]}
+
+];
+
+window.LP_TOPICS['en-2'].push({
+  id:"conversation-en2",num:13,title:"Conversation Station",emoji:"💬",
+  cardDesc:"Practice A2 English — real-life situations",
+  isChat:true,
+  explain:["<p>Practice A2 conversations: talk about your daily routine, past experiences, plans, and more. Your AI partner speaks natural A2 English.</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['en-2'] = {
+  scenarios:[
+    {id:"daily-routine",title:"Daily Routine",emoji:"⏰",setup:"You're talking with a classmate about daily life.",partner:{emoji:"👩",name:"Sofia"},opener:"What time do you usually wake up? Do you have a morning routine?"},
+    {id:"past-weekend",title:"Weekend Stories",emoji:"📖",setup:"Monday morning — sharing what you did over the weekend.",partner:{emoji:"🧑",name:"Marcus"},opener:"Hey! How was your weekend? What did you do?"},
+    {id:"planning-trip",title:"Planning a Trip",emoji:"✈️",setup:"You're planning a vacation with a friend.",partner:{emoji:"👨",name:"Leo"},opener:"So, where are you going to go on vacation this year? What are your plans?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  ENGLISH — LEVEL 3 (B1)
+// ══════════════════════════════════
+window.LP_TOPICS['en-3'] = [
+
+{id:"present-perfect-en",num:1,title:"Present Perfect",emoji:"⭐",cardDesc:"I have been, she has seen — connecting past to present",
+explain:[
+  "<p>The <b>Present Perfect</b> connects the past with the present. Formation: <b>have/has + past participle</b>.</p>",
+  "<p>Uses: <span class='ex-fr'>1. Experience: Have you ever been to Japan? — Yes, I have. · 2. Recent news: She has just arrived. · 3. Unfinished time: I have lived here for 5 years. · 4. With yet/already: Have you eaten yet? I've already eaten.</span></p>",
+  "<p>Key words: <span class='ex-fr'>ever · never · just · already · yet · since · for · recently · lately</span></p>",
+  "<p>Difference: <span class='ex-fr'>I went to Paris (past simple — specific time). I have been to Paris (present perfect — life experience, no specific time).</span></p>"
+],
+video:"j2pNF4z0YIA",videoNote:"Present Perfect — English Grammar",
+vocab:[
+  {cat:"⭐ PP Key Words",items:[
+    {e:"🌍",w:"ever",p:"alguna vez"},
+    {e:"🚫",w:"never",p:"nunca"},
+    {e:"⚡",w:"just",p:"acaba de / recién"},
+    {e:"✅",w:"already",p:"ya"},
+    {e:"❓",w:"yet",p:"todavía / aún (neg./preg.)"},
+    {e:"📅",w:"for",p:"por (duración)"},
+    {e:"📌",w:"since",p:"desde (punto de inicio)"},
+    {e:"🕐",w:"recently / lately",p:"recientemente"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"I ____ never been to Antarctica. (have/has)",answers:["have"]},
+  {type:"fill",q:"She has just ____ from work. (arrive — past participle)",answers:["arrived"]},
+  {type:"mcq",q:"Have you ____ eaten sushi? — Yes, I have!",options:["ever","never","just","already"],correct:0},
+  {type:"tf",q:"'I have seen that film yesterday' is correct English.",correct:false},
+  {type:"match",q:"Match the key word with its use.",pairs:[["just","very recently completed"],["yet","in questions and negatives"],["already","completed before expected"],["for","duration of time"]]},
+  {type:"fill",q:"They have lived here ____ 2015. (desde — punto de inicio)",answers:["since"]},
+  {type:"fill",q:"Have you finished your homework ____? — Not ____! (yet/yet)",answers:["yet","yet"]},
+  {type:"order",q:"Build the question:",words:["been","Have","you","ever","to","Europe?"],correct:"Have you ever been to Europe?"},
+  {type:"speak",phrase:"I've lived in this city for 10 years. I've visited many countries and I've learned three languages.",translation:"He vivido en esta ciudad por 10 años. He visitado muchos países y he aprendido tres idiomas."},
+  {type:"tf",q:"'Have you ever been to Paris?' asks about a life experience.",correct:true}
+]},
+
+{id:"pp-vs-sp",num:2,title:"Present Perfect vs Simple Past",emoji:"⚖️",cardDesc:"I have seen vs I saw — when to use each",
+explain:[
+  "<p>This is one of the most important distinctions in English grammar:</p>",
+  "<table class='reftable'><tr><th>Present Perfect</th><th>Simple Past</th></tr><tr><td>Life experience (no specific time)</td><td>Specific time in the past</td></tr><tr><td>Time still open (this year, today)</td><td>Time period finished</td></tr><tr><td>Just / already / yet / ever</td><td>Yesterday / last week / in 2010 / ago</td></tr></table>",
+  "<p><span class='ex-fr'>I have been to Rome. (life experience — some time in my life) · I went to Rome last summer. (specific time — simple past)</span></p>",
+  "<p><span class='ex-fr'>Have you seen the news today? (today = still open period) · Did you see the news yesterday? (yesterday = finished period)</span></p>"
+],
+exercises:[
+  {type:"mcq",q:"'___ you see that movie last night?' — which tense?",options:["Have","Did","Has","Do"],correct:1},
+  {type:"fill",q:"I ____ never tried sushi. (present perfect — never)",answers:["have","'ve"]},
+  {type:"mcq",q:"'She ___ to London in 2019.' — specific year, which tense?",options:["has gone","has been","went","goes"],correct:2},
+  {type:"tf",q:"'Yesterday' must be used with the Simple Past, not the Present Perfect.",correct:true},
+  {type:"match",q:"Match the time expression with the correct tense.",pairs:[["yesterday","Simple Past"],["ever","Present Perfect"],["last year","Simple Past"],["already","Present Perfect"]]},
+  {type:"fill",q:"She ____ just arrived — she's still in the taxi. (present perfect — just)",answers:["has","'s"]},
+  {type:"fill",q:"I ____ the new restaurant last Friday. It was amazing. (try — Simple Past)",answers:["tried"]},
+  {type:"speak",phrase:"I have visited 15 countries. Last year I went to Japan. It was incredible!",translation:"He visitado 15 países. El año pasado fui a Japón. ¡Fue increíble!"},
+  {type:"tf",q:"'Have you ever eaten Korean food?' uses Present Perfect correctly.",correct:true},
+  {type:"fill",q:"He ____ his keys yesterday. He can't find them. (lose — Simple Past)",answers:["lost"]}
+]},
+
+{id:"gerunds-inf-en",num:3,title:"Gerunds & Infinitives",emoji:"🔤",cardDesc:"I like swimming / I want to swim — -ing or to + verb?",
+explain:[
+  "<p>Some verbs are followed by <b>gerund (-ing)</b> and others by <b>infinitive (to + verb)</b>. Knowing which is essential.</p>",
+  "<p><b>Verbs + gerund (-ing)</b>: <span class='ex-fr'>enjoy · finish · mind · suggest · avoid · can't stand · consider · keep · miss · practice</span></p>",
+  "<p><b>Verbs + infinitive (to + verb)</b>: <span class='ex-fr'>want · need · hope · plan · decide · promise · agree · refuse · offer · expect · would like</span></p>",
+  "<p><b>Both (different meaning)</b>: <span class='ex-fr'>stop: I stopped smoking (quit). / I stopped to smoke (paused in order to). · remember: I remembered locking the door. / I remembered to lock the door.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"I enjoy ____ tennis on weekends. (play → gerund)",answers:["playing"]},
+  {type:"fill",q:"She wants ____ a doctor. (become → infinitive)",answers:["to become"]},
+  {type:"mcq",q:"'I can't stand ___ in long lines.' — gerund or infinitive?",options:["to wait","waiting","wait","waited"],correct:1},
+  {type:"tf",q:"'I hope seeing you soon' is correct English.",correct:false},
+  {type:"match",q:"Match the verb with gerund or infinitive.",pairs:[["enjoy","gerund (enjoy doing)"],["want","infinitive (want to do)"],["avoid","gerund (avoid doing)"],["decide","infinitive (decide to do)"]]},
+  {type:"fill",q:"He decided ____ a new job. (look for → infinitive)",answers:["to look for"]},
+  {type:"fill",q:"We finished ____ the report. (write → gerund)",answers:["writing"]},
+  {type:"mcq",q:"'She stopped ___ when she saw the accident.' — she paused",options:["running","to run","to running","run"],correct:1},
+  {type:"speak",phrase:"I enjoy cooking and I love trying new recipes. I want to open a restaurant someday.",translation:"Disfruto cocinar y me encanta probar nuevas recetas. Quiero abrir un restaurante algún día."},
+  {type:"tf",q:"After 'avoid', we use the infinitive form.",correct:false}
+]},
+
+{id:"passive-en",num:4,title:"The Passive Voice",emoji:"🔄",cardDesc:"English is spoken worldwide — passive structures",
+explain:[
+  "<p>The <b>passive voice</b> focuses on what happened, not on who did it. Useful when the doer is unknown, unimportant, or obvious.</p>",
+  "<p>Formation: <b>to be + past participle</b>.</p>",
+  "<table class='reftable'><tr><th>Tense</th><th>Active</th><th>Passive</th></tr><tr><td>Present</td><td>They clean the office.</td><td class='formcol'>The office is cleaned.</td></tr><tr><td>Past</td><td>They built the bridge.</td><td class='formcol'>The bridge was built.</td></tr><tr><td>Future</td><td>They will announce it.</td><td class='formcol'>It will be announced.</td></tr></table>",
+  "<p>To say who did it, use <b>by</b>: <span class='ex-fr'>The window was broken by the ball.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"English ____ spoken all over the world. (is/are — present passive)",answers:["is"]},
+  {type:"fill",q:"This building ____ built in 1990. (was/were — past passive)",answers:["was"]},
+  {type:"mcq",q:"'They make iPhones in China.' — passive form:",options:["iPhones is made in China.","iPhones are made in China.","iPhones were made in China.","iPhones made in China."],correct:1},
+  {type:"tf",q:"The passive voice is formed with 'to be' + past participle.",correct:true},
+  {type:"order",q:"Build the passive sentence:",words:["written","The","Shakespeare.","by","play","was"],correct:"The play was written by Shakespeare."},
+  {type:"fill",q:"The results ____ be announced tomorrow. (future passive — will)",answers:["will"]},
+  {type:"fill",q:"The car ____ stolen last night. (past passive — was/were)",answers:["was"]},
+  {type:"match",q:"Transform to passive: match active with passive.",pairs:[["People speak French in Paris.","French is spoken in Paris."],["They built the wall.","The wall was built."],["She will cook dinner.","Dinner will be cooked."],["They are fixing the road.","The road is being fixed."]]},
+  {type:"speak",phrase:"Coffee is grown in Colombia. It is exported all over the world. It is enjoyed by millions.",translation:"El café se cultiva en Colombia. Se exporta a todo el mundo. Lo disfrutan millones."},
+  {type:"fill",q:"The report ____ being written right now. (present progressive passive — is)",answers:["is"]}
+]},
+
+{id:"conditionals-0-1",num:5,title:"Zero & First Conditionals",emoji:"🔀",cardDesc:"If you heat water... / If it rains, I'll stay — real conditions",
+explain:[
+  "<p><b>Zero Conditional</b>: always-true facts and scientific truths. <b>If + present, present.</b><br><span class='ex-fr'>If you heat water to 100°C, it boils. · If I eat too much, I feel sick.</span></p>",
+  "<p><b>First Conditional</b>: real, possible future conditions. <b>If + present, will + base verb.</b><br><span class='ex-fr'>If it rains, I will stay home. · If you study hard, you will pass the exam.</span></p>",
+  "<p>Other words: <b>when, unless (= if not), as long as, provided that</b>: <span class='ex-fr'>Unless you study, you won't pass. · When I see him, I'll tell him.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"If you ____ water, it freezes. (cool — zero conditional fact)",answers:["cool"]},
+  {type:"fill",q:"If it rains tomorrow, I ____ stay home. (will — first conditional)",answers:["will"]},
+  {type:"mcq",q:"'___ you don't eat, you'll be hungry.' — means 'if you don't eat'",options:["If","Unless","When","Provided"],correct:1},
+  {type:"tf",q:"In the First Conditional, the result clause uses 'will + base verb'.",correct:true},
+  {type:"match",q:"Match the conditional type with its use.",pairs:[["Zero Conditional","scientific facts / always true"],["First Conditional","real future possibility"],["unless","if not"],["when + future","certain future event"]]},
+  {type:"order",q:"Build a First Conditional:",words:["pass,","you","If","you'll","hard,","study","exam.","the"],correct:"If you study hard, you'll pass the exam."},
+  {type:"fill",q:"If she exercises every day, she ____ fit. (get — zero: always true)",answers:["gets"]},
+  {type:"fill",q:"As long as you work hard, you ____ succeed. (first conditional)",answers:["will"]},
+  {type:"speak",phrase:"If you drink enough water, you feel better. If I have time tonight, I'll call you.",translation:"Si bebes suficiente agua, te sientes mejor. Si tengo tiempo esta noche, te llamaré."},
+  {type:"tf",q:"'If it will rain tomorrow, I'll stay home' is correct.",correct:false}
+]},
+
+{id:"reported-speech-basic-en",num:6,title:"Reported Speech (Basic)",emoji:"💬",cardDesc:"She said she was tired — reporting what people say",
+explain:[
+  "<p><b>Reported speech</b> (indirect speech) tells us what someone said. When reporting in the past, verbs usually shift back one tense.</p>",
+  "<table class='reftable'><tr><th>Direct</th><th>Reported</th></tr><tr><td>«I am tired.»</td><td class='formcol'>She said she was tired.</td></tr><tr><td>«I work here.»</td><td class='formcol'>He said he worked there.</td></tr><tr><td>«I have eaten.»</td><td class='formcol'>She said she had eaten.</td></tr><tr><td>«I will come.»</td><td class='formcol'>He said he would come.</td></tr></table>",
+  "<p>Also notice: <span class='ex-fr'>I → he/she · here → there · now → then · today → that day · tomorrow → the next day</span></p>"
+],
+exercises:[
+  {type:"fill",q:"«I am happy.» → She said she ____ happy. (was)",answers:["was"]},
+  {type:"fill",q:"«I work in London.» → He said he ____ in London. (worked)",answers:["worked"]},
+  {type:"mcq",q:"«I will call you.» → She said she ___ call me.",options:["will","would","shall","is going to"],correct:1},
+  {type:"tf",q:"In reported speech, 'here' usually changes to 'there'.",correct:true},
+  {type:"match",q:"Match direct to reported speech.",pairs:[["I am","he/she was"],["I will","he/she would"],["I have eaten","he/she had eaten"],["tomorrow","the next day"]]},
+  {type:"fill",q:"«I can swim.» → He said he ____ swim. (could)",answers:["could"]},
+  {type:"order",q:"Transform to reported speech:",words:["she","She","tired.","was","said"],correct:"She said she was tired."},
+  {type:"fill",q:"«I don't know.» → She said she ____ know. (didn't)",answers:["didn't"]},
+  {type:"speak",phrase:"She said she was studying English and that she wanted to travel to London next year.",translation:"Ella dijo que estaba estudiando inglés y que quería viajar a Londres el próximo año."},
+  {type:"tf",q:"«I have just arrived.» → He said he had just arrived. — This is correct reported speech.",correct:true}
+]},
+
+{id:"personality-en",num:7,title:"Personality & Character",emoji:"🧠",cardDesc:"ambitious, reliable, easygoing — describing people",
+isVocab:true,
+explain:["<p>Personality adjectives in English. Use <b>seem, appear, look, be</b> to describe character. Opposite prefix: <b>un-</b> (unreliable), <b>im-</b> (impatient), <b>dis-</b> (dishonest).</p>"],
+vocab:[
+  {cat:"😊 Positive Traits",items:[
+    {e:"💪",w:"ambitious",p:"ambicioso/a"},
+    {e:"🤝",w:"reliable",p:"confiable"},
+    {e:"😌",w:"easygoing",p:"tranquilo/relajado"},
+    {e:"🧠",w:"clever / smart",p:"inteligente / listo"},
+    {e:"💛",w:"generous",p:"generoso/a"},
+    {e:"🎯",w:"determined",p:"determinado/a"},
+    {e:"😄",w:"cheerful",p:"alegre"},
+    {e:"🌟",w:"creative",p:"creativo/a"}
+  ]},
+  {cat:"⚠️ Negative Traits",items:[
+    {e:"😤",w:"arrogant",p:"arrogante"},
+    {e:"😴",w:"lazy",p:"perezoso/a"},
+    {e:"😡",w:"moody",p:"de humor variable"},
+    {e:"🤥",w:"dishonest",p:"deshonesto/a"},
+    {e:"⏰",w:"impatient",p:"impaciente"},
+    {e:"😬",w:"stubborn",p:"terco/a"},
+    {e:"🦈",w:"selfish",p:"egoísta"},
+    {e:"🎭",w:"superficial",p:"superficial"}
+  ]}
+],
+exercises:[
+  {type:"mcq",q:"Someone who always keeps promises is:",options:["arrogant","reliable","moody","lazy"],correct:1},
+  {type:"fill",q:"She's very ____. She always shares her things with others. (generosa)",answers:["generous"]},
+  {type:"match",q:"Match the trait with its opposite.",pairs:[["honest","dishonest"],["patient","impatient"],["generous","selfish"],["hardworking","lazy"]]},
+  {type:"tf",q:"'Easygoing' describes someone who is relaxed and not stressed.",correct:true},
+  {type:"fill",q:"He's very ____. He always wants things done his way. (terco)",answers:["stubborn"]},
+  {type:"mcq",q:"'She seems very ____ — she has big dreams and works hard for them.' (ambicioso)",options:["lazy","ambitious","moody","selfish"],correct:1},
+  {type:"speak",phrase:"My best friend is very reliable and generous. She's always cheerful and creative too.",translation:"Mi mejor amiga es muy confiable y generosa. También es siempre alegre y creativa."},
+  {type:"fill",q:"He's quite ____. His mood changes quickly. (de humor variable)",answers:["moody"]},
+  {type:"tf",q:"The opposite of 'patient' is 'impatient'.",correct:true},
+  {type:"fill",q:"She's very ____. She never gives up. (determinada)",answers:["determined"]}
+]},
+
+{id:"health-body-en",num:8,title:"Health & Body",emoji:"🏥",cardDesc:"symptoms, remedies, appointments — health vocabulary",
+isVocab:true,
+explain:["<p>Essential health vocabulary. At the doctor's: <b>What's the matter? / What are your symptoms? / How long have you had this?</b> Responses: <b>I have a headache / I feel dizzy / I've been sick for two days.</b></p>"],
+vocab:[
+  {cat:"🤒 Symptoms",items:[
+    {e:"🤕",w:"headache",p:"dolor de cabeza"},
+    {e:"🤧",w:"runny nose",p:"nariz que escurre"},
+    {e:"🥵",w:"fever",p:"fiebre"},
+    {e:"😵",w:"dizzy",p:"mareado/a"},
+    {e:"🤢",w:"nauseous",p:"con náuseas"},
+    {e:"😮‍💨",w:"short of breath",p:"falta de aire"},
+    {e:"😖",w:"sore throat",p:"dolor de garganta"},
+    {e:"😴",w:"exhausted",p:"agotado/a"}
+  ]},
+  {cat:"💊 At the Doctor",items:[
+    {e:"📋",w:"appointment",p:"cita médica"},
+    {e:"💊",w:"prescription",p:"receta médica"},
+    {e:"💉",w:"injection",p:"inyección"},
+    {e:"🩺",w:"checkup",p:"chequeo / revisión"},
+    {e:"🏥",w:"emergency room",p:"sala de emergencias"},
+    {e:"🩹",w:"treatment",p:"tratamiento"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"I have a terrible ____. My head is pounding. (dolor de cabeza)",answers:["headache"]},
+  {type:"mcq",q:"You feel dizzy and nauseous. What do you probably have?",options:["a headache","food poisoning","a cold","a broken arm"],correct:1},
+  {type:"fill",q:"I need to make an ____ to see the doctor. (cita)",answers:["appointment"]},
+  {type:"match",q:"Match the symptom with a possible cause.",pairs:[["runny nose","a cold or allergy"],["fever","infection"],["sore throat","cold or tonsillitis"],["dizzy","low blood pressure"]]},
+  {type:"tf",q:"'I've had a headache since this morning' uses Present Perfect correctly.",correct:true},
+  {type:"fill",q:"The doctor gave me a ____ for antibiotics. (receta)",answers:["prescription"]},
+  {type:"speak",phrase:"Doctor, I've had a sore throat and fever for two days. I feel exhausted and I can't eat.",translation:"Doctor, he tenido dolor de garganta y fiebre por dos días. Me siento agotado/a y no puedo comer."},
+  {type:"fill",q:"She's very ____. She's been working 16 hours a day. (agotada)",answers:["exhausted"]},
+  {type:"mcq",q:"Where do you go in a medical emergency?",options:["the pharmacy","the appointment","the emergency room","the checkup"],correct:2},
+  {type:"fill",q:"The doctor will give you a ____ for your infection. (tratamiento)",answers:["treatment"]}
+]},
+
+{id:"environment-en",num:9,title:"Environment & Nature",emoji:"🌍",cardDesc:"climate change, pollution, solutions — talking about the planet",
+isVocab:true,
+explain:["<p>Environmental vocabulary for discussing climate change and sustainability. Key verb patterns: <b>should/must/have to + verb</b> for obligations and solutions.</p>"],
+vocab:[
+  {cat:"🌡️ Environmental Problems",items:[
+    {e:"🌡️",w:"climate change",p:"cambio climático"},
+    {e:"💨",w:"air pollution",p:"contaminación del aire"},
+    {e:"🌊",w:"flooding",p:"inundaciones"},
+    {e:"🔥",w:"drought",p:"sequía"},
+    {e:"🌲",w:"deforestation",p:"deforestación"},
+    {e:"🐟",w:"ocean pollution",p:"contaminación del océano"}
+  ]},
+  {cat:"♻️ Solutions",items:[
+    {e:"♻️",w:"recycle",p:"reciclar"},
+    {e:"🌱",w:"renewable energy",p:"energía renovable"},
+    {e:"🚲",w:"use public transport",p:"usar transporte público"},
+    {e:"💡",w:"save energy",p:"ahorrar energía"},
+    {e:"🌳",w:"plant trees",p:"plantar árboles"},
+    {e:"🛍️",w:"reduce plastic",p:"reducir el plástico"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"We should ____ more trees to fight deforestation. (plantar)",answers:["plant"]},
+  {type:"mcq",q:"What is the main cause of climate change?",options:["too much rain","burning fossil fuels","recycling","planting trees"],correct:1},
+  {type:"fill",q:"Using ____ energy like solar or wind helps reduce pollution. (renovable)",answers:["renewable"]},
+  {type:"match",q:"Match the problem with a solution.",pairs:[["air pollution","use public transport"],["deforestation","plant trees"],["plastic waste","reduce plastic / recycle"],["energy use","save energy"]]},
+  {type:"tf",q:"Recycling helps reduce the amount of waste in landfills.",correct:true},
+  {type:"fill",q:"There were serious ____ in many cities after the heavy rains. (inundaciones)",answers:["floods","flooding"]},
+  {type:"speak",phrase:"Climate change is our biggest challenge. We must reduce pollution and switch to renewable energy.",translation:"El cambio climático es nuestro mayor desafío. Debemos reducir la contaminación y cambiar a energías renovables."},
+  {type:"fill",q:"There hasn't been rain in months. We're suffering from a serious ____. (sequía)",answers:["drought"]},
+  {type:"tf",q:"Deforestation means cutting down forests without replanting.",correct:true},
+  {type:"mcq",q:"What does 'renewable energy' mean?",options:["energy that runs out","energy from sun, wind, water","nuclear energy","expensive energy"],correct:1}
+]},
+
+{id:"arts-entertainment",num:10,title:"Arts & Entertainment",emoji:"🎬",cardDesc:"movies, music, art — discussing culture",
+isVocab:true,
+explain:["<p>Talk about movies, music and art in English. Use <b>I think / I believe / In my opinion</b> to give opinions. <b>It's worth watching / I'd recommend it / It's a must-see.</b></p>"],
+vocab:[
+  {cat:"🎬 Movies",items:[
+    {e:"🎭",w:"plot / storyline",p:"trama / argumento"},
+    {e:"⭐",w:"special effects",p:"efectos especiales"},
+    {e:"🎬",w:"director",p:"director"},
+    {e:"🏆",w:"award-winning",p:"premiado"},
+    {e:"😱",w:"thriller",p:"thriller / película de suspenso"},
+    {e:"😂",w:"comedy",p:"comedia"},
+    {e:"💕",w:"romance",p:"romance / película romántica"},
+    {e:"🚀",w:"sci-fi",p:"ciencia ficción"}
+  ]},
+  {cat:"🎵 Music",items:[
+    {e:"🎵",w:"catchy",p:"pegajoso / que se queda en la mente"},
+    {e:"🎸",w:"lyrics",p:"letra (de una canción)"},
+    {e:"🎤",w:"upbeat",p:"animado / con ritmo"},
+    {e:"🎧",w:"mainstream",p:"popular / comercial"},
+    {e:"🥁",w:"beat / rhythm",p:"ritmo / compás"},
+    {e:"🎶",w:"melody",p:"melodía"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"The ____ of the movie was very predictable. I knew the ending! (trama)",answers:["plot","storyline"]},
+  {type:"mcq",q:"A movie that makes you laugh is a:",options:["thriller","sci-fi","comedy","romance"],correct:2},
+  {type:"fill",q:"The song is very ____! I can't get it out of my head. (pegajoso)",answers:["catchy"]},
+  {type:"match",q:"Match the film genre with a typical element.",pairs:[["thriller","suspense and danger"],["sci-fi","future technology"],["comedy","humor and laughs"],["romance","love story"]]},
+  {type:"tf",q:"'Award-winning' means a movie or song that has won prizes.",correct:true},
+  {type:"fill",q:"I love the ____ to this song. The words are so meaningful. (letra)",answers:["lyrics"]},
+  {type:"speak",phrase:"In my opinion, the movie has a great plot and amazing special effects. I'd definitely recommend it!",translation:"En mi opinión, la película tiene una gran trama y efectos especiales increíbles. ¡Definitivamente la recomendaría!"},
+  {type:"fill",q:"The music is very ____. It makes you want to dance! (animado)",answers:["upbeat"]},
+  {type:"tf",q:"A 'director' is the person who acts in a movie.",correct:false},
+  {type:"fill",q:"The film was very ____. It won 3 Oscars. (premiado)",answers:["award-winning"]}
+]},
+
+{id:"technology-b1",num:11,title:"Technology in Our Lives",emoji:"💻",cardDesc:"apps, social media, cybersecurity — digital vocabulary",
+isVocab:true,
+explain:["<p>Technology vocabulary for B1+ level. Express opinions: <b>Technology has changed the way we... / Thanks to technology, we can now... / The downside is that...</b></p>"],
+vocab:[
+  {cat:"📱 Digital Life",items:[
+    {e:"📲",w:"app / application",p:"aplicación"},
+    {e:"☁️",w:"cloud storage",p:"almacenamiento en la nube"},
+    {e:"🔐",w:"password",p:"contraseña"},
+    {e:"📡",w:"Wi-Fi / broadband",p:"wifi / internet de banda ancha"},
+    {e:"🛒",w:"online shopping",p:"compras en línea"},
+    {e:"💳",w:"digital payment",p:"pago digital"}
+  ]},
+  {cat:"🤖 Advanced Tech",items:[
+    {e:"🤖",w:"artificial intelligence",p:"inteligencia artificial"},
+    {e:"📊",w:"big data",p:"big data"},
+    {e:"🔒",w:"cybersecurity",p:"ciberseguridad"},
+    {e:"🕶️",w:"virtual reality",p:"realidad virtual"},
+    {e:"🖨️",w:"3D printing",p:"impresión 3D"},
+    {e:"🚗",w:"self-driving cars",p:"coches autónomos"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"I use a ____ app to organize my schedule. (aplicación)",answers:["calendar","scheduling","productivity"]},
+  {type:"mcq",q:"What does 'cybersecurity' protect?",options:["physical buildings","computer systems and data","the environment","physical health"],correct:1},
+  {type:"fill",q:"Always use a strong ____ to protect your accounts. (contraseña)",answers:["password"]},
+  {type:"match",q:"Match the technology with what it does.",pairs:[["cloud storage","saves files online"],["AI","simulates human intelligence"],["VR","creates immersive digital environments"],["3D printing","creates physical objects from digital designs"]]},
+  {type:"tf",q:"'Online shopping' allows you to buy things without going to a physical store.",correct:true},
+  {type:"fill",q:"Self-driving cars use ____ to make decisions without a human driver. (IA)",answers:["AI","artificial intelligence"]},
+  {type:"speak",phrase:"Technology has changed our lives dramatically. Thanks to apps, we can do almost everything from our phones.",translation:"La tecnología ha cambiado nuestras vidas drásticamente. Gracias a las apps, podemos hacer casi todo desde el teléfono."},
+  {type:"fill",q:"Big data allows companies to analyze huge amounts of ____ to find patterns. (información/datos)",answers:["data","information"]},
+  {type:"tf",q:"Virtual reality creates digital experiences that feel real.",correct:true},
+  {type:"fill",q:"I store all my photos in ____ storage so I can access them anywhere. (nube)",answers:["cloud"]}
+]},
+
+{id:"review-b1",num:12,title:"B1 Review",emoji:"🌟",cardDesc:"Present Perfect, conditionals, passive, gerunds — B1 checkpoint",
+explain:[
+  "<p>You've reached B1 level! At this level you can: handle most travel situations, describe experiences and events, give reasons and explanations, and understand the main points on familiar topics.</p>"
+],
+exercises:[
+  {type:"fill",q:"I have ____ been to the USA. I want to go someday! (never)",answers:["never"]},
+  {type:"fill",q:"The new bridge ____ built last year. (passive — was)",answers:["was"]},
+  {type:"mcq",q:"'If it rains tomorrow, ___' — First Conditional",options:["I would stay home.","I will stay home.","I stayed home.","I was staying home."],correct:1},
+  {type:"fill",q:"She enjoys ____ to music while she works. (listen → gerund)",answers:["listening"]},
+  {type:"match",q:"Match the structure with the tense.",pairs:[["have + past participle","Present Perfect"],["to be + past participle","Passive Voice"],["if + present, will","First Conditional"],["said + tense shift","Reported Speech"]]},
+  {type:"fill",q:"He said he ____ very tired. (reported — was)",answers:["was"]},
+  {type:"fill",q:"Climate change is our biggest ____. We need to act now. (challenge/problem)",answers:["challenge","problem"]},
+  {type:"speak",phrase:"I've been learning English for two years. If I study every day, I'll reach B2 very soon!",translation:"He estado aprendiendo inglés por dos años. ¡Si estudio cada día, llegaré al B2 muy pronto!"},
+  {type:"tf",q:"In the Present Perfect, we use 'since' for a duration and 'for' for a starting point.",correct:false},
+  {type:"fill",q:"The movie ____ directed by Spielberg. It won many awards. (passive — was)",answers:["was"]}
+]}
+
+];
+
+window.LP_TOPICS['en-3'].push({
+  id:"conversation-en3",num:13,title:"Conversation Station B1",emoji:"💬",
+  cardDesc:"Discuss experiences, opinions and plans in English",
+  isChat:true,
+  explain:["<p>B1 conversations: share experiences with the Present Perfect, discuss the environment, give opinions about movies and technology, and use conditionals naturally. You're becoming fluent!</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['en-3'] = {
+  scenarios:[
+    {id:"travel-experiences",title:"Travel Experiences",emoji:"✈️",setup:"Sharing travel stories at a party.",partner:{emoji:"🌍",name:"Isabella"},opener:"Have you ever been to another country? What was the most amazing place you've visited?"},
+    {id:"environment-debate",title:"Talking About the Environment",emoji:"🌍",setup:"You're discussing environmental issues with a classmate.",partner:{emoji:"🌱",name:"Noah"},opener:"Do you think climate change is the biggest problem we face today? What should we do about it?"},
+    {id:"movie-chat",title:"Movie Recommendations",emoji:"🎬",setup:"Recommending films to a friend.",partner:{emoji:"🍿",name:"Ava"},opener:"I want to watch something good tonight. Have you seen any great movies recently? What would you recommend?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  ENGLISH — LEVEL 4 (B1+)
+// ══════════════════════════════════
+window.LP_TOPICS['en-4'] = [
+
+{id:"past-perfect-en",num:1,title:"Past Perfect",emoji:"⏳",cardDesc:"I had finished before she arrived — before and after in the past",
+explain:[
+  "<p>The <b>Past Perfect</b> (had + past participle) describes an action that happened BEFORE another past action.</p>",
+  "<p><span class='ex-fr'>When I arrived, she had already left. (She left → I arrived) · He ate the cake before anyone had seen it.</span></p>",
+  "<p>Connectors: <span class='ex-fr'>when · before · after · by the time · already · just · never</span></p>"
+],
+exercises:[
+  {type:"fill",q:"By the time we arrived, the show ____ already started. (had)",answers:["had"]},
+  {type:"fill",q:"She ____ never seen snow before that winter. (past perfect — she)",answers:["had"]},
+  {type:"mcq",q:"'I ate all the pizza after my sister ___ made it.' — older action",options:["made","had made","was making","makes"],correct:1},
+  {type:"tf",q:"The Past Perfect is formed with 'had + past participle'.",correct:true},
+  {type:"order",q:"Build the sentence:",words:["he","the","By","time","arrived,","had","started.","movie","the"],correct:"By the time he arrived, the movie had started."},
+  {type:"fill",q:"They realized they ____ forgotten the tickets at home. (had)",answers:["had"]},
+  {type:"fill",q:"After she ____ finished cooking, everyone sat down. (had — past perfect)",answers:["had"]},
+  {type:"match",q:"Match the connector with its function.",pairs:[["by the time","action A was complete before B"],["after","action A happened, then B"],["before","B happened, but A had not yet"],["already","confirms completion before another past action"]]},
+  {type:"speak",phrase:"When I got to the airport, my flight had already departed. I had never missed a flight before!",translation:"Cuando llegué al aeropuerto, mi vuelo ya había salido. ¡Nunca antes había perdido un vuelo!"},
+  {type:"tf",q:"'She had left before I arrived' uses Past Perfect correctly for the earlier action.",correct:true}
+]},
+
+{id:"tag-questions-en",num:2,title:"Tag Questions",emoji:"❓",cardDesc:"It's nice, isn't it? You can swim, can't you? — checking information",
+explain:[
+  "<p><b>Tag questions</b> confirm information or seek agreement. Rule: positive statement → negative tag / negative statement → positive tag. The tag uses the SAME auxiliary verb.</p>",
+  "<p><span class='ex-fr'>It's warm today, isn't it? · She can't drive, can she? · You've met John, haven't you? · They went there, didn't they?</span></p>"
+],
+exercises:[
+  {type:"fill",q:"It's a beautiful day, ____ it? (isn't)",answers:["isn't"]},
+  {type:"fill",q:"She can't swim, ____ she? (positive tag — negative statement)",answers:["can"]},
+  {type:"mcq",q:"'You've read this book, ___ you?' — present perfect tag",options:["have","haven't","did","didn't"],correct:1},
+  {type:"tf",q:"A positive statement requires a negative tag question.",correct:true},
+  {type:"match",q:"Match the statement with its tag.",pairs:[["She is happy,","isn't she?"],["They didn't come,","did they?"],["You can help,","can't you?"],["He has finished,","hasn't he?"]]},
+  {type:"fill",q:"We're late, ____ we? (aren't)",answers:["aren't"]},
+  {type:"fill",q:"You work here, ____ you? (don't)",answers:["don't"]},
+  {type:"order",q:"Complete the tag question:",words:["you","been","You've","before,","haven't","here","?"],correct:"You've been here before, haven't you?"},
+  {type:"speak",phrase:"You're a teacher, aren't you? You've worked here for a long time, haven't you?",translation:"Eres maestro/a, ¿verdad? Has trabajado aquí por mucho tiempo, ¿verdad?"},
+  {type:"tf",q:"'I'm right, aren't I?' is the correct standard tag for 'I am'.",correct:true}
+]},
+
+{id:"second-conditional-en",num:3,title:"Second Conditional",emoji:"💭",cardDesc:"If I had a million dollars, I would travel — unreal present/future",
+explain:[
+  "<p>The <b>Second Conditional</b> describes unreal, hypothetical, or unlikely situations in the present or future. Structure: <b>If + past simple, would + base verb.</b></p>",
+  "<p><span class='ex-fr'>If I had more time, I would learn the piano. · If she were taller, she could be a model. · What would you do if you won the lottery?</span></p>",
+  "<p>Use <b>were</b> for all subjects with 'to be': <span class='ex-fr'>If I were you... · If she were here...</span></p>"
+],
+exercises:[
+  {type:"fill",q:"If I ____ a million dollars, I would travel the world. (have — 2nd conditional)",answers:["had"]},
+  {type:"fill",q:"She would be happier if she ____ a better job. (have)",answers:["had"]},
+  {type:"mcq",q:"Second Conditional — correct form:",options:["If I have time, I will call you.","If I had time, I would call you.","If I had time, I will call you.","If I would have time, I would call you."],correct:1},
+  {type:"tf",q:"The Second Conditional is used for real, very likely future situations.",correct:false},
+  {type:"order",q:"Build the Second Conditional:",words:["I","the","were","If","I'd","job,","boss,","take"],correct:"If I were the boss, I'd take the job."},
+  {type:"fill",q:"What would you do if you ____ the lottery? (win — 2nd conditional)",answers:["won"]},
+  {type:"fill",q:"If she were here, she ____ know what to do. (would)",answers:["would"]},
+  {type:"match",q:"Match the situation type with the conditional.",pairs:[["real future possibility","First Conditional"],["unreal/hypothetical present","Second Conditional"],["universal truth","Zero Conditional"],["past regret","Third Conditional"]]},
+  {type:"speak",phrase:"If I had more free time, I would learn to play the guitar and travel around South America.",translation:"Si tuviera más tiempo libre, aprendería a tocar la guitarra y viajaría por Sudamérica."},
+  {type:"tf",q:"'If I were you' is the correct form in formal English, not 'If I was you'.",correct:true}
+]},
+
+{id:"third-conditional-en",num:4,title:"Third Conditional",emoji:"😔",cardDesc:"If I had studied more, I would have passed — past regrets",
+explain:[
+  "<p>The <b>Third Conditional</b> talks about hypothetical past situations — things that didn't happen. Often used for regrets. Structure: <b>If + past perfect, would have + past participle.</b></p>",
+  "<p><span class='ex-fr'>If I had studied harder, I would have passed the exam. · She would have gotten the job if she had applied.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"If I ____ studied more, I would have passed. (past perfect — had)",answers:["had"]},
+  {type:"fill",q:"She would ____ gotten the job if she had applied. (have)",answers:["have"]},
+  {type:"mcq",q:"'If he ___ earlier, he wouldn't have missed the flight.' — Third Conditional",options:["leaves","left","had left","would leave"],correct:2},
+  {type:"tf",q:"The Third Conditional always refers to real situations in the future.",correct:false},
+  {type:"order",q:"Build the sentence:",words:["it","wouldn't","If","rained,","have","had","a","great","we","had","day."],correct:"If it hadn't rained, we would have had a great day."},
+  {type:"fill",q:"They ____ won the match if their best player hadn't been injured. (would have)",answers:["would have"]},
+  {type:"fill",q:"If she had known about the party, she ____ come. (would have)",answers:["would have"]},
+  {type:"match",q:"Match each conditional to its meaning.",pairs:[["3rd Conditional","past regret / different outcome"],["2nd Conditional","unreal present or future"],["1st Conditional","real future possibility"],["Zero Conditional","universal facts"]]},
+  {type:"speak",phrase:"If I had woken up earlier, I wouldn't have missed the bus. I would have arrived on time!",translation:"Si me hubiera despertado más temprano, no habría perdido el autobús. ¡Habría llegado a tiempo!"},
+  {type:"tf",q:"Third Conditional: 'If + past perfect' is the correct if-clause structure.",correct:true}
+]},
+
+{id:"perfect-modals-en",num:5,title:"Perfect Modals",emoji:"🔮",cardDesc:"should have, could have, might have — past speculation and regret",
+explain:[
+  "<p><b>Perfect modals</b> (modal + have + past participle) express regrets, deductions, or past possibilities.</p>",
+  "<table class='reftable'><tr><th>Modal</th><th>Meaning</th><th>Example</th></tr><tr><td>should have</td><td>past advice/regret</td><td class='formcol'>You should have called me.</td></tr><tr><td>could have</td><td>past possibility (didn't happen)</td><td class='formcol'>He could have won.</td></tr><tr><td>might have</td><td>uncertain past possibility</td><td class='formcol'>They might have left early.</td></tr><tr><td>must have</td><td>logical deduction (past)</td><td class='formcol'>She must have been tired.</td></tr></table>"
+],
+exercises:[
+  {type:"fill",q:"You ____ called me! I was worried. (should have — past advice)",answers:["should have"]},
+  {type:"fill",q:"She looks exhausted. She ____ been working all night. (must have — deduction)",answers:["must have"]},
+  {type:"mcq",q:"'He didn't come to the party. He ___ forgotten about it.' — uncertain possibility",options:["must have","should have","might have","would have"],correct:2},
+  {type:"tf",q:"'Must have + past participle' expresses a logical deduction about the past.",correct:true},
+  {type:"match",q:"Match the modal perfect with its meaning.",pairs:[["should have","past regret / advice"],["might have","uncertain past possibility"],["could have","possibility that didn't happen"],["must have","logical deduction"]]},
+  {type:"fill",q:"They ____ told us earlier! Now it's too late. (should have)",answers:["should have"]},
+  {type:"fill",q:"He ____ taken the train — it would have been faster. (could have)",answers:["could have"]},
+  {type:"speak",phrase:"You should have applied for that job. You could have gotten it! They must have picked someone with more experience.",translation:"Deberías haber solicitado ese trabajo. ¡Podrías haberlo conseguido! Deben haber elegido a alguien con más experiencia."},
+  {type:"fill",q:"I ____ gone to bed earlier. I'm exhausted today. (should have)",answers:["should have"]},
+  {type:"tf",q:"'She shouldn't have eaten that' means it was a bad idea that she ate it.",correct:true}
+]},
+
+{id:"adj-clauses-en",num:6,title:"Adjective Clauses",emoji:"🔗",cardDesc:"the book that I read / the man who called — relative clauses",
+explain:[
+  "<p><b>Adjective clauses</b> give more information about a noun. Introduced by relative pronouns: <b>who/that</b> (people), <b>which/that</b> (things), <b>whose</b> (possession), <b>where</b> (place), <b>when</b> (time).</p>",
+  "<p><span class='ex-fr'>The teacher who taught me was amazing. · The book which/that I read was incredible. · The city where I was born is beautiful.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"The woman ____ lives next door is a doctor. (who — person)",answers:["who","that"]},
+  {type:"fill",q:"The movie ____ we saw last night was amazing. (which/that — thing)",answers:["which","that"]},
+  {type:"mcq",q:"'The boy ___ parents are doctors wants to study medicine.' — possession",options:["who","which","whose","whom"],correct:2},
+  {type:"tf",q:"'Which' is used for people in adjective clauses.",correct:false},
+  {type:"order",q:"Build the sentence with a relative clause:",words:["I","the","is","person","who","trust","most","my","mother."],correct:"The person who I trust most is my mother."},
+  {type:"fill",q:"This is the restaurant ____ we ate on our first date. (where — place)",answers:["where"]},
+  {type:"fill",q:"I remember the day ____ we first met. (when — time)",answers:["when"]},
+  {type:"match",q:"Match the relative pronoun with its function.",pairs:[["who","refers to people"],["which","refers to things"],["whose","shows possession"],["where","refers to places"]]},
+  {type:"speak",phrase:"The teacher who taught me English was amazing. The school where I studied had a great atmosphere.",translation:"El maestro que me enseñó inglés era increíble. La escuela donde estudié tenía un ambiente genial."},
+  {type:"tf",q:"'The book which I read last week' is grammatically correct.",correct:true}
+]},
+
+{id:"noun-clauses-en",num:7,title:"Noun Clauses",emoji:"💡",cardDesc:"I think that... / I don't know what... — clauses as nouns",
+explain:[
+  "<p><b>Noun clauses</b> function as nouns inside a larger sentence. Introducers: <b>that, what, who, which, whether, if, how, why, when, where.</b></p>",
+  "<p>Embedded questions use STATEMENT order: <span class='ex-fr'>Where does he live? → I don't know <b>where he lives.</b> (NOT: where does he live)</span></p>"
+],
+exercises:[
+  {type:"fill",q:"I think ____ you are right. (that)",answers:["that"]},
+  {type:"fill",q:"I don't know ____ he lives. (where — embedded question)",answers:["where"]},
+  {type:"mcq",q:"Correct embedded question: 'Could you tell me ___?'",options:["where is the bank","where the bank is","where does the bank is","where bank is"],correct:1},
+  {type:"tf",q:"In a noun clause, question word order is kept: 'I know where does he live.'",correct:false},
+  {type:"order",q:"Build the sentence:",words:["me","you","Could","where","the","tell","station","is?"],correct:"Could you tell me where the station is?"},
+  {type:"fill",q:"____ she told us was very interesting. (what — subject noun clause)",answers:["What"]},
+  {type:"fill",q:"I don't understand ____ he said that. (why)",answers:["why"]},
+  {type:"match",q:"Match the noun clause type with an example.",pairs:[["subject","What she said was true."],["object of think","I think that she's right."],["embedded question","I wonder if he'll come."],["after don't know","I don't know how she did it."]]},
+  {type:"speak",phrase:"I believe that learning English opens many doors. I'm not sure whether I'll be fluent this year.",translation:"Creo que aprender inglés abre muchas puertas. No estoy seguro/a de si seré fluido/a este año."},
+  {type:"tf",q:"'I wonder if she is coming' is a correct noun clause.",correct:true}
+]},
+
+{id:"indirect-speech-adv-en",num:8,title:"Advanced Reported Speech",emoji:"📢",cardDesc:"requests, questions, commands — reporting all types of speech",
+explain:[
+  "<p><b>Yes/No questions</b>: <span class='ex-fr'>«Are you tired?» → She asked <b>if/whether</b> I was tired.</span></p>",
+  "<p><b>WH- questions</b>: <span class='ex-fr'>«Where do you live?» → He asked <b>where I lived.</b></span></p>",
+  "<p><b>Commands</b>: <span class='ex-fr'>«Please sit down.» → She told me <b>to sit down.</b> · «Don't open the door.» → He told me <b>not to open</b> the door.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"«Do you like coffee?» → She asked me ____ I liked coffee. (if/whether)",answers:["if","whether"]},
+  {type:"fill",q:"«Where do you work?» → He asked where I ____. (worked)",answers:["worked"]},
+  {type:"mcq",q:"«Please be quiet.» → The teacher told us ___ quiet.",options:["be","to be","being","were"],correct:1},
+  {type:"tf",q:"For yes/no questions in reported speech, we use 'if' or 'whether'.",correct:true},
+  {type:"order",q:"Transform the command:",words:["me","not","She","to","told","the","touch","screen."],correct:"She told me not to touch the screen."},
+  {type:"fill",q:"«Don't run!» → She told them ____ to run. (not)",answers:["not"]},
+  {type:"fill",q:"«Can you help me?» → She asked me ____ I could help her. (if)",answers:["if","whether"]},
+  {type:"match",q:"Match the speech type with the reporting structure.",pairs:[["command","told/asked + to + verb"],["yes/no question","asked if/whether + clause"],["wh-question","asked + question word + clause"],["negative command","told + not to + verb"]]},
+  {type:"speak",phrase:"She asked me where I had studied and whether I was planning to take the advanced course.",translation:"Ella me preguntó dónde había estudiado y si planeaba tomar el curso avanzado."},
+  {type:"tf",q:"'He asked me what did I think' is correct for an indirect WH-question.",correct:false}
+]},
+
+{id:"causatives-en",num:9,title:"Causative Structures",emoji:"🛠️",cardDesc:"have something done, get someone to do — causing others to act",
+explain:[
+  "<p><b>Have something done</b> (professional service): <span class='ex-fr'>I had my hair cut. · She's having her car repaired.</span></p>",
+  "<p><b>Get + person + to + verb</b> (convince/arrange): <span class='ex-fr'>I got my brother to fix the sink.</span></p>",
+  "<p><b>Have + person + base verb</b> (formal): <span class='ex-fr'>I'll have my assistant call you.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"I had my hair ____. (cut — had + obj + past participle)",answers:["cut"]},
+  {type:"fill",q:"She's having her car ____. (repair — present causative)",answers:["repaired"]},
+  {type:"mcq",q:"'I need to ___ my teeth checked.' — causative 'have'",options:["have","get","make","do"],correct:0},
+  {type:"tf",q:"'Have something done' means you did the action yourself.",correct:false},
+  {type:"order",q:"Build the causative sentence:",words:["the","had","repainted.","She","house"],correct:"She had the house repainted."},
+  {type:"fill",q:"He got his sister ____ help him move. (to — get + person + to + verb)",answers:["to"]},
+  {type:"fill",q:"Can you get the kids ____ clean their room? (to)",answers:["to"]},
+  {type:"match",q:"Match the causative form with its use.",pairs:[["have + obj + past participle","professional service"],["get + person + to + verb","convince/arrange"],["have + person + base verb","formal arrangement"],["make + person + base verb","force someone to do something"]]},
+  {type:"speak",phrase:"I'm going to have my apartment decorated this weekend. I got my friend to help me choose the colors.",translation:"Voy a mandar decorar mi apartamento este fin de semana. Hice que mi amigo me ayudara a elegir los colores."},
+  {type:"tf",q:"'I had my phone repaired' means someone repaired my phone for me.",correct:true}
+]},
+
+{id:"politics-society-en",num:10,title:"Politics & Society",emoji:"🗳️",cardDesc:"democracy, rights, government — civic vocabulary",
+isVocab:true,
+explain:["<p>Civic and political vocabulary for discussing current events and society. Use <b>I believe that / In my view / It's arguable that</b> to express opinions diplomatically.</p>"],
+vocab:[
+  {cat:"🏛️ Government & Politics",items:[
+    {e:"🗳️",w:"democracy",p:"democracia"},
+    {e:"🏛️",w:"parliament / congress",p:"parlamento / congreso"},
+    {e:"⚖️",w:"law / legislation",p:"ley / legislación"},
+    {e:"🗺️",w:"policy",p:"política (de gobierno)"},
+    {e:"🤝",w:"treaty",p:"tratado"},
+    {e:"📊",w:"election",p:"elección"}
+  ]},
+  {cat:"🌍 Society",items:[
+    {e:"⚖️",w:"equality",p:"igualdad"},
+    {e:"🕊️",w:"human rights",p:"derechos humanos"},
+    {e:"💸",w:"poverty",p:"pobreza"},
+    {e:"🌆",w:"urbanization",p:"urbanización"},
+    {e:"🤝",w:"social justice",p:"justicia social"},
+    {e:"🌐",w:"globalization",p:"globalización"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Every citizen has the right to vote in a ____. (democracia)",answers:["democracy"]},
+  {type:"mcq",q:"What does a 'policy' refer to?",options:["a law passed by courts","a plan of action by a government or organization","a military action","a criminal act"],correct:1},
+  {type:"fill",q:"The two countries signed a peace ____. (tratado)",answers:["treaty"]},
+  {type:"match",q:"Match the concept with its meaning.",pairs:[["equality","everyone has the same rights"],["globalization","world becoming more connected"],["urbanization","people moving to cities"],["human rights","basic rights for all people"]]},
+  {type:"fill",q:"The government passed new ____ to reduce carbon emissions. (legislation/laws)",answers:["legislation","laws"]},
+  {type:"tf",q:"'Social justice' refers to fair distribution of wealth, opportunities, and rights.",correct:true},
+  {type:"speak",phrase:"In my view, reducing poverty and ensuring equality are the most important goals for any government.",translation:"En mi opinión, reducir la pobreza y garantizar la igualdad son los objetivos más importantes para cualquier gobierno."},
+  {type:"fill",q:"There will be a presidential ____ next year. Everyone must register to vote. (elección)",answers:["election"]},
+  {type:"tf",q:"'Globalization' only has positive effects on society.",correct:false},
+  {type:"fill",q:"Human ____ must be protected everywhere in the world. (derechos)",answers:["rights"]}
+]},
+
+{id:"abstract-vocab-b2",num:11,title:"Abstract Concepts",emoji:"🧠",cardDesc:"achievement, integrity, perseverance — advanced vocabulary",
+isVocab:true,
+explain:["<p>Advanced abstract vocabulary needed for B1+/B2 level discussions, essays, and debates.</p>"],
+vocab:[
+  {cat:"💪 Personal Qualities",items:[
+    {e:"🏆",w:"achievement",p:"logro"},
+    {e:"🤝",w:"integrity",p:"integridad"},
+    {e:"🔄",w:"perseverance",p:"perseverancia"},
+    {e:"💡",w:"resilience",p:"resiliencia"},
+    {e:"🌟",w:"empathy",p:"empatía"},
+    {e:"🎯",w:"determined",p:"determinado/a"}
+  ]},
+  {cat:"🌍 Social Concepts",items:[
+    {e:"⚖️",w:"justice",p:"justicia"},
+    {e:"🕊️",w:"tolerance",p:"tolerancia"},
+    {e:"🤔",w:"perspective",p:"perspectiva"},
+    {e:"🔗",w:"solidarity",p:"solidaridad"},
+    {e:"📈",w:"progress",p:"progreso"},
+    {e:"🌱",w:"sustainability",p:"sustentabilidad"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"She never gives up. Her ____ is an inspiration to all of us. (perseverancia)",answers:["perseverance"]},
+  {type:"mcq",q:"Someone who understands and shares others' feelings shows:",options:["integrity","achievement","empathy","resilience"],correct:2},
+  {type:"fill",q:"Despite losing everything, she rebuilt her life. Her ____ was remarkable. (resiliencia)",answers:["resilience"]},
+  {type:"match",q:"Match the concept with its definition.",pairs:[["tolerance","accepting differences in others"],["solidarity","support and unity with others"],["sustainability","using resources without damaging the future"],["progress","moving toward a better state"]]},
+  {type:"tf",q:"'Integrity' means doing the right thing even when no one is watching.",correct:true},
+  {type:"fill",q:"From a different ____, the same situation can look completely different. (perspectiva)",answers:["perspective"]},
+  {type:"speak",phrase:"In my opinion, empathy and integrity are the most important qualities a leader can have.",translation:"En mi opinión, la empatía y la integridad son las cualidades más importantes que puede tener un líder."},
+  {type:"fill",q:"This company is committed to ____. They use only renewable energy. (sustentabilidad)",answers:["sustainability"]},
+  {type:"tf",q:"'Achievement' refers to something that has been accomplished successfully.",correct:true},
+  {type:"fill",q:"The two communities showed great ____ and helped each other after the disaster. (solidaridad)",answers:["solidarity"]}
+]}
+
+];
+
+window.LP_TOPICS['en-4'].push({
+  id:"conversation-en4",num:12,title:"Conversation Station B1+",emoji:"💬",
+  cardDesc:"Debate, speculate and report in English",
+  isChat:true,
+  explain:["<p>B1+ conversations: use conditionals to speculate, discuss society, report what others said, and use advanced vocabulary naturally. You're achieving fluency!</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['en-4'] = {
+  scenarios:[
+    {id:"hypothetical-debate",title:"What Would You Do?",emoji:"💭",setup:"Discussing hypothetical situations.",partner:{emoji:"🤔",name:"Chris"},opener:"If you could change one thing about the world, what would it be and why?"},
+    {id:"society-discussion",title:"Society & Rights",emoji:"⚖️",setup:"Discussing current social issues.",partner:{emoji:"⚖️",name:"Jordan"},opener:"Do you think equality and social justice have improved in recent years? What's your perspective?"},
+    {id:"regrets-lessons",title:"Regrets & Life Lessons",emoji:"😔",setup:"Reflecting on past experiences.",partner:{emoji:"🌟",name:"Maya"},opener:"Is there something you wish you had done differently in life? What would you have changed and why?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  ENGLISH — LEVEL 5 (B2)
+// ══════════════════════════════════
+window.LP_TOPICS['en-5'] = [
+
+{id:"mixed-conditionals-en",num:1,title:"Mixed Conditionals",emoji:"🔀",cardDesc:"If I had studied, I would be a doctor now — past+present mix",
+explain:[
+  "<p><b>Mixed conditionals</b> combine time frames — a past condition with a present result, or vice versa.</p>",
+  "<p><b>Past → Present</b>: <b>If + past perfect, would + base verb</b><br><span class='ex-fr'>If I had studied medicine, I would be a doctor now.</span></p>",
+  "<p><b>Present → Past</b>: <b>If + past simple, would have + past participle</b><br><span class='ex-fr'>If she were more organized, she would have finished the project on time.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"If I had saved more money, I ____ be able to buy a house now. (would)",answers:["would"]},
+  {type:"fill",q:"If he were braver, he ____ have asked for the promotion. (would have)",answers:["would have"]},
+  {type:"mcq",q:"'If I had grown up in the USA, I ___ speak English better now.' — mixed conditional",options:["would","would have","will","had"],correct:0},
+  {type:"tf",q:"A mixed conditional ALWAYS combines a past condition with a present result.",correct:false},
+  {type:"order",q:"Build the mixed conditional:",words:["studied","had","I","I'd","harder,","be","If","smarter","now."],correct:"If I had studied harder, I'd be smarter now."},
+  {type:"fill",q:"If she ____ taller, she would have made the basketball team. (were — present unreal)",answers:["were"]},
+  {type:"match",q:"Match the mixed conditional type with its structure.",pairs:[["Past → Present","If + past perfect, would + base verb"],["Present → Past","If + past simple, would have + past participle"],["Past condition example","If I had studied..."],["Present result example","...I would be a doctor now."]]},
+  {type:"fill",q:"If they had invested earlier, they ____ be millionaires today. (would)",answers:["would"]},
+  {type:"speak",phrase:"If I had moved to an English-speaking country, I would speak English perfectly now. But it's not too late!",translation:"Si me hubiera mudado a un país de habla inglesa, hablaría inglés perfectamente ahora. ¡Pero no es muy tarde!"},
+  {type:"tf",q:"'If I were rich, I would have bought that car last year' is a mixed conditional (present → past).",correct:true}
+]},
+
+{id:"wish-if-only",num:2,title:"Wish & If Only",emoji:"🌠",cardDesc:"I wish I could fly / If only I had studied — wishes and regrets",
+explain:[
+  "<p><b>Wish</b> and <b>If only</b> express wishes about the present, future, or past.</p>",
+  "<table class='reftable'><tr><th>Time</th><th>Structure</th><th>Example</th></tr><tr><td>Present wish</td><td>wish + past simple</td><td class='formcol'>I wish I spoke French.</td></tr><tr><td>Future wish</td><td>wish + would + verb</td><td class='formcol'>I wish it would stop raining.</td></tr><tr><td>Past regret</td><td>wish + past perfect</td><td class='formcol'>I wish I had studied more.</td></tr></table>",
+  "<p><b>If only</b> = stronger version of wish: <span class='ex-fr'>If only I had more time!</span></p>"
+],
+exercises:[
+  {type:"fill",q:"I wish I ____ drive. It would be so useful! (could)",answers:["could"]},
+  {type:"fill",q:"She wishes she ____ worked harder when she was young. (past perfect — had)",answers:["had"]},
+  {type:"mcq",q:"'I wish it ___ raining! I want to go outside.' — future wish / annoyance",options:["stopped","had stopped","would stop","stops"],correct:2},
+  {type:"tf",q:"'I wish I had more money' is a wish about the past.",correct:false},
+  {type:"match",q:"Match the wish structure with its time reference.",pairs:[["wish + past simple","present wish"],["wish + would + verb","future wish / annoyance"],["wish + past perfect","past regret"],["If only + past perfect","strong past regret"]]},
+  {type:"fill",q:"If only we ____ left earlier — we missed the train! (past perfect — had)",answers:["had"]},
+  {type:"fill",q:"He wishes he ____ taller. (past simple — were, for present unreal)",answers:["were","was"]},
+  {type:"speak",phrase:"I wish I had started learning English when I was a child. If only I had more time to practice every day!",translation:"Ojalá hubiera empezado a aprender inglés cuando era niño/a. ¡Si tan solo tuviera más tiempo para practicar cada día!"},
+  {type:"fill",q:"She wishes her boss ____ give her more feedback. (would — future wish)",answers:["would"]},
+  {type:"tf",q:"'If only' expresses stronger emotion than 'I wish'.",correct:true}
+]},
+
+{id:"inversion-en",num:3,title:"Inversion & Emphasis",emoji:"📢",cardDesc:"Not only did she win, but... / Rarely have I seen — formal emphasis",
+explain:[
+  "<p><b>Inversion</b> (auxiliary before subject) is used in formal English for emphasis after negative/limiting adverbs.</p>",
+  "<p>Structure: <b>Negative adverb + auxiliary + subject + main verb</b></p>",
+  "<p><span class='ex-fr'>Never have I seen such talent. · Not only did she win but she set a record. · Rarely do we get the chance. · Hardly had he arrived when... · Under no circumstances should you...</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Never ____ I seen such a beautiful sunset. (have — inversion)",answers:["have"]},
+  {type:"mcq",q:"'Not only ___ she win, but she broke the record.' — inversion",options:["she did","did she","she has","has she"],correct:1},
+  {type:"fill",q:"Rarely ____ we get an opportunity like this. (do — inversion)",answers:["do"]},
+  {type:"tf",q:"Inversion is used after negative adverbials to add formal emphasis.",correct:true},
+  {type:"order",q:"Build the inverted sentence:",words:["we","had","left","Hardly","when","it","started","raining."],correct:"Hardly had we left when it started raining."},
+  {type:"fill",q:"Under no circumstances ____ you leave the door unlocked. (should — inversion)",answers:["should"]},
+  {type:"fill",q:"Only then ____ I understand what had happened. (did — inversion)",answers:["did"]},
+  {type:"match",q:"Match the negative adverb with a complete inversion example.",pairs:[["Never","Never have I seen this."],["Rarely","Rarely does she complain."],["Not only","Not only did he lie, but he stole."],["Hardly","Hardly had she left when he arrived."]]},
+  {type:"speak",phrase:"Never have I worked so hard. Not only did I finish the project, but I also helped my colleagues.",translation:"Nunca he trabajado tan duro. No solo terminé el proyecto, sino que también ayudé a mis colegas."},
+  {type:"tf",q:"'Rarely she goes to the gym' is correct inverted English.",correct:false}
+]},
+
+{id:"cleft-sentences-en",num:4,title:"Cleft Sentences",emoji:"✂️",cardDesc:"It was John who called / What I need is rest — focusing information",
+explain:[
+  "<p><b>It-cleft</b>: <span class='ex-fr'>It was John <b>who</b> called. · It was in Paris <b>where</b> they met. · It was last year <b>when</b> everything changed.</span></p>",
+  "<p><b>What-cleft (pseudo-cleft)</b>: <span class='ex-fr'>What I need is some rest. · What surprised me was his reaction.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"It was Maria ____ told me the news. (who — person cleft)",answers:["who"]},
+  {type:"fill",q:"____ I need is more practice. (What — what-cleft)",answers:["What"]},
+  {type:"mcq",q:"Emphasize 'time': 'It was midnight ___ the alarm went off.'",options:["who","which","when","where"],correct:2},
+  {type:"tf",q:"Cleft sentences are used to emphasize or focus on a specific element.",correct:true},
+  {type:"order",q:"Build the it-cleft sentence:",words:["who","the","It","boss","was","decided."],correct:"It was the boss who decided."},
+  {type:"fill",q:"What surprised everyone ____ her decision to quit. (was)",answers:["was"]},
+  {type:"fill",q:"It was in Brazil ____ they first met. (where — place cleft)",answers:["where"]},
+  {type:"match",q:"Match the cleft type with an example.",pairs:[["It-cleft (person)","It was Tom who broke the window."],["It-cleft (place)","It was in Rome where it happened."],["What-cleft","What I want is a cup of tea."],["What matters...","What matters is that you try."]]},
+  {type:"speak",phrase:"What I love about English is its flexibility. It was my teacher who first inspired me to learn seriously.",translation:"Lo que amo del inglés es su flexibilidad. Fue mi maestro/a quien me inspiró a aprender en serio."},
+  {type:"tf",q:"'What I need is sleep' is a what-cleft sentence.",correct:true}
+]},
+
+{id:"phrasal-verbs-advanced-en",num:5,title:"Phrasal Verbs — Advanced",emoji:"🔗",cardDesc:"come across, give in, put up with — idioms and phrasal verbs",
+explain:[
+  "<p>Key phrasal verbs: <span class='ex-fr'>give up (quit) · give in (surrender) · put up with (tolerate) · come up with (think of) · look into (investigate) · carry out (execute) · bring about (cause) · turn down (refuse) · put off (postpone) · come across (find by chance)</span></p>"
+],
+vocab:[
+  {cat:"🔗 Essential Phrasal Verbs",items:[
+    {e:"🚫",w:"give up",p:"rendirse / dejar de hacer algo"},
+    {e:"🔍",w:"look into",p:"investigar / examinar"},
+    {e:"💡",w:"come up with",p:"pensar en / idear"},
+    {e:"✅",w:"carry out",p:"llevar a cabo / ejecutar"},
+    {e:"😤",w:"put up with",p:"tolerar / aguantar"},
+    {e:"⬇️",w:"turn down",p:"rechazar"},
+    {e:"📅",w:"put off",p:"posponer / aplazar"},
+    {e:"🌪️",w:"bring about",p:"causar / provocar"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Don't ____ up! You're almost there! (give — phrasal verb)",answers:["give"]},
+  {type:"fill",q:"I can't ____ up with this noise anymore! (put — tolerate)",answers:["put"]},
+  {type:"mcq",q:"'She ___ a brilliant idea during the meeting.' — think of/invent",options:["came across","came up with","brought about","looked into"],correct:1},
+  {type:"tf",q:"'Put off' means to postpone something to a later time.",correct:true},
+  {type:"match",q:"Match the phrasal verb with its meaning.",pairs:[["give up","stop trying / quit"],["look into","investigate"],["turn down","refuse an offer"],["bring about","cause something to happen"]]},
+  {type:"fill",q:"The police are looking ____ the case. (into — investigate)",answers:["into"]},
+  {type:"fill",q:"She turned ____ the job offer because the salary was too low. (down)",answers:["down"]},
+  {type:"speak",phrase:"I came up with a plan to solve the problem. I'll look into all the options and carry out the best solution.",translation:"Se me ocurrió un plan para resolver el problema. Investigaré todas las opciones y llevaré a cabo la mejor solución."},
+  {type:"fill",q:"The company will ____ out a full investigation. (carry)",answers:["carry"]},
+  {type:"tf",q:"'Come across' (inseparable) means to find something by chance.",correct:true}
+]},
+
+{id:"business-english",num:6,title:"Business English",emoji:"💼",cardDesc:"meetings, presentations, negotiations — professional English",
+isVocab:true,
+explain:["<p>Essential business English vocabulary and phrases for meetings, negotiations, and presentations.</p>"],
+vocab:[
+  {cat:"🤝 Meetings & Negotiations",items:[
+    {e:"📋",w:"agenda",p:"orden del día"},
+    {e:"📝",w:"minutes",p:"actas de la reunión"},
+    {e:"🤝",w:"negotiate",p:"negociar"},
+    {e:"🏁",w:"deadline",p:"fecha límite"},
+    {e:"💰",w:"budget",p:"presupuesto"},
+    {e:"📊",w:"proposal",p:"propuesta"}
+  ]},
+  {cat:"📊 Presentations",items:[
+    {e:"🖥️",w:"presentation",p:"presentación"},
+    {e:"📑",w:"handout",p:"material impreso / folleto"},
+    {e:"❓",w:"Q&A session",p:"sesión de preguntas y respuestas"},
+    {e:"📈",w:"graph / chart",p:"gráfica / tabla"},
+    {e:"🎯",w:"key points",p:"puntos clave"},
+    {e:"📣",w:"pitch",p:"presentación de ventas"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"The ____ for the project is next Friday. We must finish before then. (fecha límite)",answers:["deadline"]},
+  {type:"fill",q:"Could you send me the meeting ____? I want to know what was discussed. (actas)",answers:["minutes"]},
+  {type:"mcq",q:"Before a meeting, the chairperson usually shares the:",options:["budget","agenda","deadline","pitch"],correct:1},
+  {type:"match",q:"Match the business term with its definition.",pairs:[["negotiate","discuss to reach an agreement"],["proposal","a plan suggested for consideration"],["budget","planned spending for a project"],["pitch","a persuasive sales presentation"]]},
+  {type:"fill",q:"We need to ____ the contract terms before signing. (negociar)",answers:["negotiate"]},
+  {type:"tf",q:"A 'Q&A session' is when the audience can ask questions after a presentation.",correct:true},
+  {type:"speak",phrase:"Good morning, everyone. Today's agenda has three items. Let's start with the quarterly budget review.",translation:"Buenos días a todos. El orden del día tiene tres puntos. Empecemos con la revisión del presupuesto trimestral."},
+  {type:"fill",q:"Our ____ for the new marketing campaign is $50,000. (presupuesto)",answers:["budget"]},
+  {type:"fill",q:"She gave an excellent ____ to the investors and they loved the idea. (pitch)",answers:["pitch"]},
+  {type:"tf",q:"'Minutes' in a business context refers to the official record of a meeting.",correct:true}
+]},
+
+{id:"discourse-markers-en",num:7,title:"Discourse Markers",emoji:"🔗",cardDesc:"however, nevertheless, in contrast — linking ideas at B2",
+explain:[
+  "<p><b>Addition</b>: <span class='ex-fr'>furthermore · moreover · in addition</span></p>",
+  "<p><b>Contrast</b>: <span class='ex-fr'>however · nevertheless · on the other hand · despite this</span></p>",
+  "<p><b>Result</b>: <span class='ex-fr'>as a result · consequently · therefore</span></p>",
+  "<p><b>Example</b>: <span class='ex-fr'>for instance · for example · such as</span></p>",
+  "<p><b>Concession</b>: <span class='ex-fr'>although · even though · despite · in spite of</span></p>"
+],
+exercises:[
+  {type:"fill",q:"The price was high. ____, we decided to buy it. (sin embargo)",answers:["Nevertheless","However","Even so"]},
+  {type:"fill",q:"She studied hard. ____, she passed with top marks. (como resultado)",answers:["As a result","Consequently","Therefore"]},
+  {type:"mcq",q:"'I love cats. ___, I'm allergic to them.' — contrast",options:["Furthermore","Therefore","However","As a result"],correct:2},
+  {type:"match",q:"Match the discourse marker with its function.",pairs:[["furthermore","addition"],["however","contrast"],["consequently","result"],["for instance","example"]]},
+  {type:"fill",q:"He speaks three languages. ____, he has lived in four countries. (además)",answers:["Furthermore","Moreover","In addition"]},
+  {type:"fill",q:"____ the rain, we enjoyed our picnic. (despite — contrast with noun/gerund)",answers:["Despite"]},
+  {type:"order",q:"Build the sentence with a discourse marker:",words:["a","result,","company","As","closed.","the"],correct:"As a result, the company closed."},
+  {type:"fill",q:"Many animals are endangered. ____, tigers and elephants face extinction. (por ejemplo)",answers:["For instance","For example","Namely"]},
+  {type:"speak",phrase:"Technology has many benefits. However, it also has drawbacks. Nevertheless, it has transformed our lives.",translation:"La tecnología tiene muchos beneficios. Sin embargo, también tiene desventajas. No obstante, ha transformado nuestras vidas."},
+  {type:"tf",q:"'Despite' is followed by a noun or gerund, not a clause with a subject.",correct:true}
+]},
+
+{id:"advanced-passive-en",num:8,title:"Advanced Passive Structures",emoji:"🔄",cardDesc:"is said to be, is believed, it is reported — formal passive",
+explain:[
+  "<p><b>Reporting verbs + passive</b>: <span class='ex-fr'>It is said that... · It is believed that... · It is reported that... · It is known that...</span></p>",
+  "<p><b>Personal passive</b>: <span class='ex-fr'>He is said to be very talented. · She is believed to have discovered the cure.</span></p>",
+  "<p><b>Passive infinitive/gerund</b>: <span class='ex-fr'>I expect to be promoted. · She avoids being photographed.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"____ is believed that the economy will improve. (It)",answers:["It"]},
+  {type:"fill",q:"He is said ____ be the best in his field. (to)",answers:["to"]},
+  {type:"mcq",q:"'Scientists have found a cure.' → Formal passive:",options:["A cure has been found by scientists.","A cure found by scientists.","Scientists are found a cure.","A cure is found by scientists."],correct:0},
+  {type:"tf",q:"'It is reported that' is a common structure in news journalism.",correct:true},
+  {type:"order",q:"Transform to personal passive:",words:["to","is","She","have","discovered","cure.","believed","the"],correct:"She is believed to have discovered the cure."},
+  {type:"fill",q:"She avoids ____ photographed in public. (being)",answers:["being"]},
+  {type:"fill",q:"It is ____ that climate change is accelerating. (known)",answers:["known"]},
+  {type:"match",q:"Match the reporting verb passive with its use.",pairs:[["It is said that","common belief or rumor"],["It is believed that","general opinion"],["It is reported that","news/journalism"],["It is known that","established fact"]]},
+  {type:"speak",phrase:"It is believed that artificial intelligence will transform every industry. Experts are said to be working on safeguards.",translation:"Se cree que la inteligencia artificial transformará cada industria. Se dice que los expertos están trabajando en medidas de seguridad."},
+  {type:"fill",q:"He demanded ____ given a second chance. (to be)",answers:["to be"]}
+]},
+
+{id:"technology-advanced-en",num:9,title:"Technology & Innovation",emoji:"🚀",cardDesc:"blockchain, quantum computing, automation — advanced tech vocabulary",
+isVocab:true,
+explain:["<p>Cutting-edge technology vocabulary for B2+ discussions in academic and professional contexts.</p>"],
+vocab:[
+  {cat:"⚙️ Emerging Technologies",items:[
+    {e:"🔗",w:"blockchain",p:"cadena de bloques"},
+    {e:"⚛️",w:"quantum computing",p:"computación cuántica"},
+    {e:"🤖",w:"automation",p:"automatización"},
+    {e:"🧬",w:"biotechnology",p:"biotecnología"},
+    {e:"🌐",w:"Internet of Things (IoT)",p:"Internet de las cosas"},
+    {e:"🕶️",w:"virtual reality",p:"realidad virtual"}
+  ]},
+  {cat:"💡 Concepts",items:[
+    {e:"📊",w:"algorithm",p:"algoritmo"},
+    {e:"🔓",w:"encryption",p:"cifrado / encriptación"},
+    {e:"☁️",w:"machine learning",p:"aprendizaje automático"},
+    {e:"🔎",w:"data mining",p:"minería de datos"},
+    {e:"🏗️",w:"infrastructure",p:"infraestructura"},
+    {e:"🔄",w:"disruption",p:"disrupción / transformación radical"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"____ allows records to be stored securely across many computers. (blockchain)",answers:["Blockchain"]},
+  {type:"mcq",q:"What is 'machine learning'?",options:["robots learning to walk","AI systems that learn from data","physical machines in factories","internet security"],correct:1},
+  {type:"fill",q:"Many jobs are at risk due to ____. Machines can do them faster and cheaper. (automatización)",answers:["automation"]},
+  {type:"match",q:"Match the technology with its application.",pairs:[["IoT","connecting everyday devices to the internet"],["quantum computing","solving complex problems exponentially faster"],["biotechnology","using biology to develop medicines and foods"],["data mining","extracting patterns from large datasets"]]},
+  {type:"fill",q:"Your messages are protected by ____. No one else can read them. (cifrado)",answers:["encryption"]},
+  {type:"tf",q:"An 'algorithm' is a set of rules or instructions for solving a problem.",correct:true},
+  {type:"speak",phrase:"Artificial intelligence and machine learning are disrupting every industry, from healthcare to finance.",translation:"La inteligencia artificial y el aprendizaje automático están transformando todas las industrias, desde la salud hasta las finanzas."},
+  {type:"fill",q:"The company invested in new digital ____ to support remote work. (infraestructura)",answers:["infrastructure"]},
+  {type:"tf",q:"'Disruption' in a tech context means a radical change that displaces existing solutions.",correct:true},
+  {type:"fill",q:"____ is the science of using biology to develop new medicines and food. (biotecnología)",answers:["Biotechnology"]}
+]},
+
+{id:"register-collocations-b2",num:10,title:"Register & Collocations",emoji:"🎭",cardDesc:"formal vs informal — choosing the right language for context",
+explain:[
+  "<p><b>Register</b>: <span class='ex-fr'>commence (formal) = begin (neutral) = start (informal) · purchase = buy · regarding = about · prior to = before</span></p>",
+  "<p><b>Key collocations</b>: <span class='ex-fr'>make a decision · do research · pay attention · take part in · reach a conclusion · raise awareness</span></p>"
+],
+vocab:[
+  {cat:"🎭 Formal Equivalents",items:[
+    {e:"🏛️",w:"commence = begin",p:"iniciar (formal) = empezar"},
+    {e:"🛒",w:"purchase = buy",p:"adquirir (formal) = comprar"},
+    {e:"📋",w:"regarding = about",p:"con respecto a (formal) = sobre"},
+    {e:"❌",w:"prior to = before",p:"previo a (formal) = antes de"},
+    {e:"✅",w:"approximately = about",p:"aproximadamente (formal)"},
+    {e:"📬",w:"I am writing to inform you",p:"le escribo para informarle (formal)"}
+  ]},
+  {cat:"🔗 Key Collocations",items:[
+    {e:"💡",w:"make a decision",p:"tomar una decisión"},
+    {e:"🔬",w:"do research",p:"hacer investigación"},
+    {e:"👂",w:"pay attention",p:"prestar atención"},
+    {e:"🌟",w:"raise awareness",p:"crear conciencia"},
+    {e:"🏁",w:"reach a conclusion",p:"llegar a una conclusión"},
+    {e:"🎯",w:"take part in",p:"participar en"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"We need to ____ a decision by Friday. (make — collocation)",answers:["make"]},
+  {type:"fill",q:"She is ____ research on climate change. (do — collocation)",answers:["doing"]},
+  {type:"mcq",q:"Which is the formal equivalent of 'buy'?",options:["obtain","purchase","get","pick up"],correct:1},
+  {type:"match",q:"Match the informal word with its formal equivalent.",pairs:[["start","commence"],["about (topic)","regarding"],["before","prior to"],["around (approx)","approximately"]]},
+  {type:"fill",q:"Please ____ attention during the safety briefing. (pay — collocation)",answers:["pay"]},
+  {type:"tf",q:"'Raise awareness' means to make people conscious of an issue.",correct:true},
+  {type:"fill",q:"I am writing ____ inform you that your application was successful. (to — formal letter)",answers:["to"]},
+  {type:"speak",phrase:"Prior to commencing the presentation, I would like to raise awareness about the importance of data accuracy.",translation:"Antes de comenzar la presentación, me gustaría crear conciencia sobre la importancia de la exactitud de los datos."},
+  {type:"fill",q:"After much debate, we finally ____ a conclusion. (reach — collocation)",answers:["reached"]},
+  {type:"tf",q:"In a formal email, 'Hey!' is an appropriate greeting.",correct:false}
+]},
+
+{id:"conversation-en5",num:11,title:"Conversation Station B2",emoji:"💬",cardDesc:"Debate complex topics at B2 level",isChat:true,
+explain:["<p>B2 conversation practice: use mixed conditionals, wish/if only, advanced vocabulary, discourse markers, and formal language naturally. Engage in real debates and discussions.</p>"]
+}
+
+];
+
+window.LP_CHAT_SCENARIOS['en-5'] = {
+  scenarios:[
+    {id:"tech-debate",title:"Technology & Society",emoji:"🤖",setup:"A debate about technology's role in modern life.",partner:{emoji:"💻",name:"Alex"},opener:"Do you think automation is mostly a threat or an opportunity for workers? What should governments do?"},
+    {id:"ethics-discussion",title:"Ethical Dilemmas",emoji:"⚖️",setup:"Discussing an ethical question in English.",partner:{emoji:"🤔",name:"Sam"},opener:"If you had discovered that a colleague was committing fraud, what would you have done? What should companies do to prevent this?"},
+    {id:"writing-feedback",title:"Academic Discussion",emoji:"✍️",setup:"Discussing an essay topic with a study partner.",partner:{emoji:"📚",name:"Dr. Rivera"},opener:"I'm arguing that globalization has increased inequality. Could you present the counterargument? What evidence could be used to challenge my thesis?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  ENGLISH — LEVEL 6 (C1)
+// ══════════════════════════════════
+window.LP_TOPICS['en-6'] = [
+
+{id:"subjunctive-en",num:1,title:"The Subjunctive",emoji:"🎓",cardDesc:"I suggest that he be present — formal subjunctive in English",
+explain:[
+  "<p>The <b>subjunctive</b> is used in formal contexts for suggestions, recommendations, and demands.</p>",
+  "<p><b>Present subjunctive</b> (base verb, no -s): <span class='ex-fr'>I suggest that he <b>be</b> more careful. · The committee insists that she <b>attend</b> the meeting. · It's essential that every student <b>submit</b> the form.</span></p>",
+  "<p><b>Verbs that trigger subjunctive</b>: <span class='ex-fr'>suggest · recommend · insist · demand · require · propose · it is essential/necessary/important that...</span></p>",
+  "<p><b>Were-subjunctive</b>: <span class='ex-fr'>If I were president... · I wish I were younger. · Were it not for you...</span></p>"
+],
+exercises:[
+  {type:"fill",q:"The doctor recommends that he ____ more rest. (subjunctive — get, no -s)",answers:["get"]},
+  {type:"fill",q:"It is essential that every applicant ____ the deadline. (meet — subjunctive)",answers:["meet"]},
+  {type:"mcq",q:"'The manager insists that the report ___ submitted today.' — subjunctive",options:["is","was","be","were"],correct:2},
+  {type:"tf",q:"In the present subjunctive, 'he/she/it' forms do NOT take -s.",correct:true},
+  {type:"order",q:"Build the subjunctive sentence:",words:["suggest","she","I","take","that","a","break."],correct:"I suggest that she take a break."},
+  {type:"fill",q:"Were I the president, I ____ invest more in education. (would — inverted subjunctive)",answers:["would"]},
+  {type:"fill",q:"The court requires that the witness ____ present. (be — subjunctive)",answers:["be"]},
+  {type:"match",q:"Match the verb with the subjunctive structure it triggers.",pairs:[["recommend","that + base verb"],["insist","that + base verb"],["wish","were / past subjunctive"],["it is vital","that + base verb"]]},
+  {type:"speak",phrase:"I recommend that all students be present for the final examination. It is essential that they prepare adequately.",translation:"Recomiendo que todos los estudiantes estén presentes en el examen final. Es esencial que se preparen adecuadamente."},
+  {type:"tf",q:"'Were it not for modern medicine, many diseases would still be fatal' uses the were-subjunctive correctly.",correct:true}
+]},
+
+{id:"hedging-en",num:2,title:"Hedging Language",emoji:"🔍",cardDesc:"It appears, it could be argued — expressing uncertainty precisely",
+explain:[
+  "<p><b>Hedging</b> is careful, tentative language to indicate uncertainty or distance. Essential in academic, scientific, and diplomatic English.</p>",
+  "<p><b>Modal hedges</b>: <span class='ex-fr'>may · might · could · would</span></p>",
+  "<p><b>Verb hedges</b>: <span class='ex-fr'>seem · appear · tend · suggest · indicate</span></p>",
+  "<p><b>Adverb hedges</b>: <span class='ex-fr'>perhaps · possibly · apparently · arguably · seemingly</span></p>",
+  "<p><b>Phrase hedges</b>: <span class='ex-fr'>It could be argued that... · It appears that... · To some extent...</span></p>"
+],
+exercises:[
+  {type:"fill",q:"This ____ suggest that the hypothesis is correct. (may/could — modal hedge)",answers:["may","could","might"]},
+  {type:"fill",q:"It ____ be argued that social media increases anxiety. (could — phrase hedge)",answers:["could"]},
+  {type:"mcq",q:"Which sentence uses hedging correctly?",options:["The results prove that it works.","The results suggest that it might work.","Results definitely say it works.","It definitely works."],correct:1},
+  {type:"match",q:"Match the hedging device with its type.",pairs:[["might","modal hedge"],["appear","verb hedge"],["arguably","adverb hedge"],["It could be argued that","phrase hedge"]]},
+  {type:"fill",q:"The data ____ to indicate a positive trend. (appear — verb hedge, 3rd person)",answers:["appears"]},
+  {type:"fill",q:"____, climate change may have contributed to this event. (adverb hedge)",answers:["Arguably","Possibly","Perhaps"]},
+  {type:"speak",phrase:"The evidence seems to suggest that this approach may be effective. However, there is arguably a need for more research.",translation:"La evidencia parece indicar que este enfoque podría ser efectivo. Sin embargo, se podría argumentar que se necesita más investigación."},
+  {type:"fill",q:"There is a ____ for students to perform better in smaller classes. (tendency)",answers:["tendency"]},
+  {type:"tf",q:"Hedging language makes academic writing more credible by acknowledging limitations.",correct:true},
+  {type:"fill",q:"To some ____, the policy has been successful. (extent — phrase hedge)",answers:["extent"]}
+]},
+
+{id:"idioms-en",num:3,title:"Idioms & Fixed Expressions",emoji:"🗣️",cardDesc:"hit the nail on the head, bite the bullet — advanced idioms",
+isVocab:true,
+explain:["<p><b>Idioms</b> are fixed expressions whose meaning cannot be deduced from individual words. Knowing them is a mark of C1 fluency.</p>"],
+vocab:[
+  {cat:"🗣️ Common Idioms",items:[
+    {e:"🔨",w:"hit the nail on the head",p:"dar en el clavo"},
+    {e:"💣",w:"bite the bullet",p:"aguantar / hacer algo difícil"},
+    {e:"🧊",w:"break the ice",p:"romper el hielo"},
+    {e:"🌊",w:"tip of the iceberg",p:"la punta del iceberg"},
+    {e:"🐮",w:"beat around the bush",p:"andarse por las ramas"},
+    {e:"☕",w:"spill the beans",p:"soltar la sopa / revelar un secreto"},
+    {e:"🤸",w:"on the fence",p:"sin decidirse / indeciso"},
+    {e:"🎁",w:"a blessing in disguise",p:"una bendición disfrazada"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"You really ____ the nail on the head! That's exactly the problem. (hit)",answers:["hit"]},
+  {type:"mcq",q:"'I'm still on the fence about it.' means:",options:["I fell off a fence","I haven't decided yet","I agree completely","I disagree"],correct:1},
+  {type:"fill",q:"Stop ____ around the bush and tell me what you really think. (beating)",answers:["beating"]},
+  {type:"match",q:"Match the idiom with its meaning.",pairs:[["bite the bullet","endure something difficult"],["break the ice","ease initial social tension"],["tip of the iceberg","small visible part of a bigger problem"],["blessing in disguise","something bad that leads to something good"]]},
+  {type:"fill",q:"Don't spill the ____! It's a surprise party. (beans — reveal secret)",answers:["beans"]},
+  {type:"tf",q:"'The tip of the iceberg' means the full extent of a problem is visible.",correct:false},
+  {type:"fill",q:"Losing that job was a ____ in disguise. I found something much better. (blessing)",answers:["blessing"]},
+  {type:"speak",phrase:"To break the ice, she told a joke. You hit the nail on the head — the problem is communication.",translation:"Para romper el hielo, ella contó un chiste. Diste en el clavo — el problema es la comunicación."},
+  {type:"fill",q:"He decided to ____ the bullet and have the difficult surgery. (bite)",answers:["bite"]},
+  {type:"tf",q:"'Spill the beans' means to reveal a secret.",correct:true}
+]},
+
+{id:"advanced-reading-vocab-c1",num:4,title:"Advanced Vocabulary in Context",emoji:"📚",cardDesc:"ubiquitous, pragmatic, nuanced — C1 vocabulary in use",
+isVocab:true,
+explain:["<p>C1 vocabulary is characterized by precision, nuance, and range. These words appear in academic texts, quality journalism, and professional communication.</p>"],
+vocab:[
+  {cat:"📚 C1 Adjectives",items:[
+    {e:"🌍",w:"ubiquitous",p:"omnipresente / que está en todas partes"},
+    {e:"🎯",w:"pragmatic",p:"pragmático / práctico"},
+    {e:"🔍",w:"nuanced",p:"matizado / con matices"},
+    {e:"⚡",w:"unprecedented",p:"sin precedentes"},
+    {e:"🔄",w:"inherent",p:"inherente / intrínseco"},
+    {e:"📊",w:"tangible",p:"tangible / concreto"}
+  ]},
+  {cat:"💡 C1 Verbs & Nouns",items:[
+    {e:"🌱",w:"foster",p:"fomentar / cultivar"},
+    {e:"🔗",w:"encompass",p:"abarcar / incluir"},
+    {e:"⚖️",w:"mitigate",p:"mitigar / reducir"},
+    {e:"🏗️",w:"underpin",p:"sustentar / apoyar"},
+    {e:"📉",w:"exacerbate",p:"exacerbar / empeorar"},
+    {e:"🎯",w:"epitomize",p:"ejemplificar / representar"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Smartphones have become ____ — everyone has one. (omnipresente)",answers:["ubiquitous"]},
+  {type:"fill",q:"The drought ____ the food crisis in the region. (exacerbó)",answers:["exacerbated"]},
+  {type:"mcq",q:"'A nuanced argument' means:",options:["a simple, clear argument","an argument that considers many subtle factors","a very emotional argument","a one-sided argument"],correct:1},
+  {type:"match",q:"Match the C1 word with its definition.",pairs:[["foster","encourage the development of something"],["mitigate","reduce the severity of something"],["encompass","include or contain within its scope"],["underpin","support or form the basis of"]]},
+  {type:"fill",q:"Strong communication skills ____ good teamwork. (sustentan — underpin)",answers:["underpin"]},
+  {type:"fill",q:"She ____ the spirit of the era — ambitious, creative, and fearless. (epitomized)",answers:["epitomized"]},
+  {type:"speak",phrase:"The inherent risks of this approach are mitigated by careful planning. This unprecedented situation requires pragmatic solutions.",translation:"Los riesgos inherentes de este enfoque se mitigan con una planificación cuidadosa. Esta situación sin precedentes requiere soluciones pragmáticas."},
+  {type:"fill",q:"Good leaders ____ a culture of trust and open communication. (fomentan — foster)",answers:["foster"]},
+  {type:"tf",q:"'Tangible results' means results that can be seen or measured concretely.",correct:true},
+  {type:"fill",q:"This report ____ all aspects of the problem, from economic to social. (abarca — encompasses)",answers:["encompasses"]}
+]},
+
+{id:"debate-skills-en",num:5,title:"Debate & Discussion Skills",emoji:"🎤",cardDesc:"conceding points, presenting arguments, challenging views — C1 discussion",
+explain:[
+  "<p><b>Introducing a point</b>: <span class='ex-fr'>A key argument is... · One might argue that... · It is worth noting that... · What is particularly striking is...</span></p>",
+  "<p><b>Conceding a point</b>: <span class='ex-fr'>I take your point, but... · You have a point there, however... · While I acknowledge that...</span></p>",
+  "<p><b>Challenging</b>: <span class='ex-fr'>I would challenge that view by... · Would you not agree that...? · With all due respect, the evidence suggests...</span></p>"
+],
+exercises:[
+  {type:"fill",q:"____ might argue that social media is addictive by design. (One — introducing a point)",answers:["One"]},
+  {type:"fill",q:"I take your ____, but there is another perspective to consider. (point — conceding)",answers:["point"]},
+  {type:"mcq",q:"'___ I acknowledge that poverty exists, inequality has actually decreased.' — concession",options:["While","If","Since","As long as"],correct:0},
+  {type:"fill",q:"What is particularly ____ is how quickly the technology has spread. (striking)",answers:["striking"]},
+  {type:"match",q:"Match the debate phrase with its function.",pairs:[["One might argue that...","introducing an argument"],["I take your point, but...","conceding and countering"],["Would you not agree that...?","challenging a view"],["That's a fair observation, although...","partial agreement"]]},
+  {type:"fill",q:"With all due ____, the evidence suggests otherwise. (respect — challenging)",answers:["respect"]},
+  {type:"speak",phrase:"A key argument is that education should be free. While I acknowledge the cost, one might argue that long-term benefits outweigh them.",translation:"Un argumento clave es que la educación debería ser gratuita. Si bien reconozco el costo, se podría argumentar que los beneficios a largo plazo los superan."},
+  {type:"fill",q:"It is worth ____ that this problem has existed for decades. (noting)",answers:["noting"]},
+  {type:"tf",q:"'I take your point, but...' is used to disagree completely without acknowledging the other person's view.",correct:false},
+  {type:"fill",q:"You have a point ____, however the data tells a different story. (there — conceding)",answers:["there"]}
+]},
+
+{id:"advanced-conditionals-c1",num:6,title:"Advanced Conditional Forms",emoji:"🔀",cardDesc:"inverted conditionals, unless, provided that — C1 variations",
+explain:[
+  "<p><b>Inverted conditionals</b> (formal, no 'if'): <span class='ex-fr'>Had I known → If I had known · Were she to apply → If she applied · Should you need help → If you need help</span></p>",
+  "<p><b>Other conjunctions</b>: <span class='ex-fr'>unless (if not) · as long as / provided that (only if) · in case (precaution) · even if (condition doesn't change result)</span></p>"
+],
+exercises:[
+  {type:"fill",q:"____ I known about the problem, I would have fixed it immediately. (Had — inverted)",answers:["Had"]},
+  {type:"fill",q:"I'll help you ____ you promise to help me later. (as long as / provided that)",answers:["as long as","provided that"]},
+  {type:"mcq",q:"'___ you need further assistance, please do not hesitate to contact us.' — formal inverted conditional",options:["Had","Were","Should","Will"],correct:2},
+  {type:"tf",q:"'Were he to arrive late, we would start without him.' is an inverted conditional.",correct:true},
+  {type:"order",q:"Build the inverted conditional:",words:["known,","told","Had","I","her.","I've"],correct:"Had I known, I would have told her."},
+  {type:"fill",q:"Take an umbrella ____ it rains later. (precaution — in case)",answers:["in case"]},
+  {type:"fill",q:"She'll attend the conference ____ she is paid for travel. (provided that)",answers:["provided that","on condition that","as long as"]},
+  {type:"match",q:"Match the conditional conjunction with its meaning.",pairs:[["unless","if not / except if"],["provided that","only on the condition that"],["even if","condition does not change the result"],["in case","as a precaution"]]},
+  {type:"speak",phrase:"Should you require additional information, please contact our office. Were this not possible, we could arrange a meeting.",translation:"Si necesitara información adicional, comuníquese con nuestra oficina. Si esto no fuera posible, podríamos organizar una reunión."},
+  {type:"tf",q:"'Unless you study' means 'if you study'.",correct:false}
+]},
+
+{id:"collocations-c1",num:7,title:"Advanced Collocations",emoji:"🔗",cardDesc:"bear in mind, take into account, draw a conclusion — C1 collocations",
+isVocab:true,
+explain:["<p>Mastering collocations is essential for sounding natural at C1 level. These appear frequently in academic, professional, and formal English.</p>"],
+vocab:[
+  {cat:"🔗 Academic Collocations",items:[
+    {e:"💡",w:"shed light on",p:"arrojar luz sobre / aclarar"},
+    {e:"🏁",w:"reach a consensus",p:"llegar a un consenso"},
+    {e:"📊",w:"draw a conclusion",p:"llegar a una conclusión"},
+    {e:"⚠️",w:"run the risk of",p:"correr el riesgo de"},
+    {e:"🧠",w:"bear in mind",p:"tener en cuenta"},
+    {e:"🌿",w:"pave the way for",p:"allanar el camino para"},
+    {e:"😰",w:"take a toll on",p:"pasar factura / afectar negativamente"},
+    {e:"🌱",w:"give rise to",p:"dar lugar a / provocar"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"This discovery sheds ____ on the origins of human language. (light — collocation)",answers:["light"]},
+  {type:"fill",q:"You should bear this ____ mind when making your decision. (in)",answers:["in"]},
+  {type:"mcq",q:"'The new study ___ the way for future research.' — pave the way",options:["paved","made","ran","drew"],correct:0},
+  {type:"match",q:"Match the collocation with its meaning.",pairs:[["give rise to","cause or produce"],["take a toll on","have a negative effect on"],["reach a consensus","agree after discussion"],["run the risk of","be in danger of"]]},
+  {type:"fill",q:"The constant stress was taking a ____ on her health. (toll)",answers:["toll"]},
+  {type:"fill",q:"From this data, we can ____ a clear conclusion. (draw)",answers:["draw"]},
+  {type:"speak",phrase:"Bear in mind that running the risk of failure often paves the way for great success. Breakthroughs give rise to new industries.",translation:"Ten en cuenta que correr el riesgo del fracaso a menudo allana el camino para el gran éxito. Los avances dan lugar a nuevas industrias."},
+  {type:"fill",q:"The parties failed to ____ a consensus and negotiations broke down. (reach)",answers:["reach"]},
+  {type:"tf",q:"'Give rise to' is a collocation that means to cause something to happen.",correct:true},
+  {type:"fill",q:"This research sheds light ____ the relationship between diet and mental health. (on)",answers:["on"]}
+]},
+
+{id:"academic-writing-c1",num:8,title:"C1 Academic Writing",emoji:"✍️",cardDesc:"thesis, argumentation, critical analysis — essay mastery",
+explain:[
+  "<p><b>Thesis statement</b>: <span class='ex-fr'>This essay will argue that... · It is contended in this paper that... · The central claim is that...</span></p>",
+  "<p><b>Counterargument & rebuttal</b>: <span class='ex-fr'>While proponents argue... · Opponents contend that... · This view, however, overlooks... · A more nuanced reading reveals...</span></p>",
+  "<p><b>Conclusions</b>: <span class='ex-fr'>To summarize... · It can be concluded that... · The evidence overwhelmingly points to... · Further research is needed to...</span></p>"
+],
+exercises:[
+  {type:"fill",q:"This essay will ____ that renewable energy is economically viable. (argue/contend)",answers:["argue","contend"]},
+  {type:"fill",q:"____ proponents argue that free trade benefits all, critics point to growing inequality. (While)",answers:["While"]},
+  {type:"mcq",q:"A strong thesis statement should be:",options:["a simple fact everyone agrees with","a debatable claim that your essay proves","a question the reader answers","a summary of what you will say"],correct:1},
+  {type:"match",q:"Match the academic phrase with its function.",pairs:[["It is contended that","thesis — stating the argument"],["This view overlooks","rebuttal of opposing view"],["The evidence suggests","hedged conclusion"],["Further research is needed","acknowledging limitations"]]},
+  {type:"fill",q:"A more ____ reading of the data reveals a different pattern. (nuanced — critical analysis)",answers:["nuanced"]},
+  {type:"speak",phrase:"This essay contends that globalization has exacerbated inequality. While proponents argue otherwise, the evidence overwhelmingly supports this claim.",translation:"Este ensayo sostiene que la globalización ha exacerbado la desigualdad. Aunque los defensores argumentan lo contrario, la evidencia apoya abrumadoramente esta afirmación."},
+  {type:"fill",q:"To ____ the key arguments: there are three main factors to consider. (summarize)",answers:["summarize"]},
+  {type:"fill",q:"Opponents ____ that this policy is too expensive. However, the long-term benefits outweigh the costs. (contend)",answers:["contend"]},
+  {type:"tf",q:"A counterargument is used to acknowledge and then refute an opposing view.",correct:true},
+  {type:"fill",q:"The ____ of this essay is that education is a fundamental human right. (thesis)",answers:["thesis","central claim","argument"]}
+]},
+
+{id:"cultural-literary-en",num:9,title:"Literary & Cultural References",emoji:"📖",cardDesc:"irony, allegory, paradox — cultural literacy in English",
+isVocab:true,
+explain:["<p>Cultural literacy means understanding the references and concepts that educated English speakers use. Essential for C1 reading, discussion, and writing.</p>"],
+vocab:[
+  {cat:"📖 Literary Terms",items:[
+    {e:"📖",w:"allusion",p:"alusión (referencia indirecta)"},
+    {e:"🎭",w:"irony / satire",p:"ironía / sátira"},
+    {e:"📰",w:"metaphor / allegory",p:"metáfora / alegoría"},
+    {e:"🔮",w:"dystopia / utopia",p:"distopía / utopía"},
+    {e:"🧩",w:"paradox",p:"paradoja"},
+    {e:"🌍",w:"colloquialism",p:"coloquialismo"}
+  ]},
+  {cat:"🌍 Cultural Concepts",items:[
+    {e:"🤝",w:"cultural exchange",p:"intercambio cultural"},
+    {e:"🌐",w:"multiculturalism",p:"multiculturalismo"},
+    {e:"🎨",w:"aesthetic",p:"estético / estética"},
+    {e:"🏺",w:"heritage",p:"patrimonio"},
+    {e:"📚",w:"canon",p:"canon (obras fundamentales)"},
+    {e:"⚖️",w:"cultural relativism",p:"relativismo cultural"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"The politician's speech was full of ____. She said the opposite of what she meant. (ironía)",answers:["irony"]},
+  {type:"mcq",q:"A 'dystopia' describes:",options:["a perfect ideal society","a nightmarish, oppressive future society","a historical society","a rural community"],correct:1},
+  {type:"fill",q:"The novel is an ____ of political corruption — the farm represents the government. (alegoría)",answers:["allegory"]},
+  {type:"match",q:"Match the literary term with its definition.",pairs:[["allusion","indirect reference to a famous work/person"],["paradox","a statement that seems contradictory but reveals a truth"],["satire","using humor to criticize society"],["metaphor","describing one thing as if it were another"]]},
+  {type:"fill",q:"Protecting our cultural ____ ensures future generations know where they come from. (patrimonio)",answers:["heritage"]},
+  {type:"tf",q:"'Multiculturalism' means valuing and integrating multiple cultural traditions in a society.",correct:true},
+  {type:"speak",phrase:"The story's central paradox — that freedom requires rules — is an allusion to Orwell's political allegory.",translation:"La paradoja central de la historia — que la libertad requiere reglas — es una alusión a la alegoría política de Orwell."},
+  {type:"fill",q:"Shakespeare is part of the English literary ____. Every educated speaker knows his works. (canon)",answers:["canon"]},
+  {type:"tf",q:"A 'colloquialism' is a formal, academic expression.",correct:false},
+  {type:"fill",q:"His writing style is known for its dark ____. The images are bleak and haunting. (estética)",answers:["aesthetic"]}
+]},
+
+{id:"mastery-c1",num:10,title:"C1 Mastery Review",emoji:"🏆",cardDesc:"Consolidate everything — you are C1!",
+explain:[
+  "<p>Congratulations! You have reached <b>C1 — Advanced Proficiency</b>. At this level you can:</p>",
+  "<ul><li>Understand a wide range of demanding texts and recognize implicit meaning</li><li>Express ideas fluently and spontaneously without much searching for expressions</li><li>Use language flexibly for social, academic, and professional purposes</li><li>Produce clear, well-structured text on complex subjects</li></ul>",
+  "<p>Keep growing: read quality journalism and literary fiction. Listen to podcasts and documentaries. Engage in real debates and academic writing.</p>"
+],
+exercises:[
+  {type:"fill",q:"The study ____ to suggest that early intervention is key. (appear — hedging, 3rd person)",answers:["appears"]},
+  {type:"fill",q:"____ I known the full story, I would have acted differently. (Had — inverted conditional)",answers:["Had"]},
+  {type:"mcq",q:"'Not only ___ he fail the exam, but he also lost his scholarship.' — inversion",options:["did","he did","does","was"],correct:0},
+  {type:"fill",q:"I suggest that the board ____ this proposal immediately. (consider — subjunctive)",answers:["consider"]},
+  {type:"match",q:"Match the C1 concept to an example.",pairs:[["Subjunctive","I insist that he be present."],["Hedging","It could be argued that..."],["Inversion","Never have I seen this."],["Cleft sentence","It was John who called."]]},
+  {type:"fill",q:"What really ____ me was the lack of transparency. (struck — what-cleft)",answers:["struck"]},
+  {type:"fill",q:"This discovery ____ the way for a new era of medicine. (paved — collocation)",answers:["paved"]},
+  {type:"speak",phrase:"It could be argued that mastering a language never truly ends. What is certain is that every level gives rise to deeper understanding.",translation:"Se podría argumentar que dominar un idioma nunca termina verdaderamente. Lo cierto es que cada nivel da lugar a una comprensión más profunda."},
+  {type:"tf",q:"At C1 level, you can produce nuanced, well-structured arguments on complex topics.",correct:true},
+  {type:"fill",q:"The inherent ____ of this approach outweigh the risks. (beneficios — benefits)",answers:["benefits"]}
+]}
+
+];
+
+window.LP_TOPICS['en-6'].push({
+  id:"conversation-en6",num:11,title:"Conversation Station C1",emoji:"💬",
+  cardDesc:"Sophisticated C1 debates and academic discussions",
+  isChat:true,
+  explain:["<p>C1 level conversation: debate complex ideas, use sophisticated vocabulary, hedge appropriately, use idioms and cultural references naturally. You are operating at an advanced level of English.</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['en-6'] = {
+  scenarios:[
+    {id:"philosophy-debate",title:"Philosophical Discussion",emoji:"🎓",setup:"A debate with a philosophy professor.",partner:{emoji:"🧠",name:"Prof. Williams"},opener:"Let's explore this: can one truly be free in a society governed by laws? What are the inherent tensions between freedom and social order?"},
+    {id:"academic-critique",title:"Academic Paper Review",emoji:"📚",setup:"Discussing a research paper with a colleague.",partner:{emoji:"📄",name:"Dr. Chen"},opener:"I've read your argument that globalization exacerbates inequality. I take your point, but would you not agree that the evidence is somewhat nuanced?"},
+    {id:"cultural-debate",title:"Arts & Culture",emoji:"🎨",setup:"A panel discussion about culture and identity.",partner:{emoji:"🌍",name:"Ana"},opener:"It's been argued that globalization threatens local cultural heritage. To what extent do you think multiculturalism is a blessing or a challenge?"}
   ]
 };
 </script>
