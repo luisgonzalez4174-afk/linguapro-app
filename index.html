@@ -371,7 +371,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 
   <!-- SCREEN 2: Level selector (per language) -->
   <div id="screen-levels" style="display:none">
-    <button class="backbtn" onclick="showLangScreen()">← Idiomas</button>
+    <button class="backbtn" id="btnBackLangs" onclick="showLangScreen()">← Idiomas</button>
     <div class="hero">
       <h2 id="levelsHeroTitle">Français 🇫🇷</h2>
       <p id="levelsHeroDesc">Elige tu nivel. Cada nivel tiene estaciones con gramática, vocabulario, ejercicios interactivos y una sala de conversación.</p>
@@ -381,7 +381,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 
   <!-- SCREEN 3: Station map (per level) -->
   <div id="mapview" style="display:none">
-    <button class="backbtn" onclick="showLevelScreen()">← Niveaux</button>
+    <button class="backbtn" id="btnBackLevels" onclick="showLevelScreen()">← Niveaux</button>
     <div class="hero">
       <h2 id="mapHeroTitle">¡Hola! 🚀</h2>
       <p id="mapHeroDesc"></p>
@@ -1543,7 +1543,7 @@ window.LP_CHAT_SCENARIOS['fr-2'] = {
 const LANGUAGES = [
   {id:'fr',flag:'🇫🇷',name:'Français',desc:'Aprende francés desde cero',active:true,voice:'fr-FR'},
   {id:'en',flag:'🇺🇸',name:'English',desc:'From zero to fluency — 6 complete levels A1→C1',active:true,voice:'en-US'},
-  {id:'pt',flag:'🇧🇷',name:'Português',desc:'Próximamente',active:false,voice:'pt-BR'},
+  {id:'pt',flag:'🇧🇷',name:'Português',desc:'Do zero à fluência — 6 níveis completos A1→C1',active:true,voice:'pt-BR'},
   {id:'it',flag:'🇮🇹',name:'Italiano',desc:'Próximamente',active:false,voice:'it-IT'},
   {id:'de',flag:'🇩🇪',name:'Deutsch',desc:'Próximamente',active:false,voice:'de-DE'},
 ];
@@ -1564,12 +1564,90 @@ const LEVELS = {
     {id:'en-4',num:4,name:'Level 4 — B1+',desc:'Past Perfect, indirect speech, conditionals 2 & 3, adjective clauses',active:true},
     {id:'en-5',num:5,name:'Level 5 — B2',desc:'Mixed conditionals, wish/if only, inversion, cleft sentences, business',active:true},
     {id:'en-6',num:6,name:'Level 6 — C1',desc:'Subjunctive, hedging, idioms, register, academic writing, mastery',active:true},
+  ],
+  pt:[
+    {id:'pt-1',num:1,name:'Nível 1 — A1',desc:'Saudações, ser/estar, artigos, números, família, comida, cores',active:true},
+    {id:'pt-2',num:2,name:'Nível 2 — A2',desc:'Presente, pretérito perfeito, ir + infinitivo, modais, comparativos',active:true},
+    {id:'pt-3',num:3,name:'Nível 3 — B1',desc:'Imperfeito, subjuntivo presente, passiva, condicionais, pronomes relativos',active:true},
+    {id:'pt-4',num:4,name:'Nível 4 — B1+',desc:'Mais-que-perfeito, subjuntivo imperfeito, condicional, discurso indireto',active:true},
+    {id:'pt-5',num:5,name:'Nível 5 — B2',desc:'Subjuntivo futuro, condicionais mistas, colocações, vocabulário avançado',active:true},
+    {id:'pt-6',num:6,name:'Nível 6 — C1',desc:'Domínio total: expressões idiomáticas, escrita académica, retórica',active:true},
   ]
 };
 
 let currentLangId = null;
 let currentLevelId = null;
 let TOPICS = [];
+
+// ══════════════════════════════════
+//  UI STRINGS — localized by target language
+// ══════════════════════════════════
+const UI_STRINGS = {
+  fr:{
+    exerciseLabel:'Exercice', of:'sur', writeAnswer:'Écris ta réponse...',
+    check:'Vérifier', trueOpt:'✅ Vrai', falseOpt:'❌ Faux',
+    matchHint:'Touche un terme — puis son associé. 🔊 chaque mot au toucher.',
+    next:'Suivant →', alreadyDone:'Déjà complété ✓', correct:'Correct !',
+    correctAnswer:'Bonne réponse :', seeCorrect:'Vois la bonne réponse en vert.',
+    notCorrect:'Pas correct. La réponse est', answer:'Réponse :',
+    listening:'Écoute en cours...', youSaid:'Tu as dit :',
+    wellDone:'✓ Bien joué !', stationComplete:'🎉 Station complétée ! +50 XP',
+    backToMap:'← Retour à la carte', listenInstruct:'Écoute et choisis la bonne réponse',
+    slow:'🐢 Lentement', tapMic:'Touche le micro et répète la phrase à voix haute.',
+    practiced:'Pratiqué ✓', says:'dit...', writeLang:'Écris ta réponse en français...',
+    send:'Envoyer', chatDone:'🎉 Conversation terminée ! Bravo !',
+    noSR:'Votre navigateur ne supporte pas la reconnaissance vocale.',
+    youSaidLabel:'Tu as dit : ',
+    listenBtn:'🔊 Écouter', explainTitle:'📘 Explication',
+    audioHint:'👆 Appuie sur un mot bleu pour écouter sa prononciation',
+    startEx:'🚀 Commencer les exercices', reviewEx:'🔄 Réviser les exercices',
+    exercisesCount:'exercices', backExplain:'← Explication',
+    backLevels:'← Niveaux', backLangs:'← Langues', locked:'🔒 Bientôt disponible'
+  },
+  en:{
+    exerciseLabel:'Exercise', of:'of', writeAnswer:'Write your answer...',
+    check:'Check', trueOpt:'✅ True', falseOpt:'❌ False',
+    matchHint:'Tap a term — then its match. 🔊 each word on tap.',
+    next:'Next →', alreadyDone:'Already completed ✓', correct:'Correct!',
+    correctAnswer:'Correct answer:', seeCorrect:'See the correct answer in green.',
+    notCorrect:'Not correct. The answer is', answer:'Answer:',
+    listening:'Listening...', youSaid:'You said:',
+    wellDone:'✓ Well done!', stationComplete:'🎉 Station complete! +50 XP',
+    backToMap:'← Back to map', listenInstruct:'Listen and choose the correct answer',
+    slow:'🐢 Slow', tapMic:'Tap the mic and repeat the phrase aloud.',
+    practiced:'Practiced ✓', says:'says...', writeLang:'Write your answer in English...',
+    send:'Send', chatDone:'🎉 Conversation complete! Well done!',
+    noSR:'Your browser does not support speech recognition.',
+    youSaidLabel:'You said: ',
+    listenBtn:'🔊 Listen', explainTitle:'📘 Explanation',
+    audioHint:'👆 Tap any blue word to hear its pronunciation',
+    startEx:'🚀 Start exercises', reviewEx:'🔄 Review exercises',
+    exercisesCount:'exercises', backExplain:'← Explanation',
+    backLevels:'← Levels', backLangs:'← Languages', locked:'🔒 Coming soon'
+  },
+  pt:{
+    exerciseLabel:'Exercício', of:'de', writeAnswer:'Escreva sua resposta...',
+    check:'Verificar', trueOpt:'✅ Verdadeiro', falseOpt:'❌ Falso',
+    matchHint:'Toque um termo — depois sua correspondência. 🔊 cada palavra ao tocar.',
+    next:'Próximo →', alreadyDone:'Já concluído ✓', correct:'Correto!',
+    correctAnswer:'Resposta correta:', seeCorrect:'Veja a resposta correta em verde.',
+    notCorrect:'Incorreto. A resposta é', answer:'Resposta:',
+    listening:'Ouvindo...', youSaid:'Você disse:',
+    wellDone:'✓ Muito bem!', stationComplete:'🎉 Estação concluída! +50 XP',
+    backToMap:'← Voltar ao mapa', listenInstruct:'Ouça e escolha a resposta correta',
+    slow:'🐢 Devagar', tapMic:'Toque no microfone e repita a frase em voz alta.',
+    practiced:'Pratiquei ✓', says:'diz...', writeLang:'Escreva sua resposta em português...',
+    send:'Enviar', chatDone:'🎉 Conversa concluída! Parabéns!',
+    noSR:'Seu navegador não suporta reconhecimento de voz.',
+    youSaidLabel:'Você disse: ',
+    listenBtn:'🔊 Ouvir', explainTitle:'📘 Explicação',
+    audioHint:'👆 Toque em qualquer palavra azul para ouvir a pronúncia',
+    startEx:'🚀 Começar exercícios', reviewEx:'🔄 Revisar exercícios',
+    exercisesCount:'exercícios', backExplain:'← Explicação',
+    backLevels:'← Níveis', backLangs:'← Idiomas', locked:'🔒 Em breve'
+  }
+};
+function uiT(key){ const s=UI_STRINGS[currentLangId]||UI_STRINGS.fr; return s[key]||UI_STRINGS.fr[key]||key; }
 
 // ══════════════════════════════════
 //  NAVIGATION
@@ -1618,6 +1696,8 @@ function showLevelScreen(){
   const lang = LANGUAGES.find(l=>l.id===currentLangId);
   document.getElementById('levelsHeroTitle').textContent = `${lang.name} ${lang.flag}`;
   document.getElementById('topbarSub').textContent = lang.name;
+  const bl=document.getElementById('btnBackLangs'); if(bl) bl.textContent=uiT('backLangs');
+  const blv=document.getElementById('btnBackLevels'); if(blv) blv.textContent=uiT('backLevels');
   const grid = document.getElementById('levelGrid');
   const lvList = LEVELS[currentLangId]||[];
   grid.innerHTML = lvList.map((lv,idx)=>{
@@ -1798,14 +1878,14 @@ function renderExplanation(t){
   view.classList.add('active');
   document.getElementById('mapview').style.display='none';
   const example = getExamplePhrase(t);
-  let html = `<button type="button" class="backbtn" onclick="backToMap()">← Volver al mapa</button>
+  let html = `<button type="button" class="backbtn" onclick="backToMap()">${uiT('backToMap')}</button>
   <div class="thead"><div class="nbadge">${t.emoji}</div><div><h2>${t.title}</h2><span>${t.cardDesc}</span></div></div>
   <div class="lesson-illus">
     <div class="illus-chars"><span class="illus-koala">🐨</span><span class="illus-emoji">${t.emoji}</span></div>
     <div class="illus-bubble"><div class="illus-text">${example}</div></div>
   </div>
-  <div class="card"><h4>📘 Explication</h4>
-  <div class="audio-hint">👆 Toca cualquier palabra azul para escuchar su pronunciación</div>
+  <div class="card"><h4>${uiT('explainTitle')}</h4>
+  <div class="audio-hint">${uiT('audioHint')}</div>
   <div class="explain">${t.explain.join('')}</div></div>`;
   if(t.vocab){
     t.vocab.forEach(cat=>{
@@ -1816,7 +1896,7 @@ function renderExplanation(t){
           <span class="ve">${it.e}</span>
           <span class="vw">${it.w}</span>
           <span class="vp">${it.p}</span>
-          <span class="vc-play">🔊 Escuchar</span>
+          <span class="vc-play">${uiT('listenBtn')}</span>
         </div>`;
       });
       html += `</div></div>`;
@@ -1824,9 +1904,9 @@ function renderExplanation(t){
   }
   const done = (progress[t.id]||[]).filter(Boolean).length;
   const total = (t.exercises||[]).length;
-  const lbl = done===total&&total>0 ? '🔄 Repasar ejercicios' : '🚀 Comenzar ejercicios';
+  const lbl = done===total&&total>0 ? uiT('reviewEx') : uiT('startEx');
   html += `<button type="button" class="start-ex-btn" onclick="startExercises()">
-    ${lbl}<span class="excount">(${total} ejercicios)</span>
+    ${lbl}<span class="excount">(${total} ${uiT('exercisesCount')})</span>
   </button>`;
   view.innerHTML = html;
   enhanceExplainAudio();
@@ -1839,7 +1919,7 @@ function startExercises(){
   if(!t) return;
   currentExIndex = 0;
   const view = document.getElementById('topicview');
-  view.innerHTML = `<button type="button" class="backbtn" onclick="renderExplanation(currentTopic)">← Explicación</button>
+  view.innerHTML = `<button type="button" class="backbtn" onclick="renderExplanation(currentTopic)">${uiT('backExplain')}</button>
   <div class="thead"><div class="nbadge">${t.emoji}</div><div><h2>${t.title}</h2><span>${t.cardDesc}</span></div></div>
   <div class="card" id="exCard"></div>`;
   renderExercise();
@@ -1858,13 +1938,13 @@ function renderExercise(){
   const pct = Math.round((i/total)*100);
   const devSkip = isDevMode() ? `<button type="button" class="dev-skip-btn" onclick="skipExerciseDev()">⚡ Saltar [DEV]</button>` : '';
   let body = `<div class="exbar-wrap"><div class="exbar" style="width:${pct}%"></div></div>
-    <h4>✏️ Exercice ${i+1}/${total}${isDevMode()?'  <span style="font-size:10px;opacity:.6">[DEV]</span>':''}</h4>${devSkip}<div class="exwrap">`;
+    <h4>✏️ ${uiT('exerciseLabel')} ${i+1}/${total}${isDevMode()?'  <span style="font-size:10px;opacity:.6">[DEV]</span>':''}</h4>${devSkip}<div class="exwrap">`;
 
-  const speakQ = (ex.phrase) ? `<button type="button" class="exq-speak" onclick="speak('${(ex.phrase||ex.q).replace(/'/g,"\\'")}',0.85)" title="Escuchar">🔊</button>` : '';
+  const speakQ = (ex.phrase) ? `<button type="button" class="exq-speak" onclick="speak('${(ex.phrase||ex.q).replace(/'/g,"\\'")}',0.85)" title="🔊">🔊</button>` : '';
   if(ex.type==='fill'){
     body += `<div class="exq">${ex.q}${speakQ}</div>
-      <div class="fillrow"><input class="fillinput" id="fillIn" placeholder="Écris ta réponse..." autocomplete="off" aria-label="Respuesta" onkeydown="if(event.key==='Enter')checkFill()">
-      <button type="button" class="checkbtn" onclick="checkFill()">Vérifier</button></div>
+      <div class="fillrow"><input class="fillinput" id="fillIn" placeholder="${uiT('writeAnswer')}" autocomplete="off" aria-label="${uiT('writeAnswer')}" onkeydown="if(event.key==='Enter')checkFill()">
+      <button type="button" class="checkbtn" onclick="checkFill()">${uiT('check')}</button></div>
       <div class="feedback" id="fb"></div>`;
   } else if(ex.type==='mcq' || ex.type==='emoji'){
     body += `<div class="exq">${ex.q}${speakQ}</div><div class="options" id="optsWrap">`;
@@ -1872,14 +1952,14 @@ function renderExercise(){
     body += `</div><div class="feedback" id="fb"></div>`;
   } else if(ex.type==='tf'){
     body += `<div class="exq">${ex.q}${speakQ}</div><div class="options" id="optsWrap">
-      <div class="opt" onclick="checkTf(true)">✅ Vrai</div>
-      <div class="opt" onclick="checkTf(false)">❌ Faux</div>
+      <div class="opt" onclick="checkTf(true)">${uiT('trueOpt')}</div>
+      <div class="opt" onclick="checkTf(false)">${uiT('falseOpt')}</div>
       </div><div class="feedback" id="fb"></div>`;
   } else if(ex.type==='match'){
     const shuffledRight = ex.pairs.map(p=>p[1]).sort(()=>Math.random()-0.5);
     window._matchLeft=null; window._matchTotal=ex.pairs.length; window._matchDone=0;
     body += `<div class="exq">${ex.q}</div>
-      <p class="match-hint">Toca un término — luego su pareja. 🔊 cada palabra al tocar.</p>
+      <p class="match-hint">${uiT('matchHint')}</p>
       <div class="match-grid" id="matchWrap">
         <div class="match-col" id="matchLeft">
           ${ex.pairs.map((p,idx)=>`<div class="match-card left-card" data-idx="${idx}" onclick="selectMatchLeft(this,${idx})">${p[0]}</div>`).join('')}
@@ -1892,12 +1972,12 @@ function renderExercise(){
   } else if(ex.type==='order'){
     const words = [...ex.words].sort(()=>Math.random()-0.5);
     const phrase = ex.phrase || ex.words.join(' ');
-    body += `<div class="exq">${ex.q} <button type="button" class="exq-speak" onclick="speak('${phrase.replace(/'/g,"\\'")}',0.85)" title="Escuchar frase">🔊</button></div>
+    body += `<div class="exq">${ex.q} <button type="button" class="exq-speak" onclick="speak('${phrase.replace(/'/g,"\\'")}',0.85)" title="🔊">🔊</button></div>
       <div id="orderBank" class="tile-bank">
         ${words.map(w=>`<span class="word-tile" onclick="pickWord(this,'${w.replace(/'/g,"\\'")}')">${w}</span>`).join('')}
       </div>
       <div id="orderBuilt" class="tile-built"></div>
-      <button type="button" class="checkbtn" onclick="checkOrder()">Vérifier</button>
+      <button type="button" class="checkbtn" onclick="checkOrder()">${uiT('check')}</button>
       <div class="feedback" id="fb"></div>`;
     window._orderPicked = [];
   } else if(ex.type==='listen'){
@@ -1905,13 +1985,13 @@ function renderExercise(){
     const phr = ex.phrase.replace(/'/g,"\\'");
     body += `<div class="listen-char">
       <div class="char-avatar">${ch.emoji}</div>
-      <div><div class="char-name">${ch.name} dice...</div>
-        <div class="char-says">Escucha y elige la opción correcta</div>
+      <div><div class="char-name">${ch.name} ${uiT('says')}</div>
+        <div class="char-says">${uiT('listenInstruct')}</div>
       </div>
     </div>
     <div class="listen-audio-row">
       <button type="button" class="listen-speed-btn" onclick="speak('${phr}',0.85)">🔊 Normal</button>
-      <button type="button" class="listen-speed-btn slow" onclick="speak('${phr}',0.45)">🐢 Despacio</button>
+      <button type="button" class="listen-speed-btn slow" onclick="speak('${phr}',0.45)">${uiT('slow')}</button>
     </div>
     <div class="exq">${ex.q}</div>
     <div class="options" id="optsWrap">`;
@@ -1924,15 +2004,15 @@ function renderExercise(){
       </div>
       <div style="margin-top:12px;display:flex;align-items:center;gap:10px">
         <button type="button" class="micbtn" id="micBtn" onclick="toggleMic()">🎤</button>
-        <div class="speak-status" id="speakStatus">Toca el micrófono y repite la frase en voz alta.</div>
+        <div class="speak-status" id="speakStatus">${uiT('tapMic')}</div>
       </div>
-      <div style="margin-top:10px"><button type="button" class="checkbtn" onclick="markSpeakDone()">Ya practiqué ✓</button></div>
+      <div style="margin-top:10px"><button type="button" class="checkbtn" onclick="markSpeakDone()">${uiT('practiced')}</button></div>
       <div class="feedback" id="fb"></div>`;
   }
 
   body += `</div><div class="exnav">
-    <span>${i+1} de ${total}</span>
-    <button type="button" class="nextbtn" id="nextBtn" onclick="nextExercise()" ${progress[t.id][i]?'':'disabled'}>Suivant →</button>
+    <span>${i+1} ${uiT('of')} ${total}</span>
+    <button type="button" class="nextbtn" id="nextBtn" onclick="nextExercise()" ${progress[t.id][i]?'':'disabled'}>${uiT('next')}</button>
   </div>`;
   card.innerHTML = body;
 
@@ -1945,7 +2025,7 @@ function renderExercise(){
 
 function markCardAnswered(ex){
   const fb = document.getElementById('fb');
-  if(fb){ fb.classList.add('show','correct'); fb.textContent = '✓ Déjà complété'; }
+  if(fb){ fb.classList.add('show','correct'); fb.textContent = uiT('alreadyDone'); }
 }
 
 function enableNext(){
@@ -1961,7 +2041,7 @@ function enableNext(){
   if(arr.every(Boolean)){
     const card = document.getElementById('exCard');
     if(!card.querySelector('.donebar')){
-      card.innerHTML += `<div class="donebar show"><span class="done-koala">🐨</span>¡Estación completada! +50 XP</div>`;
+      card.innerHTML += `<div class="donebar show"><span class="done-koala">🐨</span>${uiT('stationComplete')}</div>`;
       if(wasNew){
         const doneTops = lsGet('done_topics')||[];
         if(!doneTops.includes(currentTopic.id)){ doneTops.push(currentTopic.id); lsSet('done_topics',doneTops); }
@@ -1982,8 +2062,8 @@ function checkFill(){
   const ex = currentTopic.exercises[currentExIndex];
   const val = (document.getElementById('fillIn').value||'').trim().toLowerCase();
   const ok = ex.answers.some(a=>a.toLowerCase()===val||a.toLowerCase().replace(/'/g,"'")===val);
-  if(ok){ fbOk('Correct !'); enableNext(); }
-  else { fbBad('Réponse correcte: '+ex.answers[0]); }
+  if(ok){ fbOk(uiT('correct')); enableNext(); }
+  else { fbBad(uiT('correctAnswer')+' '+ex.answers[0]); }
 }
 function checkMcq(idx){
   const ex = currentTopic.exercises[currentExIndex];
@@ -1993,8 +2073,8 @@ function checkMcq(idx){
     if(i===ex.correct) o.classList.add('correct');
     if(i===idx && idx!==ex.correct) o.classList.add('wrong');
   });
-  if(idx===ex.correct){ fbOk('Correct !'); enableNext(); }
-  else { fbBad('Regarde la respuesta correcta en verde.'); }
+  if(idx===ex.correct){ fbOk(uiT('correct')); enableNext(); }
+  else { fbBad(uiT('seeCorrect')); }
 }
 function checkTf(val){
   const ex = currentTopic.exercises[currentExIndex];
@@ -2005,8 +2085,8 @@ function checkTf(val){
     if(isTrue===ex.correct) o.classList.add('correct');
     if(isTrue===val && !ok) o.classList.add('wrong');
   });
-  if(ok){ fbOk('Correct !'); enableNext(); }
-  else { fbBad('Pas correct. La respuesta es '+(ex.correct?'Vrai':'Faux')+'.'); }
+  if(ok){ fbOk(uiT('correct')); enableNext(); }
+  else { const ans=ex.correct?uiT('trueOpt').replace('✅ ',''):uiT('falseOpt').replace('❌ ',''); fbBad(uiT('notCorrect')+' '+ans+'.'); }
 }
 function checkMatch(){ /* auto-handled by selectMatchRight */ }
 function pickWord(el,w){
@@ -2029,18 +2109,18 @@ function pickWord(el,w){
 function checkOrder(){
   const ex = currentTopic.exercises[currentExIndex];
   const built = window._orderPicked.join(' ');
-  if(built.trim()===ex.correct.trim()){ fbOk('Correct !'); enableNext(); }
-  else { fbBad('Réponse: "'+ex.correct+'"'); }
+  if(built.trim()===ex.correct.trim()){ fbOk(uiT('correct')); enableNext(); }
+  else { fbBad(uiT('answer')+' "'+ex.correct+'"'); }
 }
 function toggleMic(){
   const btn = document.getElementById('micBtn');
   const status = document.getElementById('speakStatus');
-  if(!SR){ status.textContent='Tu navegador no soporta reconocimiento de voz.'; return; }
+  if(!SR){ status.textContent=uiT('noSR'); return; }
   if(activeRecognizer){ activeRecognizer.stop(); activeRecognizer=null; btn.classList.remove('recording'); return; }
   btn.classList.add('recording');
-  status.textContent='Escuchando...';
+  status.textContent=uiT('listening');
   activeRecognizer = createRecognizer((text)=>{
-    status.textContent = `Dijiste: "${text}"`;
+    status.textContent = uiT('youSaidLabel')+'"'+text+'"';
     btn.classList.remove('recording');
     activeRecognizer=null;
   }, ()=>{ btn.classList.remove('recording'); activeRecognizer=null; });
@@ -2049,7 +2129,7 @@ function toggleMic(){
 function markSpeakDone(){
   const fb = document.getElementById('fb');
   fb.classList.add('show','correct');
-  fb.textContent='✓ ¡Bien hecho!';
+  fb.textContent=uiT('wellDone');
   enableNext();
 }
 function nextExercise(){
@@ -2069,7 +2149,7 @@ let chatState = null;
 function renderChatStation(t){
   const view = document.getElementById('topicview');
   const scenarios = window.LP_CHAT_SCENARIOS[currentLevelId]||{};
-  let html = `<button class="backbtn" onclick="backToMap()">← Volver al mapa</button>
+  let html = `<button class="backbtn" onclick="backToMap()">${uiT('backToMap')}</button>
   <div class="thead"><div class="nbadge">${t.emoji}</div><div><h2>${t.title}</h2><span>${t.cardDesc}</span></div></div>
   <div class="chat-header"><div class="explain">${t.explain.join('')}</div></div>
   <div class="scenario-row" id="scenarioRow">
@@ -2090,8 +2170,8 @@ function startScenario(key){
     <div class="suggestions" id="chatSugg"></div>
     <div class="chat-input-area">
       <button class="chat-micbtn" id="chatMic" onclick="chatToggleMic()">🎤</button>
-      <input class="chat-input" id="chatInput" placeholder="Écris ta réponse en français..." onkeydown="if(event.key==='Enter')sendChat()">
-      <button class="chat-sendbtn" onclick="sendChat()">Envoyer</button>
+      <input class="chat-input" id="chatInput" placeholder="${uiT('writeLang')}" onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="chat-sendbtn" onclick="sendChat()">${uiT('send')}</button>
     </div>
     <div class="chat-progress" id="chatProgress"></div>
   </div>`;
@@ -2101,13 +2181,13 @@ function pushBotStep(){
   const sc = chatState.scenario;
   const step = sc.steps[chatState.step];
   if(!step){
-    document.getElementById('chatProgress').textContent = '🎉 Conversation terminée ! Bravo !';
+    document.getElementById('chatProgress').textContent = uiT('chatDone');
     return;
   }
   appendMsg('bot', step.bot);
   const sugg = document.getElementById('chatSugg');
   sugg.innerHTML = step.sugg.map(s=>`<span class="sugg-pill" onclick="useSuggestion('${s.replace(/'/g,"\\'")}')">${s}</span>`).join('');
-  document.getElementById('chatProgress').textContent = `Étape ${chatState.step+1} / ${sc.steps.length}`;
+  document.getElementById('chatProgress').textContent = `${uiT('exerciseLabel')} ${chatState.step+1} / ${sc.steps.length}`;
 }
 function appendMsg(who, text){
   const msgs = document.getElementById('chatMsgs');
@@ -5970,6 +6050,1873 @@ window.LP_CHAT_SCENARIOS['en-6'] = {
     {id:"philosophy-debate",title:"Philosophical Discussion",emoji:"🎓",setup:"A debate with a philosophy professor.",partner:{emoji:"🧠",name:"Prof. Williams"},opener:"Let's explore this: can one truly be free in a society governed by laws? What are the inherent tensions between freedom and social order?"},
     {id:"academic-critique",title:"Academic Paper Review",emoji:"📚",setup:"Discussing a research paper with a colleague.",partner:{emoji:"📄",name:"Dr. Chen"},opener:"I've read your argument that globalization exacerbates inequality. I take your point, but would you not agree that the evidence is somewhat nuanced?"},
     {id:"cultural-debate",title:"Arts & Culture",emoji:"🎨",setup:"A panel discussion about culture and identity.",partner:{emoji:"🌍",name:"Ana"},opener:"It's been argued that globalization threatens local cultural heritage. To what extent do you think multiculturalism is a blessing or a challenge?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  PORTUGUÊS — NÍVEL 1 (A1)
+// ══════════════════════════════════
+window.LP_TOPICS['pt-1'] = [
+
+{id:"saudacoes-pt",num:1,title:"Saudações e Despedidas",emoji:"👋",cardDesc:"Olá! Tudo bem? Tchau! — cumprimentos do dia a dia",
+explain:[
+  "<p>Use <b>Olá / Oi</b> para cumprimentar alguém. <b>Oi</b> é mais informal (Brasil). <b>Bom dia / Boa tarde / Boa noite</b> são cumprimentos formais baseados na hora do dia.</p>",
+  "<p>Respostas a 'Tudo bem?': <span class='ex-fr'>Tudo bem, obrigado/a! · Tudo ótimo! · Mais ou menos. · Ótimo, e você?</span></p>",
+  "<p>Despedidas: <span class='ex-fr'>Tchau! · Até logo! · Até mais! · Até amanhã! · Cuide-se!</span></p>",
+  "<p>Apresentações: <span class='ex-fr'>Meu nome é... · Eu me chamo... · Muito prazer! · Prazer em conhecer você.</span></p>"
+],
+vocab:[
+  {cat:"👋 Saudações",items:[
+    {e:"☀️",w:"Bom dia",p:"buenos días"},
+    {e:"🌤️",w:"Boa tarde",p:"buenas tardes"},
+    {e:"🌙",w:"Boa noite",p:"buenas noches"},
+    {e:"👋",w:"Oi / Olá",p:"hola"},
+    {e:"😄",w:"Tudo bem?",p:"¿todo bien? / ¿cómo estás?"},
+    {e:"✅",w:"Tudo bem, obrigado/a!",p:"todo bien, ¡gracias!"}
+  ]},
+  {cat:"🚪 Despedidas",items:[
+    {e:"👋",w:"Tchau! / Adeus!",p:"¡adiós!"},
+    {e:"👀",w:"Até logo!",p:"¡hasta luego!"},
+    {e:"🤝",w:"Muito prazer!",p:"¡mucho gusto!"},
+    {e:"💪",w:"Cuide-se!",p:"¡cuídate!"},
+    {e:"🌟",w:"Até amanhã!",p:"¡hasta mañana!"},
+    {e:"😊",w:"Igualmente!",p:"¡igualmente!"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"____ dia! Como vai você? (saludo de mañana)",answers:["Bom"]},
+  {type:"mcq",q:"Qual saudação é INFORMAL no Brasil?",options:["Bom dia","Boa tarde","Oi!","Como vai o senhor?"],correct:2},
+  {type:"fill",q:"Tudo ____? — Tudo bem, obrigado! (¿todo bien?)",answers:["bem"]},
+  {type:"tf",q:"'Até logo' é uma forma de se despedir.",correct:true},
+  {type:"match",q:"Combine a saudação com o horário.",pairs:[["Bom dia","manhã (antes do meio-dia)"],["Boa tarde","tarde (12h-18h)"],["Boa noite","noite (depois das 18h)"],["Tchau!","despedida"]]},
+  {type:"order",q:"Monte a conversa:",words:["Oi!","Tudo","bem?","bem,","Tudo","obrigado!"],correct:"Oi! Tudo bem? Tudo bem, obrigado!"},
+  {type:"fill",q:"Meu ____ é Carlos. Muito prazer! (nombre)",answers:["nome"]},
+  {type:"mcq",q:"Alguém diz 'Muito prazer!' Você responde:",options:["Tchau!","Igualmente!","Bom dia!","Até logo!"],correct:1},
+  {type:"speak",phrase:"Olá! Meu nome é Ana. Muito prazer! Tudo bem com você?",translation:"¡Hola! Mi nombre es Ana. ¡Mucho gusto! ¿Todo bien contigo?"},
+  {type:"fill",q:"____ -se! Até amanhã! (¡cuídate!)",answers:["Cuide"]}
+]},
+
+{id:"ser-estar-pt",num:2,title:"Ser e Estar",emoji:"🌟",cardDesc:"Eu sou / Eu estou — dois verbos 'ser' em português",
+explain:[
+  "<p>O português tem <b>DOIS</b> verbos para 'ser/estar' em espanhol: <b>SER</b> (permanente/essencial) e <b>ESTAR</b> (temporário/estado).</p>",
+  "<table class='reftable'><tr><th>Pronome</th><th>SER</th><th>ESTAR</th></tr><tr><td>Eu</td><td class='formcol'>sou</td><td>estou</td></tr><tr><td>Você/Ele/Ela</td><td class='formcol'>é</td><td>está</td></tr><tr><td>Nós</td><td class='formcol'>somos</td><td>estamos</td></tr><tr><td>Vocês/Eles</td><td class='formcol'>são</td><td>estão</td></tr></table>",
+  "<p><b>SER</b>: identidade, nacionalidade, profissão, características permanentes. <b>ESTAR</b>: localização, estados temporários, sentimentos.</p>",
+  "<p><span class='ex-fr'>Eu sou professora. (profissão) · Ela é brasileira. (nacionalidade) · Estou cansado. (estado temporário) · Onde você está? (localização)</span></p>"
+],
+vocab:[
+  {cat:"🌟 SER vs ESTAR",items:[
+    {e:"👤",w:"Eu sou / Eu estou",p:"yo soy / yo estoy"},
+    {e:"🧑",w:"Ele/Ela é / está",p:"él/ella es / está"},
+    {e:"👫",w:"Nós somos / estamos",p:"nosotros somos / estamos"},
+    {e:"👥",w:"Vocês são / estão",p:"ustedes son / están"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Eu ____ professora de inglês. (ser — profissão permanente)",answers:["sou"]},
+  {type:"fill",q:"Ela ____ cansada hoje. (estar — estado temporário)",answers:["está"]},
+  {type:"mcq",q:"'Ele ___ brasileiro.' — qual verbo?",options:["está","estão","é","são"],correct:2},
+  {type:"tf",q:"Usamos ESTAR para estados temporários e localizações.",correct:true},
+  {type:"match",q:"SER ou ESTAR?",pairs:[["Eu sou médico.","SER — profissão"],["Estou com fome.","ESTAR — estado"],["Ela é inteligente.","SER — característica"],["Onde você está?","ESTAR — localização"]]},
+  {type:"fill",q:"Nós ____ amigos há muitos anos. (ser — relação permanente)",answers:["somos"]},
+  {type:"order",q:"Monte a frase:",words:["brasileira.","Ela","é"],correct:"Ela é brasileira."},
+  {type:"fill",q:"Vocês ____ prontos para a viagem? (estar — estado temporário)",answers:["estão"]},
+  {type:"speak",phrase:"Eu sou professor. Sou brasileiro e estou muito feliz hoje!",translation:"Soy profesor. Soy brasileño y ¡estoy muy feliz hoy!"},
+  {type:"tf",q:"'Eu sou cansado' é a forma correta para um estado temporário.",correct:false}
+]},
+
+{id:"artigos-pt",num:3,title:"Artigos: o/a/um/uma",emoji:"🔤",cardDesc:"o livro, a mesa, um gato, uma casa — artigos em português",
+explain:[
+  "<p>O português tem artigos <b>definidos</b> (o/a/os/as) e <b>indefinidos</b> (um/uma/uns/umas). Todos concordam em gênero e número com o substantivo.</p>",
+  "<table class='reftable'><tr><th></th><th>Masculino</th><th>Feminino</th></tr><tr><td>Definido sing.</td><td class='formcol'>o (o livro)</td><td>a (a mesa)</td></tr><tr><td>Definido plur.</td><td class='formcol'>os (os livros)</td><td>as (as mesas)</td></tr><tr><td>Indefinido sing.</td><td class='formcol'>um (um gato)</td><td>uma (uma casa)</td></tr><tr><td>Indefinido plur.</td><td class='formcol'>uns (uns gatos)</td><td>umas (umas casas)</td></tr></table>",
+  "<p>Contrações obrigatórias: <span class='ex-fr'>de + o = do · de + a = da · em + o = no · em + a = na · a + o = ao · a + a = à</span></p>"
+],
+vocab:[
+  {cat:"🔤 Artigos — Exemplos",items:[
+    {e:"📚",w:"o livro / os livros",p:"el libro / los libros"},
+    {e:"🪑",w:"a cadeira / as cadeiras",p:"la silla / las sillas"},
+    {e:"🐱",w:"um gato / uns gatos",p:"un gato / unos gatos"},
+    {e:"🏠",w:"uma casa / umas casas",p:"una casa / unas casas"},
+    {e:"🌊",w:"do mar (de + o)",p:"del mar"},
+    {e:"🏫",w:"na escola (em + a)",p:"en la escuela"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Eu tenho ____ livro muito interessante. (indefinido masc.)",answers:["um"]},
+  {type:"fill",q:"____ mesa é grande. (definido fem.)",answers:["A"]},
+  {type:"mcq",q:"'___ estudantes chegaram cedo.' — plural masc.",options:["Um","Uma","Os","As"],correct:2},
+  {type:"tf",q:"Em português, os artigos concordam em gênero e número com o substantivo.",correct:true},
+  {type:"match",q:"Combine o substantivo com o artigo correto.",pairs:[["livro (masc.)","o / um"],["casa (fem.)","a / uma"],["sapatos (masc. plur.)","os / uns"],["flores (fem. plur.)","as / umas"]]},
+  {type:"fill",q:"Ela vem ____ Brasil. (de + o — contração)",answers:["do"]},
+  {type:"fill",q:"Moro ____ cidade de São Paulo. (em + a — contração)",answers:["na"]},
+  {type:"order",q:"Monte a frase:",words:["é","A","bonita.","cidade"],correct:"A cidade é bonita."},
+  {type:"speak",phrase:"O livro está na mesa. Uma amiga minha mora do lado da escola.",translation:"El libro está en la mesa. Una amiga mía vive al lado de la escuela."},
+  {type:"tf",q:"'de + o = do' é uma contração obrigatória em português.",correct:true}
+]},
+
+{id:"numeros-pt",num:4,title:"Números e Horas",emoji:"🔢",cardDesc:"1-100, que horas são? — números e o relógio",
+explain:[
+  "<p>Cardinais 1-20: <span class='ex-fr'>um, dois, três, quatro, cinco, seis, sete, oito, nove, dez, onze, doze, treze, quatorze, quinze, dezesseis, dezessete, dezoito, dezenove, vinte.</span></p>",
+  "<p>Dezenas: <span class='ex-fr'>trinta(30), quarenta(40), cinquenta(50), sessenta(60), setenta(70), oitenta(80), noventa(90), cem(100).</span></p>",
+  "<p>Horas: <span class='ex-fr'>São duas horas. · É meio-dia. · São três e meia. · São quatro e quinze. · São cinco menos quinze (quatro e quarenta e cinco).</span></p>"
+],
+vocab:[
+  {cat:"🔢 Números 1-20",items:[
+    {e:"1️⃣",w:"um / uma",p:"uno/una"},
+    {e:"2️⃣",w:"dois / duas",p:"dos"},
+    {e:"5️⃣",w:"cinco",p:"cinco"},
+    {e:"🔟",w:"dez",p:"diez"},
+    {e:"1️⃣2️⃣",w:"doze",p:"doce"},
+    {e:"2️⃣0️⃣",w:"vinte",p:"veinte"}
+  ]},
+  {cat:"⏰ Horas",items:[
+    {e:"🕒",w:"São três horas.",p:"Son las tres."},
+    {e:"🕧",w:"É meio-dia.",p:"Es mediodía."},
+    {e:"🕞",w:"São três e meia.",p:"Son las tres y media."},
+    {e:"🕟",w:"São quatro menos quinze.",p:"Son las cuatro menos cuarto."},
+    {e:"🌅",w:"de manhã",p:"de la mañana (a.m.)"},
+    {e:"🌆",w:"à tarde",p:"de la tarde (p.m.)"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"O número 15 em português: ____",answers:["quinze"]},
+  {type:"fill",q:"O número 40 em português: ____",answers:["quarenta"]},
+  {type:"mcq",q:"Como se diz 3:30?",options:["São três horas.","São três e meia.","São três e quinze.","São quatro menos trinta."],correct:1},
+  {type:"fill",q:"Que horas são? ____ duas horas. (São/É)",answers:["São"]},
+  {type:"match",q:"Combine o número com a palavra.",pairs:[["12","doze"],["50","cinquenta"],["80","oitenta"],["100","cem"]]},
+  {type:"fill",q:"75 em português: setenta e ____",answers:["cinco"]},
+  {type:"mcq",q:"Como se diz 4:45?",options:["São quatro e quarenta e cinco.","São cinco menos quinze.","São quatro menos quinze.","São cinco horas."],correct:1},
+  {type:"speak",phrase:"São dez horas da manhã. Minha aula começa às dez e meia.",translation:"Son las diez de la mañana. Mi clase empieza a las diez y media."},
+  {type:"fill",q:"O número 13 em português: ____",answers:["treze"]},
+  {type:"tf",q:"'São três e meia' significa 3:30.",correct:true}
+]},
+
+{id:"profissoes-pt",num:5,title:"Profissões",emoji:"💼",cardDesc:"O que você faz? — vocabulário de trabalho",
+isVocab:true,
+explain:["<p>Vocabulário de profissões em português. Note: <b>sou + profissão</b> (sem artigo em português do Brasil): <span class='ex-fr'>Sou médico. / Ela é professora.</span> Em Portugal usa-se mais com artigo: <span class='ex-fr'>Sou um médico.</span></p>"],
+vocab:[
+  {cat:"🏥 Saúde e Educação",items:[
+    {e:"👨‍⚕️",w:"médico/a",p:"médico/a"},
+    {e:"👩‍⚕️",w:"enfermeiro/a",p:"enfermero/a"},
+    {e:"👨‍🏫",w:"professor/a",p:"maestro/a / profesor/a"},
+    {e:"👩‍🔬",w:"cientista",p:"científico/a"},
+    {e:"🦷",w:"dentista",p:"dentista"},
+    {e:"💊",w:"farmacêutico/a",p:"farmacéutico/a"}
+  ]},
+  {cat:"🏗️ Outras Profissões",items:[
+    {e:"👨‍💻",w:"programador/a",p:"programador/a"},
+    {e:"👩‍🍳",w:"cozinheiro/a / chef",p:"cocinero/a / chef"},
+    {e:"👨‍🚒",w:"bombeiro/a",p:"bombero"},
+    {e:"👮",w:"policial",p:"policía"},
+    {e:"✈️",w:"piloto",p:"piloto"},
+    {e:"⚖️",w:"advogado/a",p:"abogado/a"},
+    {e:"🏗️",w:"engenheiro/a",p:"ingeniero/a"},
+    {e:"🎨",w:"artista",p:"artista"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Uma pessoa que trata de pacientes doentes é ____.",answers:["médico","médica"]},
+  {type:"mcq",q:"'O que você ___?' é a pergunta para saber a profissão.",options:["é","faz","está","tem"],correct:1},
+  {type:"fill",q:"Ela pilota aviões. Ela é ____.",answers:["piloto","pilota"]},
+  {type:"match",q:"Combine a profissão com a descrição.",pairs:[["professor/a","trabalha na escola"],["cozinheiro/a","trabalha num restaurante"],["advogado/a","trabalha no tribunal"],["bombeiro/a","apaga incêndios"]]},
+  {type:"tf",q:"No Brasil, dizemos 'Sou médico' (sem artigo).",correct:true},
+  {type:"fill",q:"Ele escreve código de computador. Ele é ____.",answers:["programador"]},
+  {type:"mcq",q:"Qual profissão trabalha num hospital?",options:["advogado","enfermeiro","piloto","engenheiro"],correct:1},
+  {type:"speak",phrase:"Sou professor. Trabalho numa escola e adoro meu trabalho!",translation:"Soy profesor. Trabajo en una escuela y ¡amo mi trabajo!"},
+  {type:"fill",q:"Uma pessoa que protege a lei é ____.",answers:["policial"]},
+  {type:"tf",q:"'Ela é uma dentista' é mais comum no português europeu.",correct:true}
+]},
+
+{id:"familia-pt",num:6,title:"Família",emoji:"👨‍👩‍👧‍👦",cardDesc:"pai, mãe, irmão — vocabulário de família",
+isVocab:true,
+explain:["<p>Vocabulário de família em português. Note: palavras femininas geralmente terminam em <b>-a</b>: pai→mãe, irmão→irmã, avô→avó, tio→tia.</p>"],
+vocab:[
+  {cat:"👪 Família Imediata",items:[
+    {e:"👨",w:"pai",p:"padre / papá"},
+    {e:"👩",w:"mãe",p:"madre / mamá"},
+    {e:"👦",w:"irmão",p:"hermano"},
+    {e:"👧",w:"irmã",p:"hermana"},
+    {e:"👴",w:"avô",p:"abuelo"},
+    {e:"👵",w:"avó",p:"abuela"}
+  ]},
+  {cat:"👨‍👩‍👧 Família Extensa",items:[
+    {e:"👨‍🦱",w:"tio",p:"tío"},
+    {e:"👩‍🦰",w:"tia",p:"tía"},
+    {e:"🧑",w:"primo/a",p:"primo/a"},
+    {e:"👶",w:"sobrinho/a",p:"sobrino/a"},
+    {e:"💍",w:"marido / esposa",p:"esposo / esposa"},
+    {e:"👶",w:"filho/a",p:"hijo/a"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"A mãe da minha mãe é minha ____.",answers:["avó"]},
+  {type:"mcq",q:"O irmão do meu pai é meu:",options:["primo","sobrinho","tio","avô"],correct:2},
+  {type:"fill",q:"O irmão da minha mãe é meu ____.",answers:["tio"]},
+  {type:"match",q:"Combine o familiar com a relação.",pairs:[["tia","irmã do meu pai/mãe"],["primo","filho do meu tio"],["sobrinho","filho do meu irmão"],["avô","pai do meu pai"]]},
+  {type:"tf",q:"'Irmãos' pode significar irmãos e irmãs em geral.",correct:true},
+  {type:"fill",q:"A filha do meu irmão é minha ____.",answers:["sobrinha"]},
+  {type:"fill",q:"Minha mãe e meu pai são meus ____.",answers:["pais"]},
+  {type:"speak",phrase:"Tenho uma família grande. Tenho dois irmãos e uma irmã. Meus avós moram perto.",translation:"Tengo una familia grande. Tengo dos hermanos y una hermana. Mis abuelos viven cerca."},
+  {type:"fill",q:"Ela tem dois ____. (filhos homens)",answers:["filhos"]},
+  {type:"tf",q:"'Avô' é masculino e 'avó' é feminino.",correct:true}
+]},
+
+{id:"cores-pt",num:7,title:"Cores e Adjetivos",emoji:"🌈",cardDesc:"vermelho, azul, verde — cores e adjetivos básicos",
+isVocab:true,
+explain:["<p>Em português, os adjetivos <b>concordam</b> em gênero e número com o substantivo: um carro <b>vermelho</b> / uma casa <b>vermelha</b> / carros <b>vermelhos</b> / casas <b>vermelhas</b>. Os adjetivos geralmente vêm <b>após</b> o substantivo.</p>"],
+vocab:[
+  {cat:"🎨 Cores Básicas",items:[
+    {e:"🔴",w:"vermelho/a",p:"rojo/a"},
+    {e:"🔵",w:"azul",p:"azul"},
+    {e:"🟢",w:"verde",p:"verde"},
+    {e:"🟡",w:"amarelo/a",p:"amarillo/a"},
+    {e:"⚫",w:"preto/a",p:"negro/a"},
+    {e:"⚪",w:"branco/a",p:"blanco/a"},
+    {e:"🟠",w:"laranja",p:"naranja"},
+    {e:"🟣",w:"roxo/a / violeta",p:"morado/a / violeta"}
+  ]},
+  {cat:"📝 Adjetivos Úteis",items:[
+    {e:"⬆️",w:"grande",p:"grande"},
+    {e:"⬇️",w:"pequeno/a",p:"pequeño/a"},
+    {e:"🔥",w:"quente",p:"caliente"},
+    {e:"🧊",w:"frio/a",p:"frío/a"},
+    {e:"😊",w:"feliz",p:"feliz"},
+    {e:"😔",w:"triste",p:"triste"},
+    {e:"💪",w:"forte",p:"fuerte"},
+    {e:"🌟",w:"bonito/a",p:"bonito/a / hermoso/a"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"O céu é ____. (azul)",answers:["azul"]},
+  {type:"fill",q:"A grama é ____. (verde)",answers:["verde"]},
+  {type:"mcq",q:"'Uma casa ___a' — qual adjetivo concorda em gênero feminino?",options:["vermelho","azul","bonita","grande"],correct:2},
+  {type:"match",q:"Combine a cor com um objeto.",pairs:[["vermelho","um caminhão de bombeiro"],["amarelo","uma banana"],["branco","a neve"],["preto","o céu à noite"]]},
+  {type:"fill",q:"Ela tem um carro ____. É muito escuro, como a noite. (preto)",answers:["preto"]},
+  {type:"tf",q:"Em português, os adjetivos concordam em gênero com o substantivo.",correct:true},
+  {type:"fill",q:"Ela está ____. Está sorrindo. (feliz)",answers:["feliz"]},
+  {type:"mcq",q:"'Casas brancas' — o adjetivo está no plural feminino porque:",options:["é uma preferência","casas é feminino plural","branco não muda","está errado"],correct:1},
+  {type:"speak",phrase:"Adoro o azul. Minha camiseta favorita é azul. Meu quarto tem paredes brancas.",translation:"Me encanta el azul. Mi camiseta favorita es azul. Mi cuarto tiene paredes blancas."},
+  {type:"tf",q:"'Laranja' é invariável em gênero (não muda para 'laranja').",correct:true}
+]},
+
+{id:"comida-pt",num:8,title:"Comida e Bebida",emoji:"🍎",cardDesc:"frutas, legumes, bebidas — vocabulário essencial de comida",
+isVocab:true,
+explain:["<p>Vocabulário de comida em português. Frases-chave: <b>Eu gosto de / Eu adoro / Não gosto de + substantivo. Você gosta de...? Sim, adoro! / Não, não gosto.</b></p>"],
+vocab:[
+  {cat:"🍎 Frutas e Legumes",items:[
+    {e:"🍎",w:"maçã",p:"manzana"},
+    {e:"🍌",w:"banana",p:"plátano / banana"},
+    {e:"🍊",w:"laranja",p:"naranja"},
+    {e:"🥕",w:"cenoura",p:"zanahoria"},
+    {e:"🥦",w:"brócolis",p:"brócoli"},
+    {e:"🍅",w:"tomate",p:"tomate"},
+    {e:"🥑",w:"abacate",p:"aguacate"},
+    {e:"🍓",w:"morango",p:"fresa"}
+  ]},
+  {cat:"🍔 Refeições e Bebidas",items:[
+    {e:"🍞",w:"pão",p:"pan"},
+    {e:"🧀",w:"queijo",p:"queso"},
+    {e:"🥩",w:"carne",p:"carne"},
+    {e:"🍳",w:"ovos",p:"huevos"},
+    {e:"☕",w:"café",p:"café"},
+    {e:"🧃",w:"suco",p:"jugo"},
+    {e:"💧",w:"água",p:"agua"},
+    {e:"🍵",w:"chá",p:"té"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Eu como uma ____ todo dia. (manzana)",answers:["maçã"]},
+  {type:"mcq",q:"Qual destes é um legume?",options:["banana","cenoura","maçã","laranja"],correct:1},
+  {type:"fill",q:"Você gosta de ____? Sim, adoro! (café)",answers:["café"]},
+  {type:"match",q:"Combine o alimento com a categoria.",pairs:[["maçã","fruta"],["cenoura","legume"],["água","bebida"],["pão","grão/padaria"]]},
+  {type:"tf",q:"'Tomate' é tecnicamente uma fruta, mas usado como legume na culinária.",correct:true},
+  {type:"fill",q:"Ela toma ____ todo dia de manhã. (chá)",answers:["chá"]},
+  {type:"speak",phrase:"Adoro frutas e legumes. Minha fruta favorita é manga. Tomo suco toda manhã.",translation:"Me encantan las frutas y verduras. Mi fruta favorita es el mango. Tomo jugo cada mañana."},
+  {type:"fill",q:"____ é uma fruta amarela. Você descasca antes de comer. (banana)",answers:["Banana","A banana"]},
+  {type:"fill",q:"No Brasil, ____ é muito popular. (abacate — em vitaminas)",answers:["abacate"]},
+  {type:"tf",q:"'Suco' no Brasil equivale a 'jugo' em espanhol.",correct:true}
+]},
+
+{id:"possessivos-pt",num:9,title:"Pronomes Possessivos",emoji:"🔑",cardDesc:"meu, seu, nosso — de quem é o quê",
+explain:[
+  "<p>Os <b>possessivos</b> em português concordam com o <b>objeto possuído</b> (não com o possuidor), em gênero e número.</p>",
+  "<table class='reftable'><tr><th>Pessoa</th><th>Masc. sing.</th><th>Fem. sing.</th><th>Masc. plur.</th></tr><tr><td>eu</td><td class='formcol'>meu</td><td>minha</td><td>meus</td></tr><tr><td>você/ele/ela</td><td class='formcol'>seu</td><td>sua</td><td>seus</td></tr><tr><td>nós</td><td class='formcol'>nosso</td><td>nossa</td><td>nossos</td></tr><tr><td>eles/vocês</td><td class='formcol'>seu/loro</td><td>sua</td><td>seus</td></tr></table>",
+  "<p><span class='ex-fr'>meu livro · minha casa · seu carro · sua bolsa · nossa escola · nossos amigos</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Esse é ____ livro. (eu — masc.)",answers:["meu"]},
+  {type:"fill",q:"Ela ama ____ gato. (ela — masc.)",answers:["seu"]},
+  {type:"mcq",q:"'___ escola é grande.' (nós — fem.)",options:["Nosso","Nossa","Meu","Seu"],correct:1},
+  {type:"tf",q:"Em português, o possessivo concorda com o objeto possuído, não com o possuidor.",correct:true},
+  {type:"match",q:"Combine o pronome com o possessivo.",pairs:[["eu + livro (masc.)","meu"],["ela + bolsa (fem.)","sua"],["nós + casa (fem.)","nossa"],["você + amigos (masc.plur.)","seus"]]},
+  {type:"fill",q:"____ carro é novo. (seu — masc.)",answers:["Seu"]},
+  {type:"order",q:"Monte a frase:",words:["é","Minha","bonita.","casa"],correct:"Minha casa é bonita."},
+  {type:"fill",q:"Nós adoramos ____ cidade. (nossa — fem.)",answers:["nossa"]},
+  {type:"speak",phrase:"Meu nome é Pedro. A casa da minha irmã é linda. Seu jardim é enorme.",translation:"Mi nombre es Pedro. La casa de mi hermana es linda. Su jardín es enorme."},
+  {type:"tf",q:"'Meu' é masculino e 'minha' é feminino.",correct:true}
+]},
+
+{id:"perguntas-pt",num:10,title:"Perguntas Básicas",emoji:"❓",cardDesc:"Quem? Onde? Quando? Que? Como? — fazendo perguntas",
+explain:[
+  "<p><b>Palavras interrogativas:</b> <span class='ex-fr'>O que / Que (qué) · Quem (quién) · Onde (dónde) · Quando (cuándo) · Por que (por qué) · Como (cómo) · Quanto/a (cuánto) · Quantos/as (cuántos)</span></p>",
+  "<p>Perguntas com SER/ESTAR: inverta sujeito e verbo: <span class='ex-fr'>Você é estudante? → É você estudante? / Você é estudante? (ambas válidas)</span></p>",
+  "<p><span class='ex-fr'>Qual é o seu nome? — Meu nome é Ana. · De onde você é? — Sou do Brasil. · Quantos anos você tem? — Tenho 25 anos.</span></p>"
+],
+vocab:[
+  {cat:"❓ Palavras Interrogativas",items:[
+    {e:"🤔",w:"O que / Que",p:"qué"},
+    {e:"📍",w:"Onde",p:"dónde"},
+    {e:"👤",w:"Quem",p:"quién"},
+    {e:"⏰",w:"Quando",p:"cuándo"},
+    {e:"🤷",w:"Por que",p:"por qué"},
+    {e:"🛠️",w:"Como",p:"cómo"},
+    {e:"🔢",w:"Quantos/as",p:"cuántos/as"},
+    {e:"📊",w:"Quanto",p:"cuánto"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"____ é o seu nome? — Meu nome é João. (cómo/cuál)",answers:["Qual","Como"]},
+  {type:"fill",q:"____ você é? — Sou do México. (de dónde)",answers:["De onde"]},
+  {type:"mcq",q:"'___ anos você tem?' — pergunta de idade",options:["Que","Quem","Quantos","Quanto"],correct:2},
+  {type:"fill",q:"____ você mora? — Moro em São Paulo. (dónde)",answers:["Onde"]},
+  {type:"match",q:"Combine a palavra interrogativa com o significado.",pairs:[["Por que","por qué"],["Quem","quién"],["Quando","cuándo"],["Quanto","cuánto (incontável)"]]},
+  {type:"order",q:"Monte a pergunta:",words:["de","você","De","onde","é?"],correct:"De onde você é?"},
+  {type:"fill",q:"____ você está triste? — Porque estou com saudade. (por qué)",answers:["Por que"]},
+  {type:"mcq",q:"'___ livros você tem?' — contável",options:["Quanto","Quantos","Como","Onde"],correct:1},
+  {type:"speak",phrase:"Qual é o seu nome? De onde você é? Quantos anos você tem? O que você faz?",translation:"¿Cuál es tu nombre? ¿De dónde eres? ¿Cuántos años tienes? ¿Qué haces?"},
+  {type:"tf",q:"'Onde você mora?' é uma pergunta correta em português.",correct:true}
+]},
+
+{id:"tem-ha-pt",num:11,title:"Ter / Haver (Há)",emoji:"📍",cardDesc:"Tem um parque aqui? / Há uma farmácia — o que existe",
+explain:[
+  "<p>Em português há duas formas para 'hay' em espanhol / 'there is/are' em inglês:</p>",
+  "<p><b>Há</b> (formal/escrito): invariável — <span class='ex-fr'>Há um banco aqui. · Há três quartos.</span></p>",
+  "<p><b>Tem</b> (coloquial/Brasil): invariável — <span class='ex-fr'>Tem um banco aqui. · Tem três quartos.</span></p>",
+  "<p>Negativo: <span class='ex-fr'>Não há / Não tem banco aqui.</span> Pergunta: <span class='ex-fr'>Há / Tem um banco por aqui?</span></p>"
+],
+exercises:[
+  {type:"fill",q:"____ um supermercado perto daqui. (há/tem — existe)",answers:["Há","Tem"]},
+  {type:"fill",q:"____ três gatos no jardim. (há/tem — plural)",answers:["Há","Tem"]},
+  {type:"mcq",q:"'___ algum banco por aqui?' — pergunta coloquial brasileira",options:["Há","Ser","Tem","É"],correct:2},
+  {type:"tf",q:"No Brasil falado, 'tem' é mais comum do que 'há' para indicar existência.",correct:true},
+  {type:"fill",q:"Não ____ ônibus aos domingos. (negativo coloquial)",answers:["tem","há"]},
+  {type:"order",q:"Monte a frase:",words:["20","Há","na","estudantes","sala."],correct:"Há 20 estudantes na sala."},
+  {type:"fill",q:"____ um hospital perto? — Sim, tem um na próxima rua. (pergunta)",answers:["Tem","Há"]},
+  {type:"mcq",q:"'Tem muita gente na festa.' — o 'tem' aqui significa:",options:["ele/ela tem","existe / há","temos","vocês têm"],correct:1},
+  {type:"speak",phrase:"No meu bairro tem um parque lindo. Há árvores, bancos e um lago pequeno.",translation:"En mi vecindario hay un parque lindo. Hay árboles, bancas y un lago pequeño."},
+  {type:"tf",q:"'Há' é a forma do verbo 'haver' na 3ª pessoa do singular, usada para indicar existência.",correct:true}
+]},
+
+{id:"preposicoes-pt",num:12,title:"Preposições Básicas",emoji:"📦",cardDesc:"em, de, com, para, por — as preposições mais usadas",
+explain:[
+  "<p>As preposições mais importantes do português:</p>",
+  "<p><span class='ex-fr'>em (en/dentro de) · de (de/desde) · com (con) · para (para/hacia) · por (por/a través de) · sobre (sobre/encima de) · entre (entre) · até (hasta) · desde (desde)</span></p>",
+  "<p>Contrações obrigatórias: <span class='ex-fr'>em+o=no · em+a=na · de+o=do · de+a=da · de+um=dum · em+um=num · a+o=ao</span></p>"
+],
+vocab:[
+  {cat:"📦 Preposições de Lugar",items:[
+    {e:"📦",w:"dentro de",p:"dentro de"},
+    {e:"⬆️",w:"em cima de",p:"encima de"},
+    {e:"⬇️",w:"embaixo de",p:"debajo de"},
+    {e:"↔️",w:"ao lado de",p:"al lado de"},
+    {e:"🔙",w:"atrás de",p:"detrás de"},
+    {e:"▶️",w:"na frente de",p:"enfrente de / frente a"},
+    {e:"↕️",w:"entre",p:"entre (dos cosas)"},
+    {e:"📍",w:"perto de",p:"cerca de"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"O gato está ____ caixa. (dentro de — contração: em+a)",answers:["na"]},
+  {type:"fill",q:"O livro está ____ mesa. (encima de — contração: em+a)",answers:["na"]},
+  {type:"mcq",q:"'Ela está ___ escola agora.' — preposição de lugar",options:["de","no","na","ao"],correct:2},
+  {type:"match",q:"Combine a preposição com o significado.",pairs:[["embaixo de","debajo de"],["atrás de","detrás de"],["ao lado de","al lado de"],["entre","entre dos cosas"]]},
+  {type:"fill",q:"A escola fica ____ banco e a biblioteca. (entre)",answers:["entre"]},
+  {type:"tf",q:"'O livro está na mesa' usa a contração 'na' (em+a).",correct:true},
+  {type:"fill",q:"Estou esperando ____ ponto de ônibus. (no — em+o)",answers:["no"]},
+  {type:"order",q:"Descreva onde estão as chaves:",words:["As","estão","chaves","na","mesa."],correct:"As chaves estão na mesa."},
+  {type:"speak",phrase:"Minha casa fica ao lado de um parque. Há um supermercado na frente e uma escola atrás.",translation:"Mi casa está al lado de un parque. Hay un supermercado enfrente y una escuela detrás."},
+  {type:"tf",q:"'de + o = do' é uma contração obrigatória em português.",correct:true}
+]}
+];
+
+window.LP_TOPICS['pt-1'].push({
+  id:"conversa-pt1",num:13,title:"Estação de Conversa",emoji:"💬",
+  cardDesc:"Pratique o Nível 1 de português com Sofia",
+  isChat:true,
+  explain:["<p>Pratique conversas reais com tudo do Nível 1: saudações, ser/estar, artigos, números, família e perguntas básicas. Sua parceira de IA Sofia fala português simples A1.</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['pt-1'] = {
+  scenarios:[
+    {id:"primeiro-encontro",title:"Primeiro Encontro",emoji:"🤝",setup:"Você conhece alguém numa aula de português.",partner:{emoji:"🧑",name:"Sofia"},opener:"Oi! Meu nome é Sofia. Qual é o seu nome? De onde você é?"},
+    {id:"minha-familia",title:"Falando sobre a Família",emoji:"👨‍👩‍👧‍👦",setup:"Você está mostrando fotos da sua família.",partner:{emoji:"👩",name:"Mariana"},opener:"Essa é sua família? Quantas pessoas têm? Você tem irmãos?"},
+    {id:"vida-diaria",title:"Vida Diária",emoji:"🏠",setup:"Descrevendo sua casa e vizinhança.",partner:{emoji:"🏘️",name:"Lucas"},opener:"Onde você mora? Tem parque perto da sua casa?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  PORTUGUÊS — NÍVEL 2 (A2)
+// ══════════════════════════════════
+window.LP_TOPICS['pt-2'] = [
+
+{id:"presente-regular-pt",num:1,title:"Presente do Indicativo",emoji:"⏰",cardDesc:"falo, como, parto — verbos regulares -ar/-er/-ir",
+explain:[
+  "<p>O <b>Presente do Indicativo</b> é usado para hábitos, rotinas e fatos gerais. Verbos regulares se dividem em 3 grupos:</p>",
+  "<table class='reftable'><tr><th>Pronome</th><th>-AR (falar)</th><th>-ER (comer)</th><th>-IR (partir)</th></tr><tr><td>Eu</td><td class='formcol'>falo</td><td>como</td><td>parto</td></tr><tr><td>Você/Ele/Ela</td><td class='formcol'>fala</td><td>come</td><td>parte</td></tr><tr><td>Nós</td><td class='formcol'>falamos</td><td>comemos</td><td>partimos</td></tr><tr><td>Vocês/Eles</td><td class='formcol'>falam</td><td>comem</td><td>partem</td></tr></table>",
+  "<p>Marcadores de frequência: <span class='ex-fr'>sempre · geralmente · frequentemente · às vezes · raramente · nunca</span></p>"
+],
+vocab:[
+  {cat:"⏰ Advérbios de Frequência",items:[
+    {e:"💯",w:"sempre",p:"siempre"},
+    {e:"🔄",w:"geralmente",p:"generalmente"},
+    {e:"📅",w:"frequentemente",p:"frecuentemente"},
+    {e:"🔀",w:"às vezes",p:"a veces"},
+    {e:"🔻",w:"raramente",p:"raramente"},
+    {e:"🚫",w:"nunca",p:"nunca"}
+  ]},
+  {cat:"🏃 Verbos Comuns",items:[
+    {e:"💬",w:"falar",p:"hablar"},
+    {e:"🍽️",w:"comer",p:"comer"},
+    {e:"📚",w:"estudar",p:"estudiar"},
+    {e:"😴",w:"dormir",p:"dormir"},
+    {e:"📺",w:"assistir",p:"ver (televisión)"},
+    {e:"🚶",w:"morar",p:"vivir"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Ela ____ português muito bem. (falar — ela)",answers:["fala"]},
+  {type:"fill",q:"Eu não ____ carne. Sou vegetariano. (comer — negativo)",answers:["como"]},
+  {type:"mcq",q:"'Nós ___ futebol todo fim de semana.' — jogar",options:["joga","jogamos","jogam","jogo"],correct:1},
+  {type:"tf",q:"Verbos -AR: 'você fala', verbos -ER: 'você come' — as terminações são diferentes.",correct:true},
+  {type:"order",q:"Monte uma pergunta:",words:["você","Onde","mora?"],correct:"Onde você mora?"},
+  {type:"fill",q:"Eles ____ muito café. (tomar — eles)",answers:["tomam"]},
+  {type:"match",q:"Combine o advérbio de frequência com a porcentagem.",pairs:[["sempre","100%"],["geralmente","~80%"],["às vezes","~50%"],["nunca","0%"]]},
+  {type:"fill",q:"Eu ____ acordar cedo. Não sou matutino. (negativo — não acordar)",answers:["não acordo"]},
+  {type:"speak",phrase:"Geralmente acordo às 7h. Sempre tomo café da manhã. Nunca pulo o exercício.",translation:"Generalmente me despierto a las 7h. Siempre desayuno. Nunca me salto el ejercicio."},
+  {type:"tf",q:"'Ela não fala inglês' — negativa correta com NÃO antes do verbo.",correct:true}
+]},
+
+{id:"verbos-irreg-pt",num:2,title:"Verbos Irregulares no Presente",emoji:"⚡",cardDesc:"ser, estar, ter, ir, fazer, poder — os irregulares essenciais",
+explain:[
+  "<p>Os verbos mais usados do português são irregulares. Memorize-os!</p>",
+  "<table class='reftable'><tr><th>Pronome</th><th>ter</th><th>ir</th><th>fazer</th><th>poder</th><th>querer</th></tr><tr><td>Eu</td><td class='formcol'>tenho</td><td>vou</td><td>faço</td><td>posso</td><td>quero</td></tr><tr><td>Você/Ele</td><td class='formcol'>tem</td><td>vai</td><td>faz</td><td>pode</td><td>quer</td></tr><tr><td>Nós</td><td class='formcol'>temos</td><td>vamos</td><td>fazemos</td><td>podemos</td><td>queremos</td></tr><tr><td>Vocês/Eles</td><td class='formcol'>têm</td><td>vão</td><td>fazem</td><td>podem</td><td>querem</td></tr></table>"
+],
+exercises:[
+  {type:"fill",q:"Eu ____ dois irmãos. (ter — eu)",answers:["tenho"]},
+  {type:"fill",q:"Ela ____ ao trabalho de ônibus. (ir — ela)",answers:["vai"]},
+  {type:"mcq",q:"'Nós ___ uma festa amanhã.' — fazer",options:["fazem","fazemos","faz","faço"],correct:1},
+  {type:"tf",q:"'Eu posso' é a forma correta de 'poder' na 1ª pessoa.",correct:true},
+  {type:"match",q:"Combine o verbo com a conjugação na 1ª pessoa (eu).",pairs:[["ter","tenho"],["ir","vou"],["fazer","faço"],["querer","quero"]]},
+  {type:"fill",q:"Vocês ____ vir à festa? (poder — vocês)",answers:["podem"]},
+  {type:"fill",q:"Ele não ____ trabalhar hoje. Está doente. (poder — negativo)",answers:["pode"]},
+  {type:"order",q:"Monte a frase:",words:["fazer","Eu","quero","isso."],correct:"Eu quero fazer isso."},
+  {type:"speak",phrase:"Eu tenho muito trabalho hoje. Não posso sair. Mas quero ir ao cinema amanhã!",translation:"Tengo mucho trabajo hoy. No puedo salir. ¡Pero quiero ir al cine mañana!"},
+  {type:"fill",q:"Eles ____ para o Brasil nas férias. (ir — eles)",answers:["vão"]}
+]},
+
+{id:"preterito-perfeito-pt",num:3,title:"Pretérito Perfeito",emoji:"📖",cardDesc:"eu falei, ela comeu, nós fomos — ações passadas concluídas",
+explain:[
+  "<p>O <b>Pretérito Perfeito do Indicativo</b> descreve ações concluídas no passado. Equivale ao 'Simple Past' do inglês e ao 'Pretérito Perfecto/Indefinido' do espanhol.</p>",
+  "<table class='reftable'><tr><th>Pronome</th><th>-AR (falar)</th><th>-ER (comer)</th><th>-IR (partir)</th></tr><tr><td>Eu</td><td class='formcol'>falei</td><td>comi</td><td>parti</td></tr><tr><td>Você/Ele</td><td class='formcol'>falou</td><td>comeu</td><td>partiu</td></tr><tr><td>Nós</td><td class='formcol'>falamos</td><td>comemos</td><td>partimos</td></tr><tr><td>Vocês/Eles</td><td class='formcol'>falaram</td><td>comeram</td><td>partiram</td></tr></table>",
+  "<p>Irregulares importantes: <span class='ex-fr'>ir/ser → fui, foi, fomos, foram · ter → tive, teve, tivemos, tiveram · fazer → fiz, fez, fizemos, fizeram · vir → vim, veio</span></p>"
+],
+vocab:[
+  {cat:"📖 Irregulares no Passado",items:[
+    {e:"🚶",w:"ir/ser → fui / foi",p:"ir/ser → fui / fue"},
+    {e:"💡",w:"ter → tive / teve",p:"tener → tuve / tuvo"},
+    {e:"📝",w:"fazer → fiz / fez",p:"hacer → hice / hizo"},
+    {e:"👁️",w:"ver → vi / viu",p:"ver → vi / vio"},
+    {e:"🏃",w:"vir → vim / veio",p:"venir → vine / vino"},
+    {e:"🛒",w:"trazer → trouxe",p:"traer → traje"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Ontem eu ____ ao parque. (ir — pretérito)",answers:["fui"]},
+  {type:"fill",q:"Ela ____ pizza no jantar. (comer — ela)",answers:["comeu"]},
+  {type:"mcq",q:"'Eu não ___ TV ontem à noite.' — assistir",options:["assisti","assistiu","assistiram","assisto"],correct:0},
+  {type:"tf",q:"'Ela foi' pode significar tanto 'ela foi' (ir) quanto 'ela foi' (ser) no pretérito.",correct:true},
+  {type:"match",q:"Combine o verbo com o pretérito perfeito (eu).",pairs:[["ver","vi"],["fazer","fiz"],["trazer","trouxe"],["vir","vim"]]},
+  {type:"fill",q:"____ você ao show ontem? — Sim, fui! (pergunta)",answers:["Você foi","Foi você"]},
+  {type:"order",q:"Monte a frase:",words:["noite.","Ela","o","viu","ontem","filme","à"],correct:"Ela viu o filme ontem à noite."},
+  {type:"fill",q:"Nós ____ uma viagem incrível. (ter — tivemos)",answers:["tivemos"]},
+  {type:"speak",phrase:"No fim de semana passado fui à praia. Comi frutos do mar e vi um pôr do sol lindo.",translation:"El fin de semana pasado fui a la playa. Comí mariscos y vi un hermoso atardecer."},
+  {type:"fill",q:"Ele ____ o relatório na hora certa. (fazer — fez)",answers:["fez"]}
+]},
+
+{id:"ir-infinitivo-pt",num:4,title:"IR + Infinitivo — Futuro",emoji:"🔮",cardDesc:"Vou estudar, ela vai viajar — planos e intenções futuras",
+explain:[
+  "<p><b>IR + infinitivo</b> é a forma mais comum de expressar futuro imediato e planos em português coloquial. Equivale ao 'going to' do inglês e 'ir a + infinitivo' do espanhol.</p>",
+  "<p>Estrutura: <b>sujeito + ir (presente) + infinitivo</b></p>",
+  "<p><span class='ex-fr'>Vou estudar amanhã. · Ela vai viajar nas férias. · Vamos fazer uma festa. · Eles vão chegar tarde.</span></p>",
+  "<p>vs. <b>Futuro do Presente</b> (mais formal): <span class='ex-fr'>Estudarei amanhã. (-ei, -ás, -á, -emos, -ão)</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Eu ____ estudar medicina no ano que vem. (ir — eu)",answers:["vou"]},
+  {type:"fill",q:"Ela ____ viajar ao Japão nas férias. (ir — ela)",answers:["vai"]},
+  {type:"mcq",q:"'Olha as nuvens! ___ chover.' — previsão baseada em evidência",options:["Vai","Foi","Era","Será"],correct:0},
+  {type:"tf",q:"'IR + infinitivo' é usado para planos decididos antes do momento de falar.",correct:true},
+  {type:"order",q:"Monte a frase:",words:["jantar.","vai","preparar","Ele","o"],correct:"Ele vai preparar o jantar."},
+  {type:"fill",q:"____ você vai à festa? — Sim, vou! (pergunta)",answers:["Você"]},
+  {type:"fill",q:"Nós não ____ assistir ao jogo. (ir — negativo)",answers:["vamos"]},
+  {type:"match",q:"Combine a situação com a estrutura correta.",pairs:[["plano decidido antes","ir + infinitivo"],["decisão espontânea","vou... (agora decidi)"],["previsão com evidência","ir + infinitivo"],["futuro formal/escrito","futuro do presente (-ei/-á)"]]},
+  {type:"speak",phrase:"No próximo ano vou aprender um novo idioma e viajar pela Europa. Vou trabalhar muito!",translation:"El próximo año voy a aprender un nuevo idioma y viajar por Europa. ¡Voy a trabajar duro!"},
+  {type:"tf",q:"'Vou ligar para você' e 'Te ligarei' expressam futuro, sendo a primeira mais coloquial.",correct:true}
+]},
+
+{id:"presente-continuo-pt",num:5,title:"Presente Contínuo",emoji:"🔄",cardDesc:"Estou falando — ações em andamento agora",
+explain:[
+  "<p>O <b>presente contínuo</b> (progressivo) descreve ações acontecendo <b>agora</b> ou ao redor do presente. Formação: <b>ESTAR (presente) + gerúndio (-ndo)</b>.</p>",
+  "<p>Gerúndio: <span class='ex-fr'>falar → falando · comer → comendo · partir → partindo · fazer → fazendo</span></p>",
+  "<p><span class='ex-fr'>Estou estudando agora. · Ela está trabalhando esta semana. · O que você está fazendo?</span></p>",
+  "<p>No Brasil, também se usa <b>ESTAR + A + infinitivo</b> (mais em Portugal): <span class='ex-fr'>Estou a estudar.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Ela está ____ um livro agora. (ler → lendo)",answers:["lendo"]},
+  {type:"fill",q:"Eles estão ____ futebol no parque. (jogar → jogando)",answers:["jogando"]},
+  {type:"mcq",q:"'Eu estou ___ TV agora.' — gerúndio de assistir",options:["assiste","assistido","assistindo","assistiu"],correct:2},
+  {type:"tf",q:"'Estou sabendo a resposta' está incorreto porque 'saber' é verbo de estado.",correct:true},
+  {type:"order",q:"Monte a frase:",words:["o","preparando","Ela","está","jantar."],correct:"Ela está preparando o jantar."},
+  {type:"fill",q:"____ você fazendo agora? — Estou estudando. (pergunta — o que)",answers:["O que"]},
+  {type:"fill",q:"Ele não está ____. Está lendo. (assistir — negativo)",answers:["assistindo"]},
+  {type:"match",q:"Combine o uso com o exemplo.",pairs:[["ação agora","Estou escrevendo uma mensagem."],["ação em andamento esta semana","Ela está aprendendo espanhol este mês."],["plano futuro próximo","Estamos voando amanhã."],["verbo de estado — sem -ndo","Eu sei a resposta."]]},
+  {type:"speak",phrase:"Agora estou sentado num café. Estou tomando café e estudando português.",translation:"Ahora mismo estoy sentado en un café. Estoy tomando café y estudiando portugués."},
+  {type:"tf",q:"No Brasil, usamos 'estar + gerúndio'; em Portugal, é comum 'estar + a + infinitivo'.",correct:true}
+]},
+
+{id:"modais-pt",num:6,title:"Verbos Modais",emoji:"⚡",cardDesc:"poder, dever, precisar, querer — habilidade, obrigação, necessidade",
+explain:[
+  "<p>Os <b>verbos modais</b> em português expressam habilidade, permissão, obrigação e possibilidade. São sempre seguidos de <b>infinitivo</b>.</p>",
+  "<table class='reftable'><tr><th>Modal</th><th>Significado</th><th>Exemplo</th></tr><tr><td>poder</td><td>habilidade/permissão</td><td class='formcol'>Posso nadar.</td></tr><tr><td>dever</td><td>obrigação/conselho</td><td class='formcol'>Você deve descansar.</td></tr><tr><td>precisar de</td><td>necessidade</td><td class='formcol'>Preciso de ajuda.</td></tr><tr><td>querer</td><td>desejo</td><td class='formcol'>Quero aprender.</td></tr><tr><td>ter que/de</td><td>obrigação forte</td><td class='formcol'>Tenho que trabalhar.</td></tr></table>"
+],
+exercises:[
+  {type:"fill",q:"Ela ____ falar três idiomas. (poder — habilidade)",answers:["pode"]},
+  {type:"fill",q:"Você não ____ fumar em hospitais. É proibido. (poder — negativo)",answers:["pode"]},
+  {type:"mcq",q:"'Você ___ ver um médico. Está com cara de doente.' — conselho",options:["pode","quer","deve","precisa"],correct:2},
+  {type:"tf",q:"Após verbos modais, usamos sempre o infinitivo.",correct:true},
+  {type:"match",q:"Combine o modal com sua função.",pairs:[["poder","habilidade"],["dever","conselho/obrigação"],["ter que","obrigação forte"],["querer","desejo"]]},
+  {type:"fill",q:"Talvez ela ____ chegar tarde — não tenho certeza. (poder — possibilidade)",answers:["possa","pode"]},
+  {type:"order",q:"Monte a frase de conselho:",words:["Você","mais.","deve","dormir"],correct:"Você deve dormir mais."},
+  {type:"fill",q:"Ele ____ pagar o aluguel todo primeiro do mês. (ter que — obrigação)",answers:["tem que","tem de"]},
+  {type:"speak",phrase:"Você deve se exercitar todo dia. Tem que comer bem. Assim vai se sentir melhor!",translation:"Deberías ejercitarte cada día. Tienes que comer bien. ¡Así te sentirás mejor!"},
+  {type:"tf",q:"'Ela pode nadar' está correto; 'Ela podes nadar' está errado.",correct:true}
+]},
+
+{id:"comparativos-pt",num:7,title:"Comparativos e Superlativos",emoji:"📊",cardDesc:"mais alto, o mais alto — comparando pessoas e coisas",
+explain:[
+  "<p><b>Comparativos</b> comparam dois elementos. <b>Superlativos</b> expressam o extremo num grupo.</p>",
+  "<p><b>Comparativo de superioridade</b>: <span class='ex-fr'>mais + adjetivo + (do) que: Maria é mais alta do que João.</span></p>",
+  "<p><b>Comparativo de igualdade</b>: <span class='ex-fr'>tão + adjetivo + quanto: Ele é tão inteligente quanto ela.</span></p>",
+  "<p><b>Superlativo</b>: <span class='ex-fr'>o/a mais + adjetivo + de: É o restaurante mais caro da cidade.</span></p>",
+  "<p>Irregulares: <span class='ex-fr'>bom→melhor→o melhor · mau→pior→o pior · grande→maior→o maior · pequeno→menor→o menor</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Este carro é ____ do que aquele. (rápido — comparativo)",answers:["mais rápido"]},
+  {type:"fill",q:"O Everest é ____ montanha do mundo. (alto — superlativo)",answers:["a mais alta"]},
+  {type:"mcq",q:"'Este filme é ___ interessante do que o primeiro.' — comparativo",options:["mais","o mais","tão","menos"],correct:0},
+  {type:"fill",q:"Ela é ____ aluna da turma. (bom — superlativo irregular)",answers:["a melhor"]},
+  {type:"match",q:"Combine o adjetivo com o comparativo irregular.",pairs:[["mau/ruim","pior"],["bom","melhor"],["grande","maior"],["pequeno","menor"]]},
+  {type:"order",q:"Monte a comparação:",words:["Nova","do","é","York","que","maior","Londres."],correct:"Nova York é maior do que Londres."},
+  {type:"fill",q:"É ____ restaurante caro da cidade. (superlativo)",answers:["o mais"]},
+  {type:"tf",q:"'Ela é mais alta que eu' está correto em português.",correct:true},
+  {type:"speak",phrase:"Minha cidade é maior que a sua, mas a sua é mais bonita e a mais tranquila.",translation:"Mi ciudad es más grande que la tuya, pero la tuya es más bonita y la más tranquila."},
+  {type:"fill",q:"Hoje está ____ do que ontem. (ruim → pior)",answers:["pior"]}
+]},
+
+{id:"hobbies-pt",num:8,title:"Hobbies e Tempo Livre",emoji:"🎸",cardDesc:"O que você faz no tempo livre? — atividades e lazer",
+isVocab:true,
+explain:["<p>Fale sobre hobbies em português. Frases-chave: <b>Gosto de / Adoro / Curto / Não aguento + substantivo ou infinitivo.</b></p>"],
+vocab:[
+  {cat:"🎯 Esportes e Atividades",items:[
+    {e:"⚽",w:"jogar futebol",p:"jugar fútbol"},
+    {e:"🏊",w:"nadar / ir nadar",p:"nadar"},
+    {e:"🏋️",w:"ir à academia",p:"ir al gimnasio"},
+    {e:"🚴",w:"andar de bicicleta",p:"andar en bicicleta"},
+    {e:"🧘",w:"fazer yoga",p:"hacer yoga"},
+    {e:"🥊",w:"praticar artes marciais",p:"practicar artes marciales"}
+  ]},
+  {cat:"🎨 Criativo e Relaxante",items:[
+    {e:"📚",w:"ler livros",p:"leer libros"},
+    {e:"🎵",w:"ouvir música",p:"escuchar música"},
+    {e:"🎨",w:"pintar / desenhar",p:"pintar / dibujar"},
+    {e:"🎮",w:"jogar videogame",p:"jugar videojuegos"},
+    {e:"🎬",w:"assistir a filmes",p:"ver películas"},
+    {e:"🍳",w:"cozinhar",p:"cocinar"},
+    {e:"📸",w:"tirar fotos",p:"tomar fotos"},
+    {e:"✍️",w:"escrever",p:"escribir"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"O que você faz no ____ livre? — Adoro ler. (tiempo libre)",answers:["tempo"]},
+  {type:"mcq",q:"'Sou muito fã de...' — forma informal de dizer que você adora algo:",options:["odeio","curto muito","não aguento","raramente"],correct:1},
+  {type:"fill",q:"Ela ____ yoga toda manhã. (fazer — presente)",answers:["faz"]},
+  {type:"match",q:"Combine o hobby com a categoria.",pairs:[["nadar","esporte/físico"],["desenhar","criativo"],["cozinhar","prático/criativo"],["ler","relaxante"]]},
+  {type:"tf",q:"'Eu gosto de ler' está correto; 'Eu gosto ler' está errado.",correct:true},
+  {type:"fill",q:"Ele é muito fã de fotografia. Tira fotos ____. (en todas partes — em todo lugar)",answers:["em todo lugar","em todos os lugares"]},
+  {type:"speak",phrase:"No meu tempo livre adoro assistir a filmes e ouvir música. Nos fins de semana ando de bicicleta.",translation:"En mi tiempo libre me encanta ver películas y escuchar música. Los fines de semana ando en bicicleta."},
+  {type:"fill",q:"Nós costumamos ____ à academia depois do trabalho. (ir — frequência)",answers:["ir"]},
+  {type:"mcq",q:"Qual frase está gramaticalmente correta?",options:["Gosto de nadar.","Gosto nadar.","Gosto a nadar.","Gosto que nadar."],correct:0},
+  {type:"tf",q:"'Jogar futebol' e 'praticar futebol' têm o mesmo significado.",correct:true}
+]},
+
+{id:"viagem-pt",num:9,title:"Viagem e Turismo",emoji:"✈️",cardDesc:"aeroporto, hotel, reservas — vocabulário de viagem",
+isVocab:true,
+explain:["<p>Vocabulário essencial para viajar falando português. Frases úteis: <b>Tem quarto disponível? / Quanto custa? / Onde fica...? / Pode me ajudar?</b></p>"],
+vocab:[
+  {cat:"✈️ No Aeroporto",items:[
+    {e:"🛫",w:"voo",p:"vuelo"},
+    {e:"🎫",w:"cartão de embarque",p:"tarjeta de embarque"},
+    {e:"🧳",w:"bagagem / mala",p:"equipaje / maleta"},
+    {e:"🪪",w:"passaporte",p:"pasaporte"},
+    {e:"🚪",w:"portão de embarque",p:"puerta de embarque"},
+    {e:"⏱️",w:"atraso",p:"retraso / demora"}
+  ]},
+  {cat:"🏨 No Hotel",items:[
+    {e:"🔑",w:"check-in / check-out",p:"registrarse / salida del hotel"},
+    {e:"🛏️",w:"quarto simples / duplo",p:"habitación sencilla / doble"},
+    {e:"📅",w:"reserva",p:"reservación"},
+    {e:"🍳",w:"café da manhã incluso",p:"desayuno incluido"},
+    {e:"🏊",w:"comodidades",p:"servicios / instalaciones"},
+    {e:"🧾",w:"nota / conta",p:"recibo / cuenta"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Preciso mostrar meu ____ no aeroporto para embarcar. (pasaporte)",answers:["passaporte"]},
+  {type:"fill",q:"Meu ____ é às 18h do portão 7. (vuelo)",answers:["voo"]},
+  {type:"mcq",q:"Quando você chega ao hotel, você precisa fazer:",options:["check-out","check-in","reserva","conta"],correct:1},
+  {type:"match",q:"Combine a palavra com o significado.",pairs:[["cartão de embarque","documento para embarcar"],["atraso","o voo vai chegar mais tarde"],["bagagem","suas malas e bolsas"],["portão","onde você embarca"]]},
+  {type:"fill",q:"Minha ____ é do dia 10 ao dia 15 de agosto. (reserva)",answers:["reserva"]},
+  {type:"tf",q:"'Fazer check-out' significa sair do hotel e pagar a conta.",correct:true},
+  {type:"fill",q:"Quero um quarto ____, por favor. Para uma pessoa. (simples)",answers:["simples"]},
+  {type:"speak",phrase:"Tenho um voo às 8h. Preciso estar no aeroporto às 6h. Meu portão é o B7.",translation:"Tengo un vuelo a las 8h. Necesito estar en el aeropuerto a las 6h. Mi puerta es la B7."},
+  {type:"fill",q:"Com licença, meu voo tem um ____ de 2 horas. Vai chegar atrasado. (atraso)",answers:["atraso"]},
+  {type:"mcq",q:"O que você precisa mostrar para embarcar num avião?",options:["cartão de crédito","cartão de embarque e passaporte","chave do hotel","nota fiscal"],correct:1}
+]},
+
+{id:"direcoes-pt",num:10,title:"Dando Direções",emoji:"🗺️",cardDesc:"vire à esquerda, siga em frente — pedindo e dando direções",
+explain:[
+  "<p>Frases essenciais para pedir e dar direções em português.</p>",
+  "<p><b>Perguntando</b>: <span class='ex-fr'>Com licença, onde fica...? · Como faço para chegar...? · Tem algum ___ por aqui?</span></p>",
+  "<p><b>Dando direções</b>: <span class='ex-fr'>Vire à esquerda/direita. · Siga em frente. · Pegue a primeira/segunda à esquerda/direita. · Fica à sua esquerda/direita. · Passe pelo semáforo. · Fica ao lado de / em frente a / atrás de...</span></p>"
+],
+vocab:[
+  {cat:"🗺️ Direções",items:[
+    {e:"⬆️",w:"Siga em frente.",p:"Siga recto."},
+    {e:"⬅️",w:"Vire à esquerda.",p:"Gire a la izquierda."},
+    {e:"➡️",w:"Vire à direita.",p:"Gire a la derecha."},
+    {e:"🔙",w:"Volte / Dê meia-volta.",p:"Regrese / Dé la vuelta."},
+    {e:"🚦",w:"semáforo",p:"semáforo"},
+    {e:"↔️",w:"em frente a",p:"enfrente de"},
+    {e:"📍",w:"na esquina",p:"en la esquina"},
+    {e:"🏁",w:"fica à sua direita/esquerda",p:"está a su derecha/izquierda"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Siga em ____ e depois vire à esquerda. (frente)",answers:["frente"]},
+  {type:"fill",q:"____ à direita na esquina. (Vire)",answers:["Vire"]},
+  {type:"mcq",q:"'Fica ___ ao banco.' — significa em frente ao banco.",options:["atrás","em frente","embaixo","dentro"],correct:1},
+  {type:"match",q:"Combine a direção com o significado.",pairs:[["vire à esquerda","gire a la izquierda"],["siga em frente","siga recto"],["na esquina","en la esquina"],["semáforo","semáforo"]]},
+  {type:"order",q:"Monte as direções:",words:["em","Siga","depois","frente,","esquerda","no","vire","semáforo.","à"],correct:"Siga em frente, depois vire à esquerda no semáforo."},
+  {type:"fill",q:"Com licença, ____ fica a estação de metrô? (onde)",answers:["onde"]},
+  {type:"fill",q:"O hotel fica ____ ao museu — os dois se olham. (em frente)",answers:["em frente"]},
+  {type:"speak",phrase:"Siga em frente duas quadras, depois vire à direita. O banco fica à sua esquerda, ao lado do supermercado.",translation:"Siga recto dos cuadras, luego gire a la derecha. El banco está a su izquierda, al lado del supermercado."},
+  {type:"tf",q:"'Pegue a segunda à esquerda' significa virar na segunda rua à esquerda.",correct:true},
+  {type:"fill",q:"Como faço para ____ à estação de trem? (chegar)",answers:["chegar"]}
+]},
+
+{id:"compras-pt",num:11,title:"Fazendo Compras",emoji:"🛍️",cardDesc:"quanto custa? aceita cartão? — vocabulário de compras",
+isVocab:true,
+explain:["<p>Vocabulário essencial para fazer compras em português. Frases-chave: <b>Quanto custa? / Tem desconto? / Aceita cartão? / Vou levar! / Posso experimentar?</b></p>"],
+vocab:[
+  {cat:"🛍️ Na Loja",items:[
+    {e:"💰",w:"preço",p:"precio"},
+    {e:"🏷️",w:"desconto",p:"descuento"},
+    {e:"💳",w:"cartão de crédito",p:"tarjeta de crédito"},
+    {e:"💵",w:"dinheiro / em espécie",p:"dinero / en efectivo"},
+    {e:"👗",w:"tamanho / número",p:"talla / número"},
+    {e:"🪞",w:"provador",p:"probador"}
+  ]},
+  {cat:"🧾 Vocabulário Extra",items:[
+    {e:"🧾",w:"nota fiscal / recibo",p:"factura / recibo"},
+    {e:"🔄",w:"trocar / devolver",p:"cambiar / devolver"},
+    {e:"📦",w:"embrulho",p:"envoltorio"},
+    {e:"🎁",w:"presente / brinde",p:"regalo"},
+    {e:"💲",w:"parcelado",p:"en cuotas"},
+    {e:"🏪",w:"loja / comércio",p:"tienda / comercio"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Quanto ____ esta camisa? (custa — quanto custa?)",answers:["custa"]},
+  {type:"fill",q:"Tem ____? Está muito caro. (desconto)",answers:["desconto"]},
+  {type:"mcq",q:"Você quer pagar. O vendedor pergunta: 'Como vai pagar?' Você responde:",options:["Com cartão, por favor.","Quanto custa?","Posso trocar?","Não gostei."],correct:0},
+  {type:"match",q:"Combine a palavra com o significado.",pairs:[["provador","lugar para experimentar roupas"],["trocar","cambiar un producto"],["nota fiscal","documento de compra"],["parcelado","pagar en cuotas"]]},
+  {type:"fill",q:"Posso ____? Quero ver se fica bem. (experimentar)",answers:["experimentar"]},
+  {type:"tf",q:"No Brasil, 'dinheiro' significa efectivo (cash).",correct:true},
+  {type:"fill",q:"Quero ____ este produto. Não funcionou. (devolver)",answers:["devolver"]},
+  {type:"speak",phrase:"Com licença, quanto custa este vestido? Tem tamanho M? Aceita cartão de crédito?",translation:"Con permiso, ¿cuánto cuesta este vestido? ¿Tiene talla M? ¿Aceptan tarjeta de crédito?"},
+  {type:"fill",q:"Pode ____ para presente? (embrulhar — wrap as gift)",answers:["embrulhar"]},
+  {type:"tf",q:"'Parcelado' significa pagar o valor total dividido em várias vezes.",correct:true}
+]},
+
+{id:"descricao-pessoas-pt",num:12,title:"Descrevendo Pessoas",emoji:"👤",cardDesc:"alto, magro, carinhoso — aparência e personalidade",
+isVocab:true,
+explain:["<p>Vocabulário para descrever pessoas em português. Lembre: adjetivos concordam em gênero e número. <b>Ele é alto. Ela é alta. Eles são altos. Elas são altas.</b></p>"],
+vocab:[
+  {cat:"👤 Aparência Física",items:[
+    {e:"📏",w:"alto/a / baixo/a",p:"alto/a / bajo/a"},
+    {e:"⚖️",w:"gordo/a / magro/a",p:"gordo/a / delgado/a"},
+    {e:"👱",w:"loiro/a / moreno/a",p:"rubio/a / moreno/a"},
+    {e:"👴",w:"jovem / velho/a",p:"joven / viejo/a"},
+    {e:"👁️",w:"olhos castanhos/azuis",p:"ojos cafés/azules"},
+    {e:"💇",w:"cabelo curto/comprido",p:"cabello corto/largo"}
+  ]},
+  {cat:"🧠 Personalidade",items:[
+    {e:"😄",w:"alegre / simpático/a",p:"alegre / simpático/a"},
+    {e:"🤝",w:"generoso/a",p:"generoso/a"},
+    {e:"💪",w:"corajoso/a",p:"valiente"},
+    {e:"🧠",w:"inteligente",p:"inteligente"},
+    {e:"😤",w:"teimoso/a",p:"terco/a"},
+    {e:"😴",w:"preguiçoso/a",p:"perezoso/a"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Meu pai é muito ____. Ele tem 1,90m. (alto)",answers:["alto"]},
+  {type:"mcq",q:"'Ela é muito ___a.' — adjetivo no feminino correto para 'simpático':",options:["simpática","simpáticoa","simpáticoa","simpátíco"],correct:0},
+  {type:"fill",q:"Ele tem cabelo ____ e olhos azuis. (loiro — masc.)",answers:["loiro"]},
+  {type:"match",q:"Combine o adjetivo com o oposto.",pairs:[["alto","baixo"],["gordo","magro"],["loiro","moreno"],["jovem","velho"]]},
+  {type:"tf",q:"'Ela é teimosa' concorda corretamente (feminino singular).",correct:true},
+  {type:"fill",q:"Ela é muito ____. Compartilha tudo com todos. (generoso — fem.)",answers:["generosa"]},
+  {type:"speak",phrase:"Minha melhor amiga é alta, morena e muito simpática. Ela é inteligente e generosa.",translation:"Mi mejor amiga es alta, morena y muy simpática. Es inteligente y generosa."},
+  {type:"fill",q:"Ele é muito ____. Nunca quer mudar de opinião. (teimoso)",answers:["teimoso"]},
+  {type:"tf",q:"'Preguiçoso' tem o oposto 'trabalhador'.",correct:true},
+  {type:"fill",q:"Ela tem cabelo ____ e liso. (comprido — long)",answers:["comprido"]}
+]}
+];
+
+window.LP_TOPICS['pt-2'].push({
+  id:"conversa-pt2",num:13,title:"Estação de Conversa A2",emoji:"💬",
+  cardDesc:"Pratique situações reais do dia a dia",
+  isChat:true,
+  explain:["<p>Prática de conversas A2: fale sobre sua rotina diária, experiências passadas, planos futuros, viagens e compras. Seu parceiro de IA fala português natural A2.</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['pt-2'] = {
+  scenarios:[
+    {id:"rotina-diaria",title:"Rotina Diária",emoji:"⏰",setup:"Você está conversando com um colega sobre a vida cotidiana.",partner:{emoji:"👩",name:"Camila"},opener:"Que horas você normalmente acorda? Tem alguma rotina matinal?"},
+    {id:"fim-de-semana",title:"Fim de Semana",emoji:"📖",setup:"Segunda-feira de manhã — contando o que fez no fim de semana.",partner:{emoji:"🧑",name:"Rafael"},opener:"Oi! Como foi seu fim de semana? O que você fez?"},
+    {id:"planejando-viagem",title:"Planejando uma Viagem",emoji:"✈️",setup:"Você está planejando férias com um amigo.",partner:{emoji:"👨",name:"Thiago"},opener:"Para onde você vai nas férias? Já tem planos?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  PORTUGUÊS — NÍVEL 3 (B1)
+// ══════════════════════════════════
+window.LP_TOPICS['pt-3'] = [
+
+{id:"imperfeito-pt",num:1,title:"Pretérito Imperfeito",emoji:"📚",cardDesc:"eu falava, ela comia — hábitos e ações contínuas no passado",
+explain:[
+  "<p>O <b>Pretérito Imperfeito</b> descreve ações habituais, contínuas ou em andamento no passado. Equivale a 'costumava + infinitivo' ou 'estava + gerúndio'.</p>",
+  "<table class='reftable'><tr><th>Pronome</th><th>-AR (falar)</th><th>-ER (comer)</th><th>-IR (partir)</th></tr><tr><td>Eu</td><td class='formcol'>falava</td><td>comia</td><td>partia</td></tr><tr><td>Você/Ele</td><td class='formcol'>falava</td><td>comia</td><td>partia</td></tr><tr><td>Nós</td><td class='formcol'>falávamos</td><td>comíamos</td><td>partíamos</td></tr><tr><td>Vocês/Eles</td><td class='formcol'>falavam</td><td>comiam</td><td>partiam</td></tr></table>",
+  "<p>Usos: <span class='ex-fr'>Quando criança, morava no Rio. (hábito) · Enquanto ela lia, eu cozinhava. (ações paralelas) · Era tarde quando ele chegou. (descrição do cenário)</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Quando era criança, ____ no Rio de Janeiro. (morar — imperfeito)",answers:["morava"]},
+  {type:"fill",q:"Eles ____ futebol todos os domingos. (jogar — hábito)",answers:["jogavam"]},
+  {type:"mcq",q:"'Ela ___ um livro quando o telefone tocou.' — ação em andamento",options:["leu","lia","lê","lerá"],correct:1},
+  {type:"tf",q:"O imperfeito é usado para hábitos passados e descrições de cenário.",correct:true},
+  {type:"match",q:"Combine o uso com o exemplo.",pairs:[["hábito passado","Eu comia arroz todo dia."],["ação em andamento","Ela dormia quando chegamos."],["descrição do passado","O dia estava lindo."],["ações paralelas","Enquanto eu lia, ela cozinhava."]]},
+  {type:"fill",q:"Nós ____ amigos na época da escola. (ser — imperfeito)",answers:["éramos"]},
+  {type:"fill",q:"Quando eu ____ jovem, tocava violão. (ser — imperfeito)",answers:["era"]},
+  {type:"order",q:"Monte a frase:",words:["lia,","Enquanto","eu","ela","cozinhava."],correct:"Enquanto eu lia, ela cozinhava."},
+  {type:"speak",phrase:"Quando eu era criança, morava no interior. Brincava na rua todo dia e não havia internet.",translation:"Cuando era niño/a, vivía en el interior. Jugaba en la calle todos los días y no había internet."},
+  {type:"tf",q:"'Eu falava muito quando era criança' está no imperfeito corretamente.",correct:true}
+]},
+
+{id:"perf-vs-imperf-pt",num:2,title:"Perfeito vs Imperfeito",emoji:"⚖️",cardDesc:"falei vs falava — quando usar cada um",
+explain:[
+  "<p>Esta é uma das distinções mais importantes do português:</p>",
+  "<table class='reftable'><tr><th>Pretérito Perfeito</th><th>Pretérito Imperfeito</th></tr><tr><td>Ação concluída/pontual</td><td>Ação habitual/em andamento</td></tr><tr><td>Tempo específico</td><td>Cenário/descrição</td></tr><tr><td>Sequência de eventos</td><td>Contexto de fundo</td></tr></table>",
+  "<p><span class='ex-fr'>Ontem, <b>comi</b> pizza. (perfeito — ação concluída) · Quando era jovem, <b>comia</b> pizza todo dia. (imperfeito — hábito)</span></p>",
+  "<p><span class='ex-fr'><b>Estava</b> chovendo quando <b>saí</b> de casa. (imperfeito = fundo / perfeito = evento)</span></p>"
+],
+exercises:[
+  {type:"mcq",q:"'Ontem ___ ao cinema.' — ação concluída com tempo específico",options:["ia","fui","iria","ia"],correct:1},
+  {type:"fill",q:"Quando era criança, eu ____ muito. (brincar — hábito)",answers:["brincava"]},
+  {type:"mcq",q:"'___ chovendo quando ele chegou.' — ação em andamento (cenário)",options:["Estava","Esteve","Estará","Esteve"],correct:0},
+  {type:"tf",q:"'Ontem' geralmente indica o pretérito perfeito.",correct:true},
+  {type:"match",q:"Combine o marcador com o tempo verbal.",pairs:[["ontem","perfeito"],["quando era criança","imperfeito"],["de repente","perfeito"],["sempre / todo dia (passado)","imperfeito"]]},
+  {type:"fill",q:"Ela ____ quando o telefone tocou. (dormir — imperfeito: cenário)",answers:["dormia"]},
+  {type:"fill",q:"Eu ____ a porta e entrei. (abrir — perfeito: ação concluída)",answers:["abri"]},
+  {type:"speak",phrase:"Quando era jovem, sempre viajava nas férias. Mas no ano passado fiquei em casa.",translation:"Cuando era joven, siempre viajaba en las vacaciones. Pero el año pasado me quedé en casa."},
+  {type:"tf",q:"'Estava estudando quando ela chegou' usa imperfeito para a ação de fundo.",correct:true},
+  {type:"fill",q:"De repente, ____ um barulho enorme. (ouvir — perfeito: evento pontual)",answers:["ouvi"]}
+]},
+
+{id:"subjuntivo-pres-pt",num:3,title:"Subjuntivo Presente",emoji:"💭",cardDesc:"Quero que você venha — o modo subjuntivo",
+explain:[
+  "<p>O <b>Subjuntivo</b> expressa desejos, dúvidas, emoções, hipóteses e ordens indiretamente. É muito usado em português!</p>",
+  "<p><b>Formação</b>: parte da 1ª pessoa do presente do indicativo (eu) → troca a vogal temática: <span class='ex-fr'>falo → fale · como → coma · parto → parta</span></p>",
+  "<table class='reftable'><tr><th>Pronome</th><th>falar</th><th>comer</th><th>partir</th></tr><tr><td>Eu</td><td class='formcol'>fale</td><td>coma</td><td>parta</td></tr><tr><td>Você/Ele</td><td class='formcol'>fale</td><td>coma</td><td>parta</td></tr><tr><td>Nós</td><td class='formcol'>falemos</td><td>comamos</td><td>partamos</td></tr></table>",
+  "<p>Gatilhos: <span class='ex-fr'>querer que · esperar que · é importante que · duvidar que · sentir que · pedir que · tomara que</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Quero que você ____ aqui amanhã. (vir — subjuntivo: venha)",answers:["venha"]},
+  {type:"fill",q:"É importante que todos ____ a tempo. (chegar — subjuntivo: cheguem)",answers:["cheguem"]},
+  {type:"mcq",q:"'Espero que ela ___ bem.' — subjuntivo de 'estar'",options:["está","esteve","esteja","estará"],correct:2},
+  {type:"tf",q:"O subjuntivo é usado após 'quero que', 'espero que', 'é preciso que'.",correct:true},
+  {type:"match",q:"Combine o gatilho com o subjuntivo.",pairs:[["quero que","+ subjuntivo"],["é fundamental que","+ subjuntivo"],["tenho certeza que","+ indicativo"],["duvido que","+ subjuntivo"]]},
+  {type:"fill",q:"Peço que vocês ____ silêncio. (fazer — façam)",answers:["façam"]},
+  {type:"fill",q:"É preciso que você ____ mais cedo. (acordar — subjuntivo: acorde)",answers:["acorde"]},
+  {type:"order",q:"Monte a frase:",words:["que","Espero","tudo","bem.","fique"],correct:"Espero que tudo fique bem."},
+  {type:"speak",phrase:"Quero que você seja feliz. É importante que todos falem português corretamente.",translation:"Quiero que seas feliz. Es importante que todos hablen portugués correctamente."},
+  {type:"tf",q:"'Espero que ela vem' está errado; o correto é 'espero que ela venha'.",correct:true}
+]},
+
+{id:"passiva-pt",num:4,title:"Voz Passiva",emoji:"🔄",cardDesc:"O livro foi escrito por ele — estruturas passivas",
+explain:[
+  "<p>A <b>voz passiva</b> foca no que aconteceu, não em quem fez. Formação: <b>SER + particípio passado</b>.</p>",
+  "<table class='reftable'><tr><th>Tempo</th><th>Ativa</th><th>Passiva</th></tr><tr><td>Presente</td><td>Eles limpam o escritório.</td><td class='formcol'>O escritório é limpo.</td></tr><tr><td>Passado</td><td>Eles construíram a ponte.</td><td class='formcol'>A ponte foi construída.</td></tr><tr><td>Futuro</td><td>Vão anunciar.</td><td class='formcol'>Vai ser anunciado.</td></tr></table>",
+  "<p>Para indicar o agente: <span class='ex-fr'>por: O prêmio foi dado <b>pela</b> presidente.</span></p>",
+  "<p>Passiva com SE (mais coloquial): <span class='ex-fr'>Vende-se casa. · Fala-se português aqui.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"O português ____ falado em muitos países. (ser — presente passivo)",answers:["é"]},
+  {type:"fill",q:"Este edifício ____ construído em 1990. (ser — passado passivo)",answers:["foi"]},
+  {type:"mcq",q:"'Eles fazem iPhones na China.' — passiva correta:",options:["iPhones é feito na China.","iPhones são feitos na China.","iPhones foram feitos na China.","iPhone faz-se na China."],correct:1},
+  {type:"tf",q:"A voz passiva é formada com SER + particípio passado.",correct:true},
+  {type:"order",q:"Monte a frase passiva:",words:["escrita","A","Camões.","por","foi","carta"],correct:"A carta foi escrita por Camões."},
+  {type:"fill",q:"Os resultados ____ anunciados amanhã. (ser — futuro passivo: serão)",answers:["serão"]},
+  {type:"fill",q:"O carro ____ roubado ontem à noite. (ser — passado passivo)",answers:["foi"]},
+  {type:"match",q:"Transforme para passiva.",pairs:[["As pessoas falam português.","O português é falado."],["Eles construíram a ponte.","A ponte foi construída."],["Vão lançar o produto.","O produto vai ser lançado."],["Aqui se fala inglês.","Fala-se inglês aqui."]]},
+  {type:"speak",phrase:"O café é cultivado no Brasil. É exportado para o mundo todo e apreciado por milhões.",translation:"El café es cultivado en Brasil. Es exportado a todo el mundo y apreciado por millones."},
+  {type:"fill",q:"'Aluga-se quarto' — esta é a passiva com ____. (se)",answers:["se"])
+]},
+
+{id:"condicionais-pt",num:5,title:"Condicionais Reais",emoji:"🔀",cardDesc:"Se você estudar, vai passar — condições reais no presente e futuro",
+explain:[
+  "<p><b>Condicional real</b> (1ª condicional): situações possíveis. Equivale ao First Conditional do inglês.</p>",
+  "<p>Estrutura: <b>Se + presente do indicativo / subjuntivo, futuro/imperativo</b></p>",
+  "<p><span class='ex-fr'>Se chover amanhã, fico em casa. · Se você estudar muito, vai passar. · Se tiver tempo, te ligo.</span></p>",
+  "<p>Note: após 'se' em português, usa-se o <b>futuro do subjuntivo</b> para ações futuras: <span class='ex-fr'>Se eu <b>tiver</b> (futuro subj.) tempo... · Se ela <b>vier</b> (futuro subj.) amanhã...</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Se ____ amanhã, vou ficar em casa. (chover — futuro do subjuntivo: chover)",answers:["chover"]},
+  {type:"fill",q:"Se você estudar muito, ____ passar. (ir — futuro: vai)",answers:["vai"]},
+  {type:"mcq",q:"'Se ___ tempo, te ligo.' — futuro do subjuntivo de 'ter'",options:["terei","tenho","tiver","tinha"],correct:2},
+  {type:"tf",q:"Após 'se' em condicionais futuras, usamos o futuro do subjuntivo.",correct:true},
+  {type:"order",q:"Monte a condicional:",words:["você","muito,","passar.","estudar","vai","Se"],correct:"Se você estudar muito, vai passar."},
+  {type:"fill",q:"Se ela ____ amanhã, vamos jantar juntos. (vir — futuro subj.: vier)",answers:["vier"]},
+  {type:"fill",q:"Se ____ frio, vesta um casaco. (fazer — imperativo/conselho)",answers:["fizer","fazer"]},
+  {type:"match",q:"Combine a condicional com o tipo.",pairs:[["Se chover, fico em casa.","condicional real — presente"],["Se tiver tempo, ligo.","condicional real — futuro (futuro subj.)"],["Se tivesse tempo, ligaria.","condicional hipotética — passado"],["Se fosse rico, viajaria.","condicional irreal — presente"]]},
+  {type:"speak",phrase:"Se você praticar português todo dia, vai ficar fluente. Se tiver dúvidas, me pergunte!",translation:"Si practicas portugués todos los días, te volverás fluido. ¡Si tienes dudas, pregúntame!"},
+  {type:"tf",q:"'Se você estudar' usa futuro do subjuntivo, que é diferente do presente.",correct:true}
+]},
+
+{id:"pronomes-relativos-pt",num:6,title:"Pronomes Relativos",emoji:"🔗",cardDesc:"o livro que li / a pessoa que me ajudou — orações relativas",
+explain:[
+  "<p>Os <b>pronomes relativos</b> ligam duas orações, evitando repetições. Os principais são:</p>",
+  "<p><b>que</b>: pessoas e coisas (o mais usado) · <b>quem</b>: pessoas (após preposição) · <b>onde</b>: lugares · <b>cujo/a</b>: posse (formal) · <b>o qual / a qual</b>: formal, após preposição</p>",
+  "<p><span class='ex-fr'>O livro <b>que</b> li era ótimo. · A cidade <b>onde</b> nasci é bonita. · O homem <b>com quem</b> falei é meu chefe. · O aluno <b>cuja</b> redação venceu é meu amigo.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"O filme ____ assistimos ontem era excelente. (que)",answers:["que"]},
+  {type:"fill",q:"A cidade ____ moro fica no sul do Brasil. (onde)",answers:["onde"]},
+  {type:"mcq",q:"'O professor ___ me ensinou português é incrível.' — pessoas",options:["onde","cujo","que","qual"],correct:2},
+  {type:"tf",q:"'Onde' é usado para se referir a lugares em orações relativas.",correct:true},
+  {type:"order",q:"Monte a frase com relativa:",words:["A","que","minha","conheço","melhor","é","pessoa","mãe."],correct:"A pessoa que conheço melhor é minha mãe."},
+  {type:"fill",q:"Este é o restaurante ____ comemos na nossa primeira vez. (onde)",answers:["onde"]},
+  {type:"fill",q:"A aluna ____ redação ganhou o prêmio estuda muito. (cujo — fem. cujas/cuja)",answers:["cuja"]},
+  {type:"match",q:"Combine o pronome relativo com seu uso.",pairs:[["que","pessoas e coisas (sujeito/objeto)"],["onde","lugares"],["cujo/cuja","posse (formal)"],["com quem","pessoas após preposição"]]},
+  {type:"speak",phrase:"O professor que me ensinou era incrível. A escola onde estudei fica no centro da cidade.",translation:"El profesor que me enseñó era increíble. La escuela donde estudié está en el centro de la ciudad."},
+  {type:"tf",q:"'O homem que vi' e 'O homem o qual vi' têm o mesmo significado, sendo o segundo mais formal.",correct:true}
+]},
+
+{id:"discurso-indireto-pt",num:7,title:"Discurso Indireto Básico",emoji:"💬",cardDesc:"Ela disse que estava cansada — relatando o que alguém disse",
+explain:[
+  "<p>O <b>discurso indireto</b> relata o que alguém disse. Em português, os verbos geralmente retrocedem um tempo.</p>",
+  "<table class='reftable'><tr><th>Direto</th><th>Indireto</th></tr><tr><td>«Estou cansada.»</td><td class='formcol'>Ela disse que estava cansada.</td></tr><tr><td>«Trabalho aqui.»</td><td class='formcol'>Ele disse que trabalhava ali.</td></tr><tr><td>«Vou viajar.»</td><td class='formcol'>Ela disse que ia viajar.</td></tr><tr><td>«Posso ajudar.»</td><td class='formcol'>Ele disse que podia ajudar.</td></tr></table>",
+  "<p>Mudanças: <span class='ex-fr'>eu→ele/ela · aqui→ali · amanhã→no dia seguinte · hoje→naquele dia</span></p>"
+],
+exercises:[
+  {type:"fill",q:"«Estou feliz.» → Ela disse que ____ feliz. (estava)",answers:["estava"]},
+  {type:"fill",q:"«Trabalho em Londres.» → Ele disse que ____ em Londres. (trabalhava)",answers:["trabalhava"]},
+  {type:"mcq",q:"«Vou ligar para você.» → Ela disse que ___ ligar para mim.",options:["vai","iria","irá","foi"],correct:1},
+  {type:"tf",q:"No discurso indireto, 'aqui' geralmente muda para 'ali/lá'.",correct:true},
+  {type:"match",q:"Combine direto com indireto.",pairs:[["Eu sou","ele/ela era"],["Vou","iria / ia"],["Posso","podia"],["amanhã","no dia seguinte"]]},
+  {type:"fill",q:"«Não sei.» → Ela disse que não ____. (sabia)",answers:["sabia"]},
+  {type:"order",q:"Transforme para indireto:",words:["que","Ela","estava","disse","cansada."],correct:"Ela disse que estava cansada."},
+  {type:"fill",q:"«Pode me ajudar?» → Ele perguntou se eu ____ ajudá-lo. (podia)",answers:["podia"]},
+  {type:"speak",phrase:"Ela disse que estava estudando português e que queria viajar ao Brasil no próximo ano.",translation:"Ella dijo que estaba estudiando portugués y que quería viajar a Brasil el próximo año."},
+  {type:"tf",q:"«Eu venho amanhã.» → «Ela disse que vinha no dia seguinte.» — correto.",correct:true}
+]},
+
+{id:"personalidade-pt",num:8,title:"Personalidade e Caráter",emoji:"🧠",cardDesc:"ambicioso, confiável, extrovertido — descrevendo pessoas",
+isVocab:true,
+explain:["<p>Adjetivos de personalidade em português. Use <b>parecer, ser, ter cara de</b> para descrever caráter. Opostos com <b>des-</b> (desonesto), <b>im-</b> (impaciente), <b>in-</b> (incapaz).</p>"],
+vocab:[
+  {cat:"😊 Traços Positivos",items:[
+    {e:"💪",w:"ambicioso/a",p:"ambicioso/a"},
+    {e:"🤝",w:"confiável",p:"confiable"},
+    {e:"😌",w:"tranquilo/a",p:"tranquilo/a"},
+    {e:"🧠",w:"inteligente",p:"inteligente"},
+    {e:"💛",w:"generoso/a",p:"generoso/a"},
+    {e:"🎯",w:"determinado/a",p:"determinado/a"},
+    {e:"😄",w:"alegre / extrovertido/a",p:"alegre / extrovertido/a"},
+    {e:"🌟",w:"criativo/a",p:"creativo/a"}
+  ]},
+  {cat:"⚠️ Traços Negativos",items:[
+    {e:"😤",w:"arrogante",p:"arrogante"},
+    {e:"😴",w:"preguiçoso/a",p:"perezoso/a"},
+    {e:"😡",w:"irritadiço/a",p:"irritable"},
+    {e:"🤥",w:"desonesto/a",p:"deshonesto/a"},
+    {e:"⏰",w:"impaciente",p:"impaciente"},
+    {e:"😬",w:"teimoso/a",p:"terco/a"},
+    {e:"🦈",w:"egoísta",p:"egoísta"},
+    {e:"🎭",w:"superficial",p:"superficial"}
+  ]}
+],
+exercises:[
+  {type:"mcq",q:"Alguém que sempre cumpre o que promete é:",options:["arrogante","confiável","preguiçoso","egoísta"],correct:1},
+  {type:"fill",q:"Ela é muito ____. Sempre divide tudo com os outros. (generoso — fem.)",answers:["generosa"]},
+  {type:"match",q:"Combine o traço com o oposto.",pairs:[["honesto","desonesto"],["paciente","impaciente"],["generoso","egoísta"],["trabalhador","preguiçoso"]]},
+  {type:"tf",q:"'Tranquilo' descreve alguém relaxado e que não se estressa facilmente.",correct:true},
+  {type:"fill",q:"Ele é muito ____. Sempre quer fazer as coisas do jeito dele. (teimoso)",answers:["teimoso"]},
+  {type:"mcq",q:"'Ela parece muito ___a — tem grandes sonhos e trabalha muito.' (ambicioso)",options:["preguiçosa","ambiciosa","irritadiça","egoísta"],correct:1},
+  {type:"speak",phrase:"Minha melhor amiga é muito confiável e generosa. É sempre alegre e muito criativa.",translation:"Mi mejor amiga es muy confiable y generosa. Siempre es alegre y muy creativa."},
+  {type:"fill",q:"Ele é bastante ____. O humor muda rápido. (irritadiço)",answers:["irritadiço"]},
+  {type:"tf",q:"O oposto de 'paciente' é 'impaciente'.",correct:true},
+  {type:"fill",q:"Ela é muito ____. Nunca desiste. (determinado — fem.)",answers:["determinada"]}
+]},
+
+{id:"saude-pt",num:9,title:"Saúde e Corpo",emoji:"🏥",cardDesc:"sintomas, consultas médicas — vocabulário de saúde",
+isVocab:true,
+explain:["<p>Vocabulário médico essencial. No consultório: <b>O que está sentindo? / Há quanto tempo tem esses sintomas? / Onde dói?</b> Respostas: <b>Estou com dor de cabeça / Estou me sentindo mal / Tenho febre há dois dias.</b></p>"],
+vocab:[
+  {cat:"🤒 Sintomas",items:[
+    {e:"🤕",w:"dor de cabeça",p:"dolor de cabeza"},
+    {e:"🤧",w:"coriza / nariz escorrendo",p:"nariz que escurre"},
+    {e:"🥵",w:"febre",p:"fiebre"},
+    {e:"😵",w:"tonteira / tontura",p:"mareo"},
+    {e:"🤢",w:"náusea / enjoo",p:"náuseas"},
+    {e:"😖",w:"dor de garganta",p:"dolor de garganta"},
+    {e:"😴",w:"exausto/a / esgotado/a",p:"agotado/a"},
+    {e:"😮‍💨",w:"falta de ar",p:"falta de aliento"}
+  ]},
+  {cat:"💊 No Médico",items:[
+    {e:"📋",w:"consulta",p:"consulta médica"},
+    {e:"💊",w:"receita médica",p:"receta médica"},
+    {e:"💉",w:"injeção",p:"inyección"},
+    {e:"🩺",w:"exame de rotina",p:"chequeo / revisión"},
+    {e:"🏥",w:"pronto-socorro",p:"sala de emergencias"},
+    {e:"🩹",w:"tratamento",p:"tratamiento"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Estou com uma ____ terrível. Minha cabeça está latejando. (dor de cabeça)",answers:["dor de cabeça"]},
+  {type:"mcq",q:"Você está com tontura e náusea. O que provavelmente tem?",options:["dor de cabeça","intoxicação alimentar","tosse","braço quebrado"],correct:1},
+  {type:"fill",q:"Preciso marcar uma ____ com o médico. (consulta)",answers:["consulta"]},
+  {type:"match",q:"Combine o sintoma com uma possível causa.",pairs:[["coriza","resfriado ou alergia"],["febre","infecção"],["dor de garganta","resfriado ou amigdalite"],["tontura","pressão baixa"]]},
+  {type:"tf",q:"'Estou com febre há dois dias' usa o presente do indicativo com 'há' para duração.",correct:true},
+  {type:"fill",q:"O médico me deu uma ____ para antibióticos. (receita)",answers:["receita"]},
+  {type:"speak",phrase:"Doutor, estou com dor de garganta e febre há dois dias. Estou me sentindo muito esgotado e não consigo comer.",translation:"Doctor, tengo dolor de garganta y fiebre desde hace dos días. Me siento muy agotado/a y no puedo comer."},
+  {type:"fill",q:"Ela está muito ____. Trabalhou 16 horas por dia. (esgotada)",answers:["esgotada"]},
+  {type:"mcq",q:"Para onde você vai em uma emergência médica?",options:["farmácia","consulta","pronto-socorro","exame"],correct:2},
+  {type:"fill",q:"O médico vai dar um ____ para a sua infecção. (tratamento)",answers:["tratamento"]}
+]},
+
+{id:"meio-ambiente-pt",num:10,title:"Meio Ambiente",emoji:"🌍",cardDesc:"mudanças climáticas, poluição, soluções — falando sobre o planeta",
+isVocab:true,
+explain:["<p>Vocabulário ambiental para discussões sobre sustentabilidade. Estruturas úteis: <b>devemos / precisamos / é necessário + infinitivo</b> para soluções.</p>"],
+vocab:[
+  {cat:"🌡️ Problemas Ambientais",items:[
+    {e:"🌡️",w:"mudanças climáticas",p:"cambio climático"},
+    {e:"💨",w:"poluição do ar",p:"contaminación del aire"},
+    {e:"🌊",w:"enchentes / inundações",p:"inundaciones"},
+    {e:"🔥",w:"seca / estiagem",p:"sequía"},
+    {e:"🌲",w:"desmatamento",p:"deforestación"},
+    {e:"🐟",w:"poluição dos oceanos",p:"contaminación del océano"}
+  ]},
+  {cat:"♻️ Soluções",items:[
+    {e:"♻️",w:"reciclar",p:"reciclar"},
+    {e:"🌱",w:"energia renovável",p:"energía renovable"},
+    {e:"🚲",w:"transporte público",p:"transporte público"},
+    {e:"💡",w:"economizar energia",p:"ahorrar energía"},
+    {e:"🌳",w:"plantar árvores",p:"plantar árboles"},
+    {e:"🛍️",w:"reduzir plástico",p:"reducir el plástico"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Devemos ____ mais árvores para combater o desmatamento. (plantar)",answers:["plantar"]},
+  {type:"mcq",q:"Qual é a principal causa das mudanças climáticas?",options:["chuva excessiva","queima de combustíveis fósseis","reciclagem","plantio de árvores"],correct:1},
+  {type:"fill",q:"Usar energia ____ como solar ou eólica ajuda a reduzir a poluição. (renovável)",answers:["renovável"]},
+  {type:"match",q:"Combine o problema com uma solução.",pairs:[["poluição do ar","usar transporte público"],["desmatamento","plantar árvores"],["lixo plástico","reciclar / reduzir plástico"],["desperdício de energia","economizar energia"]]},
+  {type:"tf",q:"A reciclagem ajuda a reduzir a quantidade de lixo nos aterros.",correct:true},
+  {type:"fill",q:"Houve ____ graves em muitas cidades após as fortes chuvas. (enchentes)",answers:["enchentes","inundações"]},
+  {type:"speak",phrase:"As mudanças climáticas são nosso maior desafio. Devemos reduzir a poluição e migrar para energias renováveis.",translation:"El cambio climático es nuestro mayor desafío. Debemos reducir la contaminación y migrar a energías renovables."},
+  {type:"fill",q:"Não choveu há meses. Estamos sofrendo com uma seca ____. (grave)",answers:["grave"]},
+  {type:"tf",q:"O desmatamento significa cortar florestas sem reflorestar.",correct:true},
+  {type:"fill",q:"O Brasil tem grande potencial para energia ____. (solar/eólica/hídrica)",answers:["solar","eólica","hídrica","renovável"]}
+]},
+
+{id:"tecnologia-pt",num:11,title:"Tecnologia no Cotidiano",emoji:"💻",cardDesc:"apps, redes sociais, segurança digital — vocabulário tecnológico",
+isVocab:true,
+explain:["<p>Vocabulário de tecnologia para o nível B1. Expresse opiniões: <b>A tecnologia mudou a forma como... / Graças à tecnologia, podemos... / O lado negativo é que...</b></p>"],
+vocab:[
+  {cat:"📱 Vida Digital",items:[
+    {e:"📲",w:"aplicativo / app",p:"aplicación / app"},
+    {e:"☁️",w:"armazenamento em nuvem",p:"almacenamiento en la nube"},
+    {e:"🔐",w:"senha",p:"contraseña"},
+    {e:"📡",w:"Wi-Fi / internet",p:"wifi / internet"},
+    {e:"🛒",w:"compras online",p:"compras en línea"},
+    {e:"💳",w:"pagamento digital",p:"pago digital"}
+  ]},
+  {cat:"🤖 Tecnologia Avançada",items:[
+    {e:"🤖",w:"inteligência artificial",p:"inteligencia artificial"},
+    {e:"🔒",w:"segurança digital / cibersegurança",p:"ciberseguridad"},
+    {e:"🕶️",w:"realidade virtual",p:"realidad virtual"},
+    {e:"🖨️",w:"impressão 3D",p:"impresión 3D"},
+    {e:"🚗",w:"carros autônomos",p:"coches autónomos"},
+    {e:"📊",w:"big data",p:"big data"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Uso um ____ de calendário para organizar minha agenda. (aplicativo)",answers:["aplicativo","app"]},
+  {type:"mcq",q:"O que a 'cibersegurança' protege?",options:["edifícios físicos","sistemas de computador e dados","o meio ambiente","saúde física"],correct:1},
+  {type:"fill",q:"Sempre use uma ____ forte para proteger suas contas. (senha)",answers:["senha"]},
+  {type:"match",q:"Combine a tecnologia com o que ela faz.",pairs:[["armazenamento em nuvem","salva arquivos online"],["IA","simula inteligência humana"],["realidade virtual","cria ambientes digitais imersivos"],["impressão 3D","cria objetos físicos a partir de designs digitais"]]},
+  {type:"fill",q:"As compras ____ cresceram muito nos últimos anos. (online)",answers:["online"]},
+  {type:"tf",q:"Um 'aplicativo' é um programa de software instalado em dispositivos móveis.",correct:true},
+  {type:"speak",phrase:"A tecnologia mudou drasticamente nossas vidas. Graças aos apps, podemos fazer quase tudo pelo celular.",translation:"La tecnología ha cambiado drásticamente nuestras vidas. Gracias a las apps, podemos hacer casi todo por el celular."},
+  {type:"fill",q:"Os carros ____ usam IA para dirigir sem um motorista humano. (autônomos)",answers:["autônomos"]},
+  {type:"tf",q:"A realidade virtual cria experiências digitais que parecem reais.",correct:true},
+  {type:"fill",q:"Armazeno todas as minhas fotos na ____ para acessar em qualquer lugar. (nuvem)",answers:["nuvem"]}
+]},
+
+{id:"revisao-b1-pt",num:12,title:"Revisão B1",emoji:"🌟",cardDesc:"Imperfeito, subjuntivo, passiva, relativas — checkpoint B1",
+explain:[
+  "<p>Você chegou ao nível B1! Neste nível você consegue: lidar com situações de viagem, descrever experiências, dar razões e explicações, e entender os pontos principais sobre temas familiares.</p>"
+],
+exercises:[
+  {type:"fill",q:"Quando era jovem, sempre ____ no parque. (brincar — imperfeito)",answers:["brincava"]},
+  {type:"fill",q:"Este livro ____ escrito por Machado de Assis. (passiva — foi)",answers:["foi"]},
+  {type:"mcq",q:"'Espero que ela ___ bem.' — subjuntivo de estar",options:["está","esteve","esteja","estará"],correct:2},
+  {type:"fill",q:"Ela adora ____ (ouvir → gerúndio) música enquanto estuda.",answers:["ouvindo"]},
+  {type:"match",q:"Combine a estrutura com o tempo verbal.",pairs:[["estava + gerúndio","ação em andamento no passado"],["foi + particípio","passiva no passado"],["se + futuro subj.","condicional real futura"],["disse que + imperfeito","discurso indireto"]]},
+  {type:"fill",q:"Ela disse que ____ muito cansada. (discurso indireto — estava)",answers:["estava"]},
+  {type:"fill",q:"As mudanças climáticas são o nosso maior ____. (desafio)",answers:["desafio"]},
+  {type:"speak",phrase:"Aprendo português há dois anos. Se praticar todo dia, chegarei ao B2 em breve!",translation:"Llevo dos años aprendiendo portugués. ¡Si practico cada día, llegaré al B2 muy pronto!"},
+  {type:"tf",q:"O imperfeito descreve hábitos e cenários; o perfeito descreve ações pontuais concluídas.",correct:true},
+  {type:"fill",q:"O filme ____ dirigido por um cineasta brasileiro. (passiva — foi)",answers:["foi"]}
+]}
+];
+
+window.LP_TOPICS['pt-3'].push({
+  id:"conversa-pt3",num:13,title:"Estação de Conversa B1",emoji:"💬",
+  cardDesc:"Discussões, experiências e opiniões em português",
+  isChat:true,
+  explain:["<p>Conversas B1: compartilhe experiências, discuta o meio ambiente, dê opiniões sobre tecnologia e use condicionais naturalmente. Você está ficando fluente!</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['pt-3'] = {
+  scenarios:[
+    {id:"experiencias-viagem",title:"Experiências de Viagem",emoji:"✈️",setup:"Contando histórias de viagem numa festa.",partner:{emoji:"🌍",name:"Isabella"},opener:"Você já foi a outro país? Qual foi o lugar mais incrível que já visitou?"},
+    {id:"debate-ambiente",title:"Meio Ambiente",emoji:"🌍",setup:"Discutindo questões ambientais com um colega.",partner:{emoji:"🌱",name:"Gustavo"},opener:"Você acha que as mudanças climáticas são o maior problema que enfrentamos? O que devemos fazer?"},
+    {id:"recomendacao-filmes",title:"Recomendações de Filmes",emoji:"🎬",setup:"Recomendando filmes a um amigo.",partner:{emoji:"🍿",name:"Beatriz"},opener:"Quero assistir a algo bom hoje à noite. Você viu algum filme ótimo recentemente?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  PORTUGUÊS — NÍVEL 4 (B1+)
+// ══════════════════════════════════
+window.LP_TOPICS['pt-4'] = [
+
+{id:"mais-que-perfeito-pt",num:1,title:"Pretérito Mais-que-Perfeito",emoji:"⏳",cardDesc:"eu tinha falado, ela havia chegado — antes do passado",
+explain:[
+  "<p>O <b>Pretérito Mais-que-Perfeito</b> descreve uma ação que ocorreu <b>antes</b> de outra ação passada. Formação: <b>ter/haver (imperfeito) + particípio passado</b>.</p>",
+  "<p><span class='ex-fr'>Quando cheguei, ela já tinha saído. (ela saiu → eu cheguei) · Ele comeu o bolo antes de alguém ter visto.</span></p>",
+  "<table class='reftable'><tr><th>Pronome</th><th>ter + particípio</th></tr><tr><td>Eu</td><td class='formcol'>tinha falado</td></tr><tr><td>Você/Ele</td><td class='formcol'>tinha falado</td></tr><tr><td>Nós</td><td class='formcol'>tínhamos falado</td></tr><tr><td>Eles</td><td class='formcol'>tinham falado</td></tr></table>"
+],
+exercises:[
+  {type:"fill",q:"Quando chegamos, o show já tinha ____. (começar — particípio: começado)",answers:["começado"]},
+  {type:"fill",q:"Ela ____ nunca visto neve antes daquele inverno. (tinha — mais-que-perfeito)",answers:["tinha"]},
+  {type:"mcq",q:"'Comi toda a pizza depois que minha irmã a ___.' — ação anterior",options:["fez","tinha feito","fazia","fará"],correct:1},
+  {type:"tf",q:"O mais-que-perfeito é formado com ter/haver no imperfeito + particípio passado.",correct:true},
+  {type:"order",q:"Monte a frase:",words:["chegou,","já","o","Quando","tinha","ele","iniciado.","filme"],correct:"Quando ele chegou, o filme já tinha iniciado."},
+  {type:"fill",q:"Eles perceberam que ____ esquecido os ingressos em casa. (tinham)",answers:["tinham"]},
+  {type:"fill",q:"Depois que ela ____ terminado de cozinhar, todos se sentaram. (tinha)",answers:["tinha"]},
+  {type:"match",q:"Combine o conector com sua função.",pairs:[["quando + mais-que-perf.","ação A completada antes de B"],["depois que","sequência — A aconteceu, depois B"],["antes de","B aconteceu, mas A ainda não"],["já","confirma conclusão antes de outra ação"]]},
+  {type:"speak",phrase:"Quando cheguei ao aeroporto, meu voo já tinha partido. Nunca tinha perdido um voo antes!",translation:"Cuando llegué al aeropuerto, mi vuelo ya había salido. ¡Nunca antes había perdido un vuelo!"},
+  {type:"tf",q:"'Ela tinha saído quando eu cheguei' usa o mais-que-perfeito corretamente para a ação anterior.",correct:true}
+]},
+
+{id:"subjuntivo-imperf-pt",num:2,title:"Subjuntivo Imperfeito",emoji:"💭",cardDesc:"Se eu fosse, gostaria — hipóteses e situações irreais",
+explain:[
+  "<p>O <b>Subjuntivo Imperfeito</b> expressa situações hipotéticas, irreais ou passadas com dúvida/desejo. Formação: base na 3ª pessoa plural do pretérito perfeito → remove -ram → adiciona -sse, -sses, -sse, -ssemos, -ssem.</p>",
+  "<p><span class='ex-fr'>falar → falaram → fala- → falasse · comer → comeram → come- → comesse · ir/ser → foram → fo- → fosse</span></p>",
+  "<p>Usos: <span class='ex-fr'>Se eu tivesse tempo, viajaria. · Queria que ela viesse. · Como se fosse um sonho. · Caso você precisasse, me ligaria.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Se eu ____ mais tempo, viajaria pelo mundo. (ter — subj. imperf.: tivesse)",answers:["tivesse"]},
+  {type:"fill",q:"Ela queria que você ____ à festa. (vir — fosse → viesse)",answers:["viesse"]},
+  {type:"mcq",q:"'Como se ___ um sonho.' — subjuntivo imperfeito de 'ser'",options:["é","foi","fosse","seja"],correct:2},
+  {type:"tf",q:"O subjuntivo imperfeito é formado a partir da 3ª pessoa plural do pretérito perfeito.",correct:true},
+  {type:"order",q:"Monte a condicional irreal:",words:["rico,","tivesse","muito.","Se","eu","viajaria"],correct:"Se eu tivesse muito rico, viajaria muito."},
+  {type:"fill",q:"Ele pediu que nós ____ mais cedo. (chegar — chegassem/chegássemos)",answers:["chegássemos"]},
+  {type:"fill",q:"Caso você ____ de ajuda, me ligue. (precisar — subjuntivo imperf.: precisasse)",answers:["precisasse"]},
+  {type:"match",q:"Combine o gatilho com o subjuntivo imperfeito.",pairs:[["Se eu tivesse...","condicional irreal (2ª cond.)"],["Como se fosse...","comparação hipotética"],["Queria que você viesse.","desejo no passado"],["Caso precisasse...","condição hipotética formal"]]},
+  {type:"speak",phrase:"Se eu tivesse mais dinheiro, compraria uma casa grande. Queria que todos falassem português.",translation:"Si tuviera más dinero, compraría una casa grande. Quisiera que todos hablaran portugués."},
+  {type:"tf",q:"'Fosse' é o subjuntivo imperfeito de 'ir' e 'ser'.",correct:true}
+]},
+
+{id:"condicional-pt",num:3,title:"Condicional Simples",emoji:"🔮",cardDesc:"eu falaria, ela comeria — o condicional -ria",
+explain:[
+  "<p>O <b>Condicional Simples</b> (Futuro do Pretérito) expressa hipóteses, pedidos educados, e consequências de condições irreais. Terminações: <b>-ia, -ias, -ia, -íamos, -iam</b> (iguais para todos os grupos).</p>",
+  "<p><span class='ex-fr'>falar → falaria · comer → comeria · partir → partiria</span></p>",
+  "<p>Irregulares: <span class='ex-fr'>fazer → faria · dizer → diria · trazer → traria · poder → poderia · querer → quereria / queria</span></p>",
+  "<p>Usos: <span class='ex-fr'>Se tivesse dinheiro, compraria. · Poderia me ajudar? (pedido educado) · Eu iria, mas estou ocupado.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Se eu tivesse dinheiro, ____ uma casa. (comprar — condicional)",answers:["compraria"]},
+  {type:"fill",q:"____ me ajudar, por favor? (poder — pedido educado)",answers:["Poderia"]},
+  {type:"mcq",q:"'Ele ___ia ir, mas estava ocupado.' — condicional de 'ir'",options:["ir","iria","vai","foi"],correct:1},
+  {type:"tf",q:"O condicional simples termina em -ia para todas as conjugações.",correct:true},
+  {type:"match",q:"Combine o infinitivo com o condicional (eu).",pairs:[["fazer","faria"],["dizer","diria"],["trazer","traria"],["poder","poderia"]]},
+  {type:"fill",q:"Eu ____ viajar, mas não tenho dinheiro. (querer — quereria/queria)",answers:["quereria","queria"]},
+  {type:"fill",q:"Eles ____ mais cedo, mas perderam o ônibus. (chegar — chegariam)",answers:["chegariam"]},
+  {type:"order",q:"Monte a frase condicional:",words:["eu","casa,","uma","Se","tivesse","grande.","compraria"],correct:"Se eu tivesse uma casa, compraria grande."},
+  {type:"speak",phrase:"Se eu pudesse, moraria no Brasil. Aprenderia surf e comeria churrasco todo dia!",translation:"Si pudiera, viviría en Brasil. Aprendería surf y ¡comería churrasco todos los días!"},
+  {type:"tf",q:"'Poderia me passar o sal?' é uma forma educada de fazer um pedido.",correct:true}
+]},
+
+{id:"discurso-adv-pt",num:4,title:"Discurso Indireto Avançado",emoji:"📢",cardDesc:"perguntas, pedidos, ordens relatadas — todos os tipos",
+explain:[
+  "<p><b>Perguntas Sim/Não</b>: <span class='ex-fr'>«Você está cansado?» → Ele perguntou <b>se</b> eu estava cansado.</span></p>",
+  "<p><b>Perguntas com pronome</b>: <span class='ex-fr'>«Onde você mora?» → Ela perguntou <b>onde</b> eu morava.</span></p>",
+  "<p><b>Ordens/Pedidos</b>: <span class='ex-fr'>«Sente-se!» → O professor mandou que eu <b>me sentasse.</b> · «Não abra a porta.» → Ele pediu que eu <b>não abrisse</b> a porta.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"«Você gosta de café?» → Ela perguntou ____ eu gostava de café. (se)",answers:["se"]},
+  {type:"fill",q:"«Onde você trabalha?» → Ele perguntou onde eu ____. (trabalhava)",answers:["trabalhava"]},
+  {type:"mcq",q:"«Por favor, seja pontual.» → O chefe pediu que eu ___ pontual.",options:["seja","fosse","fui","serei"],correct:1},
+  {type:"tf",q:"Para perguntas sim/não no discurso indireto, usamos 'se'.",correct:true},
+  {type:"order",q:"Transforme a ordem em discurso indireto:",words:["não","Ela","a","tocar","pediu","tela.","que","eu"],correct:"Ela pediu que eu não tocasse a tela."},
+  {type:"fill",q:"«Não corra!» → Ela mandou que eles não ____. (correr — corressem)",answers:["corressem"]},
+  {type:"fill",q:"«Você pode me ajudar?» → Ela perguntou ____ eu podia ajudá-la. (se)",answers:["se"]},
+  {type:"match",q:"Combine o tipo de fala com a estrutura indireta.",pairs:[["ordem","mandou/pediu que + subj. imperf."],["pergunta sim/não","perguntou se + indicativo"],["pergunta com pronome","perguntou onde/quando + indicativo"],["ordem negativa","pediu que + não + subj. imperf."]]},
+  {type:"speak",phrase:"Ela me perguntou onde eu tinha estudado e se eu pretendia fazer o curso avançado.",translation:"Ella me preguntó dónde había estudiado y si pretendía hacer el curso avanzado."},
+  {type:"tf",q:"'Ele perguntou onde eu morava' é a forma correta da pergunta indireta.",correct:true}
+]},
+
+{id:"passiva-avancada-pt",num:5,title:"Voz Passiva Avançada",emoji:"🔄",cardDesc:"diz-se que, acredita-se que — passiva formal e jornalística",
+explain:[
+  "<p>Estruturas passivas avançadas usadas em jornalismo e linguagem formal:</p>",
+  "<p><b>Passiva com verbos de relato</b>: <span class='ex-fr'>Diz-se que... · Acredita-se que... · Afirma-se que... · Sabe-se que...</span></p>",
+  "<p><b>Passiva pessoal</b>: <span class='ex-fr'>Ele é dito ser talentoso. · Ela é considerada a melhor. · São conhecidos por trabalhar muito.</span></p>",
+  "<p><b>Passiva com SE</b> (muito usada no Brasil): <span class='ex-fr'>Vende-se apartamento. · Aluga-se quarto. · Fala-se inglês aqui.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"____ -se que a economia vai melhorar. (Diz)",answers:["Diz"]},
+  {type:"fill",q:"Ele é ____ ser o melhor jogador do time. (considerado/dito)",answers:["considerado","dito"]},
+  {type:"mcq",q:"'Cientistas descobriram a cura.' → Passiva formal:",options:["A cura foi descoberta pelos cientistas.","A cura descobriu pelos cientistas.","Cientistas são descobertos.","A cura se descobriu."],correct:0},
+  {type:"tf",q:"'Diz-se que' é uma estrutura passiva usada em jornalismo e linguagem formal.",correct:true},
+  {type:"order",q:"Transforme para passiva pessoal:",words:["ser","É","ela","a","melhor.","considerada"],correct:"É considerada a melhor."},
+  {type:"fill",q:"Ela evita ____ fotografada em público. (ser — passiva no infinitivo)",answers:["ser"]},
+  {type:"fill",q:"Acredita-____ que as mudanças climáticas estão se acelerando. (se)",answers:["se"]},
+  {type:"match",q:"Combine a estrutura com o uso.",pairs:[["Diz-se que","boato / crença comum"],["Acredita-se que","opinião geral"],["Afirma-se que","declaração — jornalismo"],["Sabe-se que","fato estabelecido"]]},
+  {type:"speak",phrase:"Acredita-se que a inteligência artificial vai transformar todas as indústrias. Os especialistas são ditos trabalhar em soluções de segurança.",translation:"Se cree que la inteligencia artificial transformará todas las industrias. Se dice que los expertos trabajan en soluciones de seguridad."},
+  {type:"fill",q:"Ele exigiu ____ ouvido antes de qualquer decisão. (ser — passiva infinitivo)",answers:["ser"]}
+]},
+
+{id:"negocios-pt",num:6,title:"Português para Negócios",emoji:"💼",cardDesc:"reuniões, apresentações, negociações — vocabulário profissional",
+isVocab:true,
+explain:["<p>Vocabulário essencial de negócios em português. Para reuniões: <b>pauta, ata, dar seguimento.</b> Para negociações: <b>proposta, prazo, orçamento.</b> Para apresentações: <b>slides, material de apoio, perguntas e respostas.</b></p>"],
+vocab:[
+  {cat:"🤝 Reuniões e Negociações",items:[
+    {e:"📋",w:"pauta / ordem do dia",p:"orden del día / agenda"},
+    {e:"📝",w:"ata de reunião",p:"actas de la reunión"},
+    {e:"🤝",w:"negociar",p:"negociar"},
+    {e:"🏁",w:"prazo / deadline",p:"fecha límite"},
+    {e:"💰",w:"orçamento",p:"presupuesto"},
+    {e:"📊",w:"proposta",p:"propuesta"}
+  ]},
+  {cat:"📊 Apresentações",items:[
+    {e:"🖥️",w:"apresentação / slides",p:"presentación / diapositivas"},
+    {e:"📑",w:"material de apoio",p:"material de apoyo / folleto"},
+    {e:"❓",w:"perguntas e respostas",p:"preguntas y respuestas"},
+    {e:"📈",w:"gráfico / tabela",p:"gráfica / tabla"},
+    {e:"🎯",w:"pontos principais",p:"puntos clave"},
+    {e:"📣",w:"pitch",p:"presentación de ventas"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"O ____ para o projeto é na sexta-feira. Precisamos terminar antes. (prazo)",answers:["prazo"]},
+  {type:"fill",q:"Pode me enviar a ____ de reunião? Quero saber o que foi discutido. (ata)",answers:["ata"]},
+  {type:"mcq",q:"Antes de uma reunião, o presidente costuma compartilhar:",options:["o orçamento","a pauta","o prazo","o pitch"],correct:1},
+  {type:"match",q:"Combine o termo de negócios com sua definição.",pairs:[["negociar","discutir para chegar a um acordo"],["proposta","plano sugerido para consideração"],["orçamento","gasto planejado para um projeto"],["pitch","apresentação persuasiva de vendas"]]},
+  {type:"fill",q:"Precisamos ____ os termos do contrato antes de assinar. (negociar)",answers:["negociar"]},
+  {type:"tf",q:"Uma 'sessão de perguntas e respostas' é quando o público pode fazer perguntas após a apresentação.",correct:true},
+  {type:"speak",phrase:"Bom dia a todos. A pauta de hoje tem três itens. Vamos começar com a revisão do orçamento trimestral.",translation:"Buenos días a todos. La agenda de hoy tiene tres puntos. Empecemos con la revisión del presupuesto trimestral."},
+  {type:"fill",q:"Nosso ____ para a nova campanha de marketing é de R$50.000. (orçamento)",answers:["orçamento"]},
+  {type:"fill",q:"Ela fez um excelente ____ para os investidores e eles adoraram a ideia. (pitch)",answers:["pitch"]},
+  {type:"tf",q:"'Ata de reunião' é o registro oficial do que foi discutido e decidido em uma reunião.",correct:true}
+]},
+
+{id:"orais-subst-pt",num:7,title:"Orações Substantivas",emoji:"💡",cardDesc:"Acho que... / Não sei onde... — orações como substantivos",
+explain:[
+  "<p>As <b>orações substantivas</b> funcionam como substantivos (sujeito, objeto ou complemento) dentro de uma frase maior. São introduzidas por <b>que, se, onde, quando, quem, como, quanto</b>.</p>",
+  "<p><span class='ex-fr'>Acho <b>que</b> você tem razão. (objeto) · <b>O que</b> ela disse me surpreendeu. (sujeito) · Não sei <b>onde</b> ele mora. (objeto de 'saber')</span></p>",
+  "<p>Perguntas indiretas usam <b>ordem afirmativa</b> (não inversão): <span class='ex-fr'>Onde ele mora? → Não sei <b>onde ele mora.</b> (NÃO: onde mora ele)</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Acho ____ você está certo. (que)",answers:["que"]},
+  {type:"fill",q:"Não sei ____ ele mora. (onde — pergunta indireta, ordem afirmativa)",answers:["onde"]},
+  {type:"mcq",q:"Pergunta indireta correta: 'Você poderia me dizer ___?'",options:["onde fica o banco","onde fica o banco","onde o banco fica","onde fica banco"],correct:2},
+  {type:"tf",q:"Em uma oração substantiva (pergunta indireta), mantemos a ordem afirmativa (sujeito-verbo).",correct:true},
+  {type:"order",q:"Monte a frase:",words:["onde","me","Você","dizer","fica","a","poderia","farmácia?"],correct:"Você poderia me dizer onde fica a farmácia?"},
+  {type:"fill",q:"____ ela disse me surpreendeu muito. (O que — sujeito)",answers:["O que"]},
+  {type:"fill",q:"Não entendo ____ ele disse isso. (por que)",answers:["por que"]},
+  {type:"match",q:"Combine o tipo de oração substantiva com um exemplo.",pairs:[["sujeito","O que ela disse foi surpreendente."],["objeto de achar","Acho que ela tem razão."],["pergunta indireta","Não sei se ele vem."],["após não saber","Não sei como ela fez isso."]]},
+  {type:"speak",phrase:"Acredito que aprender português abre muitas portas. Não tenho certeza se serei fluente este ano.",translation:"Creo que aprender portugués abre muchas puertas. No estoy seguro/a de si seré fluido/a este año."},
+  {type:"tf",q:"'Me pergunto se ela vem' é uma oração substantiva correta.",correct:true}
+]},
+
+{id:"vocabulario-politica-pt",num:8,title:"Política e Sociedade",emoji:"🗳️",cardDesc:"democracia, direitos, governo — vocabulário cívico",
+isVocab:true,
+explain:["<p>Vocabulário político e cívico para discussões sobre atualidade. Use <b>Acredito que / Na minha opinião / É discutível que</b> para expressar opiniões diplomaticamente.</p>"],
+vocab:[
+  {cat:"🏛️ Governo e Política",items:[
+    {e:"🗳️",w:"democracia",p:"democracia"},
+    {e:"🏛️",w:"parlamento / congresso",p:"parlamento / congreso"},
+    {e:"⚖️",w:"lei / legislação",p:"ley / legislación"},
+    {e:"🗺️",w:"política pública",p:"política pública"},
+    {e:"🤝",w:"tratado",p:"tratado"},
+    {e:"📊",w:"eleição",p:"elección"}
+  ]},
+  {cat:"🌍 Sociedade",items:[
+    {e:"⚖️",w:"igualdade",p:"igualdad"},
+    {e:"🕊️",w:"direitos humanos",p:"derechos humanos"},
+    {e:"💸",w:"pobreza",p:"pobreza"},
+    {e:"🌆",w:"urbanização",p:"urbanización"},
+    {e:"🤝",w:"justiça social",p:"justicia social"},
+    {e:"🌐",w:"globalização",p:"globalización"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Todo cidadão tem o direito de votar numa ____. (democracia)",answers:["democracia"]},
+  {type:"mcq",q:"O que é uma 'política pública'?",options:["uma lei aprovada pelos tribunais","um plano de ação do governo","uma ação militar","um crime"],correct:1},
+  {type:"fill",q:"Os dois países assinaram um ____ de paz. (tratado)",answers:["tratado"]},
+  {type:"match",q:"Combine o conceito com o significado.",pairs:[["igualdade","todos têm os mesmos direitos"],["globalização","mundo cada vez mais conectado"],["urbanização","pessoas migrando para cidades"],["direitos humanos","direitos básicos para todas as pessoas"]]},
+  {type:"fill",q:"O governo aprovou nova ____ para reduzir emissões de carbono. (legislação)",answers:["legislação"]},
+  {type:"tf",q:"'Justiça social' refere-se à distribuição justa de riqueza, oportunidades e direitos.",correct:true},
+  {type:"speak",phrase:"Na minha opinião, reduzir a pobreza e garantir a igualdade são os objetivos mais importantes para qualquer governo.",translation:"En mi opinión, reducir la pobreza y garantizar la igualdad son los objetivos más importantes para cualquier gobierno."},
+  {type:"fill",q:"Haverá uma ____ presidencial no próximo ano. Todos devem se registrar. (eleição)",answers:["eleição"]},
+  {type:"tf",q:"A 'globalização' tem somente efeitos positivos na sociedade.",correct:false},
+  {type:"fill",q:"Os direitos ____ devem ser protegidos em todo o mundo. (humanos)",answers:["humanos"]}
+]},
+
+{id:"colocacoes-b1plus",num:9,title:"Colocações Essenciais",emoji:"🔗",cardDesc:"tomar uma decisão, fazer uma pergunta — palavras que andam juntas",
+explain:[
+  "<p>As <b>colocações</b> são combinações de palavras que naturalmente andam juntas. Dominá-las é essencial para soar natural em português.</p>",
+  "<p><span class='ex-fr'>tomar uma decisão · fazer uma pergunta · prestar atenção · ter razão · dar uma olhada · entrar em contato · levar em conta · chegar a um consenso · causar problemas · tirar uma foto</span></p>"
+],
+vocab:[
+  {cat:"🔗 Colocações Essenciais",items:[
+    {e:"💡",w:"tomar uma decisão",p:"tomar una decisión"},
+    {e:"❓",w:"fazer uma pergunta",p:"hacer una pregunta"},
+    {e:"👂",w:"prestar atenção",p:"prestar atención"},
+    {e:"✅",w:"ter razão",p:"tener razón"},
+    {e:"👀",w:"dar uma olhada",p:"echar un vistazo"},
+    {e:"📞",w:"entrar em contato",p:"ponerse en contacto"},
+    {e:"🏁",w:"chegar a um consenso",p:"llegar a un consenso"},
+    {e:"📸",w:"tirar uma foto",p:"tomar una foto"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Precisamos ____ uma decisão até sexta-feira. (tomar — colocação)",answers:["tomar"]},
+  {type:"fill",q:"Ela está ____ atenção durante a aula. (prestar — colocação)",answers:["prestando"]},
+  {type:"mcq",q:"Qual é o verbo correto: '___ uma foto'?",options:["fazer","tirar","dar","tomar"],correct:1},
+  {type:"match",q:"Combine a colocação com o significado.",pairs:[["ter razão","estar correto"],["dar uma olhada","examinar rapidamente"],["entrar em contato","contactar alguém"],["levar em conta","considerar algo"]]},
+  {type:"fill",q:"Por favor, ____ em contato comigo quando puder. (entrar — colocação)",answers:["entre"]},
+  {type:"tf",q:"'Tomar uma decisão' é a colocação correta em português (não 'fazer uma decisão').",correct:true},
+  {type:"fill",q:"Depois de muito debate, chegamos a um ____. (consenso)",answers:["consenso"]},
+  {type:"speak",phrase:"Preste atenção: precisamos tomar uma decisão importante. Vamos dar uma olhada nos dados primeiro.",translation:"Presta atención: necesitamos tomar una decisión importante. Vamos a echar un vistazo a los datos primero."},
+  {type:"fill",q:"Você tem ____! Essa é exatamente a solução. (razão — ter razão)",answers:["razão"]},
+  {type:"tf",q:"'Fazer uma pergunta' é a colocação correta (não 'pedir uma pergunta').",correct:true}
+]},
+
+{id:"vocabulario-abstrato-pt",num:10,title:"Vocabulário Abstrato",emoji:"🧠",cardDesc:"conquista, integridade, resiliência — vocabulário avançado",
+isVocab:true,
+explain:["<p>Vocabulário abstrato necessário para discussões B1+/B2, ensaios e debates em português. Essas palavras aparecem em contextos acadêmicos e profissionais.</p>"],
+vocab:[
+  {cat:"💪 Qualidades Pessoais",items:[
+    {e:"🏆",w:"conquista / realização",p:"logro / realización"},
+    {e:"🤝",w:"integridade",p:"integridad"},
+    {e:"🔄",w:"perseverança",p:"perseverancia"},
+    {e:"💡",w:"resiliência",p:"resiliencia"},
+    {e:"🌟",w:"empatia",p:"empatía"},
+    {e:"🎯",w:"determinação",p:"determinación"}
+  ]},
+  {cat:"🌍 Conceitos Sociais",items:[
+    {e:"⚖️",w:"justiça",p:"justicia"},
+    {e:"🕊️",w:"tolerância",p:"tolerancia"},
+    {e:"🤔",w:"perspectiva",p:"perspectiva"},
+    {e:"🔗",w:"solidariedade",p:"solidaridad"},
+    {e:"📈",w:"progresso",p:"progreso"},
+    {e:"🌱",w:"sustentabilidade",p:"sustentabilidad"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Ela nunca desiste. A ____ dela é uma inspiração para todos. (perseverança)",answers:["perseverança"]},
+  {type:"mcq",q:"Alguém que entende e compartilha os sentimentos dos outros demonstra:",options:["integridade","conquista","empatia","resiliência"],correct:2},
+  {type:"fill",q:"Apesar de perder tudo, ela reconstruiu sua vida. Sua ____ foi admirável. (resiliência)",answers:["resiliência"]},
+  {type:"match",q:"Combine o conceito com a definição.",pairs:[["tolerância","aceitar diferenças nos outros"],["solidariedade","apoio e união com os outros"],["sustentabilidade","usar recursos sem prejudicar o futuro"],["progresso","avançar rumo a um estado melhor"]]},
+  {type:"tf",q:"'Integridade' significa fazer a coisa certa mesmo quando ninguém está olhando.",correct:true},
+  {type:"fill",q:"De uma ____ diferente, a mesma situação pode parecer completamente diferente. (perspectiva)",answers:["perspectiva"]},
+  {type:"speak",phrase:"Na minha opinião, empatia e integridade são as qualidades mais importantes que um líder pode ter.",translation:"En mi opinión, la empatía y la integridad son las cualidades más importantes que un líder puede tener."},
+  {type:"fill",q:"Esta empresa é comprometida com a ____. Usa apenas energia renovável. (sustentabilidade)",answers:["sustentabilidade"]},
+  {type:"tf",q:"'Conquista' refere-se a algo realizado com sucesso.",correct:true},
+  {type:"fill",q:"As duas comunidades mostraram grande ____ e se ajudaram após o desastre. (solidariedade)",answers:["solidariedade"]}
+]},
+
+{id:"expressoes-idiomaticas-b1",num:11,title:"Expressões do Cotidiano",emoji:"🗣️",cardDesc:"com certeza, de jeito nenhum, que saudade! — expressões brasileiras",
+isVocab:true,
+explain:["<p>Expressões coloquiais essenciais do português brasileiro. Entendê-las e usá-las é o que diferencia quem fala 'livro' de quem fala 'vida real'.</p>"],
+vocab:[
+  {cat:"🗣️ Expressões Comuns",items:[
+    {e:"✅",w:"com certeza!",p:"¡claro que sí! / ¡por supuesto!"},
+    {e:"🚫",w:"de jeito nenhum!",p:"¡de ninguna manera!"},
+    {e:"💛",w:"que saudade!",p:"¡cuánto extraño! (sin equivalente exacto)"},
+    {e:"😤",w:"que chato!",p:"¡qué pesado! / ¡qué fastidio!"},
+    {e:"😊",w:"que legal! / que massa!",p:"¡qué genial! / ¡qué bueno!"},
+    {e:"😎",w:"tá bom / tá",p:"okay / está bien"},
+    {e:"🤔",w:"mais ou menos",p:"más o menos"},
+    {e:"💪",w:"vai dar certo!",p:"¡va a salir bien! / ¡lo vas a lograr!"}
+  ]}
+],
+exercises:[
+  {type:"mcq",q:"'Que saudade!' expressa:",options:["raiva","nostalgia / sentir falta","alegria","surpresa"],correct:1},
+  {type:"fill",q:"— Você vai à festa? — ____! (com certeza — informal)",answers:["Com certeza","Claro"]},
+  {type:"fill",q:"— Você quer emprestar dinheiro para ele? — ____ nenhum! Ele nunca paga. (de jeito)",answers:["De jeito"]},
+  {type:"match",q:"Combine a expressão com o significado.",pairs:[["que legal!","isso é ótimo!"],["tá bom","okay / entendido"],["mais ou menos","regular / assim assim"],["vai dar certo","vai funcionar / não desanime"]]},
+  {type:"fill",q:"Que ____ você ficou na Europa! Conte tudo! (saudade — sentir falta)",answers:["saudade"]},
+  {type:"tf",q:"'Saudade' é uma palavra portuguesa que expressa um sentimento de nostalgia sem equivalente exato em espanhol.",correct:true},
+  {type:"fill",q:"O projeto está indo bem. Vai ____ certo, pode ter certeza! (dar)",answers:["dar"]},
+  {type:"speak",phrase:"Que saudade dos meus amigos! Mas com certeza vou visitá-los nas próximas férias. Vai dar certo!",translation:"¡Cuánto extraño a mis amigos! Pero claro que voy a visitarlos en las próximas vacaciones. ¡Va a salir bien!"},
+  {type:"fill",q:"— Como foi a viagem? — Mais ou ____. Teve problemas com o voo. (menos)",answers:["menos"]},
+  {type:"mcq",q:"'Que chato!' descreve:",options:["algo divertido","algo entediante ou irritante","algo bonito","algo gostoso"],correct:1}
+]}
+];
+
+window.LP_TOPICS['pt-4'].push({
+  id:"conversa-pt4",num:12,title:"Estação de Conversa B1+",emoji:"💬",
+  cardDesc:"Debate, especulação e relatos em português",
+  isChat:true,
+  explain:["<p>Conversas B1+: use condicionais para especular, discuta política e sociedade, relate o que outros disseram e use vocabulário avançado naturalmente.</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['pt-4'] = {
+  scenarios:[
+    {id:"debate-hipotetico",title:"E Se...?",emoji:"💭",setup:"Discutindo situações hipotéticas.",partner:{emoji:"🤔",name:"Carlos"},opener:"Se você pudesse mudar uma coisa no Brasil (ou no seu país), o que seria e por quê?"},
+    {id:"debate-sociedade",title:"Sociedade e Direitos",emoji:"⚖️",setup:"Discutindo questões sociais atuais.",partner:{emoji:"⚖️",name:"Fernanda"},opener:"Você acha que a igualdade e a justiça social melhoraram nos últimos anos? Qual é a sua perspectiva?"},
+    {id:"arrependimentos",title:"Arrependimentos e Lições",emoji:"😔",setup:"Refletindo sobre experiências passadas.",partner:{emoji:"🌟",name:"Aline"},opener:"Tem algo que você gostaria de ter feito diferente na vida? O que você teria mudado?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  PORTUGUÊS — NÍVEL 5 (B2)
+// ══════════════════════════════════
+window.LP_TOPICS['pt-5'] = [
+
+{id:"subjuntivo-futuro-pt",num:1,title:"Subjuntivo Futuro",emoji:"🔮",cardDesc:"quando você vier, se eu puder — único ao português!",
+explain:[
+  "<p>O <b>Subjuntivo Futuro</b> existe em português mas não existe em espanhol! É usado em orações condicionais e temporais que se referem ao futuro.</p>",
+  "<p>Formação: base do infinitivo para regulares (idênticos!). Irregulares: <b>ser/ir → for · ter → tiver · fazer → fizer · poder → puder · vir → vier · dizer → disser</b></p>",
+  "<table class='reftable'><tr><th>Infinitivo</th><th>Fut. Subj. (eu)</th><th>Fut. Subj. (eles)</th></tr><tr><td>ser / ir</td><td class='formcol'>for</td><td>forem</td></tr><tr><td>ter</td><td class='formcol'>tiver</td><td>tiverem</td></tr><tr><td>fazer</td><td class='formcol'>fizer</td><td>fizerem</td></tr><tr><td>vir</td><td class='formcol'>vier</td><td>vierem</td></tr><tr><td>poder</td><td class='formcol'>puder</td><td>puderem</td></tr></table>",
+  "<p>Gatilhos: <span class='ex-fr'>quando · se · assim que · logo que · enquanto · até que · onde quer que → + futuro do subjuntivo</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Quando você ____ ao Brasil, vai adorar. (vir — futuro subj.: vier)",answers:["vier"]},
+  {type:"fill",q:"Se eu ____ tempo amanhã, te ligo. (ter — futuro subj.: tiver)",answers:["tiver"]},
+  {type:"mcq",q:"'Assim que ela ___, me avise.' — futuro subj. de 'chegar'",options:["chegar","chegará","chegue","chega"],correct:0},
+  {type:"tf",q:"O futuro do subjuntivo dos verbos regulares é idêntico ao infinitivo.",correct:true},
+  {type:"fill",q:"Quando você ____ ao banco, pode me pagar? (ir — futuro subj.: for)",answers:["for"]},
+  {type:"fill",q:"Se ele ____ o problema, vou agradecer. (resolver — futuro subj.: resolver)",answers:["resolver"]},
+  {type:"order",q:"Monte a oração temporal:",words:["vier,","vou","Quando","te","encontrar.","você"],correct:"Quando você vier, vou te encontrar."},
+  {type:"match",q:"Combine o futuro subj. com o infinitivo.",pairs:[["for","ser/ir"],["tiver","ter"],["vier","vir"],["fizer","fazer"]]},
+  {type:"speak",phrase:"Quando você tiver tempo, me ensine mais sobre a cultura brasileira! Se eu puder, vou visitar o Rio em dezembro.",translation:"Cuando tengas tiempo, ¡enséñame más sobre la cultura brasileña! Si puedo, voy a visitar Río en diciembre."},
+  {type:"fill",q:"Onde quer que você ____, estarei torcendo por você. (ir — futuro subj.: for)",answers:["for"]}
+]},
+
+{id:"condicionais-mistas-pt",num:2,title:"Condicionais Mistas",emoji:"🔀",cardDesc:"Se eu tivesse estudado, saberia — misturando tempos",
+explain:[
+  "<p>As <b>condicionais mistas</b> combinam tempos diferentes para criar situações hipotéticas que misturam passado e presente.</p>",
+  "<table class='reftable'><tr><th>Tipo</th><th>Estrutura</th><th>Exemplo</th></tr><tr><td>2ª (Irreal Presente)</td><td class='formcol'>Se + subj. imperf., condicional</td><td>Se tivesse dinheiro, compraria.</td></tr><tr><td>3ª (Irreal Passado)</td><td class='formcol'>Se + mais-que-perf., cond. composto</td><td>Se tivesse dormido, não teria errado.</td></tr><tr><td>Mista</td><td class='formcol'>Se + mais-que-perf., condicional simples</td><td>Se tivesse estudado, saberia agora.</td></tr></table>",
+  "<p><span class='ex-fr'>Se eu tivesse estudado mais (passado), <b>saberia</b> responder agora (presente). · Se fosse mais alto (presente irreal), teria jogado basquete (resultado passado).</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Se eu tivesse estudado mais, ____ a matéria agora. (saber — condicional: saberia)",answers:["saberia"]},
+  {type:"fill",q:"Se ele tivesse dormido bem, não ____ tão cansado agora. (estar — estaria)",answers:["estaria"]},
+  {type:"mcq",q:"'Se ___ mais alto (agora), teria jogado basquete (resultado passado).' — mista",options:["fosse","seria","teria sido","foi"],correct:0},
+  {type:"tf",q:"Uma condicional mista combina uma condição de um tempo com um resultado de outro.",correct:true},
+  {type:"order",q:"Monte a condicional mista:",words:["mais,","Se","eu","tivesse","saberia","estudado","mais."],correct:"Se eu tivesse estudado mais, saberia mais."},
+  {type:"fill",q:"Se você tivesse vindo ao jantar, teria ____ todos os meus amigos. (conhecer — conhecido)",answers:["conhecido"]},
+  {type:"fill",q:"Se ela tivesse aprendido a dirigir, ____ ao trabalho agora. (dirigir — dirigiria)",answers:["dirigiria"]},
+  {type:"match",q:"Combine o tipo de condicional com a estrutura.",pairs:[["2ª — irreal presente","Se + subj. imperf. + condicional"],["3ª — irreal passado","Se + mais-que-perf. + cond. composto"],["mista — passado→presente","Se + mais-que-perf. + condicional simples"],["real — futura","Se + futuro subj. + futuro"]]},
+  {type:"speak",phrase:"Se eu tivesse começado a aprender português mais cedo, já seria fluente agora. Mas ainda há tempo!",translation:"Si hubiera empezado a aprender portugués antes, ya sería fluido/a ahora. ¡Pero todavía hay tiempo!"},
+  {type:"tf",q:"'Se eu tivesse dinheiro (cond. passada), compraria uma casa (resultado presente)' é uma condicional mista.",correct:true}
+]},
+
+{id:"tomara-oxala-pt",num:3,title:"Tomara que / Oxalá",emoji:"🙏",cardDesc:"Tomara que chova! / Oxalá ele venha — desejos intensos",
+explain:[
+  "<p><b>Tomara que</b> (brasileiro) e <b>Oxalá</b> (mais formal/português europeu) expressam desejos intensos e esperanças. Ambos exigem o <b>subjuntivo</b>.</p>",
+  "<p><span class='ex-fr'>Tomara que <b>chova</b> hoje! · Tomara que ele <b>venha</b>! · Oxalá tudo <b>corra</b> bem! · Que você <b>seja</b> feliz! · Quem me dera que eu <b>ganhasse</b> na loteria!</span></p>"
+],
+exercises:[
+  {type:"fill",q:"Tomara que ____ amanhã! Precisamos de chuva. (chover — subjuntivo: chova)",answers:["chova"]},
+  {type:"fill",q:"Oxalá tudo ____ bem na sua entrevista. (correr — subjuntivo: corra)",answers:["corra"]},
+  {type:"mcq",q:"'Tomara que ela ___!' — desejo intenso, subjuntivo de 'passar'",options:["passe","passa","passou","passará"],correct:0},
+  {type:"tf",q:"'Tomara que' exige o subjuntivo, assim como 'espero que' e 'quero que'.",correct:true},
+  {type:"fill",q:"Que você ____ muito feliz nessa nova fase! (ser — seja)",answers:["seja"]},
+  {type:"fill",q:"Quem me ____ que eu soubesse falar seis línguas! (dera — desejo impossível no passado)",answers:["dera"]},
+  {type:"match",q:"Combine a expressão de desejo com o tom.",pairs:[["tomara que!","esperança — coloquial, brasileiro"],["oxalá","desejo intenso — formal / europeu"],["que você seja...","votos — mais neutro"],["quem me dera...","desejo irrealizável — coloquial"]]},
+  {type:"speak",phrase:"Tomara que você passe no vestibular! Oxalá todos os seus sonhos se realizem este ano.",translation:"¡Ojalá pases en el examen de ingreso! ¡Ojalá todos tus sueños se hagan realidad este año!"},
+  {type:"fill",q:"Deus ____ que tudo fique bem com a sua família! (queira — subjuntivo de querer)",answers:["queira"]},
+  {type:"tf",q:"'Oxalá' vem do árabe via português europeu e expressa um desejo intenso.",correct:true}
+]},
+
+{id:"marcadores-discurso-pt",num:4,title:"Marcadores do Discurso",emoji:"🗣️",cardDesc:"no entanto, além disso, por outro lado — estruturando o discurso",
+isVocab:true,
+explain:["<p>Os <b>marcadores do discurso</b> ligam ideias e estruturam fala e escrita. Essenciais para soar fluente e organizado em B2.</p>"],
+vocab:[
+  {cat:"➕ Adição",items:[
+    {e:"➕",w:"além disso",p:"además de eso"},
+    {e:"📌",w:"ademais / outrossim (formal)",p:"asimismo (formal)"},
+    {e:"🔄",w:"igualmente / também",p:"igualmente / también"},
+    {e:"🤝",w:"bem como",p:"así como / y también"}
+  ]},
+  {cat:"⚖️ Contraste / Concessão",items:[
+    {e:"⚖️",w:"no entanto / contudo",p:"sin embargo / no obstante"},
+    {e:"🔄",w:"por outro lado",p:"por otro lado"},
+    {e:"💡",w:"apesar de (que)",p:"a pesar de (que)"},
+    {e:"🚫",w:"embora + subjuntivo",p:"aunque + subjuntivo"}
+  ]},
+  {cat:"🎯 Causa / Conclusão",items:[
+    {e:"🎯",w:"portanto / logo",p:"por lo tanto"},
+    {e:"🔍",w:"por isso",p:"por eso"},
+    {e:"📋",w:"assim sendo",p:"siendo así"},
+    {e:"💡",w:"por exemplo",p:"por ejemplo"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Ele é inteligente. ____ disso, é muito trabalhador. (Além — adição)",answers:["Além"]},
+  {type:"fill",q:"A tarefa era difícil. ____ tanto, conseguimos terminar. (No entanto / Contudo)",answers:["No entanto","Contudo"]},
+  {type:"mcq",q:"'___ de que estava cansada, ela continuou trabalhando.' — concessão",options:["Portanto","Apesar","Por isso","Logo"],correct:1},
+  {type:"tf",q:"'Embora' exige o subjuntivo: 'Embora seja difícil, continuei.'",correct:true},
+  {type:"match",q:"Combine o marcador com a função.",pairs:[["além disso","adição"],["no entanto","contraste"],["portanto","conclusão"],["por exemplo","exemplificação"]]},
+  {type:"fill",q:"Ela não fala inglês bem. ____ isso, prefere comunicar-se em português. (Por)",answers:["Por"]},
+  {type:"fill",q:"Estudei muito. ____, passei no exame. (Portanto / Logo)",answers:["Portanto","Logo"]},
+  {type:"fill",q:"____ ele seja rico, vive com simplicidade. (Embora — + subjuntivo: seja)",answers:["Embora"]},
+  {type:"speak",phrase:"O projeto foi difícil. No entanto, aprendemos muito. Além disso, conseguimos terminar dentro do prazo.",translation:"El proyecto fue difícil. Sin embargo, aprendimos mucho. Además, conseguimos terminar dentro del plazo."},
+  {type:"tf",q:"'Contudo' e 'no entanto' têm o mesmo significado contrastivo.",correct:true}
+]},
+
+{id:"registro-formal-informal",num:5,title:"Registro Formal e Informal",emoji:"👔",cardDesc:"mandar zap vs. escrever e-mail — saber quando usar cada tom",
+explain:[
+  "<p>O português tem registros muito diferentes. Comparação:</p>",
+  "<table class='reftable'><tr><th>Informal (coloquial)</th><th>Formal (profissional)</th></tr><tr><td>Oi / Opa!</td><td class='formcol'>Prezado/a Sr/Srª...</td></tr><tr><td>Tô / tava / vou</td><td class='formcol'>Estou / estava / vou</td></tr><tr><td>Pra / pro</td><td class='formcol'>Para / para o</td></tr><tr><td>Valeu!</td><td class='formcol'>Agradeço sua atenção.</td></tr></table>",
+  "<p>Formal: <b>você</b> (padrão) ou <b>o senhor / a senhora</b> para máximo respeito.</p>"
+],
+exercises:[
+  {type:"mcq",q:"Em um e-mail profissional ao seu chefe, qual saudação é mais adequada?",options:["E aí!","Oi chefe!","Prezado Sr. Oliveira,","Opa, tudo bem?"],correct:2},
+  {type:"fill",q:"Formal: 'Gostaria de ____ uma reunião na próxima semana.' (marcar)",answers:["marcar"]},
+  {type:"match",q:"Transforme o informal para formal.",pairs:[["Tô ocupado.","Estou ocupado."],["Pra mim tá ótimo.","Para mim está ótimo."],["Valeu!","Agradeço / Obrigado."],["Que nem eu disse.","Como mencionei."]]},
+  {type:"fill",q:"'O senhor poderia ____ mais cedo amanhã?' — máximo respeito. (vir)",answers:["vir"]},
+  {type:"tf",q:"'Tô' é a forma contraída coloquial de 'estou', usada apenas em contextos informais.",correct:true},
+  {type:"mcq",q:"'Cê quer mais café?' — em que contexto isso seria adequado?",options:["reunião formal","conversa casual com amigo","e-mail para cliente","entrevista de emprego"],correct:1},
+  {type:"fill",q:"'____ prezado cliente, informamos que sua solicitação foi recebida.' (Caro/Prezado)",answers:["Caro","Prezado"]},
+  {type:"speak",phrase:"Prezada Professora Lima, venho por meio deste e-mail solicitar uma extensão no prazo da tarefa. Agradeço sua compreensão.",translation:"Estimada Profesora Lima, le escribo para solicitar una extensión en el plazo de la tarea. Agradezco su comprensión."},
+  {type:"fill",q:"Informal: 'num faz isso!' = Formal: '____ faça isso.' (Não)",answers:["Não"]},
+  {type:"tf",q:"'Pra' é a contração informal de 'para' e não deve ser usada em escrita formal.",correct:true}
+]},
+
+{id:"vocabulario-academico-pt",num:6,title:"Vocabulário Acadêmico",emoji:"📚",cardDesc:"hipótese, analisar, concluir — linguagem para ensaios",
+isVocab:true,
+explain:["<p>Vocabulário acadêmico para ensaios e apresentações em português. Verbos essenciais: <b>analisar, examinar, argumentar, defender, refutar, demonstrar, concluir, afirmar, propor, investigar</b>.</p>"],
+vocab:[
+  {cat:"📝 Estrutura de Ensaio",items:[
+    {e:"🔍",w:"hipótese",p:"hipótesis"},
+    {e:"🧠",w:"argumento",p:"argumento"},
+    {e:"📊",w:"evidência / dado",p:"evidencia / dato"},
+    {e:"🎯",w:"conclusão",p:"conclusión"},
+    {e:"📌",w:"tese",p:"tesis"},
+    {e:"🔗",w:"fundamentar / embasar",p:"fundamentar / basar"}
+  ]},
+  {cat:"🔬 Processos",items:[
+    {e:"🔬",w:"pesquisar / investigar",p:"investigar"},
+    {e:"📐",w:"analisar",p:"analizar"},
+    {e:"⚖️",w:"comparar / contrastar",p:"comparar / contrastar"},
+    {e:"🗣️",w:"argumentar / defender",p:"argumentar / defender"},
+    {e:"❌",w:"refutar / contestar",p:"refutar"},
+    {e:"✅",w:"demonstrar / comprovar",p:"demostrar / comprobar"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Minha ____ é que o exercício melhora o desempenho acadêmico. (hipótese)",answers:["hipótese"]},
+  {type:"fill",q:"Precisamos ____ os dados antes de tirar qualquer conclusão. (analisar)",answers:["analisar"]},
+  {type:"mcq",q:"'Para ____ meu argumento, vou apresentar dados de três estudos.' — apoiar com evidências",options:["refutar","fundamentar","concluir","questionar"],correct:1},
+  {type:"match",q:"Combine o termo acadêmico com o significado.",pairs:[["hipótese","suposição a ser testada"],["tese","posição central do argumento"],["evidência","dado que apoia o argumento"],["refutar","provar que algo está errado"]]},
+  {type:"fill",q:"O artigo ____ que o desmatamento acelerou nas últimas décadas. (demonstra)",answers:["demonstra"]},
+  {type:"tf",q:"A 'tese' é a afirmação central que um ensaio procura provar.",correct:true},
+  {type:"fill",q:"Em seu artigo, ela ____ a posição do governo sobre as mudanças climáticas. (contesta)",answers:["contesta"]},
+  {type:"speak",phrase:"A tese deste trabalho é que a leitura melhora o vocabulário. A evidência será analisada ao longo do artigo.",translation:"La tesis de este trabajo es que la lectura mejora el vocabulario. La evidencia será analizada a lo largo del artículo."},
+  {type:"fill",q:"Após comparar os dois estudos, podemos ____ que os resultados são consistentes. (concluir)",answers:["concluir"]},
+  {type:"tf",q:"'Investigar' e 'pesquisar' são sinônimos acadêmicos de 'estudar em profundidade'.",correct:true}
+]},
+
+{id:"locuçoes-verbais-pt",num:7,title:"Locuções Verbais",emoji:"⚙️",cardDesc:"acabar de, voltar a, chegar a, deixar de — perífrases verbais",
+explain:[
+  "<p>As <b>locuções verbais</b> expressam nuances de aspecto e modalidade. Essenciais para soar natural em B2.</p>",
+  "<table class='reftable'><tr><th>Perífrase</th><th>Significado</th><th>Exemplo</th></tr><tr><td>acabar de + inf.</td><td class='formcol'>ação imediatamente concluída</td><td>Acabei de comer.</td></tr><tr><td>voltar a + inf.</td><td class='formcol'>repetição</td><td>Ela voltou a ligar.</td></tr><tr><td>chegar a + inf.</td><td class='formcol'>ação surpreendente</td><td>Ele chegou a chorar.</td></tr><tr><td>deixar de + inf.</td><td class='formcol'>parar de</td><td>Deixei de fumar.</td></tr><tr><td>passar a + inf.</td><td class='formcol'>novo hábito</td><td>Passei a correr.</td></tr></table>"
+],
+exercises:[
+  {type:"fill",q:"Ela ____ de chegar. Você acabou de perder. (acabou — imediatamente concluído)",answers:["acabou"]},
+  {type:"fill",q:"Ele tinha prometido não ligar, mas ____ a ligar. (voltou — repetição)",answers:["voltou"]},
+  {type:"mcq",q:"'Ela ___ a estudar desde que entrou na faculdade.' — novo hábito",options:["acabou","chegou","passou","voltou"],correct:2},
+  {type:"tf",q:"'Deixar de + infinitivo' significa parar de fazer algo.",correct:true},
+  {type:"match",q:"Combine a perífrase com o significado.",pairs:[["acabar de","ação imediatamente concluída"],["voltar a","ação repetida"],["chegar a","ação surpreendente"],["passar a","início de novo hábito"]]},
+  {type:"fill",q:"Você precisa ____ de comer tanta gordura. (deixar — parar)",answers:["deixar"]},
+  {type:"fill",q:"Ela ____ a praticar yoga e está mais tranquila. (passou — novo hábito)",answers:["passou"]},
+  {type:"speak",phrase:"Acabei de terminar o livro. Passei a lê-lo todo dia e cheguei a chorar no final. Nunca vou deixar de ler!",translation:"Acabo de terminar el libro. Empecé a leerlo todos los días y llegué a llorar al final. ¡Nunca dejaré de leer!"},
+  {type:"fill",q:"Mesmo após a cirurgia, ela ____ a trabalhar normalmente. (continua — persistência)",answers:["continua"]},
+  {type:"tf",q:"'Ele chegou a gritar' sugere que gritar foi surpreendente ou extremo nas circunstâncias.",correct:true}
+]},
+
+{id:"tecnologia-avancada-pt",num:8,title:"Tecnologia e Inovação",emoji:"🚀",cardDesc:"startup, algoritmo, disrupção — vocabulário tech avançado",
+isVocab:true,
+explain:["<p>Vocabulário de tecnologia para discussões B2 sobre inovação e o futuro digital. Muitos termos em inglês são adotados no português tech.</p>"],
+vocab:[
+  {cat:"💡 Startups",items:[
+    {e:"🚀",w:"startup",p:"startup / empresa emergente"},
+    {e:"💸",w:"venture capital",p:"capital de riesgo"},
+    {e:"🏆",w:"unicórnio",p:"unicornio (startup de +$1B)"},
+    {e:"🔄",w:"disrupção",p:"disrupción"},
+    {e:"📱",w:"escalável",p:"escalable"},
+    {e:"🎯",w:"modelo de negócios",p:"modelo de negocio"}
+  ]},
+  {cat:"🤖 IA e Dados",items:[
+    {e:"🤖",w:"algoritmo",p:"algoritmo"},
+    {e:"📊",w:"aprendizado de máquina",p:"aprendizaje automático / ML"},
+    {e:"🧠",w:"rede neural",p:"red neuronal"},
+    {e:"🔒",w:"privacidade de dados",p:"privacidad de datos"},
+    {e:"☁️",w:"computação em nuvem",p:"computación en la nube"},
+    {e:"🔐",w:"blockchain",p:"cadena de bloques"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"O Nubank é um exemplo de ____ brasileira que se tornou unicórnio. (startup)",answers:["startup"]},
+  {type:"fill",q:"O algoritmo usa ____ de máquina para recomendar vídeos. (aprendizado)",answers:["aprendizado"]},
+  {type:"mcq",q:"Uma empresa 'escalável' é aquela que:",options:["tem muitos funcionários","pode crescer sem custos proporcionais","vende produtos físicos","foca no mercado local"],correct:1},
+  {type:"match",q:"Combine o termo tech com a definição.",pairs:[["unicórnio","startup avaliada em +US$1 bilhão"],["disrupção","transformação radical de um setor"],["blockchain","registro distribuído e imutável"],["rede neural","sistema de IA inspirado no cérebro"]]},
+  {type:"fill",q:"A empresa captou ____ capital de investidores para expandir. (venture — VC)",answers:["venture"]},
+  {type:"tf",q:"'Computação em nuvem' usa servidores remotos via internet para armazenar dados.",correct:true},
+  {type:"speak",phrase:"A inteligência artificial está transformando todos os setores. Algoritmos de aprendizado de máquina já superam humanos em muitas tarefas.",translation:"La inteligencia artificial está transformando todos los sectores. Los algoritmos de ML ya superan a los humanos en muchas tareas."},
+  {type:"fill",q:"A ____ de dados é uma preocupação crescente na era digital. (privacidade)",answers:["privacidade"]},
+  {type:"fill",q:"Essa empresa tem um ____ de negócios inovador baseado em assinaturas. (modelo)",answers:["modelo"]},
+  {type:"tf",q:"Um 'unicórnio' no mundo dos negócios é uma startup avaliada em mais de US$ 1 bilhão.",correct:true}
+]},
+
+{id:"revisao-b2-pt",num:9,title:"Revisão B2",emoji:"🏆",cardDesc:"Subjuntivo futuro, condicionais mistas, marcadores, locuções — checkpoint B2",
+explain:[
+  "<p>Você chegou ao nível B2! Em B2 você consegue: entender textos complexos, interagir com fluência e produzir textos claros e detalhados sobre assuntos complexos.</p>"
+],
+exercises:[
+  {type:"fill",q:"Quando você ____ pronto, me avise. (estar — futuro subj.: estiver)",answers:["estiver"]},
+  {type:"fill",q:"Se eu tivesse estudado mais, ____ a prova agora. (passar — condicional mista: passaria)",answers:["passaria"]},
+  {type:"fill",q:"Tomara que ele ____ este ano. (passar — subjuntivo pres.: passe)",answers:["passe"]},
+  {type:"fill",q:"Ela ____ de chegar. Acabou de entrar pela porta. (acabou — locução)",answers:["acabou"]},
+  {type:"mcq",q:"'___ disso, ele também fala três idiomas.' — marcador de adição",options:["No entanto","Portanto","Além","Embora"],correct:2},
+  {type:"fill",q:"____ ele seja brilhante, às vezes comete erros. (Embora — + subjuntivo)",answers:["Embora"]},
+  {type:"fill",q:"'Prezado senhor, venho por meio deste...' — registro ____. (formal)",answers:["formal"]},
+  {type:"match",q:"Combine o conceito B2 com o exemplo.",pairs:[["futuro do subjuntivo","Quando vier, ligo."],["condicional mista","Se tivesse estudado, saberia."],["marcador contrastivo","no entanto / contudo"],["locução — novo hábito","passou a correr"]]},
+  {type:"speak",phrase:"Se eu tivesse começado mais cedo, já estaria fluente. No entanto, é agora que importa. Tomara que eu chegue ao C1 este ano!",translation:"Si hubiera empezado antes, ya sería fluido/a. Sin embargo, lo que importa es ahora. ¡Ojalá llegue al C1 este año!"},
+  {type:"tf",q:"O subjuntivo futuro dos verbos regulares é idêntico ao infinitivo.",correct:true}
+]}
+];
+
+window.LP_TOPICS['pt-5'].push({
+  id:"conversa-pt5",num:10,title:"Estação de Conversa B2",emoji:"💬",
+  cardDesc:"Debates avançados, argumentação e especulação",
+  isChat:true,
+  explain:["<p>Conversas B2: argumente, especule sobre o futuro, use condicionais mistas e subjuntivo futuro naturalmente. Você está se aproximando da fluência!</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['pt-5'] = {
+  scenarios:[
+    {id:"futuro-tecnologia",title:"O Futuro da Tecnologia",emoji:"🤖",setup:"Debatendo como a IA vai mudar o mundo.",partner:{emoji:"💻",name:"Rafael"},opener:"Você acha que a inteligência artificial vai substituir a maioria dos empregos nos próximos 20 anos? O que você faria se seu emprego fosse substituído?"},
+    {id:"dilemas-eticos",title:"Dilemas Éticos",emoji:"⚖️",setup:"Discutindo escolhas difíceis.",partner:{emoji:"🤔",name:"Sofia"},opener:"Se você pudesse salvar uma pessoa ou cinco desconhecidos, o que você escolheria? Como justificaria sua escolha?"},
+    {id:"brasil-mundo",title:"O Brasil no Mundo",emoji:"🌍",setup:"Conversando sobre o Brasil como potência global.",partner:{emoji:"🇧🇷",name:"Pedro"},opener:"Na sua opinião, o Brasil tem potencial para ser uma potência global? Quais são seus maiores desafios?"}
+  ]
+};
+</script>
+
+<script>
+// ══════════════════════════════════
+//  PORTUGUÊS — NÍVEL 6 (C1)
+// ══════════════════════════════════
+window.LP_TOPICS['pt-6'] = [
+
+{id:"subjuntivo-avancado-pt",num:1,title:"Subjuntivo C1 — Domínio Total",emoji:"🎓",cardDesc:"Todos os usos do subjuntivo — do básico ao avançado",
+explain:[
+  "<p>No nível C1, você domina todos os contextos do subjuntivo:</p>",
+  "<table class='reftable'><tr><th>Tipo</th><th>Estrutura</th><th>Exemplo</th></tr><tr><td>Desejo</td><td class='formcol'>querer que + subj.</td><td>Quero que você venha.</td></tr><tr><td>Dúvida</td><td class='formcol'>duvidar que + subj.</td><td>Duvido que saiba.</td></tr><tr><td>Concessão</td><td class='formcol'>embora + subj.</td><td>Embora seja difícil...</td></tr><tr><td>Hipótese irreal</td><td class='formcol'>se + subj. imperf.</td><td>Se eu fosse rico...</td></tr><tr><td>Futuro</td><td class='formcol'>quando + subj. fut.</td><td>Quando vier...</td></tr><tr><td>Finalidade</td><td class='formcol'>para que + subj.</td><td>Fiz para que entendesses.</td></tr></table>",
+  "<p>Expressões fixas C1: <span class='ex-fr'>seja como for · por mais que · a menos que · desde que + subj.</span></p>"
+],
+exercises:[
+  {type:"fill",q:"____ como for, vou terminar o projeto. (seja — expressão fixa)",answers:["Seja"]},
+  {type:"fill",q:"Por mais que eu ____, não consigo entender. (tentar — tente)",answers:["tente"]},
+  {type:"fill",q:"Fiz tudo isso para que você ____. (entender — subj. imperf.: entendesse)",answers:["entendesse"]},
+  {type:"mcq",q:"'Pode vir, ___ que chegue antes das 10.' — condicional com subjuntivo",options:["desde","embora","duvido","por mais"],correct:0},
+  {type:"fill",q:"Duvido que ele ____ a verdade. (saber — saiba: subj. pres.)",answers:["saiba"]},
+  {type:"match",q:"Combine a expressão fixa com o sentido.",pairs:[["seja como for","independente do que aconteça"],["a menos que","exceto se"],["desde que","com a condição de que"],["por mais que","não importa o quanto"]]},
+  {type:"fill",q:"A menos que ela ____ amanhã, não podemos assinar o contrato. (vir — vier: fut. subj.)",answers:["vier"]},
+  {type:"fill",q:"Vou continuar, por mais ____ que seja. (difícil — 'por mais difícil que seja')",answers:["difícil"]},
+  {type:"speak",phrase:"Seja como for, vou dominar o português. Por mais que seja difícil, não vou desistir! Desde que pratique todo dia, chegarei lá.",translation:"Sea como sea, voy a dominar el portugués. Por más difícil que sea, ¡no voy a rendirme! Con tal de que practique todos los días, lo lograré."},
+  {type:"tf",q:"'Embora' e 'apesar de que' introduzem orações concessivas e exigem subjuntivo.",correct:true}
+]},
+
+{id:"hedging-pt",num:2,title:"Linguagem de Hedging",emoji:"🛡️",cardDesc:"Ao que parece, supostamente, é possível que — matizar afirmações",
+explain:[
+  "<p>O <b>hedging</b> (atenuação) expressa incerteza e distanciamento — essencial no C1 acadêmico e profissional.</p>",
+  "<p><b>Modais</b>: <span class='ex-fr'>pode ser que · deve ser que · parece que</span></p>",
+  "<p><b>Locuções</b>: <span class='ex-fr'>aparentemente · supostamente · ao que parece · em princípio · até certo ponto · de certo modo · presumivelmente</span></p>",
+  "<p><b>Verbos atenuantes</b>: <span class='ex-fr'>parece que · tende a · costuma-se · é possível que · supõe-se que</span></p>"
+],
+exercises:[
+  {type:"fill",q:"____ que a reunião vai começar tarde. (Parece — hedging suave)",answers:["Parece"]},
+  {type:"fill",q:"Isso é, ____ certo ponto, compreensível. (até — locução atenuante)",answers:["até"]},
+  {type:"mcq",q:"'___ os resultados são positivos, embora precisem de revisão.' — atenuação",options:["Certamente","Obviamente","Aparentemente","Definitivamente"],correct:2},
+  {type:"tf",q:"O hedging é usado para soar mais certo e definitivo sobre algo.",correct:false},
+  {type:"match",q:"Combine o atenuante com a função.",pairs:[["ao que parece","informação não confirmada"],["em princípio","teoria vs. prática — com ressalvas"],["até certo ponto","verdade parcial"],["presumivelmente","inferência lógica"]]},
+  {type:"fill",q:"Supõe-se que o novo projeto ____ lançado no próximo trimestre. (seja — subjuntivo)",answers:["seja"]},
+  {type:"fill",q:"____ , as mudanças vão beneficiar todos. (Em princípio — com ressalvas)",answers:["Em princípio"]},
+  {type:"speak",phrase:"Aparentemente, os resultados são promissores. Ao que parece, a nova abordagem tende a ser mais eficaz, embora ainda precise ser validada.",translation:"Al parecer, los resultados son prometedores. Según parece, el nuevo enfoque tiende a ser más eficaz, aunque aún necesita validación."},
+  {type:"fill",q:"De ____ modo, o argumento tem mérito, mas há exceções. (certo — 'de certo modo')",answers:["certo"]},
+  {type:"tf",q:"'Supostamente' implica que a informação é afirmada por outros, mas não verificada.",correct:true}
+]},
+
+{id:"expressoes-idiomaticas-c1",num:3,title:"Expressões Idiomáticas C1",emoji:"🌶️",cardDesc:"pagar mico, pôr a mão na massa, acertar em cheio — idioms avançados",
+isVocab:true,
+explain:["<p>Expressões idiomáticas — combinações cujo significado não é literal. Dominá-las é o sinal definitivo do C1 em português brasileiro.</p>"],
+vocab:[
+  {cat:"🎭 Expressões Comuns (BR)",items:[
+    {e:"🐒",w:"pagar mico",p:"pasar vergüenza / hacer el ridículo"},
+    {e:"💪",w:"pôr a mão na massa",p:"ponerse manos a la obra"},
+    {e:"🦵",w:"passar a perna (em alguém)",p:"engañar a alguien"},
+    {e:"🎯",w:"acertar em cheio",p:"dar en el clavo"},
+    {e:"🤦",w:"fazer feio",p:"quedar mal"},
+    {e:"🚫",w:"não tem esse papo",p:"ni hablar / eso no existe"}
+  ]},
+  {cat:"💬 Mais Expressões",items:[
+    {e:"🌙",w:"tirar uma soneca",p:"echar una siesta"},
+    {e:"🤐",w:"dar o bolo",p:"dar plantón / no aparecer"},
+    {e:"🏃",w:"dar as costas",p:"dar la espalda / abandonar"},
+    {e:"🔥",w:"estar por dentro",p:"estar al tanto / al día"},
+    {e:"😊",w:"que legal! / que massa!",p:"¡qué genial!"},
+    {e:"💛",w:"que saudade!",p:"¡cuánto extraño! (sin equiv. exacto)"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"Cheguei tarde à reunião e ____ mico na frente do chefe. (paguei — pagar mico)",answers:["paguei"]},
+  {type:"fill",q:"Chega de falar! Vamos ____ a mão na massa e trabalhar. (pôr)",answers:["pôr"]},
+  {type:"mcq",q:"'Ele não apareceu no nosso encontro. Me deu o bolo!' — O que aconteceu?",options:["Chegou atrasado.","Não apareceu sem avisar.","Trouxe um bolo.","Ligou para cancelar."],correct:1},
+  {type:"fill",q:"Ela estava ____ dentro do que aconteceu na empresa. (por — estar por dentro)",answers:["por"]},
+  {type:"match",q:"Combine a expressão com o significado.",pairs:[["acertar em cheio","ter razão / encontrar a solução exata"],["dar as costas","abandonar / trair"],["pagar mico","passar vergonha publicamente"],["passar a perna","enganar / ludibriar"]]},
+  {type:"fill",q:"Não tem esse ____! Não vou fazer isso de jeito nenhum. (papo)",answers:["papo"]},
+  {type:"speak",phrase:"Paguei mico ontem — esqueci o nome do chefe na reunião! Mas minha apresentação acertou em cheio, então ficou tudo bem.",translation:"Pasé vergüenza ayer — ¡olvidé el nombre del jefe en la reunión! Pero mi presentación dio en el clavo, así que al final todo quedó bien."},
+  {type:"fill",q:"Ele me ____ a perna num negócio. Perdi muito dinheiro. (passou — passar a perna)",answers:["passou"]},
+  {type:"tf",q:"'Tirar uma soneca' significa fazer uma pequena pausa para dormir.",correct:true},
+  {type:"fill",q:"Quando ela precisou de mim, ele virou as ____. (costas — dar as costas)",answers:["costas"]}
+]},
+
+{id:"cultura-brasil-portugal",num:4,title:"Referências Culturais",emoji:"🌎",cardDesc:"Carnaval, fado, cordel, Descobrimentos — Brasil vs. Portugal",
+isVocab:true,
+explain:["<p>Entender a cultura é parte essencial da fluência C1. O português tem dois grandes centros culturais com tradições ricas e distintas.</p>"],
+vocab:[
+  {cat:"🇧🇷 Brasil",items:[
+    {e:"🎭",w:"Carnaval",p:"Carnaval (el mayor del mundo)"},
+    {e:"📜",w:"literatura de cordel",p:"literatura de cordel (nordeste)"},
+    {e:"🥁",w:"samba / axé / forró",p:"géneros musicales brasileños"},
+    {e:"⚽",w:"Maracanã",p:"estadio icónico de Río de Janeiro"},
+    {e:"🌿",w:"Pantanal / Amazônia",p:"mayor pantanal y selva del mundo"},
+    {e:"🍖",w:"churrasco / feijoada",p:"asado / guiso de frijoles negros"}
+  ]},
+  {cat:"🇵🇹 Portugal",items:[
+    {e:"🎵",w:"fado",p:"música tradicional portuguesa"},
+    {e:"🥮",w:"pastel de nata",p:"pastelito de crema de huevo"},
+    {e:"⚓",w:"Descobrimentos (séc. XV-XVI)",p:"era de los descubrimientos"},
+    {e:"🏰",w:"Sintra",p:"ciudad patrimonio UNESCO"},
+    {e:"🐟",w:"bacalhau",p:"bacalao — el 'fiel amigo' de Portugal"},
+    {e:"🎊",w:"Festa dos Tabuleiros",p:"festival de Tomar"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"O ____ é considerado a maior celebração do mundo, famoso no Rio de Janeiro. (Carnaval)",answers:["Carnaval"]},
+  {type:"fill",q:"O ____ é um tipo de música português marcado pela saudade e pela tristeza poética. (fado)",answers:["fado"]},
+  {type:"mcq",q:"A 'literatura de cordel' é típica de qual região do Brasil?",options:["Sul","Nordeste","Sudeste","Norte"],correct:1},
+  {type:"match",q:"Combine o item cultural com o país.",pairs:[["fado","Portugal"],["churrasco","Brasil"],["pastel de nata","Portugal"],["samba","Brasil"]]},
+  {type:"fill",q:"O ____ é um dos ecossistemas mais ricos do mundo, localizado no Brasil. (Pantanal / Amazônia)",answers:["Pantanal","Amazônia"]},
+  {type:"fill",q:"Em Portugal, o prato mais icônico é o bacalhau — há quem diga que existem ____ receitas. (365)",answers:["365"]},
+  {type:"speak",phrase:"O Brasil é famoso pelo Carnaval, mas tem muito mais: o Pantanal, o forró, a literatura de cordel. Portugal tem o fado, os Descobrimentos e o melhor pastel de nata do mundo.",translation:"Brasil es famoso por el Carnaval, pero tiene mucho más: el Pantanal, el forró, la literatura de cordel. Portugal tiene el fado, los Descubrimientos y el mejor pastel de nata del mundo."},
+  {type:"fill",q:"O Maracanã é um famoso ____ de futebol localizado no Rio de Janeiro. (estádio)",answers:["estádio"]},
+  {type:"tf",q:"O 'pastel de nata' é um doce tradicional português, famoso em todo o mundo.",correct:true},
+  {type:"fill",q:"Sintra é um ____ Cultural da UNESCO perto de Lisboa. (Patrimônio)",answers:["Patrimônio"]}
+]},
+
+{id:"escrita-academica-pt",num:5,title:"Escrita Acadêmica",emoji:"✍️",cardDesc:"Estruturar um ensaio, argumentar com precisão, citar fontes",
+explain:[
+  "<p>Estrutura de um ensaio acadêmico em português:</p>",
+  "<p><b>Introdução</b>: <span class='ex-fr'>O presente trabalho tem como objetivo analisar... · Pretende-se demonstrar que... · A questão central deste estudo é...</span></p>",
+  "<p><b>Desenvolvimento</b>: <span class='ex-fr'>Primeiramente... / Em segundo lugar... · Conforme aponta X... · Por outro lado... · Não obstante...</span></p>",
+  "<p><b>Conclusão</b>: <span class='ex-fr'>Diante do exposto... · Em suma... · Conclui-se, portanto, que... · Cabe ressaltar que...</span></p>"
+],
+exercises:[
+  {type:"fill",q:"'O ____ trabalho tem como objetivo analisar o impacto da IA.' — introdução formal.",answers:["presente"]},
+  {type:"fill",q:"'Em ____ lugar...' — marcador para o segundo argumento. (segundo)",answers:["segundo"]},
+  {type:"mcq",q:"'___ do exposto, conclui-se que a hipótese foi confirmada.' — conclusão",options:["Diante","Dentro","Acima","Antes"],correct:0},
+  {type:"tf",q:"'Não obstante' é um marcador de contraste formal equivalente a 'no entanto'.",correct:true},
+  {type:"match",q:"Combine o marcador com a seção do ensaio.",pairs:[["O presente trabalho...","introdução"],["Por outro lado...","desenvolvimento — contra-argumento"],["Conforme aponta X...","desenvolvimento — evidência"],["Em suma...","conclusão"]]},
+  {type:"fill",q:"'____ aponta Silva (2023), os dados confirmam essa tendência.' — citação formal. (Conforme)",answers:["Conforme"]},
+  {type:"fill",q:"'Cabe ____ que existem limitações neste estudo.' — ressalva formal. (ressaltar)",answers:["ressaltar"]},
+  {type:"speak",phrase:"O presente trabalho pretende analisar o papel da tecnologia na educação. Primeiramente, examinaremos os benefícios. Em seguida, abordaremos os desafios. Diante do exposto, concluiremos.",translation:"El presente trabajo pretende analizar el papel de la tecnología en la educación. Primero los beneficios, luego los desafíos. Ante lo expuesto, concluiremos."},
+  {type:"fill",q:"'____ do exposto, fica claro que medidas urgentes são necessárias.' — conclusão. (Diante)",answers:["Diante"]},
+  {type:"tf",q:"'Pretende-se demonstrar que' é uma forma passiva reflexiva formal usada em introduções.",correct:true}
+]},
+
+{id:"debate-argumentacao-pt",num:6,title:"Debate e Argumentação",emoji:"🎤",cardDesc:"concordar, discordar, refutar — debater com fluência",
+isVocab:true,
+explain:["<p>No nível C1, você debate com fluência. Ferramentas para concordar, discordar, refutar e reformular em português formal e informal.</p>"],
+vocab:[
+  {cat:"✅ Concordar",items:[
+    {e:"✅",w:"Concordo plenamente com...",p:"Estoy totalmente de acuerdo con..."},
+    {e:"💯",w:"Com efeito, / De fato,...",p:"En efecto, / De hecho,..."},
+    {e:"🤝",w:"Exatamente / Precisamente.",p:"Exactamente / Precisamente."},
+    {e:"📌",w:"Isso corrobora o que disse.",p:"Esto corrobora lo que dije."}
+  ]},
+  {cat:"❌ Discordar / Refutar",items:[
+    {e:"⚖️",w:"Com todo o respeito, discordo porque...",p:"Con todo el respeto, no estoy de acuerdo porque..."},
+    {e:"🔄",w:"Embora compreenda seu ponto, devo destacar que...",p:"Aunque entiendo su punto, debo señalar que..."},
+    {e:"❌",w:"Isso contradiz os dados apresentados.",p:"Esto contradice los datos presentados."},
+    {e:"🤔",w:"Isso é questionável, pois...",p:"Eso es cuestionable, ya que..."}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"____ plenamente — acho que você tem razão. (Concordo)",answers:["Concordo"]},
+  {type:"fill",q:"Embora compreenda seu ____, devo destacar que os dados dizem o contrário. (ponto)",answers:["ponto"]},
+  {type:"mcq",q:"Você quer refutar educadamente. Qual frase é mais adequada?",options:["Você está completamente errado!","Com todo o respeito, discordo porque...","Não, isso é estúpido.","Talvez você esteja certo."],correct:1},
+  {type:"tf",q:"'Com efeito' é usado para concordar e reforçar o ponto do interlocutor.",correct:true},
+  {type:"match",q:"Combine a função com a frase.",pairs:[["concordar fortemente","Concordo plenamente / De fato"],["discordar educadamente","Com todo o respeito, discordo"],["refutar com dados","Isso contradiz os dados"],["fazer concessão","Embora compreenda seu ponto..."]]},
+  {type:"fill",q:"Isso é ____. Não há evidências suficientes para apoiar essa afirmação. (questionável)",answers:["questionável"]},
+  {type:"fill",q:"De ____, esse é um argumento muito sólido. (fato — 'De fato')",answers:["fato"]},
+  {type:"speak",phrase:"Concordo que a IA tem potencial. No entanto, com todo o respeito, isso contradiz os dados sobre empregos. Embora compreenda o otimismo, devo destacar os riscos.",translation:"Estoy de acuerdo en que la IA tiene potencial. Sin embargo, con todo el respeto, esto contradice los datos sobre empleos. Aunque entiendo el optimismo, debo señalar los riesgos."},
+  {type:"fill",q:"Isso ____ o que eu disse antes. Os dados são consistentes. (corrobora)",answers:["corrobora"]},
+  {type:"tf",q:"'Precisamente' é usado para concordar fortemente e confirmar o ponto de alguém.",correct:true}
+]},
+
+{id:"colocacoes-c1",num:7,title:"Colocações C1",emoji:"🔗",cardDesc:"formular hipóteses, traçar paralelos, suscitar questões — colocações avançadas",
+isVocab:true,
+explain:["<p>Colocações de nível C1 usadas em contextos formais, acadêmicos e profissionais. Essas expressões elevam o seu português a um nível nativo.</p>"],
+vocab:[
+  {cat:"🧠 Acadêmicas",items:[
+    {e:"💡",w:"formular uma hipótese",p:"formular una hipótesis"},
+    {e:"🔗",w:"traçar um paralelo",p:"trazar un paralelo"},
+    {e:"❓",w:"suscitar questões",p:"suscitar cuestiones"},
+    {e:"📐",w:"estabelecer critérios",p:"establecer criterios"},
+    {e:"🎯",w:"atingir um objetivo",p:"alcanzar un objetivo"},
+    {e:"🔍",w:"aprofundar uma análise",p:"profundizar un análisis"}
+  ]},
+  {cat:"💼 Profissionais",items:[
+    {e:"📊",w:"gerar resultados",p:"generar resultados"},
+    {e:"🏁",w:"cumprir um prazo",p:"cumplir un plazo"},
+    {e:"🤝",w:"estabelecer parcerias",p:"establecer alianzas"},
+    {e:"📈",w:"impulsionar o crescimento",p:"impulsar el crecimiento"},
+    {e:"⚙️",w:"implementar estratégias",p:"implementar estrategias"},
+    {e:"🔄",w:"avaliar o impacto",p:"evaluar el impacto"}
+  ]}
+],
+exercises:[
+  {type:"fill",q:"O pesquisador ____ uma hipótese interessante sobre o comportamento humano. (formulou)",answers:["formulou"]},
+  {type:"fill",q:"O relatório ____ questões importantes sobre sustentabilidade corporativa. (suscita)",answers:["suscita"]},
+  {type:"mcq",q:"'Podemos ___ um paralelo entre estas duas teorias.' — colocação correta",options:["fazer","traçar","criar","pôr"],correct:1},
+  {type:"match",q:"Combine a colocação com o contexto.",pairs:[["formular uma hipótese","pesquisa científica"],["cumprir um prazo","gestão de projetos"],["estabelecer parcerias","estratégia empresarial"],["suscitar questões","debate ou ensaio"]]},
+  {type:"fill",q:"A empresa precisava ____ estratégias inovadoras para sobreviver à crise. (implementar)",answers:["implementar"]},
+  {type:"fill",q:"É fundamental ____ o impacto ambiental de qualquer novo projeto. (avaliar)",answers:["avaliar"]},
+  {type:"speak",phrase:"Este estudo traça um paralelo entre dois fenômenos e suscita questões sobre a eficácia das políticas públicas. Precisamos aprofundar a análise antes de formular qualquer hipótese.",translation:"Este estudio traza un paralelo entre dos fenómenos y suscita preguntas sobre la eficacia de las políticas. Necesitamos profundizar el análisis antes de formular cualquier hipótesis."},
+  {type:"fill",q:"O novo projeto visa ____ parcerias com universidades internacionais. (estabelecer)",answers:["estabelecer"]},
+  {type:"fill",q:"A estratégia de marketing ____ crescimento de 30% no primeiro trimestre. (gerou)",answers:["gerou"]},
+  {type:"tf",q:"'Atingir um objetivo' é a colocação formal para 'alcançar uma meta'.",correct:true}
+]},
+
+{id:"analise-critica-pt",num:8,title:"Análise Crítica",emoji:"🔍",cardDesc:"analisar textos e eventos com perspectiva crítica",
+explain:[
+  "<p>A <b>análise crítica</b> no C1 envolve examinar em profundidade, questionar suposições e apresentar perspectivas alternativas.</p>",
+  "<p>1. <b>Contextualizar</b>: <span class='ex-fr'>No contexto de... · À luz de... · Considerando que...</span></p>",
+  "<p>2. <b>Examinar</b>: <span class='ex-fr'>Ao analisar... · Vale destacar que... · Cabe examinar...</span></p>",
+  "<p>3. <b>Questionar</b>: <span class='ex-fr'>Cabe questionar se... · Isso levanta a questão de... · Convém indagar se...</span></p>",
+  "<p>4. <b>Alternativas</b>: <span class='ex-fr'>Por outro lado... · Uma perspectiva alternativa seria... · Outro ângulo é...</span></p>"
+],
+exercises:[
+  {type:"fill",q:"À ____ do que foi apresentado, é preciso questionar os pressupostos. (luz — 'à luz de')",answers:["luz"]},
+  {type:"fill",q:"Cabe ____ se os resultados são realmente representativos. (questionar)",answers:["questionar"]},
+  {type:"mcq",q:"'___ que o estudo foi realizado com amostra pequena, os resultados podem não ser conclusivos.'",options:["Considerando","À luz","Cabe","Vale"],correct:0},
+  {type:"tf",q:"Uma análise crítica inclui questionar e oferecer perspectivas alternativas, não apenas descrever.",correct:true},
+  {type:"order",q:"Monte a sentença de análise:",words:["o","analisar","filme,","é","Ao","necessário","contexto.","o","considerar"],correct:"Ao analisar o filme, é necessário considerar o contexto."},
+  {type:"fill",q:"Isso ____ a questão de quem realmente se beneficia desta política. (levanta)",answers:["levanta"]},
+  {type:"fill",q:"Uma ____ alternativa seria considerar os impactos a longo prazo. (perspectiva)",answers:["perspectiva"]},
+  {type:"speak",phrase:"À luz dos dados apresentados, cabe questionar se a política atingiu seus objetivos. Uma perspectiva alternativa seria considerar os efeitos não intencionais da mudança.",translation:"A la luz de los datos presentados, cabe preguntarse si la política alcanzó sus objetivos. Una perspectiva alternativa sería considerar los efectos no intencionados."},
+  {type:"fill",q:"Vale ____ que os resultados podem variar conforme o contexto cultural. (destacar)",answers:["destacar"]},
+  {type:"tf",q:"'Convém indagar se' é uma forma acadêmica de introduzir uma questão crítica.",correct:true}
+]},
+
+{id:"revisao-maestria-pt",num:9,title:"Revisão de Maestria C1",emoji:"🏆",cardDesc:"Do A1 ao C1 — checkpoint final de português",
+explain:[
+  "<p>🎓 Parabéns! Você chegou ao C1 em português! Isso significa que você pode:</p>",
+  "<ul><li>Entender textos longos e complexos sobre qualquer tema</li><li>Expressar-se com fluência e espontaneidade</li><li>Usar a língua em contextos sociais, acadêmicos e profissionais</li><li>Produzir textos claros e bem estruturados sobre assuntos complexos</li></ul>",
+  "<p><b>Você é um usuário proficiente do português! Que orgulho!</b></p>"
+],
+exercises:[
+  {type:"fill",q:"Seja como ____, vou continuar aprimorando meu português. (for — subj. futuro de ser)",answers:["for"]},
+  {type:"fill",q:"O presente trabalho ____ como objetivo analisar a influência da cultura. (tem — formal)",answers:["tem"]},
+  {type:"fill",q:"____ que você tenha razão, mas há outros fatores. (Embora — + subjuntivo)",answers:["Embora"]},
+  {type:"fill",q:"Ao que ____, o projeto será aprovado na próxima reunião. (parece — hedging)",answers:["parece"]},
+  {type:"mcq",q:"'Isso ___ questões importantes sobre a ética da IA.' — colocação C1",options:["faz","suscita","cria","diz"],correct:1},
+  {type:"fill",q:"____ do exposto, conclui-se que o investimento em educação é fundamental. (Diante)",answers:["Diante"]},
+  {type:"fill",q:"Ela acertou ____ cheio com sua análise. (em — 'acertar em cheio')",answers:["em"]},
+  {type:"match",q:"Combine o elemento C1 com a categoria.",pairs:[["seja como for","subjuntivo — expressão fixa"],["ao que parece","hedging"],["suscitar questões","colocação acadêmica"],["diante do exposto","marcador conclusivo formal"]]},
+  {type:"speak",phrase:"Diante do exposto, conclui-se que aprender línguas transforma vidas. Embora seja desafiador, com perseverança qualquer pessoa pode atingir a fluência. Tomara que todos descubram essa alegria!",translation:"Ante lo expuesto, se concluye que aprender idiomas transforma vidas. Aunque sea desafiante, con perseverancia cualquier persona puede alcanzar la fluidez. ¡Ojalá todos descubran esa alegría!"},
+  {type:"tf",q:"No C1, você pode se comunicar com fluência em contextos profissionais e acadêmicos complexos.",correct:true}
+]}
+];
+
+window.LP_TOPICS['pt-6'].push({
+  id:"conversa-pt6",num:10,title:"Estação de Conversa C1",emoji:"💬",
+  cardDesc:"Debates sofisticados, análise crítica e eloquência plena",
+  isChat:true,
+  explain:["<p>Conversas C1: debate com sofisticação, use hedging, estruturas avançadas de subjuntivo e expressões idiomáticas. Você é praticamente nativo!</p>"]
+});
+
+window.LP_CHAT_SCENARIOS['pt-6'] = {
+  scenarios:[
+    {id:"grande-debate",title:"O Grande Debate",emoji:"🎤",setup:"Debate formal sobre um tema de grande importância.",partner:{emoji:"🏛️",name:"Prof. Mendes"},opener:"Vamos debater: 'A globalização fez mais mal do que bem'. Qual é a sua posição? Defenda-a com argumentos sólidos."},
+    {id:"literatura-cultura",title:"Literatura e Identidade",emoji:"📚",setup:"Discussão literária e cultural aprofundada.",partner:{emoji:"📖",name:"Dra. Santos"},opener:"Como a literatura brasileira — de Machado de Assis ao Paulo Coelho — reflete a identidade nacional? O que a ficção nos diz sobre o Brasil?"},
+    {id:"visao-futuro",title:"Visão de Futuro",emoji:"🔭",setup:"Especulando sobre o futuro da humanidade.",partner:{emoji:"🌟",name:"Marcos"},opener:"Se você pudesse projetar o mundo daqui a 50 anos, como seria? Tomara que a humanidade resolva seus problemas — você é otimista ou pessimista?"}
   ]
 };
 </script>
