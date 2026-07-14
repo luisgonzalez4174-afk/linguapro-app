@@ -1583,6 +1583,27 @@ let TOPICS = [];
 //  UI STRINGS — localized by target language
 // ══════════════════════════════════
 const UI_STRINGS = {
+  es:{
+    exerciseLabel:'Ejercicio', of:'de', writeAnswer:'Escribe tu respuesta...',
+    check:'Verificar', trueOpt:'✅ Verdadero', falseOpt:'❌ Falso',
+    matchHint:'Toca un término — luego su pareja. 🔊 cada palabra al tocar.',
+    next:'Siguiente →', alreadyDone:'Ya completado ✓', correct:'¡Correcto!',
+    correctAnswer:'Respuesta correcta:', seeCorrect:'Mira la respuesta correcta en verde.',
+    notCorrect:'Incorrecto. La respuesta es', answer:'Respuesta:',
+    listening:'Escuchando...', youSaid:'Dijiste:',
+    wellDone:'✓ ¡Bien hecho!', stationComplete:'🎉 ¡Estación completada! +50 XP',
+    backToMap:'← Volver al mapa', listenInstruct:'Escucha y elige la respuesta correcta',
+    slow:'🐢 Despacio', tapMic:'Toca el micrófono y repite la frase en voz alta.',
+    practiced:'Ya practiqué ✓', says:'dice...', writeLang:'Escribe tu respuesta...',
+    send:'Enviar', chatDone:'🎉 ¡Conversación completada! ¡Bravo!',
+    noSR:'Tu navegador no soporta reconocimiento de voz.',
+    youSaidLabel:'Dijiste: ',
+    listenBtn:'🔊 Escuchar', explainTitle:'📘 Explicación',
+    audioHint:'👆 Toca cualquier palabra azul para escuchar su pronunciación',
+    startEx:'🚀 Comenzar ejercicios', reviewEx:'🔄 Repasar ejercicios',
+    exercisesCount:'ejercicios', backExplain:'← Explicación',
+    backLevels:'← Niveles', backLangs:'← Idiomas', locked:'🔒 Próximamente'
+  },
   fr:{
     exerciseLabel:'Exercice', of:'sur', writeAnswer:'Écris ta réponse...',
     check:'Vérifier', trueOpt:'✅ Vrai', falseOpt:'❌ Faux',
@@ -1647,7 +1668,14 @@ const UI_STRINGS = {
     backLevels:'← Níveis', backLangs:'← Idiomas', locked:'🔒 Em breve'
   }
 };
-function uiT(key){ const s=UI_STRINGS[currentLangId]||UI_STRINGS.fr; return s[key]||UI_STRINGS.fr[key]||key; }
+// Levels 1-2: Spanish UI (native language support for beginners)
+// Levels 3+: target language UI (immersion for advanced learners)
+function uiT(key){
+  const lvNum = currentLevelId ? parseInt(currentLevelId.split('-')[1]||'1') : 1;
+  const lang = lvNum <= 2 ? 'es' : (currentLangId||'es');
+  const s = UI_STRINGS[lang]||UI_STRINGS.es;
+  return s[key]||UI_STRINGS.es[key]||key;
+}
 
 // ══════════════════════════════════
 //  NAVIGATION
@@ -4159,10 +4187,10 @@ window.LP_TOPICS['en-1'] = [
 
 {id:"greetings-en",num:1,title:"Greetings & Farewells",emoji:"👋",cardDesc:"Hi! How are you? See you later! — everyday greetings",
 explain:[
-  "<p>Use <b>Hello / Hi</b> to greet someone. <b>Hi</b> is more informal. <b>Good morning / afternoon / evening</b> are formal greetings. Always respond to 'How are you?' with a short answer.</p>",
-  "<p>Common responses: <span class='ex-fr'>I'm fine, thanks! · Pretty good! · Not bad. · I'm great! · Could be better.</span></p>",
-  "<p>To say goodbye: <span class='ex-fr'>Bye! · Goodbye. · See you later! · Take care! · Have a good one!</span></p>",
-  "<p>Introducing yourself: <span class='ex-fr'>My name is... · I'm... · Nice to meet you! · Pleased to meet you.</span></p>"
+  "<p>Usa <b>Hello / Hi</b> para saludar. <b>Hi</b> es más informal. <b>Good morning / afternoon / evening</b> son saludos formales. Siempre responde a 'How are you?' con una respuesta corta.</p>",
+  "<p>Respuestas comunes: <span class='ex-fr'>I'm fine, thanks! · Pretty good! · Not bad. · I'm great! · Could be better.</span></p>",
+  "<p>Para despedirse: <span class='ex-fr'>Bye! · Goodbye. · See you later! · Take care! · Have a good one!</span></p>",
+  "<p>Para presentarte: <span class='ex-fr'>My name is... · I'm... · Nice to meet you! · Pleased to meet you.</span></p>"
 ],
 video:"P8sJHSQg2_I",videoNote:"Basic English Greetings",
 vocab:[
@@ -4184,23 +4212,23 @@ vocab:[
   ]}
 ],
 exercises:[
-  {type:"fill",q:"____ morning! How are you? (formal greeting)",answers:["Good"]},
-  {type:"mcq",q:"Which greeting is INFORMAL?",options:["Good afternoon","Good evening","Hi there!","How do you do?"],correct:2},
+  {type:"fill",q:"____ morning! How are you? (saludo formal)",answers:["Good"]},
+  {type:"mcq",q:"¿Cuál saludo es INFORMAL?",options:["Good afternoon","Good evening","Hi there!","How do you do?"],correct:2},
   {type:"fill",q:"A: How are you? B: I'm ____, thanks! (estoy bien)",answers:["fine","great","good"]},
   {type:"tf",q:"'See you later!' is a way to say goodbye.",correct:true},
-  {type:"match",q:"Match the greeting with its context.",pairs:[["Good morning","early in the day"],["Good evening","after 6pm"],["Hi!","informal, any time"],["Goodbye","when leaving"]]},
-  {type:"order",q:"Put the conversation in order:",words:["Hi!","I'm","How","fine!","are","you?"],correct:"Hi! How are you? I'm fine!"},
+  {type:"match",q:"Relaciona el saludo con su contexto.",pairs:[["Good morning","early in the day"],["Good evening","after 6pm"],["Hi!","informal, any time"],["Goodbye","when leaving"]]},
+  {type:"order",q:"Ordena la conversación:",words:["Hi!","I'm","How","fine!","are","you?"],correct:"Hi! How are you? I'm fine!"},
   {type:"fill",q:"My ____ is Maria. Nice to meet you! (nombre)",answers:["name"]},
-  {type:"mcq",q:"Someone says 'Nice to meet you!' You respond:",options:["Goodbye!","You too!","Good morning!","See you!"],correct:1},
+  {type:"mcq",q:"Alguien dice 'Nice to meet you!' ¿Qué respondes?",options:["Goodbye!","You too!","Good morning!","See you!"],correct:1},
   {type:"speak",phrase:"Hello! My name is Alex. Nice to meet you! How are you?",translation:"¡Hola! Me llamo Alex. ¡Mucho gusto! ¿Cómo estás?"},
   {type:"fill",q:"____ care! See you tomorrow! (despedida cariñosa)",answers:["Take"]}
 ]},
 
 {id:"verb-be",num:2,title:"The Verb To Be",emoji:"🌟",cardDesc:"am / is / are — the most important verb in English",
 explain:[
-  "<p>The verb <b>to be</b> changes form with each subject: <b>I am · You are · He/She/It is · We are · You are · They are.</b></p>",
-  "<table class='reftable'><tr><th>Subject</th><th>Positive</th><th>Negative</th><th>Question</th></tr><tr><td>I</td><td class='formcol'>I am (I'm)</td><td>I'm not</td><td>Am I?</td></tr><tr><td>You</td><td class='formcol'>You are (You're)</td><td>You aren't</td><td>Are you?</td></tr><tr><td>He/She/It</td><td class='formcol'>He is (He's)</td><td>He isn't</td><td>Is he?</td></tr><tr><td>We/They</td><td class='formcol'>We are (We're)</td><td>We aren't</td><td>Are we?</td></tr></table>",
-  "<p>Use to be for: <span class='ex-fr'>Name: I'm Maria. · Nationality: She's Mexican. · Job: He's a teacher. · Age: I'm 25 years old. · Description: The car is red.</span></p>"
+  "<p>El verbo <b>to be</b> cambia de forma con cada sujeto: <b>I am · You are · He/She/It is · We are · You are · They are.</b></p>",
+  "<table class='reftable'><tr><th>Sujeto</th><th>Positivo</th><th>Negativo</th><th>Pregunta</th></tr><tr><td>I</td><td class='formcol'>I am (I'm)</td><td>I'm not</td><td>Am I?</td></tr><tr><td>You</td><td class='formcol'>You are (You're)</td><td>You aren't</td><td>Are you?</td></tr><tr><td>He/She/It</td><td class='formcol'>He is (He's)</td><td>He isn't</td><td>Is he?</td></tr><tr><td>We/They</td><td class='formcol'>We are (We're)</td><td>We aren't</td><td>Are we?</td></tr></table>",
+  "<p>Usa to be para: <span class='ex-fr'>Nombre: I'm Maria. · Nacionalidad: She's Mexican. · Trabajo: He's a teacher. · Edad: I'm 25 years old. · Descripción: The car is red.</span></p>"
 ],
 video:"j16VeViNXBw",videoNote:"The Verb To Be — English Grammar",
 vocab:[
@@ -4215,11 +4243,11 @@ vocab:[
 exercises:[
   {type:"fill",q:"I ____ a student. (to be, I)",answers:["am","'m"]},
   {type:"fill",q:"She ____ from Mexico. (to be, She)",answers:["is","'s"]},
-  {type:"mcq",q:"'They ____ happy.' — correct form:",options:["am","is","are","be"],correct:2},
+  {type:"mcq",q:"'They ____ happy.' — ¿forma correcta?",options:["am","is","are","be"],correct:2},
   {type:"tf",q:"The contraction of 'He is' is 'He's'.",correct:true},
-  {type:"match",q:"Match subject with the correct form of TO BE.",pairs:[["I","am"],["He","is"],["We","are"],["They","are"]]},
-  {type:"fill",q:"We ____ not tired. (negative — we)",answers:["are","'re"]},
-  {type:"order",q:"Build the sentence:",words:["teacher.","a","She","is"],correct:"She is a teacher."},
+  {type:"match",q:"Relaciona el sujeto con la forma correcta de TO BE.",pairs:[["I","am"],["He","is"],["We","are"],["They","are"]]},
+  {type:"fill",q:"We ____ not tired. (negativo — we)",answers:["are","'re"]},
+  {type:"order",q:"Forma la oración:",words:["teacher.","a","She","is"],correct:"She is a teacher."},
   {type:"mcq",q:"____ you a doctor?",options:["Am","Is","Are","Be"],correct:2},
   {type:"fill",q:"It ____ cold today. (neutral subject)",answers:["is","'s"]},
   {type:"speak",phrase:"I'm a student. I'm 20 years old. I'm from Colombia.",translation:"Soy estudiante. Tengo 20 años. Soy de Colombia."}
@@ -4227,10 +4255,10 @@ exercises:[
 
 {id:"articles-en",num:3,title:"Articles: a / an / the",emoji:"🔤",cardDesc:"a dog, an apple, the sun — when to use each one",
 explain:[
-  "<p><b>A / An</b> (indefinite article) = one of many. Use before a singular countable noun mentioned for the first time. <b>A</b> before consonant sounds, <b>An</b> before vowel sounds (a, e, i, o, u).</p>",
-  "<p><span class='ex-fr'>a dog · a car · a house · an apple · an egg · an umbrella · an hour (silent H!) · a university (sounds like 'yu-')</span></p>",
-  "<p><b>The</b> (definite article) = specific, already known. Use when both speaker and listener know which one: <span class='ex-fr'>Please close the door. (that specific door) · The sun is yellow. (only one sun)</span></p>",
-  "<p>No article: general ideas, uncountable nouns, plural general nouns: <span class='ex-fr'>I like music. · Coffee is hot. · Dogs are friendly.</span></p>"
+  "<p><b>A / An</b> (artículo indefinido) = uno entre muchos. Se usa antes de un sustantivo singular contable mencionado por primera vez. <b>A</b> antes de sonido de consonante, <b>An</b> antes de sonido de vocal (a, e, i, o, u).</p>",
+  "<p><span class='ex-fr'>a dog · a car · a house · an apple · an egg · an umbrella · an hour (¡H muda!) · a university (suena como 'yu-')</span></p>",
+  "<p><b>The</b> (artículo definido) = específico, ya conocido. Se usa cuando ambos saben de cuál se habla: <span class='ex-fr'>Please close the door. (esa puerta específica) · The sun is yellow. (solo hay uno)</span></p>",
+  "<p>Sin artículo: ideas generales, sustantivos incontables, sustantivos plurales generales: <span class='ex-fr'>I like music. · Coffee is hot. · Dogs are friendly.</span></p>"
 ],
 video:"GqzZRyN-tx0",videoNote:"English Articles a/an/the",
 vocab:[
@@ -4254,11 +4282,11 @@ vocab:[
 exercises:[
   {type:"fill",q:"I have ____ dog. His name is Max. (un perro)",answers:["a"]},
   {type:"fill",q:"She ate ____ apple for breakfast. (una manzana)",answers:["an"]},
-  {type:"mcq",q:"'Please close ___ door.' Which article?",options:["a","an","the","no article"],correct:2},
+  {type:"mcq",q:"'Please close ___ door.' ¿Cuál artículo?",options:["a","an","the","no article"],correct:2},
   {type:"tf",q:"We use 'an' before words that START with a vowel SOUND.",correct:true},
   {type:"fill",q:"He is ____ English teacher. (un/una)",answers:["an"]},
-  {type:"mcq",q:"'___ music is great.' — which is correct for a general statement?",options:["A","An","The","no article"],correct:3},
-  {type:"match",q:"Match the noun with the correct article.",pairs:[["egg","an"],["book","a"],["sun","the"],["umbrella","an"]]},
+  {type:"mcq",q:"'___ music is great.' ¿Cuál es correcto para una afirmación general?",options:["A","An","The","no article"],correct:3},
+  {type:"match",q:"Relaciona el sustantivo con el artículo correcto.",pairs:[["egg","an"],["book","a"],["sun","the"],["umbrella","an"]]},
   {type:"fill",q:"____ sun rises in the east. (specific — the only sun)",answers:["The"]},
   {type:"speak",phrase:"I have a cat and a dog. The cat is black and the dog is white.",translation:"Tengo un gato y un perro. El gato es negro y el perro es blanco."},
   {type:"tf",q:"'I like the music.' is correct when talking about music in general.",correct:false}
@@ -4266,9 +4294,9 @@ exercises:[
 
 {id:"numbers-en",num:4,title:"Numbers & Telling Time",emoji:"🔢",cardDesc:"1-100, What time is it? — numbers and the clock",
 explain:[
-  "<p>Cardinals 1-20: <span class='ex-fr'>one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty.</span></p>",
-  "<p>Tens: <span class='ex-fr'>twenty (20), thirty (30), forty (40), fifty (50), sixty (60), seventy (70), eighty (80), ninety (90), one hundred (100).</span> For 21-99: <span class='ex-fr'>twenty-one, thirty-five, forty-eight...</span></p>",
-  "<p>Telling time: <span class='ex-fr'>It's 3:00 → It's three o'clock. · 3:15 → three fifteen / quarter past three. · 3:30 → three thirty / half past three. · 3:45 → three forty-five / quarter to four.</span></p>"
+  "<p>Números cardinales del 1 al 20: <span class='ex-fr'>one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty.</span></p>",
+  "<p>Decenas: <span class='ex-fr'>twenty (20), thirty (30), forty (40), fifty (50), sixty (60), seventy (70), eighty (80), ninety (90), one hundred (100).</span> Para 21-99: <span class='ex-fr'>twenty-one, thirty-five, forty-eight...</span></p>",
+  "<p>Decir la hora: <span class='ex-fr'>3:00 → three o'clock. · 3:15 → quarter past three (y cuarto). · 3:30 → half past three (y media). · 3:45 → quarter to four (menos cuarto).</span></p>"
 ],
 video:"r9Ld8AQ1F1Q",videoNote:"Numbers in English 1-100",
 vocab:[
@@ -4292,11 +4320,11 @@ vocab:[
 exercises:[
   {type:"fill",q:"The number 15 in English: ____",answers:["fifteen"]},
   {type:"fill",q:"The number 40 in English: ____",answers:["forty"]},
-  {type:"mcq",q:"How do you say 3:30?",options:["three o'clock","half past three","quarter past three","quarter to three"],correct:1},
+  {type:"mcq",q:"¿Cómo se dice 3:30 en inglés?",options:["three o'clock","half past three","quarter past three","quarter to three"],correct:1},
   {type:"fill",q:"What time is 7:15? It's quarter ____ seven.",answers:["past"]},
-  {type:"match",q:"Match the number with its English word.",pairs:[["12","twelve"],["50","fifty"],["80","eighty"],["100","one hundred"]]},
+  {type:"match",q:"Relaciona el número con su nombre en inglés.",pairs:[["12","twelve"],["50","fifty"],["80","eighty"],["100","one hundred"]]},
   {type:"fill",q:"75 in English: seventy-____",answers:["five"]},
-  {type:"mcq",q:"How do you say 4:45?",options:["quarter past four","half past four","quarter to five","four o'clock"],correct:2},
+  {type:"mcq",q:"¿Cómo se dice 4:45 en inglés?",options:["quarter past four","half past four","quarter to five","four o'clock"],correct:2},
   {type:"speak",phrase:"It's ten o'clock in the morning. My class starts at half past ten.",translation:"Son las diez de la mañana. Mi clase empieza a las diez y media."},
   {type:"fill",q:"The number 13 in English: ____",answers:["thirteen"]},
   {type:"tf",q:"'Quarter to four' means 3:45.",correct:true}
@@ -4304,7 +4332,7 @@ exercises:[
 
 {id:"jobs-en",num:5,title:"Jobs & Professions",emoji:"💼",cardDesc:"What do you do? — talking about work and jobs",
 isVocab:true,
-explain:["<p>Vocabulary for jobs and professions in English. Tap each card to hear the pronunciation. Notice: we say <b>'a + job'</b>: I'm <b>a</b> teacher. (NOT: I'm teacher.)</p>"],
+explain:["<p>Vocabulario de trabajos y profesiones en inglés. Toca cada tarjeta para escuchar la pronunciación. Recuerda: en inglés usamos <b>'a + trabajo'</b>: I'm <b>a</b> teacher. (¡NO: I'm teacher!)</p>"],
 vocab:[
   {cat:"🏥 Health & Education",items:[
     {e:"👨‍⚕️",w:"doctor",p:"médico"},
@@ -4327,12 +4355,12 @@ vocab:[
 ],
 exercises:[
   {type:"fill",q:"A person who treats sick people is a ____.",answers:["doctor"]},
-  {type:"mcq",q:"'What do you ___?' is the question to ask about someone's job.",options:["make","do","work","be"],correct:1},
+  {type:"mcq",q:"'What do you ___?' es la pregunta para saber el trabajo de alguien.",options:["make","do","work","be"],correct:1},
   {type:"fill",q:"She flies airplanes. She's a ____.",answers:["pilot"]},
-  {type:"match",q:"Match the job with what they do.",pairs:[["teacher","works in a school"],["chef","cooks in a restaurant"],["lawyer","works in a court"],["firefighter","puts out fires"]]},
+  {type:"match",q:"Relaciona el trabajo con lo que hace.",pairs:[["teacher","works in a school"],["chef","cooks in a restaurant"],["lawyer","works in a court"],["firefighter","puts out fires"]]},
   {type:"tf",q:"In English, we say 'I'm a doctor.' (with the article 'a').",correct:true},
   {type:"fill",q:"He writes computer code. He's a ____.",answers:["programmer"]},
-  {type:"mcq",q:"Which job works in a hospital?",options:["lawyer","nurse","pilot","engineer"],correct:1},
+  {type:"mcq",q:"¿Qué trabajo se desempeña en un hospital?",options:["lawyer","nurse","pilot","engineer"],correct:1},
   {type:"speak",phrase:"I'm a teacher. I work at a school. I love my job!",translation:"Soy maestro/a. Trabajo en una escuela. ¡Amo mi trabajo!"},
   {type:"fill",q:"A person who protects people and enforces laws is a police ____.",answers:["officer"]},
   {type:"tf",q:"'She's engineer' is correct English.",correct:false}
@@ -4340,7 +4368,7 @@ exercises:[
 
 {id:"family-en",num:6,title:"Family Members",emoji:"👨‍👩‍👧‍👦",cardDesc:"mother, father, siblings — family vocabulary",
 isVocab:true,
-explain:["<p>Family vocabulary in English. Note key differences from Spanish: <b>siblings</b> = brothers and sisters together. <b>Parents</b> = mother AND father. <b>Relatives</b> = all family members.</p>"],
+explain:["<p>Vocabulario de la familia en inglés. Diferencias clave con el español: <b>siblings</b> = hermanos y hermanas en conjunto. <b>Parents</b> = madre Y padre. <b>Relatives</b> = todos los familiares.</p>"],
 vocab:[
   {cat:"👪 Immediate Family",items:[
     {e:"👨",w:"father / dad",p:"padre / papá"},
@@ -4361,12 +4389,12 @@ vocab:[
 ],
 exercises:[
   {type:"fill",q:"My mother's mother is my ____.",answers:["grandmother","grandma"]},
-  {type:"mcq",q:"'Siblings' means:",options:["only brothers","only sisters","brothers AND sisters","parents"],correct:2},
+  {type:"mcq",q:"'Siblings' significa:",options:["only brothers","only sisters","brothers AND sisters","parents"],correct:2},
   {type:"fill",q:"My father's brother is my ____.",answers:["uncle"]},
-  {type:"match",q:"Match the family member with the relationship.",pairs:[["aunt","my mother's sister"],["cousin","my uncle's child"],["nephew","my brother's son"],["grandpa","my father's father"]]},
+  {type:"match",q:"Relaciona el familiar con el vínculo.",pairs:[["aunt","my mother's sister"],["cousin","my uncle's child"],["nephew","my brother's son"],["grandpa","my father's father"]]},
   {type:"tf",q:"'Parents' in English refers to mother and father together.",correct:true},
   {type:"fill",q:"My sister's daughter is my ____.",answers:["niece"]},
-  {type:"mcq",q:"What do you call your brother or sister's child?",options:["cousin","niece or nephew","sibling","grandchild"],correct:1},
+  {type:"mcq",q:"¿Cómo se llama el hijo de tu hermano o hermana?",options:["cousin","niece or nephew","sibling","grandchild"],correct:1},
   {type:"speak",phrase:"I have a big family. I have two brothers and one sister. My grandparents live nearby.",translation:"Tengo una familia grande. Tengo dos hermanos y una hermana. Mis abuelos viven cerca."},
   {type:"fill",q:"My mother and father are my ____.",answers:["parents"]},
   {type:"tf",q:"'Uncle' can refer to your mother's OR father's brother.",correct:true}
@@ -4374,7 +4402,7 @@ exercises:[
 
 {id:"colors-en",num:7,title:"Colors & Descriptions",emoji:"🌈",cardDesc:"red, blue, green — colors and basic adjectives",
 isVocab:true,
-explain:["<p>Colors in English are used as adjectives — they come BEFORE the noun: <b>a red car, blue eyes, green trees.</b> (Different from Spanish where they often come after)</p>"],
+explain:["<p>Los colores en inglés funcionan como adjetivos — van ANTES del sustantivo: <b>a red car, blue eyes, green trees.</b> (Diferente al español donde suelen ir después del sustantivo)</p>"],
 vocab:[
   {cat:"🎨 Basic Colors",items:[
     {e:"🔴",w:"red",p:"rojo"},
@@ -4400,19 +4428,19 @@ vocab:[
 exercises:[
   {type:"fill",q:"The sky is ____. (azul)",answers:["blue"]},
   {type:"fill",q:"Grass is ____. (verde)",answers:["green"]},
-  {type:"mcq",q:"In English, adjectives go ___ the noun.",options:["after","before","behind","below"],correct:1},
-  {type:"match",q:"Match the color with an object of that color.",pairs:[["red","a fire truck"],["yellow","a banana"],["white","snow"],["black","the night sky"]]},
+  {type:"mcq",q:"En inglés, los adjetivos van ___ el sustantivo.",options:["after","before","behind","below"],correct:1},
+  {type:"match",q:"Relaciona el color con un objeto de ese color.",pairs:[["red","a fire truck"],["yellow","a banana"],["white","snow"],["black","the night sky"]]},
   {type:"fill",q:"He has a ____ car. It's very dark, like the night. (negro)",answers:["black"]},
   {type:"tf",q:"'A car red' is correct English word order.",correct:false},
   {type:"fill",q:"She feels ____. She's smiling. (feliz)",answers:["happy"]},
-  {type:"mcq",q:"What color is a typical school bus in the USA?",options:["red","blue","yellow","green"],correct:2},
+  {type:"mcq",q:"¿De qué color es el típico autobús escolar en EE.UU.?",options:["red","blue","yellow","green"],correct:2},
   {type:"speak",phrase:"I love blue. My favorite shirt is blue. My room has white walls.",translation:"Me encanta el azul. Mi camisa favorita es azul. Mi cuarto tiene paredes blancas."},
   {type:"tf",q:"'Orange' is both a color AND a fruit in English.",correct:true}
 ]},
 
 {id:"food-en",num:8,title:"Food & Drinks",emoji:"🍎",cardDesc:"fruits, vegetables, drinks — essential food vocabulary",
 isVocab:true,
-explain:["<p>Food vocabulary is essential for everyday English. Key phrases: <b>I like / I love / I hate + noun. Do you like...? Yes, I love it! / No, I don't like it.</b></p>"],
+explain:["<p>El vocabulario de comida es esencial en el inglés cotidiano. Frases clave: <b>I like / I love / I hate + sustantivo. Do you like...? Yes, I love it! / No, I don't like it.</b></p>"],
 vocab:[
   {cat:"🍎 Fruits & Vegetables",items:[
     {e:"🍎",w:"apple",p:"manzana"},
@@ -4437,31 +4465,31 @@ vocab:[
 ],
 exercises:[
   {type:"fill",q:"I eat an ____ every morning. (manzana)",answers:["apple"]},
-  {type:"mcq",q:"Which of these is a vegetable?",options:["banana","carrot","apple","orange"],correct:1},
+  {type:"mcq",q:"¿Cuál de estos es una verdura?",options:["banana","carrot","apple","orange"],correct:1},
   {type:"fill",q:"Do you like ____? Yes, I love it! (café)",answers:["coffee"]},
-  {type:"match",q:"Match the food with its category.",pairs:[["apple","fruit"],["carrot","vegetable"],["water","drink"],["bread","grain/bakery"]]},
+  {type:"match",q:"Relaciona el alimento con su categoría.",pairs:[["apple","fruit"],["carrot","vegetable"],["water","drink"],["bread","grain/bakery"]]},
   {type:"tf",q:"In English, 'tomato' is used as a vegetable in cooking.",correct:true},
   {type:"fill",q:"She drinks ____ every morning at breakfast. (té)",answers:["tea"]},
   {type:"speak",phrase:"I love fruits and vegetables. My favorite fruit is mango. I drink juice every morning.",translation:"Me encantan las frutas y verduras. Mi fruta favorita es el mango. Tomo jugo cada mañana."},
-  {type:"mcq",q:"What do you drink with breakfast that gives you energy?",options:["water","juice or coffee","soup","ice cream"],correct:1},
+  {type:"mcq",q:"¿Qué bebes en el desayuno que te da energía?",options:["water","juice or coffee","soup","ice cream"],correct:1},
   {type:"fill",q:"____ is a yellow fruit. You peel it before eating. (plátano)",answers:["Banana","A banana"]},
   {type:"tf",q:"'Avocado' is a fruit that comes from Mexico and Central America.",correct:true}
 ]},
 
 {id:"possessives-en",num:9,title:"Possessives",emoji:"🔑",cardDesc:"my, your, his, her — who owns what",
 explain:[
-  "<p><b>Possessive adjectives</b> show ownership and go BEFORE the noun:</p>",
-  "<table class='reftable'><tr><th>Subject</th><th>Possessive Adj.</th><th>Example</th></tr><tr><td>I</td><td class='formcol'>my</td><td>my book</td></tr><tr><td>you</td><td class='formcol'>your</td><td>your car</td></tr><tr><td>he</td><td class='formcol'>his</td><td>his phone</td></tr><tr><td>she</td><td class='formcol'>her</td><td>her bag</td></tr><tr><td>we</td><td class='formcol'>our</td><td>our house</td></tr><tr><td>they</td><td class='formcol'>their</td><td>their dog</td></tr></table>",
-  "<p><b>Possessive 's</b>: add <b>'s</b> to a person's name or noun to show it belongs to them: <span class='ex-fr'>Maria's car · the teacher's book · John's sister.</span></p>"
+  "<p><b>Los adjetivos posesivos</b> indican pertenencia y van ANTES del sustantivo:</p>",
+  "<table class='reftable'><tr><th>Sujeto</th><th>Adjetivo Posesivo</th><th>Ejemplo</th></tr><tr><td>I</td><td class='formcol'>my</td><td>my book</td></tr><tr><td>you</td><td class='formcol'>your</td><td>your car</td></tr><tr><td>he</td><td class='formcol'>his</td><td>his phone</td></tr><tr><td>she</td><td class='formcol'>her</td><td>her bag</td></tr><tr><td>we</td><td class='formcol'>our</td><td>our house</td></tr><tr><td>they</td><td class='formcol'>their</td><td>their dog</td></tr></table>",
+  "<p><b>Posesivo con 's</b>: agrega <b>'s</b> al nombre de una persona para indicar que algo le pertenece: <span class='ex-fr'>Maria's car · the teacher's book · John's sister.</span></p>"
 ],
 exercises:[
   {type:"fill",q:"That is ____ car. (I — my car)",answers:["my"]},
   {type:"fill",q:"She loves ____ cat. (she — her cat)",answers:["her"]},
   {type:"mcq",q:"'They have a dog. ___ dog is big.'",options:["They","Their","There","Them"],correct:1},
   {type:"tf",q:"'His' is used for both male AND female subjects.",correct:false},
-  {type:"match",q:"Match subject with its possessive adjective.",pairs:[["I","my"],["he","his"],["she","her"],["we","our"]]},
+  {type:"match",q:"Relaciona el sujeto con su adjetivo posesivo.",pairs:[["I","my"],["he","his"],["she","her"],["we","our"]]},
   {type:"fill",q:"This is John. ____ phone is new. (John's phone — his)",answers:["His"]},
-  {type:"order",q:"Build the sentence:",words:["is","Maria's","beautiful.","house"],correct:"Maria's house is beautiful."},
+  {type:"order",q:"Forma la oración:",words:["is","Maria's","beautiful.","house"],correct:"Maria's house is beautiful."},
   {type:"fill",q:"We love ____ country. (our)",answers:["our"]},
   {type:"speak",phrase:"My name is Carlos. My sister's name is Laura. Her cat is very friendly.",translation:"Mi nombre es Carlos. El nombre de mi hermana es Laura. Su gato es muy amigable."},
   {type:"tf",q:"'Your' can refer to one person OR more than one person.",correct:true}
@@ -4469,9 +4497,9 @@ exercises:[
 
 {id:"simple-questions-en",num:10,title:"Yes/No & WH- Questions",emoji:"❓",cardDesc:"Are you? Do you? Where? What? — asking questions",
 explain:[
-  "<p><b>Yes/No questions with To Be</b>: invert subject and verb: <span class='ex-fr'>Are you a student? — Yes, I am. / No, I'm not. · Is she happy? — Yes, she is.</span></p>",
-  "<p><b>WH- question words</b>: <span class='ex-fr'>What (qué/cuál) · Where (dónde) · Who (quién) · When (cuándo) · Why (por qué) · How (cómo) · How many/much (cuántos/cuánto)</span></p>",
-  "<p><span class='ex-fr'>What is your name? — My name is Maria. · Where are you from? — I'm from Colombia. · How old are you? — I'm 22 years old.</span></p>"
+  "<p><b>Preguntas de Sí/No con To Be</b>: invierte sujeto y verbo: <span class='ex-fr'>Are you a student? — Yes, I am. / No, I'm not. · Is she happy? — Yes, she is.</span></p>",
+  "<p><b>Palabras interrogativas (WH-)</b>: <span class='ex-fr'>What (qué/cuál) · Where (dónde) · Who (quién) · When (cuándo) · Why (por qué) · How (cómo) · How many/much (cuántos/cuánto)</span></p>",
+  "<p>Ejemplos: <span class='ex-fr'>What is your name? — My name is Maria. · Where are you from? — I'm from Colombia. · How old are you? — I'm 22 years old.</span></p>"
 ],
 vocab:[
   {cat:"❓ WH- Question Words",items:[
@@ -4488,10 +4516,10 @@ vocab:[
 exercises:[
   {type:"fill",q:"____ is your name? — My name is Alex. (qué / cuál)",answers:["What"]},
   {type:"fill",q:"____ are you from? — I'm from Brazil. (dónde)",answers:["Where"]},
-  {type:"mcq",q:"To make a yes/no question with TO BE:",options:["Add 'do' before the subject","Move the verb before the subject","Add '?' at the end only","Add 'not' to the verb"],correct:1},
+  {type:"mcq",q:"Para hacer preguntas de sí/no con TO BE:",options:["Add 'do' before the subject","Move the verb before the subject","Add '?' at the end only","Add 'not' to the verb"],correct:1},
   {type:"fill",q:"____ old are you? — I'm twenty. (cómo — para edad)",answers:["How"]},
-  {type:"match",q:"Match the question word with its meaning.",pairs:[["Why","por qué"],["Who","quién"],["When","cuándo"],["How much","cuánto (incontable)"]]},
-  {type:"order",q:"Build the question:",words:["from?","are","you","Where"],correct:"Where are you from?"},
+  {type:"match",q:"Relaciona la palabra interrogativa con su significado.",pairs:[["Why","por qué"],["Who","quién"],["When","cuándo"],["How much","cuánto (incontable)"]]},
+  {type:"order",q:"Forma la pregunta:",words:["from?","are","you","Where"],correct:"Where are you from?"},
   {type:"fill",q:"____ are you happy? — Because it's my birthday! (por qué)",answers:["Why"]},
   {type:"mcq",q:"'___ books do you have?' — (contable)",options:["How much","How many","What","Which"],correct:1},
   {type:"speak",phrase:"What's your name? Where are you from? How old are you? What do you do?",translation:"¿Cómo te llamas? ¿De dónde eres? ¿Cuántos años tienes? ¿A qué te dedicas?"},
@@ -4500,30 +4528,30 @@ exercises:[
 
 {id:"there-is-en",num:11,title:"There is / There are",emoji:"📍",cardDesc:"There's a park! There are two cats. — describing what exists",
 explain:[
-  "<p>Use <b>There is</b> (singular) and <b>There are</b> (plural) to say that something exists or is located somewhere.</p>",
-  "<p><b>Positive</b>: <span class='ex-fr'>There is a park near my house. / There are three bedrooms.</span></p>",
-  "<p><b>Negative</b>: <span class='ex-fr'>There isn't a pool. / There aren't any chairs.</span></p>",
-  "<p><b>Question</b>: <span class='ex-fr'>Is there a bank nearby? — Yes, there is. / No, there isn't. · Are there any students? — Yes, there are.</span></p>",
-  "<p>Contractions: <span class='ex-fr'>There is → There's · There are → There're (informal)</span></p>"
+  "<p>Usa <b>There is</b> (singular) y <b>There are</b> (plural) para expresar que algo existe o se encuentra en un lugar.</p>",
+  "<p><b>Afirmativo</b>: <span class='ex-fr'>There is a park near my house. / There are three bedrooms.</span></p>",
+  "<p><b>Negativo</b>: <span class='ex-fr'>There isn't a pool. / There aren't any chairs.</span></p>",
+  "<p><b>Pregunta</b>: <span class='ex-fr'>Is there a bank nearby? — Yes, there is. / No, there isn't. · Are there any students? — Yes, there are.</span></p>",
+  "<p>Contracciones: <span class='ex-fr'>There is → There's · There are → There're (informal)</span></p>"
 ],
 exercises:[
   {type:"fill",q:"____ a supermarket near here. (singular)",answers:["There is","There's"]},
   {type:"fill",q:"____ three cats in the garden. (plural)",answers:["There are"]},
-  {type:"mcq",q:"'____ any milk in the fridge?' (question)",options:["There are","Is there","Are there","There is"],correct:1},
+  {type:"mcq",q:"'____ any milk in the fridge?' (pregunta)",options:["There are","Is there","Are there","There is"],correct:1},
   {type:"tf",q:"'There are a cat' is incorrect because 'cat' is singular.",correct:true},
-  {type:"fill",q:"____ aren't any buses on Sunday. (there are — negative)",answers:["There"]},
-  {type:"order",q:"Build the sentence:",words:["in","There","students","are","the","classroom.","20"],correct:"There are 20 students in the classroom."},
-  {type:"fill",q:"Is ____ a hospital near here? — Yes, there is. (question — is there)",answers:["there"]},
-  {type:"mcq",q:"'There's a dog in the park.' 'There's' is the contraction of:",options:["There was","There is","There are","There has"],correct:1},
+  {type:"fill",q:"____ aren't any buses on Sunday. (there are — negativo)",answers:["There"]},
+  {type:"order",q:"Forma la oración:",words:["in","There","students","are","the","classroom.","20"],correct:"There are 20 students in the classroom."},
+  {type:"fill",q:"Is ____ a hospital near here? — Yes, there is. (pregunta — is there)",answers:["there"]},
+  {type:"mcq",q:"'There's a dog in the park.' 'There's' es la contracción de:",options:["There was","There is","There are","There has"],correct:1},
   {type:"speak",phrase:"There's a beautiful park in my neighborhood. There are trees, benches, and a small lake.",translation:"Hay un parque hermoso en mi vecindario. Hay árboles, bancas y un lago pequeño."},
   {type:"tf",q:"'Is there a bathroom?' is a correct way to ask if something exists.",correct:true}
 ]},
 
 {id:"prepositions-basic-en",num:12,title:"Basic Prepositions",emoji:"📦",cardDesc:"in, on, at, under, next to — where things are",
 explain:[
-  "<p>Prepositions of place tell us WHERE something is:</p>",
+  "<p>Las preposiciones de lugar nos dicen DÓNDE está algo:</p>",
   "<p><span class='ex-fr'>in (dentro de) · on (sobre/encima de) · at (en un punto específico) · under (debajo de) · next to (al lado de) · behind (detrás de) · in front of (frente a) · between (entre dos) · near (cerca de)</span></p>",
-  "<p>Key rules: <b>in</b> = enclosed space or area: <span class='ex-fr'>in the box, in the city. · on</span> = surface: <span class='ex-fr'>on the table. · at</span> = specific point: <span class='ex-fr'>at the bus stop, at school.</span></p>"
+  "<p>Reglas clave: <b>in</b> = espacio cerrado o área: <span class='ex-fr'>in the box, in the city. · on</span> = superficie: <span class='ex-fr'>on the table. · at</span> = punto específico: <span class='ex-fr'>at the bus stop, at school.</span></p>"
 ],
 vocab:[
   {cat:"📦 Prepositions of Place",items:[
@@ -4540,12 +4568,12 @@ vocab:[
 exercises:[
   {type:"fill",q:"The cat is ____ the box. (dentro)",answers:["in"]},
   {type:"fill",q:"The book is ____ the table. (sobre)",answers:["on"]},
-  {type:"mcq",q:"'She is ___ school right now.' — which preposition?",options:["in","on","at","under"],correct:2},
-  {type:"match",q:"Match the preposition with its meaning.",pairs:[["under","debajo de"],["behind","detrás de"],["next to","al lado de"],["between","entre dos cosas"]]},
+  {type:"mcq",q:"'She is ___ school right now.' — ¿cuál preposición?",options:["in","on","at","under"],correct:2},
+  {type:"match",q:"Relaciona la preposición con su significado.",pairs:[["under","debajo de"],["behind","detrás de"],["next to","al lado de"],["between","entre dos cosas"]]},
   {type:"fill",q:"The school is ____ the bank and the library. (entre dos)",answers:["between"]},
   {type:"tf",q:"'The dog is on the chair' means the dog is sitting ON TOP of the chair.",correct:true},
   {type:"fill",q:"I'm waiting ____ the bus stop. (en un punto específico)",answers:["at"]},
-  {type:"order",q:"Describe where the keys are:",words:["are","The","the","on","keys","table."],correct:"The keys are on the table."},
+  {type:"order",q:"Describe dónde están las llaves:",words:["are","The","the","on","keys","table."],correct:"The keys are on the table."},
   {type:"speak",phrase:"My house is next to a park. There's a supermarket in front of my house and a school behind it.",translation:"Mi casa está al lado de un parque. Hay un supermercado frente a mi casa y una escuela detrás."},
   {type:"tf",q:"'At the airport' uses 'at' because an airport is a specific location point.",correct:true}
 ]}
@@ -4576,10 +4604,10 @@ window.LP_TOPICS['en-2'] = [
 
 {id:"simple-present-en",num:1,title:"Simple Present",emoji:"⏰",cardDesc:"I work, she works — habits, routines and facts",
 explain:[
-  "<p>The <b>Simple Present</b> is used for habits, routines, and general facts. Add <b>-s</b> (or -es) for He/She/It.</p>",
-  "<table class='reftable'><tr><th>Subject</th><th>work</th><th>watch</th></tr><tr><td>I / You / We / They</td><td class='formcol'>work</td><td>watch</td></tr><tr><td>He / She / It</td><td class='formcol'>works</td><td>watches</td></tr></table>",
-  "<p><b>Negative</b>: <span class='ex-fr'>I don't work. / She doesn't work.</span> <b>Question</b>: <span class='ex-fr'>Do you work? / Does she work?</span></p>",
-  "<p>Time markers: <span class='ex-fr'>every day · always · usually · often · sometimes · never · on Mondays</span></p>"
+  "<p>El <b>Presente Simple</b> se usa para hábitos, rutinas y hechos generales. Agrega <b>-s</b> (o -es) para He/She/It.</p>",
+  "<table class='reftable'><tr><th>Sujeto</th><th>work</th><th>watch</th></tr><tr><td>I / You / We / They</td><td class='formcol'>work</td><td>watch</td></tr><tr><td>He / She / It</td><td class='formcol'>works</td><td>watches</td></tr></table>",
+  "<p><b>Negativo</b>: <span class='ex-fr'>I don't work. / She doesn't work.</span> <b>Pregunta</b>: <span class='ex-fr'>Do you work? / Does she work?</span></p>",
+  "<p>Marcadores de tiempo: <span class='ex-fr'>every day · always · usually · often · sometimes · never · on Mondays</span></p>"
 ],
 video:"NjzdQDk2xfo",videoNote:"Simple Present — English Grammar",
 vocab:[
@@ -4603,11 +4631,11 @@ vocab:[
 exercises:[
   {type:"fill",q:"She ____ to work every day. (go — 3rd person)",answers:["goes"]},
   {type:"fill",q:"I ____ watch TV. I prefer reading. (negative)",answers:["don't"]},
-  {type:"mcq",q:"'He ___ English very well.' — correct form:",options:["speak","speaks","speaking","speaked"],correct:1},
+  {type:"mcq",q:"'He ___ English very well.' — ¿forma correcta?",options:["speak","speaks","speaking","speaked"],correct:1},
   {type:"tf",q:"For He/She/It in Simple Present, we add -s or -es to the verb.",correct:true},
-  {type:"order",q:"Build a question:",words:["play","you","Do","guitar?","the"],correct:"Do you play the guitar?"},
-  {type:"fill",q:"____ she work on weekends? (question)",answers:["Does"]},
-  {type:"match",q:"Match the frequency adverb with its percentage.",pairs:[["always","100%"],["usually","~80%"],["sometimes","~50%"],["never","0%"]]},
+  {type:"order",q:"Forma una pregunta:",words:["play","you","Do","guitar?","the"],correct:"Do you play the guitar?"},
+  {type:"fill",q:"____ she work on weekends? (pregunta)",answers:["Does"]},
+  {type:"match",q:"Relaciona el adverbio de frecuencia con su porcentaje.",pairs:[["always","100%"],["usually","~80%"],["sometimes","~50%"],["never","0%"]]},
   {type:"fill",q:"He ____ get up early. He's not a morning person. (negative — doesn't)",answers:["doesn't"]},
   {type:"speak",phrase:"I usually wake up at 7am. I always have breakfast. I never skip exercise.",translation:"Generalmente me despierto a las 7am. Siempre desayuno. Nunca me salto el ejercicio."},
   {type:"tf",q:"'She don't like coffee' is correct English.",correct:false}
@@ -4615,10 +4643,10 @@ exercises:[
 
 {id:"simple-past-en",num:2,title:"Simple Past",emoji:"📖",cardDesc:"I worked, she went — talking about finished actions",
 explain:[
-  "<p>Use the <b>Simple Past</b> for finished actions in the past. Regular verbs: add <b>-ed</b>. Irregular verbs must be memorized.</p>",
-  "<p><b>Regular</b>: <span class='ex-fr'>work → worked · play → played · study → studied · travel → traveled</span></p>",
-  "<p><b>Common irregulars</b>: <span class='ex-fr'>go → went · eat → ate · see → saw · come → came · have → had · get → got · make → made · take → took · say → said · buy → bought</span></p>",
-  "<p><b>Negative</b>: <span class='ex-fr'>I didn't work. (NOT: I didn't worked)</span> <b>Question</b>: <span class='ex-fr'>Did you work? — Yes, I did.</span></p>"
+  "<p>Usa el <b>Pasado Simple</b> para acciones terminadas en el pasado. Verbos regulares: agrega <b>-ed</b>. Los irregulares hay que memorizarlos.</p>",
+  "<p><b>Regulares</b>: <span class='ex-fr'>work → worked · play → played · study → studied · travel → traveled</span></p>",
+  "<p><b>Irregulares comunes</b>: <span class='ex-fr'>go → went · eat → ate · see → saw · come → came · have → had · get → got · make → made · take → took · say → said · buy → bought</span></p>",
+  "<p><b>Negativo</b>: <span class='ex-fr'>I didn't work. (¡NO: I didn't worked!)</span> <b>Pregunta</b>: <span class='ex-fr'>Did you work? — Yes, I did.</span></p>"
 ],
 video:"FZ8TvI2YoeI",videoNote:"Simple Past Tense — English Grammar",
 vocab:[
@@ -4638,9 +4666,9 @@ exercises:[
   {type:"fill",q:"She ____ a pizza for dinner. (eat → ate)",answers:["ate"]},
   {type:"mcq",q:"'I didn't ____ TV last night.' — which form?",options:["watched","watch","watching","watches"],correct:1},
   {type:"tf",q:"'She goed to school' is the correct past tense of 'go'.",correct:false},
-  {type:"match",q:"Match the verb with its irregular past form.",pairs:[["see","saw"],["buy","bought"],["run","ran"],["write","wrote"]]},
-  {type:"fill",q:"____ you go to the party? — Yes, I did! (question)",answers:["Did"]},
-  {type:"order",q:"Build the sentence:",words:["last","I","the","saw","night.","movie"],correct:"I saw the movie last night."},
+  {type:"match",q:"Relaciona el verbo con su forma irregular en pasado.",pairs:[["see","saw"],["buy","bought"],["run","ran"],["write","wrote"]]},
+  {type:"fill",q:"____ you go to the party? — Yes, I did! (pregunta)",answers:["Did"]},
+  {type:"order",q:"Forma la oración:",words:["last","I","the","saw","night.","movie"],correct:"I saw the movie last night."},
   {type:"fill",q:"We ____ lunch at a great restaurant. (have → had)",answers:["had"]},
   {type:"speak",phrase:"Last weekend I went to the beach. I ate seafood and I saw a beautiful sunset.",translation:"El fin de semana pasado fui a la playa. Comí mariscos y vi un hermoso atardecer."},
   {type:"fill",q:"He ____ read the book yet. He ____ it yesterday. (didn't / bought)",answers:["didn't","bought"]}
@@ -4648,57 +4676,57 @@ exercises:[
 
 {id:"present-continuous-en",num:3,title:"Present Continuous",emoji:"🔄",cardDesc:"I am working — actions happening right now",
 explain:[
-  "<p>The <b>Present Continuous</b> describes actions happening NOW or around now. Formation: <b>to be + verb-ing</b>.</p>",
-  "<p>Spelling: <span class='ex-fr'>work → working · sit → sitting (double final consonant) · make → making (drop -e)</span></p>",
-  "<p><b>Uses</b>: <span class='ex-fr'>Now: I'm studying English right now. · Around now: She's working on a project this week. · Future plans: We're meeting at 7pm tonight.</span></p>",
-  "<p><b>State verbs (don't use -ing)</b>: <span class='ex-fr'>know, like, love, hate, want, need, believe, understand, seem, belong</span></p>"
+  "<p>El <b>Presente Continuo</b> describe acciones que ocurren AHORA o en este período. Formación: <b>to be + verb-ing</b>.</p>",
+  "<p>Ortografía: <span class='ex-fr'>work → working · sit → sitting (se duplica la consonante final) · make → making (se elimina la -e)</span></p>",
+  "<p><b>Usos</b>: <span class='ex-fr'>Ahora: I'm studying English right now. · Esta semana: She's working on a project this week. · Planes futuros: We're meeting at 7pm tonight.</span></p>",
+  "<p><b>Verbos de estado (no usan -ing)</b>: <span class='ex-fr'>know, like, love, hate, want, need, believe, understand, seem, belong</span></p>"
 ],
 exercises:[
   {type:"fill",q:"She ____ a book right now. (read → present continuous)",answers:["is reading"]},
   {type:"fill",q:"They ____ football in the park. (play — right now)",answers:["are playing"]},
   {type:"mcq",q:"'I am ____ TV right now.' — correct -ing form:",options:["watchs","watched","watching","watches"],correct:2},
   {type:"tf",q:"'I am knowing the answer' is correct because knowing is happening now.",correct:false},
-  {type:"order",q:"Build the sentence:",words:["dinner.","cooking","is","She"],correct:"She is cooking dinner."},
-  {type:"fill",q:"____ you doing homework right now? — Yes, I am! (question)",answers:["Are"]},
-  {type:"fill",q:"He isn't ____ — he's reading. (watch — negative)",answers:["watching"]},
-  {type:"match",q:"Match the use with an example.",pairs:[["action now","I'm writing a message",""],["action around now","She's learning Spanish this month",""],["future plan","We're flying to London tonight",""],["state verb — NO -ing","I know the answer",""]]},
+  {type:"order",q:"Forma la oración:",words:["dinner.","cooking","is","She"],correct:"She is cooking dinner."},
+  {type:"fill",q:"____ you doing homework right now? — Yes, I am! (pregunta)",answers:["Are"]},
+  {type:"fill",q:"He isn't ____ — he's reading. (watch — negativo)",answers:["watching"]},
+  {type:"match",q:"Relaciona el uso con un ejemplo.",pairs:[["action now","I'm writing a message",""],["action around now","She's learning Spanish this month",""],["future plan","We're flying to London tonight",""],["state verb — NO -ing","I know the answer",""]]},
   {type:"speak",phrase:"Right now I'm sitting in a café. I'm drinking coffee and studying English.",translation:"Ahora mismo estoy sentado en un café. Estoy tomando café y estudiando inglés."},
   {type:"tf",q:"We use Present Continuous for habits and routines.",correct:false}
 ]},
 
 {id:"going-to-en",num:4,title:"Going To — Future Plans",emoji:"🔮",cardDesc:"I'm going to travel — plans and predictions",
 explain:[
-  "<p><b>Going to</b> is used for future plans and intentions (already decided) and predictions based on evidence.</p>",
-  "<p>Structure: <b>Subject + am/is/are + going to + base verb</b>.</p>",
-  "<p><span class='ex-fr'>I'm going to study medicine. (plan) · She's going to have a baby! (evidence — look at her) · They're going to be late. (prediction)</span></p>",
-  "<p>vs. <b>Will</b>: use <b>will</b> for spontaneous decisions and pure predictions: <span class='ex-fr'>I'll help you! (decided right now) · I think it will rain tomorrow.</span></p>"
+  "<p><b>Going to</b> se usa para planes e intenciones futuras (ya decididas) y predicciones basadas en evidencia.</p>",
+  "<p>Estructura: <b>Sujeto + am/is/are + going to + verbo base</b>.</p>",
+  "<p><span class='ex-fr'>I'm going to study medicine. (plan) · She's going to have a baby! (evidencia — mírenla) · They're going to be late. (predicción)</span></p>",
+  "<p>vs. <b>Will</b>: usa <b>will</b> para decisiones espontáneas y predicciones puras: <span class='ex-fr'>I'll help you! (decidido en este momento) · I think it will rain tomorrow.</span></p>"
 ],
 exercises:[
   {type:"fill",q:"I ____ study medicine next year. (going to — future plan)",answers:["am going to","'m going to"]},
   {type:"fill",q:"She ____ travel to Japan in summer. (going to — she)",answers:["is going to","'s going to"]},
   {type:"mcq",q:"'Look at those clouds! It ___ rain.' — which is best?",options:["will","is going to","goes to","going to"],correct:1},
   {type:"tf",q:"'Going to' is used for plans we decided BEFORE the moment of speaking.",correct:true},
-  {type:"order",q:"Build the sentence:",words:["going","is","He","cook","to","dinner."],correct:"He is going to cook dinner."},
-  {type:"fill",q:"____ you going to come to the party? — Yes, I am! (question)",answers:["Are"]},
-  {type:"fill",q:"We aren't ____ to watch the game. (going to — negative)",answers:["going"]},
-  {type:"match",q:"Match the situation with the correct structure.",pairs:[["decided plan","going to"],["spontaneous decision","will"],["evidence-based prediction","going to"],["general future fact","will"]]},
+  {type:"order",q:"Forma la oración:",words:["going","is","He","cook","to","dinner."],correct:"He is going to cook dinner."},
+  {type:"fill",q:"____ you going to come to the party? — Yes, I am! (pregunta)",answers:["Are"]},
+  {type:"fill",q:"We aren't ____ to watch the game. (going to — negativo)",answers:["going"]},
+  {type:"match",q:"Relaciona la situación con la estructura correcta.",pairs:[["decided plan","going to"],["spontaneous decision","will"],["evidence-based prediction","going to"],["general future fact","will"]]},
   {type:"speak",phrase:"Next year I'm going to learn a new language and travel to Europe. I'm going to work hard!",translation:"El próximo año voy a aprender un nuevo idioma y viajar a Europa. ¡Voy a trabajar duro!"},
   {type:"tf",q:"'I'm going to call you' and 'I'll call you' are always interchangeable.",correct:false}
 ]},
 
 {id:"modals-en",num:5,title:"Modal Verbs",emoji:"⚡",cardDesc:"can, should, must, might — ability, advice and obligation",
 explain:[
-  "<p>Modals are special verbs that express <b>ability, advice, necessity, permission and possibility</b>. They NEVER take -s and are always followed by the base verb.</p>",
-  "<table class='reftable'><tr><th>Modal</th><th>Meaning</th><th>Example</th></tr><tr><td>can</td><td>ability / permission</td><td class='formcol'>I can swim.</td></tr><tr><td>can't</td><td>inability</td><td class='formcol'>She can't drive.</td></tr><tr><td>should</td><td>advice</td><td class='formcol'>You should rest.</td></tr><tr><td>must</td><td>strong obligation</td><td class='formcol'>You must pay taxes.</td></tr><tr><td>might</td><td>possibility</td><td class='formcol'>It might rain.</td></tr><tr><td>have to</td><td>external obligation</td><td class='formcol'>I have to work.</td></tr></table>"
+  "<p>Los modales son verbos especiales que expresan <b>habilidad, consejo, necesidad, permiso y posibilidad</b>. NUNCA llevan -s y siempre van seguidos del verbo base.</p>",
+  "<table class='reftable'><tr><th>Modal</th><th>Significado</th><th>Ejemplo</th></tr><tr><td>can</td><td>habilidad / permiso</td><td class='formcol'>I can swim.</td></tr><tr><td>can't</td><td>incapacidad</td><td class='formcol'>She can't drive.</td></tr><tr><td>should</td><td>consejo</td><td class='formcol'>You should rest.</td></tr><tr><td>must</td><td>obligación fuerte</td><td class='formcol'>You must pay taxes.</td></tr><tr><td>might</td><td>posibilidad</td><td class='formcol'>It might rain.</td></tr><tr><td>have to</td><td>obligación externa</td><td class='formcol'>I have to work.</td></tr></table>"
 ],
 exercises:[
   {type:"fill",q:"She ____ speak three languages. (ability — can)",answers:["can"]},
   {type:"fill",q:"You ____ smoke in hospitals. It's forbidden. (prohibition — can't/must not)",answers:["can't","cannot","must not"]},
-  {type:"mcq",q:"'You ___ see a doctor. You look terrible!' — advice",options:["can","might","should","must"],correct:2},
+  {type:"mcq",q:"'You ___ see a doctor. You look terrible!' — (consejo)",options:["can","might","should","must"],correct:2},
   {type:"tf",q:"After modal verbs, we always use the base form (infinitive without 'to').",correct:true},
-  {type:"match",q:"Match the modal with its function.",pairs:[["can","ability"],["should","advice"],["must","strong obligation"],["might","possibility"]]},
-  {type:"fill",q:"It ____ rain tomorrow — I'm not sure. (possibility)",answers:["might","could","may"]},
-  {type:"order",q:"Build the advice sentence:",words:["You","more.","should","sleep"],correct:"You should sleep more."},
+  {type:"match",q:"Relaciona el modal con su función.",pairs:[["can","ability"],["should","advice"],["must","strong obligation"],["might","possibility"]]},
+  {type:"fill",q:"It ____ rain tomorrow — I'm not sure. (posibilidad)",answers:["might","could","may"]},
+  {type:"order",q:"Forma la oración de consejo:",words:["You","more.","should","sleep"],correct:"You should sleep more."},
   {type:"fill",q:"He ____ pay rent on the first of every month. (external obligation)",answers:["has to"]},
   {type:"speak",phrase:"You should exercise every day. You must eat well. You might feel better very soon!",translation:"Deberías hacer ejercicio todos los días. Debes comer bien. ¡Quizás te sientas mejor muy pronto!"},
   {type:"tf",q:"'She cans swim' is correct English.",correct:false}
@@ -4706,19 +4734,19 @@ exercises:[
 
 {id:"comparatives-en",num:6,title:"Comparatives & Superlatives",emoji:"📊",cardDesc:"bigger, the biggest — comparing people and things",
 explain:[
-  "<p><b>Comparatives</b> compare two things. <b>Superlatives</b> describe the extreme in a group.</p>",
-  "<p>Short adjectives (1 syllable): add <b>-er / -est</b>: <span class='ex-fr'>big → bigger → the biggest · fast → faster → the fastest</span></p>",
-  "<p>Long adjectives (2+ syllables): use <b>more / most</b>: <span class='ex-fr'>beautiful → more beautiful → the most beautiful · expensive → more expensive → the most expensive</span></p>",
-  "<p>Irregulars: <span class='ex-fr'>good → better → the best · bad → worse → the worst · far → farther → the farthest</span></p>",
-  "<p>Structure: <span class='ex-fr'>A is + comparative + than + B. · The + superlative + in/of...</span></p>"
+  "<p><b>Los comparativos</b> comparan dos cosas. <b>Los superlativos</b> describen el extremo en un grupo.</p>",
+  "<p>Adjetivos cortos (1 sílaba): agrega <b>-er / -est</b>: <span class='ex-fr'>big → bigger → the biggest · fast → faster → the fastest</span></p>",
+  "<p>Adjetivos largos (2+ sílabas): usa <b>more / most</b>: <span class='ex-fr'>beautiful → more beautiful → the most beautiful · expensive → more expensive → the most expensive</span></p>",
+  "<p>Irregulares: <span class='ex-fr'>good → better → the best · bad → worse → the worst · far → farther → the farthest</span></p>",
+  "<p>Estructura: <span class='ex-fr'>A is + comparativo + than + B. · The + superlativo + in/of...</span></p>"
 ],
 exercises:[
   {type:"fill",q:"This car is ____ than that one. (fast — comparativo)",answers:["faster"]},
   {type:"fill",q:"Mount Everest is ____ mountain in the world. (high — superlativo)",answers:["the highest"]},
-  {type:"mcq",q:"'This movie is ___ interesting than the first one.' — 2-syllable adj.",options:["interestinger","more interesting","most interesting","the most interesting"],correct:1},
+  {type:"mcq",q:"'This movie is ___ interesting than the first one.' — (adjetivo de 2 sílabas)",options:["interestinger","more interesting","most interesting","the most interesting"],correct:1},
   {type:"fill",q:"He's a ____ student in the class. (good — superlativo irregular)",answers:["the best"]},
-  {type:"match",q:"Match the adjective with its comparative form.",pairs:[["bad","worse"],["good","better"],["beautiful","more beautiful"],["fast","faster"]]},
-  {type:"order",q:"Build the comparison:",words:["is","New","than","York","bigger","London."],correct:"New York is bigger than London."},
+  {type:"match",q:"Relaciona el adjetivo con su forma comparativa.",pairs:[["bad","worse"],["good","better"],["beautiful","more beautiful"],["fast","faster"]]},
+  {type:"order",q:"Forma la comparación:",words:["is","New","than","York","bigger","London."],correct:"New York is bigger than London."},
   {type:"fill",q:"This is ____ expensive restaurant in the city. (the most)",answers:["the most"]},
   {type:"tf",q:"'She is more tall than me' is correct English.",correct:false},
   {type:"speak",phrase:"My city is bigger than yours, but yours is more beautiful and the most peaceful.",translation:"Mi ciudad es más grande que la tuya, pero la tuya es más hermosa y la más tranquila."},
@@ -4727,9 +4755,9 @@ exercises:[
 
 {id:"count-noncount-en",num:7,title:"Count & Non-count Nouns",emoji:"🔢",cardDesc:"some, any, much, many — talking about quantities",
 explain:[
-  "<p><b>Count nouns</b> = things you can count individually. Have singular and plural: <span class='ex-fr'>one apple / two apples · a student / students</span></p>",
-  "<p><b>Non-count nouns</b> = cannot be counted individually. No plural form: <span class='ex-fr'>water, milk, rice, music, advice, information, money, furniture</span></p>",
-  "<p>Quantifiers: <span class='ex-fr'>many + count (many books) · much + non-count (much water) · a few + count (a few people) · a little + non-count (a little sugar) · some (positive) · any (negative/question)</span></p>"
+  "<p><b>Sustantivos contables</b> = cosas que puedes contar individualmente. Tienen singular y plural: <span class='ex-fr'>one apple / two apples · a student / students</span></p>",
+  "<p><b>Sustantivos incontables</b> = no se pueden contar individualmente. No tienen plural: <span class='ex-fr'>water, milk, rice, music, advice, information, money, furniture</span></p>",
+  "<p>Cuantificadores: <span class='ex-fr'>many + contable (many books) · much + incontable (much water) · a few + contable (a few people) · a little + incontable (a little sugar) · some (positivo) · any (negativo/pregunta)</span></p>"
 ],
 vocab:[
   {cat:"🔢 Quantifiers",items:[
@@ -4744,29 +4772,29 @@ vocab:[
 exercises:[
   {type:"fill",q:"How ____ students are in your class? (muchos — contable)",answers:["many"]},
   {type:"fill",q:"I don't have ____ money right now. (mucho — incontable)",answers:["much"]},
-  {type:"mcq",q:"'Water' is a non-count noun. How do you ask for some?",options:["How many waters?","Can I have some water?","I want a water.","Give me waters."],correct:1},
+  {type:"mcq",q:"'Water' es incontable. ¿Cómo pides un poco?",options:["How many waters?","Can I have some water?","I want a water.","Give me waters."],correct:1},
   {type:"tf",q:"'Informations' is the correct plural of 'information'.",correct:false},
-  {type:"match",q:"Match with many or much.",pairs:[["books","many"],["music","much"],["friends","many"],["advice","much"]]},
+  {type:"match",q:"Relaciona con many o much.",pairs:[["books","many"],["music","much"],["friends","many"],["advice","much"]]},
   {type:"fill",q:"There is ____ sugar in this coffee. (a little — a little or a few?)",answers:["a little"]},
   {type:"fill",q:"Are there ____ apples left? — No, there aren't any. (any — pregunta)",answers:["any"]},
   {type:"speak",phrase:"I don't have much time, but I have a few minutes. Can I have some water please?",translation:"No tengo mucho tiempo, pero tengo unos minutos. ¿Puedo tomar un poco de agua, por favor?"},
-  {type:"mcq",q:"'A few' is used with:",options:["non-count nouns","count nouns","both","neither"],correct:1},
+  {type:"mcq",q:"'A few' se usa con:",options:["non-count nouns","count nouns","both","neither"],correct:1},
   {type:"fill",q:"She doesn't have ____ friends in the new city. (many/few)",answers:["many"]}
 ]},
 
 {id:"prepositions-time-en",num:8,title:"Prepositions of Time & Place",emoji:"📍",cardDesc:"at 5pm, on Monday, in July, in the kitchen — time & place",
 explain:[
-  "<p><b>AT</b>: specific times and places: <span class='ex-fr'>at 3pm · at night · at the bus stop · at school · at home</span></p>",
-  "<p><b>ON</b>: days and dates; surfaces: <span class='ex-fr'>on Monday · on July 4th · on my birthday · on the table · on the wall</span></p>",
-  "<p><b>IN</b>: months, years, periods; enclosed spaces: <span class='ex-fr'>in July · in 2020 · in the morning · in the afternoon · in the kitchen · in the city · in a box</span></p>",
-  "<p>Memory trick: Think of the containers getting bigger: AT (small/specific) → ON (medium/surface) → IN (large/enclosed)</p>"
+  "<p><b>AT</b>: horas y lugares específicos: <span class='ex-fr'>at 3pm · at night · at the bus stop · at school · at home</span></p>",
+  "<p><b>ON</b>: días y fechas; superficies: <span class='ex-fr'>on Monday · on July 4th · on my birthday · on the table · on the wall</span></p>",
+  "<p><b>IN</b>: meses, años, períodos; espacios cerrados: <span class='ex-fr'>in July · in 2020 · in the morning · in the afternoon · in the kitchen · in the city · in a box</span></p>",
+  "<p>Truco para recordar: imagina contenedores de mayor a menor: IN (grande/cerrado) → ON (superficie) → AT (punto pequeño/específico)</p>"
 ],
 exercises:[
   {type:"fill",q:"My class starts ____ 9 o'clock. (tiempo específico)",answers:["at"]},
   {type:"fill",q:"We have class ____ Monday. (día de la semana)",answers:["on"]},
   {type:"fill",q:"I was born ____ 2001. (año)",answers:["in"]},
-  {type:"mcq",q:"'She's ___ the kitchen cooking dinner.' — place preposition",options:["at","on","in","by"],correct:2},
-  {type:"match",q:"Match with at, on, or in.",pairs:[["5pm","at"],["Tuesday","on"],["March","in"],["my birthday","on"]]},
+  {type:"mcq",q:"'She's ___ the kitchen cooking dinner.' — (preposición de lugar)",options:["at","on","in","by"],correct:2},
+  {type:"match",q:"Relaciona con at, on o in.",pairs:[["5pm","at"],["Tuesday","on"],["March","in"],["my birthday","on"]]},
   {type:"fill",q:"Let's meet ____ the coffee shop at 4pm. (lugar específico)",answers:["at"]},
   {type:"tf",q:"'I was born in December' uses 'in' because December is a month.",correct:true},
   {type:"fill",q:"He works ____ the morning and relaxes ____ the evening.",answers:["in","in"]},
@@ -4776,7 +4804,7 @@ exercises:[
 
 {id:"hobbies-en",num:9,title:"Hobbies & Free Time",emoji:"🎸",cardDesc:"What do you do in your free time? — leisure activities",
 isVocab:true,
-explain:["<p>Talk about hobbies and interests in English. Key phrases: <b>I enjoy... / I love... / I'm into... / I'm keen on... / I can't stand...</b> + verb-ing or noun.</p>"],
+explain:["<p>Habla de pasatiempos e intereses en inglés. Frases clave: <b>I enjoy... / I love... / I'm into... / I'm keen on... / I can't stand...</b> + verbo-ing o sustantivo.</p>"],
 vocab:[
   {cat:"🎯 Sports & Physical",items:[
     {e:"⚽",w:"play football/soccer",p:"jugar fútbol"},
@@ -4799,20 +4827,20 @@ vocab:[
 ],
 exercises:[
   {type:"fill",q:"What do you do in your ____ time? — I love reading. (free)",answers:["free"]},
-  {type:"mcq",q:"'I'm really ___ playing guitar.' — informal way to say you enjoy something",options:["interested","into","on","about"],correct:1},
-  {type:"fill",q:"She ____ yoga every morning. She loves it. (do — simple present)",answers:["does"]},
-  {type:"match",q:"Match the hobby with its category.",pairs:[["swimming","physical/sport"],["drawing","creative"],["cooking","practical/creative"],["reading","relaxing"]]},
+  {type:"mcq",q:"'I'm really ___ playing guitar.' — (forma informal de decir que disfrutas algo)",options:["interested","into","on","about"],correct:1},
+  {type:"fill",q:"She ____ yoga every morning. She loves it. (do — presente simple)",answers:["does"]},
+  {type:"match",q:"Relaciona el hobby con su categoría.",pairs:[["swimming","physical/sport"],["drawing","creative"],["cooking","practical/creative"],["reading","relaxing"]]},
   {type:"tf",q:"'I enjoy to swim' is correct English grammar.",correct:false},
   {type:"fill",q:"He's very ____ photography. He takes pictures everywhere. (into/keen on)",answers:["into","keen on"]},
   {type:"speak",phrase:"In my free time I love watching movies and listening to music. On weekends I go cycling.",translation:"En mi tiempo libre me encanta ver películas y escuchar música. Los fines de semana voy a andar en bicicleta."},
   {type:"fill",q:"We often ____ to the gym after work. (go — frequent action)",answers:["go"]},
-  {type:"mcq",q:"Which sentence is grammatically correct?",options:["I enjoy to read.","I enjoy reading.","I enjoy read.","I am enjoy reading."],correct:1},
+  {type:"mcq",q:"¿Cuál oración es gramaticalmente correcta?",options:["I enjoy to read.","I enjoy reading.","I enjoy read.","I am enjoy reading."],correct:1},
   {type:"tf",q:"'Go swimming' and 'go to swim' mean the same thing in English.",correct:false}
 ]},
 
 {id:"travel-en",num:10,title:"Travel & Vacations",emoji:"✈️",cardDesc:"booking a trip, at the airport, at the hotel — travel vocabulary",
 isVocab:true,
-explain:["<p>Essential vocabulary for traveling in English. Practice phrases for airports, hotels, and asking for directions.</p>"],
+explain:["<p>Vocabulario esencial para viajar en inglés. Practica frases para aeropuertos, hoteles y cómo preguntar por direcciones.</p>"],
 vocab:[
   {cat:"✈️ At the Airport",items:[
     {e:"🛫",w:"flight",p:"vuelo"},
@@ -4834,41 +4862,41 @@ vocab:[
 exercises:[
   {type:"fill",q:"I need to show my ____ at the airport to board the plane. (pasaporte)",answers:["passport"]},
   {type:"fill",q:"My ____ is at 6pm from Gate 12. (vuelo)",answers:["flight"]},
-  {type:"mcq",q:"When you arrive at the hotel, you need to:",options:["check out","check in","check up","check around"],correct:1},
-  {type:"match",q:"Match the word with its definition.",pairs:[["boarding pass","document to get on the plane"],["delay","flight is late"],["luggage","your bags and suitcases"],["gate","where you board the plane"]]},
+  {type:"mcq",q:"Cuando llegas al hotel, necesitas:",options:["check out","check in","check up","check around"],correct:1},
+  {type:"match",q:"Relaciona la palabra con su definición.",pairs:[["boarding pass","document to get on the plane"],["delay","flight is late"],["luggage","your bags and suitcases"],["gate","where you board the plane"]]},
   {type:"fill",q:"My ____ is from August 10th to August 15th. (reservación)",answers:["reservation","booking"]},
   {type:"tf",q:"'Check out' means leaving the hotel and paying the bill.",correct:true},
   {type:"fill",q:"I'd like a ____ room, please. For one person. (sencilla)",answers:["single"]},
   {type:"speak",phrase:"I have a flight at 8am. I need to be at the airport by 6am. My gate is B7.",translation:"Tengo un vuelo a las 8am. Necesito estar en el aeropuerto a las 6am. Mi puerta es la B7."},
   {type:"fill",q:"Sorry, my flight has a 2-hour ____. It will arrive late. (retraso)",answers:["delay"]},
-  {type:"mcq",q:"What do you need to show to get on a plane?",options:["credit card","boarding pass and passport","hotel key","receipt"],correct:1}
+  {type:"mcq",q:"¿Qué necesitas mostrar para abordar el avión?",options:["credit card","boarding pass and passport","hotel key","receipt"],correct:1}
 ]},
 
 {id:"would-like-en",num:11,title:"Would Like & Requests",emoji:"🙏",cardDesc:"I'd like..., Could you...? — polite requests",
 explain:[
-  "<p><b>Would like</b> is the polite form of 'want'. Use it in shops, restaurants, and formal situations.</p>",
+  "<p><b>Would like</b> es la forma cortés de 'want'. Úsalo en tiendas, restaurantes y situaciones formales.</p>",
   "<p><span class='ex-fr'>I'd like a coffee, please. · She'd like to order now. · Would you like some water?</span></p>",
-  "<p>Making polite requests: <span class='ex-fr'>Could you help me, please? · Can you open the window? (less formal) · Would you mind closing the door?</span></p>",
-  "<p>Offering: <span class='ex-fr'>Would you like...? · Can I get you...? · How about...?</span></p>"
+  "<p>Peticiones corteses: <span class='ex-fr'>Could you help me, please? · Can you open the window? (menos formal) · Would you mind closing the door?</span></p>",
+  "<p>Para ofrecer algo: <span class='ex-fr'>Would you like...? · Can I get you...? · How about...?</span></p>"
 ],
 exercises:[
   {type:"fill",q:"I ____ like a glass of water, please. (would → contraction)",answers:["'d","would"]},
   {type:"fill",q:"Would you ____ to order now? — Yes, please! (like)",answers:["like"]},
-  {type:"mcq",q:"'___ you help me carry this?' — polite request",options:["Will","Should","Could","Must"],correct:2},
+  {type:"mcq",q:"'___ you help me carry this?' — (petición cortés)",options:["Will","Should","Could","Must"],correct:2},
   {type:"tf",q:"'I'd like' is more polite than 'I want'.",correct:true},
-  {type:"order",q:"Build a polite request:",words:["the","Could","you","open","window?"],correct:"Could you open the window?"},
-  {type:"fill",q:"____ you like some coffee? — Yes, thank you! (offer)",answers:["Would"]},
+  {type:"order",q:"Forma una petición cortés:",words:["the","Could","you","open","window?"],correct:"Could you open the window?"},
+  {type:"fill",q:"____ you like some coffee? — Yes, thank you! (ofrecer algo)",answers:["Would"]},
   {type:"fill",q:"She ____ like to try the chocolate cake. (would → she'd)",answers:["'d like","would like"]},
-  {type:"match",q:"Match the situation with the correct phrase.",pairs:[["ordering in a restaurant","I'd like the steak, please."],["asking for help","Could you help me?"],["offering something","Would you like some tea?"],["declining an offer","No, thank you."]]},
+  {type:"match",q:"Relaciona la situación con la frase correcta.",pairs:[["ordering in a restaurant","I'd like the steak, please."],["asking for help","Could you help me?"],["offering something","Would you like some tea?"],["declining an offer","No, thank you."]]},
   {type:"speak",phrase:"Excuse me, I'd like to book a table for two. Could you help me, please?",translation:"Disculpe, quisiera reservar una mesa para dos. ¿Podría ayudarme, por favor?"},
   {type:"tf",q:"'Would you mind closing the door?' is a very polite way to make a request.",correct:true}
 ]},
 
 {id:"directions-en",num:12,title:"Giving Directions",emoji:"🗺️",cardDesc:"turn left, go straight — asking and giving directions",
 explain:[
-  "<p>Essential phrases for giving and asking for directions in English.</p>",
-  "<p><b>Asking</b>: <span class='ex-fr'>Excuse me, where is...? · How do I get to...? · Is there a ... near here?</span></p>",
-  "<p><b>Giving directions</b>: <span class='ex-fr'>Turn left / right. · Go straight ahead. · Take the first/second left/right. · It's on your left/right. · Go past the traffic lights. · It's next to / across from / opposite the...</span></p>"
+  "<p>Frases esenciales para dar y pedir indicaciones en inglés.</p>",
+  "<p><b>Preguntar</b>: <span class='ex-fr'>Excuse me, where is...? · How do I get to...? · Is there a ... near here?</span></p>",
+  "<p><b>Dar indicaciones</b>: <span class='ex-fr'>Turn left / right. · Go straight ahead. · Take the first/second left/right. · It's on your left/right. · Go past the traffic lights. · It's next to / across from / opposite the...</span></p>"
 ],
 vocab:[
   {cat:"🗺️ Direction Phrases",items:[
@@ -4885,9 +4913,9 @@ vocab:[
 exercises:[
   {type:"fill",q:"Go ____ ahead and then turn left at the lights. (recto)",answers:["straight"]},
   {type:"fill",q:"____ right at the corner. (gire)",answers:["Turn"]},
-  {type:"mcq",q:"'It's ___ from the bank.' — means facing the bank.",options:["next","on","across","behind"],correct:2},
-  {type:"match",q:"Match the direction with its meaning.",pairs:[["turn left","gire a la izquierda"],["go straight","siga derecho"],["on the corner","en la esquina"],["traffic lights","semáforo"]]},
-  {type:"order",q:"Build the directions:",words:["straight,","traffic","Go","at","lights.","left","the","turn","then"],correct:"Go straight, then turn left at the traffic lights."},
+  {type:"mcq",q:"'It's ___ from the bank.' — (significa enfrente del banco)",options:["next","on","across","behind"],correct:2},
+  {type:"match",q:"Relaciona la dirección con su significado.",pairs:[["turn left","gire a la izquierda"],["go straight","siga derecho"],["on the corner","en la esquina"],["traffic lights","semáforo"]]},
+  {type:"order",q:"Forma las indicaciones:",words:["straight,","traffic","Go","at","lights.","left","the","turn","then"],correct:"Go straight, then turn left at the traffic lights."},
   {type:"fill",q:"Excuse me, ____ is the nearest subway station? (dónde)",answers:["where"]},
   {type:"fill",q:"The hotel is ____ the museum — they are facing each other. (across from)",answers:["across from"]},
   {type:"speak",phrase:"Go straight for two blocks, then turn right. The bank is on your left, next to the supermarket.",translation:"Siga recto dos cuadras, luego gire a la derecha. El banco está a su izquierda, al lado del supermercado."},
@@ -6062,10 +6090,10 @@ window.LP_TOPICS['pt-1'] = [
 
 {id:"saudacoes-pt",num:1,title:"Saudações e Despedidas",emoji:"👋",cardDesc:"Olá! Tudo bem? Tchau! — cumprimentos do dia a dia",
 explain:[
-  "<p>Use <b>Olá / Oi</b> para cumprimentar alguém. <b>Oi</b> é mais informal (Brasil). <b>Bom dia / Boa tarde / Boa noite</b> são cumprimentos formais baseados na hora do dia.</p>",
-  "<p>Respostas a 'Tudo bem?': <span class='ex-fr'>Tudo bem, obrigado/a! · Tudo ótimo! · Mais ou menos. · Ótimo, e você?</span></p>",
-  "<p>Despedidas: <span class='ex-fr'>Tchau! · Até logo! · Até mais! · Até amanhã! · Cuide-se!</span></p>",
-  "<p>Apresentações: <span class='ex-fr'>Meu nome é... · Eu me chamo... · Muito prazer! · Prazer em conhecer você.</span></p>"
+  "<p>Usa <b>Olá / Oi</b> para saludar. <b>Oi</b> es más informal (Brasil). <b>Bom dia / Boa tarde / Boa noite</b> son saludos formales según la hora del día.</p>",
+  "<p>Respuestas a 'Tudo bem?': <span class='ex-fr'>Tudo bem, obrigado/a! · Tudo ótimo! · Mais ou menos. · Ótimo, e você?</span></p>",
+  "<p>Para despedirse: <span class='ex-fr'>Tchau! · Até logo! · Até mais! · Até amanhã! · Cuide-se!</span></p>",
+  "<p>Para presentarte: <span class='ex-fr'>Meu nome é... · Eu me chamo... · Muito prazer! · Prazer em conhecer você.</span></p>"
 ],
 vocab:[
   {cat:"👋 Saudações",items:[
@@ -6087,23 +6115,23 @@ vocab:[
 ],
 exercises:[
   {type:"fill",q:"____ dia! Como vai você? (saludo de mañana)",answers:["Bom"]},
-  {type:"mcq",q:"Qual saudação é INFORMAL no Brasil?",options:["Bom dia","Boa tarde","Oi!","Como vai o senhor?"],correct:2},
+  {type:"mcq",q:"¿Cuál saludo es INFORMAL en Brasil?",options:["Bom dia","Boa tarde","Oi!","Como vai o senhor?"],correct:2},
   {type:"fill",q:"Tudo ____? — Tudo bem, obrigado! (¿todo bien?)",answers:["bem"]},
   {type:"tf",q:"'Até logo' é uma forma de se despedir.",correct:true},
-  {type:"match",q:"Combine a saudação com o horário.",pairs:[["Bom dia","manhã (antes do meio-dia)"],["Boa tarde","tarde (12h-18h)"],["Boa noite","noite (depois das 18h)"],["Tchau!","despedida"]]},
-  {type:"order",q:"Monte a conversa:",words:["Oi!","Tudo","bem?","bem,","Tudo","obrigado!"],correct:"Oi! Tudo bem? Tudo bem, obrigado!"},
+  {type:"match",q:"Relaciona el saludo con el horario.",pairs:[["Bom dia","manhã (antes do meio-dia)"],["Boa tarde","tarde (12h-18h)"],["Boa noite","noite (depois das 18h)"],["Tchau!","despedida"]]},
+  {type:"order",q:"Ordena la conversación:",words:["Oi!","Tudo","bem?","bem,","Tudo","obrigado!"],correct:"Oi! Tudo bem? Tudo bem, obrigado!"},
   {type:"fill",q:"Meu ____ é Carlos. Muito prazer! (nombre)",answers:["nome"]},
-  {type:"mcq",q:"Alguém diz 'Muito prazer!' Você responde:",options:["Tchau!","Igualmente!","Bom dia!","Até logo!"],correct:1},
+  {type:"mcq",q:"Alguien dice 'Muito prazer!' ¿Qué respondes?",options:["Tchau!","Igualmente!","Bom dia!","Até logo!"],correct:1},
   {type:"speak",phrase:"Olá! Meu nome é Ana. Muito prazer! Tudo bem com você?",translation:"¡Hola! Mi nombre es Ana. ¡Mucho gusto! ¿Todo bien contigo?"},
   {type:"fill",q:"____ -se! Até amanhã! (¡cuídate!)",answers:["Cuide"]}
 ]},
 
 {id:"ser-estar-pt",num:2,title:"Ser e Estar",emoji:"🌟",cardDesc:"Eu sou / Eu estou — dois verbos 'ser' em português",
 explain:[
-  "<p>O português tem <b>DOIS</b> verbos para 'ser/estar' em espanhol: <b>SER</b> (permanente/essencial) e <b>ESTAR</b> (temporário/estado).</p>",
-  "<table class='reftable'><tr><th>Pronome</th><th>SER</th><th>ESTAR</th></tr><tr><td>Eu</td><td class='formcol'>sou</td><td>estou</td></tr><tr><td>Você/Ele/Ela</td><td class='formcol'>é</td><td>está</td></tr><tr><td>Nós</td><td class='formcol'>somos</td><td>estamos</td></tr><tr><td>Vocês/Eles</td><td class='formcol'>são</td><td>estão</td></tr></table>",
-  "<p><b>SER</b>: identidade, nacionalidade, profissão, características permanentes. <b>ESTAR</b>: localização, estados temporários, sentimentos.</p>",
-  "<p><span class='ex-fr'>Eu sou professora. (profissão) · Ela é brasileira. (nacionalidade) · Estou cansado. (estado temporário) · Onde você está? (localização)</span></p>"
+  "<p>El portugués tiene <b>DOS</b> verbos equivalentes al 'ser/estar' del español: <b>SER</b> (permanente/esencial) y <b>ESTAR</b> (temporal/estado).</p>",
+  "<table class='reftable'><tr><th>Pronombre</th><th>SER</th><th>ESTAR</th></tr><tr><td>Eu</td><td class='formcol'>sou</td><td>estou</td></tr><tr><td>Você/Ele/Ela</td><td class='formcol'>é</td><td>está</td></tr><tr><td>Nós</td><td class='formcol'>somos</td><td>estamos</td></tr><tr><td>Vocês/Eles</td><td class='formcol'>são</td><td>estão</td></tr></table>",
+  "<p><b>SER</b>: identidad, nacionalidad, profesión, características permanentes. <b>ESTAR</b>: ubicación, estados temporales, sentimientos.</p>",
+  "<p><span class='ex-fr'>Eu sou professora. (profesión) · Ela é brasileira. (nacionalidad) · Estou cansado. (estado temporal) · Onde você está? (ubicación)</span></p>"
 ],
 vocab:[
   {cat:"🌟 SER vs ESTAR",items:[
@@ -6116,11 +6144,11 @@ vocab:[
 exercises:[
   {type:"fill",q:"Eu ____ professora de inglês. (ser — profissão permanente)",answers:["sou"]},
   {type:"fill",q:"Ela ____ cansada hoje. (estar — estado temporário)",answers:["está"]},
-  {type:"mcq",q:"'Ele ___ brasileiro.' — qual verbo?",options:["está","estão","é","são"],correct:2},
+  {type:"mcq",q:"'Ele ___ brasileiro.' — ¿cuál verbo?",options:["está","estão","é","são"],correct:2},
   {type:"tf",q:"Usamos ESTAR para estados temporários e localizações.",correct:true},
-  {type:"match",q:"SER ou ESTAR?",pairs:[["Eu sou médico.","SER — profissão"],["Estou com fome.","ESTAR — estado"],["Ela é inteligente.","SER — característica"],["Onde você está?","ESTAR — localização"]]},
+  {type:"match",q:"¿SER o ESTAR?",pairs:[["Eu sou médico.","SER — profissão"],["Estou com fome.","ESTAR — estado"],["Ela é inteligente.","SER — característica"],["Onde você está?","ESTAR — localização"]]},
   {type:"fill",q:"Nós ____ amigos há muitos anos. (ser — relação permanente)",answers:["somos"]},
-  {type:"order",q:"Monte a frase:",words:["brasileira.","Ela","é"],correct:"Ela é brasileira."},
+  {type:"order",q:"Forma la frase:",words:["brasileira.","Ela","é"],correct:"Ela é brasileira."},
   {type:"fill",q:"Vocês ____ prontos para a viagem? (estar — estado temporário)",answers:["estão"]},
   {type:"speak",phrase:"Eu sou professor. Sou brasileiro e estou muito feliz hoje!",translation:"Soy profesor. Soy brasileño y ¡estoy muy feliz hoy!"},
   {type:"tf",q:"'Eu sou cansado' é a forma correta para um estado temporário.",correct:false}
@@ -6128,9 +6156,9 @@ exercises:[
 
 {id:"artigos-pt",num:3,title:"Artigos: o/a/um/uma",emoji:"🔤",cardDesc:"o livro, a mesa, um gato, uma casa — artigos em português",
 explain:[
-  "<p>O português tem artigos <b>definidos</b> (o/a/os/as) e <b>indefinidos</b> (um/uma/uns/umas). Todos concordam em gênero e número com o substantivo.</p>",
-  "<table class='reftable'><tr><th></th><th>Masculino</th><th>Feminino</th></tr><tr><td>Definido sing.</td><td class='formcol'>o (o livro)</td><td>a (a mesa)</td></tr><tr><td>Definido plur.</td><td class='formcol'>os (os livros)</td><td>as (as mesas)</td></tr><tr><td>Indefinido sing.</td><td class='formcol'>um (um gato)</td><td>uma (uma casa)</td></tr><tr><td>Indefinido plur.</td><td class='formcol'>uns (uns gatos)</td><td>umas (umas casas)</td></tr></table>",
-  "<p>Contrações obrigatórias: <span class='ex-fr'>de + o = do · de + a = da · em + o = no · em + a = na · a + o = ao · a + a = à</span></p>"
+  "<p>El portugués tiene artículos <b>definidos</b> (o/a/os/as) e <b>indefinidos</b> (um/uma/uns/umas). Todos concuerdan en género y número con el sustantivo.</p>",
+  "<table class='reftable'><tr><th></th><th>Masculino</th><th>Femenino</th></tr><tr><td>Definido sing.</td><td class='formcol'>o (o livro)</td><td>a (a mesa)</td></tr><tr><td>Definido plur.</td><td class='formcol'>os (os livros)</td><td>as (as mesas)</td></tr><tr><td>Indefinido sing.</td><td class='formcol'>um (um gato)</td><td>uma (uma casa)</td></tr><tr><td>Indefinido plur.</td><td class='formcol'>uns (uns gatos)</td><td>umas (umas casas)</td></tr></table>",
+  "<p>Contracciones obligatorias: <span class='ex-fr'>de + o = do · de + a = da · em + o = no · em + a = na · a + o = ao · a + a = à</span></p>"
 ],
 vocab:[
   {cat:"🔤 Artigos — Exemplos",items:[
@@ -6145,21 +6173,21 @@ vocab:[
 exercises:[
   {type:"fill",q:"Eu tenho ____ livro muito interessante. (indefinido masc.)",answers:["um"]},
   {type:"fill",q:"____ mesa é grande. (definido fem.)",answers:["A"]},
-  {type:"mcq",q:"'___ estudantes chegaram cedo.' — plural masc.",options:["Um","Uma","Os","As"],correct:2},
+  {type:"mcq",q:"'___ estudantes chegaram cedo.' — (plural masc.)",options:["Um","Uma","Os","As"],correct:2},
   {type:"tf",q:"Em português, os artigos concordam em gênero e número com o substantivo.",correct:true},
-  {type:"match",q:"Combine o substantivo com o artigo correto.",pairs:[["livro (masc.)","o / um"],["casa (fem.)","a / uma"],["sapatos (masc. plur.)","os / uns"],["flores (fem. plur.)","as / umas"]]},
+  {type:"match",q:"Relaciona el sustantivo con el artículo correcto.",pairs:[["livro (masc.)","o / um"],["casa (fem.)","a / uma"],["sapatos (masc. plur.)","os / uns"],["flores (fem. plur.)","as / umas"]]},
   {type:"fill",q:"Ela vem ____ Brasil. (de + o — contração)",answers:["do"]},
   {type:"fill",q:"Moro ____ cidade de São Paulo. (em + a — contração)",answers:["na"]},
-  {type:"order",q:"Monte a frase:",words:["é","A","bonita.","cidade"],correct:"A cidade é bonita."},
+  {type:"order",q:"Forma la frase:",words:["é","A","bonita.","cidade"],correct:"A cidade é bonita."},
   {type:"speak",phrase:"O livro está na mesa. Uma amiga minha mora do lado da escola.",translation:"El libro está en la mesa. Una amiga mía vive al lado de la escuela."},
   {type:"tf",q:"'de + o = do' é uma contração obrigatória em português.",correct:true}
 ]},
 
 {id:"numeros-pt",num:4,title:"Números e Horas",emoji:"🔢",cardDesc:"1-100, que horas são? — números e o relógio",
 explain:[
-  "<p>Cardinais 1-20: <span class='ex-fr'>um, dois, três, quatro, cinco, seis, sete, oito, nove, dez, onze, doze, treze, quatorze, quinze, dezesseis, dezessete, dezoito, dezenove, vinte.</span></p>",
-  "<p>Dezenas: <span class='ex-fr'>trinta(30), quarenta(40), cinquenta(50), sessenta(60), setenta(70), oitenta(80), noventa(90), cem(100).</span></p>",
-  "<p>Horas: <span class='ex-fr'>São duas horas. · É meio-dia. · São três e meia. · São quatro e quinze. · São cinco menos quinze (quatro e quarenta e cinco).</span></p>"
+  "<p>Números cardinales del 1 al 20: <span class='ex-fr'>um, dois, três, quatro, cinco, seis, sete, oito, nove, dez, onze, doze, treze, quatorze, quinze, dezesseis, dezessete, dezoito, dezenove, vinte.</span></p>",
+  "<p>Decenas: <span class='ex-fr'>trinta(30), quarenta(40), cinquenta(50), sessenta(60), setenta(70), oitenta(80), noventa(90), cem(100).</span></p>",
+  "<p>Para decir la hora: <span class='ex-fr'>São duas horas. · É meio-dia. · São três e meia. · São quatro e quinze. · São cinco menos quinze.</span></p>"
 ],
 vocab:[
   {cat:"🔢 Números 1-20",items:[
@@ -6182,11 +6210,11 @@ vocab:[
 exercises:[
   {type:"fill",q:"O número 15 em português: ____",answers:["quinze"]},
   {type:"fill",q:"O número 40 em português: ____",answers:["quarenta"]},
-  {type:"mcq",q:"Como se diz 3:30?",options:["São três horas.","São três e meia.","São três e quinze.","São quatro menos trinta."],correct:1},
+  {type:"mcq",q:"¿Cómo se dice 3:30 en portugués?",options:["São três horas.","São três e meia.","São três e quinze.","São quatro menos trinta."],correct:1},
   {type:"fill",q:"Que horas são? ____ duas horas. (São/É)",answers:["São"]},
-  {type:"match",q:"Combine o número com a palavra.",pairs:[["12","doze"],["50","cinquenta"],["80","oitenta"],["100","cem"]]},
+  {type:"match",q:"Relaciona el número con la palabra.",pairs:[["12","doze"],["50","cinquenta"],["80","oitenta"],["100","cem"]]},
   {type:"fill",q:"75 em português: setenta e ____",answers:["cinco"]},
-  {type:"mcq",q:"Como se diz 4:45?",options:["São quatro e quarenta e cinco.","São cinco menos quinze.","São quatro menos quinze.","São cinco horas."],correct:1},
+  {type:"mcq",q:"¿Cómo se dice 4:45 en portugués?",options:["São quatro e quarenta e cinco.","São cinco menos quinze.","São quatro menos quinze.","São cinco horas."],correct:1},
   {type:"speak",phrase:"São dez horas da manhã. Minha aula começa às dez e meia.",translation:"Son las diez de la mañana. Mi clase empieza a las diez y media."},
   {type:"fill",q:"O número 13 em português: ____",answers:["treze"]},
   {type:"tf",q:"'São três e meia' significa 3:30.",correct:true}
@@ -6194,7 +6222,7 @@ exercises:[
 
 {id:"profissoes-pt",num:5,title:"Profissões",emoji:"💼",cardDesc:"O que você faz? — vocabulário de trabalho",
 isVocab:true,
-explain:["<p>Vocabulário de profissões em português. Note: <b>sou + profissão</b> (sem artigo em português do Brasil): <span class='ex-fr'>Sou médico. / Ela é professora.</span> Em Portugal usa-se mais com artigo: <span class='ex-fr'>Sou um médico.</span></p>"],
+explain:["<p>Vocabulario de profesiones en portugués. Nota: en Brasil se dice <b>sou + profesión</b> (sin artículo): <span class='ex-fr'>Sou médico. / Ela é professora.</span> En Portugal se usa más con artículo: <span class='ex-fr'>Sou um médico.</span></p>"],
 vocab:[
   {cat:"🏥 Saúde e Educação",items:[
     {e:"👨‍⚕️",w:"médico/a",p:"médico/a"},
@@ -6219,10 +6247,10 @@ exercises:[
   {type:"fill",q:"Uma pessoa que trata de pacientes doentes é ____.",answers:["médico","médica"]},
   {type:"mcq",q:"'O que você ___?' é a pergunta para saber a profissão.",options:["é","faz","está","tem"],correct:1},
   {type:"fill",q:"Ela pilota aviões. Ela é ____.",answers:["piloto","pilota"]},
-  {type:"match",q:"Combine a profissão com a descrição.",pairs:[["professor/a","trabalha na escola"],["cozinheiro/a","trabalha num restaurante"],["advogado/a","trabalha no tribunal"],["bombeiro/a","apaga incêndios"]]},
+  {type:"match",q:"Relaciona la profesión con la descripción.",pairs:[["professor/a","trabalha na escola"],["cozinheiro/a","trabalha num restaurante"],["advogado/a","trabalha no tribunal"],["bombeiro/a","apaga incêndios"]]},
   {type:"tf",q:"No Brasil, dizemos 'Sou médico' (sem artigo).",correct:true},
   {type:"fill",q:"Ele escreve código de computador. Ele é ____.",answers:["programador"]},
-  {type:"mcq",q:"Qual profissão trabalha num hospital?",options:["advogado","enfermeiro","piloto","engenheiro"],correct:1},
+  {type:"mcq",q:"¿Qué profesión trabaja en un hospital?",options:["advogado","enfermeiro","piloto","engenheiro"],correct:1},
   {type:"speak",phrase:"Sou professor. Trabalho numa escola e adoro meu trabalho!",translation:"Soy profesor. Trabajo en una escuela y ¡amo mi trabajo!"},
   {type:"fill",q:"Uma pessoa que protege a lei é ____.",answers:["policial"]},
   {type:"tf",q:"'Ela é uma dentista' é mais comum no português europeu.",correct:true}
@@ -6230,7 +6258,7 @@ exercises:[
 
 {id:"familia-pt",num:6,title:"Família",emoji:"👨‍👩‍👧‍👦",cardDesc:"pai, mãe, irmão — vocabulário de família",
 isVocab:true,
-explain:["<p>Vocabulário de família em português. Note: palavras femininas geralmente terminam em <b>-a</b>: pai→mãe, irmão→irmã, avô→avó, tio→tia.</p>"],
+explain:["<p>Vocabulario de familia en portugués. Nota: las palabras femeninas generalmente terminan en <b>-a</b>: pai→mãe, irmão→irmã, avô→avó, tio→tia.</p>"],
 vocab:[
   {cat:"👪 Família Imediata",items:[
     {e:"👨",w:"pai",p:"padre / papá"},
@@ -6253,7 +6281,7 @@ exercises:[
   {type:"fill",q:"A mãe da minha mãe é minha ____.",answers:["avó"]},
   {type:"mcq",q:"O irmão do meu pai é meu:",options:["primo","sobrinho","tio","avô"],correct:2},
   {type:"fill",q:"O irmão da minha mãe é meu ____.",answers:["tio"]},
-  {type:"match",q:"Combine o familiar com a relação.",pairs:[["tia","irmã do meu pai/mãe"],["primo","filho do meu tio"],["sobrinho","filho do meu irmão"],["avô","pai do meu pai"]]},
+  {type:"match",q:"Relaciona el familiar con el vínculo.",pairs:[["tia","irmã do meu pai/mãe"],["primo","filho do meu tio"],["sobrinho","filho do meu irmão"],["avô","pai do meu pai"]]},
   {type:"tf",q:"'Irmãos' pode significar irmãos e irmãs em geral.",correct:true},
   {type:"fill",q:"A filha do meu irmão é minha ____.",answers:["sobrinha"]},
   {type:"fill",q:"Minha mãe e meu pai são meus ____.",answers:["pais"]},
@@ -6264,7 +6292,7 @@ exercises:[
 
 {id:"cores-pt",num:7,title:"Cores e Adjetivos",emoji:"🌈",cardDesc:"vermelho, azul, verde — cores e adjetivos básicos",
 isVocab:true,
-explain:["<p>Em português, os adjetivos <b>concordam</b> em gênero e número com o substantivo: um carro <b>vermelho</b> / uma casa <b>vermelha</b> / carros <b>vermelhos</b> / casas <b>vermelhas</b>. Os adjetivos geralmente vêm <b>após</b> o substantivo.</p>"],
+explain:["<p>En portugués, los adjetivos <b>concuerdan</b> en género y número con el sustantivo: um carro <b>vermelho</b> / uma casa <b>vermelha</b> / carros <b>vermelhos</b> / casas <b>vermelhas</b>. Los adjetivos generalmente van <b>después</b> del sustantivo.</p>"],
 vocab:[
   {cat:"🎨 Cores Básicas",items:[
     {e:"🔴",w:"vermelho/a",p:"rojo/a"},
@@ -6290,19 +6318,19 @@ vocab:[
 exercises:[
   {type:"fill",q:"O céu é ____. (azul)",answers:["azul"]},
   {type:"fill",q:"A grama é ____. (verde)",answers:["verde"]},
-  {type:"mcq",q:"'Uma casa ___a' — qual adjetivo concorda em gênero feminino?",options:["vermelho","azul","bonita","grande"],correct:2},
-  {type:"match",q:"Combine a cor com um objeto.",pairs:[["vermelho","um caminhão de bombeiro"],["amarelo","uma banana"],["branco","a neve"],["preto","o céu à noite"]]},
+  {type:"mcq",q:"'Uma casa ___a' — ¿cuál adjetivo concuerda en género femenino?",options:["vermelho","azul","bonita","grande"],correct:2},
+  {type:"match",q:"Relaciona el color con un objeto.",pairs:[["vermelho","um caminhão de bombeiro"],["amarelo","uma banana"],["branco","a neve"],["preto","o céu à noite"]]},
   {type:"fill",q:"Ela tem um carro ____. É muito escuro, como a noite. (preto)",answers:["preto"]},
   {type:"tf",q:"Em português, os adjetivos concordam em gênero com o substantivo.",correct:true},
   {type:"fill",q:"Ela está ____. Está sorrindo. (feliz)",answers:["feliz"]},
-  {type:"mcq",q:"'Casas brancas' — o adjetivo está no plural feminino porque:",options:["é uma preferência","casas é feminino plural","branco não muda","está errado"],correct:1},
+  {type:"mcq",q:"'Casas brancas' — el adjetivo está en plural femenino porque:",options:["é uma preferência","casas é feminino plural","branco não muda","está errado"],correct:1},
   {type:"speak",phrase:"Adoro o azul. Minha camiseta favorita é azul. Meu quarto tem paredes brancas.",translation:"Me encanta el azul. Mi camiseta favorita es azul. Mi cuarto tiene paredes blancas."},
   {type:"tf",q:"'Laranja' é invariável em gênero (não muda para 'laranja').",correct:true}
 ]},
 
 {id:"comida-pt",num:8,title:"Comida e Bebida",emoji:"🍎",cardDesc:"frutas, legumes, bebidas — vocabulário essencial de comida",
 isVocab:true,
-explain:["<p>Vocabulário de comida em português. Frases-chave: <b>Eu gosto de / Eu adoro / Não gosto de + substantivo. Você gosta de...? Sim, adoro! / Não, não gosto.</b></p>"],
+explain:["<p>Vocabulario de comida en portugués. Frases clave: <b>Eu gosto de / Eu adoro / Não gosto de + sustantivo. Você gosta de...? Sim, adoro! / Não, não gosto.</b></p>"],
 vocab:[
   {cat:"🍎 Frutas e Legumes",items:[
     {e:"🍎",w:"maçã",p:"manzana"},
@@ -6327,9 +6355,9 @@ vocab:[
 ],
 exercises:[
   {type:"fill",q:"Eu como uma ____ todo dia. (manzana)",answers:["maçã"]},
-  {type:"mcq",q:"Qual destes é um legume?",options:["banana","cenoura","maçã","laranja"],correct:1},
+  {type:"mcq",q:"¿Cuál de estos es una verdura?",options:["banana","cenoura","maçã","laranja"],correct:1},
   {type:"fill",q:"Você gosta de ____? Sim, adoro! (café)",answers:["café"]},
-  {type:"match",q:"Combine o alimento com a categoria.",pairs:[["maçã","fruta"],["cenoura","legume"],["água","bebida"],["pão","grão/padaria"]]},
+  {type:"match",q:"Relaciona el alimento con su categoría.",pairs:[["maçã","fruta"],["cenoura","legume"],["água","bebida"],["pão","grão/padaria"]]},
   {type:"tf",q:"'Tomate' é tecnicamente uma fruta, mas usado como legume na culinária.",correct:true},
   {type:"fill",q:"Ela toma ____ todo dia de manhã. (chá)",answers:["chá"]},
   {type:"speak",phrase:"Adoro frutas e legumes. Minha fruta favorita é manga. Tomo suco toda manhã.",translation:"Me encantan las frutas y verduras. Mi fruta favorita es el mango. Tomo jugo cada mañana."},
@@ -6340,8 +6368,8 @@ exercises:[
 
 {id:"possessivos-pt",num:9,title:"Pronomes Possessivos",emoji:"🔑",cardDesc:"meu, seu, nosso — de quem é o quê",
 explain:[
-  "<p>Os <b>possessivos</b> em português concordam com o <b>objeto possuído</b> (não com o possuidor), em gênero e número.</p>",
-  "<table class='reftable'><tr><th>Pessoa</th><th>Masc. sing.</th><th>Fem. sing.</th><th>Masc. plur.</th></tr><tr><td>eu</td><td class='formcol'>meu</td><td>minha</td><td>meus</td></tr><tr><td>você/ele/ela</td><td class='formcol'>seu</td><td>sua</td><td>seus</td></tr><tr><td>nós</td><td class='formcol'>nosso</td><td>nossa</td><td>nossos</td></tr><tr><td>eles/vocês</td><td class='formcol'>seu/loro</td><td>sua</td><td>seus</td></tr></table>",
+  "<p>Los <b>posesivos</b> en portugués concuerdan con el <b>objeto poseído</b> (no con el poseedor), en género y número.</p>",
+  "<table class='reftable'><tr><th>Persona</th><th>Masc. sing.</th><th>Fem. sing.</th><th>Masc. plur.</th></tr><tr><td>eu</td><td class='formcol'>meu</td><td>minha</td><td>meus</td></tr><tr><td>você/ele/ela</td><td class='formcol'>seu</td><td>sua</td><td>seus</td></tr><tr><td>nós</td><td class='formcol'>nosso</td><td>nossa</td><td>nossos</td></tr><tr><td>eles/vocês</td><td class='formcol'>seu/loro</td><td>sua</td><td>seus</td></tr></table>",
   "<p><span class='ex-fr'>meu livro · minha casa · seu carro · sua bolsa · nossa escola · nossos amigos</span></p>"
 ],
 exercises:[
@@ -6349,9 +6377,9 @@ exercises:[
   {type:"fill",q:"Ela ama ____ gato. (ela — masc.)",answers:["seu"]},
   {type:"mcq",q:"'___ escola é grande.' (nós — fem.)",options:["Nosso","Nossa","Meu","Seu"],correct:1},
   {type:"tf",q:"Em português, o possessivo concorda com o objeto possuído, não com o possuidor.",correct:true},
-  {type:"match",q:"Combine o pronome com o possessivo.",pairs:[["eu + livro (masc.)","meu"],["ela + bolsa (fem.)","sua"],["nós + casa (fem.)","nossa"],["você + amigos (masc.plur.)","seus"]]},
+  {type:"match",q:"Relaciona el pronombre con el posesivo.",pairs:[["eu + livro (masc.)","meu"],["ela + bolsa (fem.)","sua"],["nós + casa (fem.)","nossa"],["você + amigos (masc.plur.)","seus"]]},
   {type:"fill",q:"____ carro é novo. (seu — masc.)",answers:["Seu"]},
-  {type:"order",q:"Monte a frase:",words:["é","Minha","bonita.","casa"],correct:"Minha casa é bonita."},
+  {type:"order",q:"Forma la frase:",words:["é","Minha","bonita.","casa"],correct:"Minha casa é bonita."},
   {type:"fill",q:"Nós adoramos ____ cidade. (nossa — fem.)",answers:["nossa"]},
   {type:"speak",phrase:"Meu nome é Pedro. A casa da minha irmã é linda. Seu jardim é enorme.",translation:"Mi nombre es Pedro. La casa de mi hermana es linda. Su jardín es enorme."},
   {type:"tf",q:"'Meu' é masculino e 'minha' é feminino.",correct:true}
@@ -6359,9 +6387,9 @@ exercises:[
 
 {id:"perguntas-pt",num:10,title:"Perguntas Básicas",emoji:"❓",cardDesc:"Quem? Onde? Quando? Que? Como? — fazendo perguntas",
 explain:[
-  "<p><b>Palavras interrogativas:</b> <span class='ex-fr'>O que / Que (qué) · Quem (quién) · Onde (dónde) · Quando (cuándo) · Por que (por qué) · Como (cómo) · Quanto/a (cuánto) · Quantos/as (cuántos)</span></p>",
-  "<p>Perguntas com SER/ESTAR: inverta sujeito e verbo: <span class='ex-fr'>Você é estudante? → É você estudante? / Você é estudante? (ambas válidas)</span></p>",
-  "<p><span class='ex-fr'>Qual é o seu nome? — Meu nome é Ana. · De onde você é? — Sou do Brasil. · Quantos anos você tem? — Tenho 25 anos.</span></p>"
+  "<p><b>Palabras interrogativas:</b> <span class='ex-fr'>O que / Que (qué) · Quem (quién) · Onde (dónde) · Quando (cuándo) · Por que (por qué) · Como (cómo) · Quanto/a (cuánto) · Quantos/as (cuántos)</span></p>",
+  "<p>Preguntas con SER/ESTAR: invierte sujeto y verbo: <span class='ex-fr'>Você é estudante? → É você estudante? / Você é estudante? (ambas válidas)</span></p>",
+  "<p>Ejemplos: <span class='ex-fr'>Qual é o seu nome? — Meu nome é Ana. · De onde você é? — Sou do Brasil. · Quantos anos você tem? — Tenho 25 anos.</span></p>"
 ],
 vocab:[
   {cat:"❓ Palavras Interrogativas",items:[
@@ -6378,41 +6406,41 @@ vocab:[
 exercises:[
   {type:"fill",q:"____ é o seu nome? — Meu nome é João. (cómo/cuál)",answers:["Qual","Como"]},
   {type:"fill",q:"____ você é? — Sou do México. (de dónde)",answers:["De onde"]},
-  {type:"mcq",q:"'___ anos você tem?' — pergunta de idade",options:["Que","Quem","Quantos","Quanto"],correct:2},
+  {type:"mcq",q:"'___ anos você tem?' — (pregunta de edad)",options:["Que","Quem","Quantos","Quanto"],correct:2},
   {type:"fill",q:"____ você mora? — Moro em São Paulo. (dónde)",answers:["Onde"]},
-  {type:"match",q:"Combine a palavra interrogativa com o significado.",pairs:[["Por que","por qué"],["Quem","quién"],["Quando","cuándo"],["Quanto","cuánto (incontável)"]]},
-  {type:"order",q:"Monte a pergunta:",words:["de","você","De","onde","é?"],correct:"De onde você é?"},
+  {type:"match",q:"Relaciona la palabra interrogativa con su significado.",pairs:[["Por que","por qué"],["Quem","quién"],["Quando","cuándo"],["Quanto","cuánto (incontável)"]]},
+  {type:"order",q:"Forma la pregunta:",words:["de","você","De","onde","é?"],correct:"De onde você é?"},
   {type:"fill",q:"____ você está triste? — Porque estou com saudade. (por qué)",answers:["Por que"]},
-  {type:"mcq",q:"'___ livros você tem?' — contável",options:["Quanto","Quantos","Como","Onde"],correct:1},
+  {type:"mcq",q:"'___ livros você tem?' — (contable)",options:["Quanto","Quantos","Como","Onde"],correct:1},
   {type:"speak",phrase:"Qual é o seu nome? De onde você é? Quantos anos você tem? O que você faz?",translation:"¿Cuál es tu nombre? ¿De dónde eres? ¿Cuántos años tienes? ¿Qué haces?"},
   {type:"tf",q:"'Onde você mora?' é uma pergunta correta em português.",correct:true}
 ]},
 
 {id:"tem-ha-pt",num:11,title:"Ter / Haver (Há)",emoji:"📍",cardDesc:"Tem um parque aqui? / Há uma farmácia — o que existe",
 explain:[
-  "<p>Em português há duas formas para 'hay' em espanhol / 'there is/are' em inglês:</p>",
-  "<p><b>Há</b> (formal/escrito): invariável — <span class='ex-fr'>Há um banco aqui. · Há três quartos.</span></p>",
-  "<p><b>Tem</b> (coloquial/Brasil): invariável — <span class='ex-fr'>Tem um banco aqui. · Tem três quartos.</span></p>",
-  "<p>Negativo: <span class='ex-fr'>Não há / Não tem banco aqui.</span> Pergunta: <span class='ex-fr'>Há / Tem um banco por aqui?</span></p>"
+  "<p>En portugués hay dos formas para 'hay' (español) / 'there is/are' (inglés):</p>",
+  "<p><b>Há</b> (formal/escrito): invariable — <span class='ex-fr'>Há um banco aqui. · Há três quartos.</span></p>",
+  "<p><b>Tem</b> (coloquial/Brasil): invariable — <span class='ex-fr'>Tem um banco aqui. · Tem três quartos.</span></p>",
+  "<p>Negativo: <span class='ex-fr'>Não há / Não tem banco aqui.</span> Pregunta: <span class='ex-fr'>Há / Tem um banco por aqui?</span></p>"
 ],
 exercises:[
   {type:"fill",q:"____ um supermercado perto daqui. (há/tem — existe)",answers:["Há","Tem"]},
   {type:"fill",q:"____ três gatos no jardim. (há/tem — plural)",answers:["Há","Tem"]},
-  {type:"mcq",q:"'___ algum banco por aqui?' — pergunta coloquial brasileira",options:["Há","Ser","Tem","É"],correct:2},
+  {type:"mcq",q:"'___ algum banco por aqui?' — (pregunta coloquial brasileña)",options:["Há","Ser","Tem","É"],correct:2},
   {type:"tf",q:"No Brasil falado, 'tem' é mais comum do que 'há' para indicar existência.",correct:true},
   {type:"fill",q:"Não ____ ônibus aos domingos. (negativo coloquial)",answers:["tem","há"]},
-  {type:"order",q:"Monte a frase:",words:["20","Há","na","estudantes","sala."],correct:"Há 20 estudantes na sala."},
-  {type:"fill",q:"____ um hospital perto? — Sim, tem um na próxima rua. (pergunta)",answers:["Tem","Há"]},
-  {type:"mcq",q:"'Tem muita gente na festa.' — o 'tem' aqui significa:",options:["ele/ela tem","existe / há","temos","vocês têm"],correct:1},
+  {type:"order",q:"Forma la frase:",words:["20","Há","na","estudantes","sala."],correct:"Há 20 estudantes na sala."},
+  {type:"fill",q:"____ um hospital perto? — Sim, tem um na próxima rua. (pregunta)",answers:["Tem","Há"]},
+  {type:"mcq",q:"'Tem muita gente na festa.' — el 'tem' aquí significa:",options:["ele/ela tem","existe / há","temos","vocês têm"],correct:1},
   {type:"speak",phrase:"No meu bairro tem um parque lindo. Há árvores, bancos e um lago pequeno.",translation:"En mi vecindario hay un parque lindo. Hay árboles, bancas y un lago pequeño."},
   {type:"tf",q:"'Há' é a forma do verbo 'haver' na 3ª pessoa do singular, usada para indicar existência.",correct:true}
 ]},
 
 {id:"preposicoes-pt",num:12,title:"Preposições Básicas",emoji:"📦",cardDesc:"em, de, com, para, por — as preposições mais usadas",
 explain:[
-  "<p>As preposições mais importantes do português:</p>",
+  "<p>Las preposiciones más importantes del portugués:</p>",
   "<p><span class='ex-fr'>em (en/dentro de) · de (de/desde) · com (con) · para (para/hacia) · por (por/a través de) · sobre (sobre/encima de) · entre (entre) · até (hasta) · desde (desde)</span></p>",
-  "<p>Contrações obrigatórias: <span class='ex-fr'>em+o=no · em+a=na · de+o=do · de+a=da · de+um=dum · em+um=num · a+o=ao</span></p>"
+  "<p>Contracciones obligatorias: <span class='ex-fr'>em+o=no · em+a=na · de+o=do · de+a=da · de+um=dum · em+um=num · a+o=ao</span></p>"
 ],
 vocab:[
   {cat:"📦 Preposições de Lugar",items:[
@@ -6429,12 +6457,12 @@ vocab:[
 exercises:[
   {type:"fill",q:"O gato está ____ caixa. (dentro de — contração: em+a)",answers:["na"]},
   {type:"fill",q:"O livro está ____ mesa. (encima de — contração: em+a)",answers:["na"]},
-  {type:"mcq",q:"'Ela está ___ escola agora.' — preposição de lugar",options:["de","no","na","ao"],correct:2},
-  {type:"match",q:"Combine a preposição com o significado.",pairs:[["embaixo de","debajo de"],["atrás de","detrás de"],["ao lado de","al lado de"],["entre","entre dos cosas"]]},
+  {type:"mcq",q:"'Ela está ___ escola agora.' — (preposição de lugar)",options:["de","no","na","ao"],correct:2},
+  {type:"match",q:"Relaciona la preposición con su significado.",pairs:[["embaixo de","debajo de"],["atrás de","detrás de"],["ao lado de","al lado de"],["entre","entre dos cosas"]]},
   {type:"fill",q:"A escola fica ____ banco e a biblioteca. (entre)",answers:["entre"]},
   {type:"tf",q:"'O livro está na mesa' usa a contração 'na' (em+a).",correct:true},
   {type:"fill",q:"Estou esperando ____ ponto de ônibus. (no — em+o)",answers:["no"]},
-  {type:"order",q:"Descreva onde estão as chaves:",words:["As","estão","chaves","na","mesa."],correct:"As chaves estão na mesa."},
+  {type:"order",q:"Describe dónde están las llaves:",words:["As","estão","chaves","na","mesa."],correct:"As chaves estão na mesa."},
   {type:"speak",phrase:"Minha casa fica ao lado de um parque. Há um supermercado na frente e uma escola atrás.",translation:"Mi casa está al lado de un parque. Hay un supermercado enfrente y una escuela detrás."},
   {type:"tf",q:"'de + o = do' é uma contração obrigatória em português.",correct:true}
 ]}
@@ -6464,9 +6492,9 @@ window.LP_TOPICS['pt-2'] = [
 
 {id:"presente-regular-pt",num:1,title:"Presente do Indicativo",emoji:"⏰",cardDesc:"falo, como, parto — verbos regulares -ar/-er/-ir",
 explain:[
-  "<p>O <b>Presente do Indicativo</b> é usado para hábitos, rotinas e fatos gerais. Verbos regulares se dividem em 3 grupos:</p>",
-  "<table class='reftable'><tr><th>Pronome</th><th>-AR (falar)</th><th>-ER (comer)</th><th>-IR (partir)</th></tr><tr><td>Eu</td><td class='formcol'>falo</td><td>como</td><td>parto</td></tr><tr><td>Você/Ele/Ela</td><td class='formcol'>fala</td><td>come</td><td>parte</td></tr><tr><td>Nós</td><td class='formcol'>falamos</td><td>comemos</td><td>partimos</td></tr><tr><td>Vocês/Eles</td><td class='formcol'>falam</td><td>comem</td><td>partem</td></tr></table>",
-  "<p>Marcadores de frequência: <span class='ex-fr'>sempre · geralmente · frequentemente · às vezes · raramente · nunca</span></p>"
+  "<p>El <b>Presente de Indicativo</b> se usa para hábitos, rutinas y hechos generales. Los verbos regulares se dividen en 3 grupos:</p>",
+  "<table class='reftable'><tr><th>Pronombre</th><th>-AR (falar)</th><th>-ER (comer)</th><th>-IR (partir)</th></tr><tr><td>Eu</td><td class='formcol'>falo</td><td>como</td><td>parto</td></tr><tr><td>Você/Ele/Ela</td><td class='formcol'>fala</td><td>come</td><td>parte</td></tr><tr><td>Nós</td><td class='formcol'>falamos</td><td>comemos</td><td>partimos</td></tr><tr><td>Vocês/Eles</td><td class='formcol'>falam</td><td>comem</td><td>partem</td></tr></table>",
+  "<p>Marcadores de frecuencia: <span class='ex-fr'>sempre · geralmente · frequentemente · às vezes · raramente · nunca</span></p>"
 ],
 vocab:[
   {cat:"⏰ Advérbios de Frequência",items:[
@@ -6491,9 +6519,9 @@ exercises:[
   {type:"fill",q:"Eu não ____ carne. Sou vegetariano. (comer — negativo)",answers:["como"]},
   {type:"mcq",q:"'Nós ___ futebol todo fim de semana.' — jogar",options:["joga","jogamos","jogam","jogo"],correct:1},
   {type:"tf",q:"Verbos -AR: 'você fala', verbos -ER: 'você come' — as terminações são diferentes.",correct:true},
-  {type:"order",q:"Monte uma pergunta:",words:["você","Onde","mora?"],correct:"Onde você mora?"},
+  {type:"order",q:"Forma una pregunta:",words:["você","Onde","mora?"],correct:"Onde você mora?"},
   {type:"fill",q:"Eles ____ muito café. (tomar — eles)",answers:["tomam"]},
-  {type:"match",q:"Combine o advérbio de frequência com a porcentagem.",pairs:[["sempre","100%"],["geralmente","~80%"],["às vezes","~50%"],["nunca","0%"]]},
+  {type:"match",q:"Relaciona el adverbio de frecuencia con el porcentaje.",pairs:[["sempre","100%"],["geralmente","~80%"],["às vezes","~50%"],["nunca","0%"]]},
   {type:"fill",q:"Eu ____ acordar cedo. Não sou matutino. (negativo — não acordar)",answers:["não acordo"]},
   {type:"speak",phrase:"Geralmente acordo às 7h. Sempre tomo café da manhã. Nunca pulo o exercício.",translation:"Generalmente me despierto a las 7h. Siempre desayuno. Nunca me salto el ejercicio."},
   {type:"tf",q:"'Ela não fala inglês' — negativa correta com NÃO antes do verbo.",correct:true}
@@ -6501,26 +6529,26 @@ exercises:[
 
 {id:"verbos-irreg-pt",num:2,title:"Verbos Irregulares no Presente",emoji:"⚡",cardDesc:"ser, estar, ter, ir, fazer, poder — os irregulares essenciais",
 explain:[
-  "<p>Os verbos mais usados do português são irregulares. Memorize-os!</p>",
-  "<table class='reftable'><tr><th>Pronome</th><th>ter</th><th>ir</th><th>fazer</th><th>poder</th><th>querer</th></tr><tr><td>Eu</td><td class='formcol'>tenho</td><td>vou</td><td>faço</td><td>posso</td><td>quero</td></tr><tr><td>Você/Ele</td><td class='formcol'>tem</td><td>vai</td><td>faz</td><td>pode</td><td>quer</td></tr><tr><td>Nós</td><td class='formcol'>temos</td><td>vamos</td><td>fazemos</td><td>podemos</td><td>queremos</td></tr><tr><td>Vocês/Eles</td><td class='formcol'>têm</td><td>vão</td><td>fazem</td><td>podem</td><td>querem</td></tr></table>"
+  "<p>Los verbos más usados del portugués son irregulares. ¡Memorízalos!</p>",
+  "<table class='reftable'><tr><th>Pronombre</th><th>ter</th><th>ir</th><th>fazer</th><th>poder</th><th>querer</th></tr><tr><td>Eu</td><td class='formcol'>tenho</td><td>vou</td><td>faço</td><td>posso</td><td>quero</td></tr><tr><td>Você/Ele</td><td class='formcol'>tem</td><td>vai</td><td>faz</td><td>pode</td><td>quer</td></tr><tr><td>Nós</td><td class='formcol'>temos</td><td>vamos</td><td>fazemos</td><td>podemos</td><td>queremos</td></tr><tr><td>Vocês/Eles</td><td class='formcol'>têm</td><td>vão</td><td>fazem</td><td>podem</td><td>querem</td></tr></table>"
 ],
 exercises:[
   {type:"fill",q:"Eu ____ dois irmãos. (ter — eu)",answers:["tenho"]},
   {type:"fill",q:"Ela ____ ao trabalho de ônibus. (ir — ela)",answers:["vai"]},
   {type:"mcq",q:"'Nós ___ uma festa amanhã.' — fazer",options:["fazem","fazemos","faz","faço"],correct:1},
   {type:"tf",q:"'Eu posso' é a forma correta de 'poder' na 1ª pessoa.",correct:true},
-  {type:"match",q:"Combine o verbo com a conjugação na 1ª pessoa (eu).",pairs:[["ter","tenho"],["ir","vou"],["fazer","faço"],["querer","quero"]]},
+  {type:"match",q:"Relaciona el verbo con la conjugación en 1ª persona (eu).",pairs:[["ter","tenho"],["ir","vou"],["fazer","faço"],["querer","quero"]]},
   {type:"fill",q:"Vocês ____ vir à festa? (poder — vocês)",answers:["podem"]},
   {type:"fill",q:"Ele não ____ trabalhar hoje. Está doente. (poder — negativo)",answers:["pode"]},
-  {type:"order",q:"Monte a frase:",words:["fazer","Eu","quero","isso."],correct:"Eu quero fazer isso."},
+  {type:"order",q:"Forma la frase:",words:["fazer","Eu","quero","isso."],correct:"Eu quero fazer isso."},
   {type:"speak",phrase:"Eu tenho muito trabalho hoje. Não posso sair. Mas quero ir ao cinema amanhã!",translation:"Tengo mucho trabajo hoy. No puedo salir. ¡Pero quiero ir al cine mañana!"},
   {type:"fill",q:"Eles ____ para o Brasil nas férias. (ir — eles)",answers:["vão"]}
 ]},
 
 {id:"preterito-perfeito-pt",num:3,title:"Pretérito Perfeito",emoji:"📖",cardDesc:"eu falei, ela comeu, nós fomos — ações passadas concluídas",
 explain:[
-  "<p>O <b>Pretérito Perfeito do Indicativo</b> descreve ações concluídas no passado. Equivale ao 'Simple Past' do inglês e ao 'Pretérito Perfecto/Indefinido' do espanhol.</p>",
-  "<table class='reftable'><tr><th>Pronome</th><th>-AR (falar)</th><th>-ER (comer)</th><th>-IR (partir)</th></tr><tr><td>Eu</td><td class='formcol'>falei</td><td>comi</td><td>parti</td></tr><tr><td>Você/Ele</td><td class='formcol'>falou</td><td>comeu</td><td>partiu</td></tr><tr><td>Nós</td><td class='formcol'>falamos</td><td>comemos</td><td>partimos</td></tr><tr><td>Vocês/Eles</td><td class='formcol'>falaram</td><td>comeram</td><td>partiram</td></tr></table>",
+  "<p>El <b>Pretérito Perfecto de Indicativo</b> describe acciones concluidas en el pasado. Equivale al 'Simple Past' del inglés y al 'Pretérito Indefinido' del español.</p>",
+  "<table class='reftable'><tr><th>Pronombre</th><th>-AR (falar)</th><th>-ER (comer)</th><th>-IR (partir)</th></tr><tr><td>Eu</td><td class='formcol'>falei</td><td>comi</td><td>parti</td></tr><tr><td>Você/Ele</td><td class='formcol'>falou</td><td>comeu</td><td>partiu</td></tr><tr><td>Nós</td><td class='formcol'>falamos</td><td>comemos</td><td>partimos</td></tr><tr><td>Vocês/Eles</td><td class='formcol'>falaram</td><td>comeram</td><td>partiram</td></tr></table>",
   "<p>Irregulares importantes: <span class='ex-fr'>ir/ser → fui, foi, fomos, foram · ter → tive, teve, tivemos, tiveram · fazer → fiz, fez, fizemos, fizeram · vir → vim, veio</span></p>"
 ],
 vocab:[
@@ -6538,9 +6566,9 @@ exercises:[
   {type:"fill",q:"Ela ____ pizza no jantar. (comer — ela)",answers:["comeu"]},
   {type:"mcq",q:"'Eu não ___ TV ontem à noite.' — assistir",options:["assisti","assistiu","assistiram","assisto"],correct:0},
   {type:"tf",q:"'Ela foi' pode significar tanto 'ela foi' (ir) quanto 'ela foi' (ser) no pretérito.",correct:true},
-  {type:"match",q:"Combine o verbo com o pretérito perfeito (eu).",pairs:[["ver","vi"],["fazer","fiz"],["trazer","trouxe"],["vir","vim"]]},
-  {type:"fill",q:"____ você ao show ontem? — Sim, fui! (pergunta)",answers:["Você foi","Foi você"]},
-  {type:"order",q:"Monte a frase:",words:["noite.","Ela","o","viu","ontem","filme","à"],correct:"Ela viu o filme ontem à noite."},
+  {type:"match",q:"Relaciona el verbo con el pretérito perfecto (eu).",pairs:[["ver","vi"],["fazer","fiz"],["trazer","trouxe"],["vir","vim"]]},
+  {type:"fill",q:"____ você ao show ontem? — Sim, fui! (pregunta)",answers:["Você foi","Foi você"]},
+  {type:"order",q:"Forma la frase:",words:["noite.","Ela","o","viu","ontem","filme","à"],correct:"Ela viu o filme ontem à noite."},
   {type:"fill",q:"Nós ____ uma viagem incrível. (ter — tivemos)",answers:["tivemos"]},
   {type:"speak",phrase:"No fim de semana passado fui à praia. Comi frutos do mar e vi um pôr do sol lindo.",translation:"El fin de semana pasado fui a la playa. Comí mariscos y vi un hermoso atardecer."},
   {type:"fill",q:"Ele ____ o relatório na hora certa. (fazer — fez)",answers:["fez"]}
@@ -6548,57 +6576,57 @@ exercises:[
 
 {id:"ir-infinitivo-pt",num:4,title:"IR + Infinitivo — Futuro",emoji:"🔮",cardDesc:"Vou estudar, ela vai viajar — planos e intenções futuras",
 explain:[
-  "<p><b>IR + infinitivo</b> é a forma mais comum de expressar futuro imediato e planos em português coloquial. Equivale ao 'going to' do inglês e 'ir a + infinitivo' do espanhol.</p>",
-  "<p>Estrutura: <b>sujeito + ir (presente) + infinitivo</b></p>",
+  "<p><b>IR + infinitivo</b> es la forma más común de expresar futuro inmediato y planes en portugués coloquial. Equivale al 'going to' del inglés e 'ir a + infinitivo' del español.</p>",
+  "<p>Estructura: <b>sujeto + ir (presente) + infinitivo</b></p>",
   "<p><span class='ex-fr'>Vou estudar amanhã. · Ela vai viajar nas férias. · Vamos fazer uma festa. · Eles vão chegar tarde.</span></p>",
-  "<p>vs. <b>Futuro do Presente</b> (mais formal): <span class='ex-fr'>Estudarei amanhã. (-ei, -ás, -á, -emos, -ão)</span></p>"
+  "<p>vs. <b>Futuro do Presente</b> (más formal): <span class='ex-fr'>Estudarei amanhã. (-ei, -ás, -á, -emos, -ão)</span></p>"
 ],
 exercises:[
   {type:"fill",q:"Eu ____ estudar medicina no ano que vem. (ir — eu)",answers:["vou"]},
   {type:"fill",q:"Ela ____ viajar ao Japão nas férias. (ir — ela)",answers:["vai"]},
   {type:"mcq",q:"'Olha as nuvens! ___ chover.' — previsão baseada em evidência",options:["Vai","Foi","Era","Será"],correct:0},
   {type:"tf",q:"'IR + infinitivo' é usado para planos decididos antes do momento de falar.",correct:true},
-  {type:"order",q:"Monte a frase:",words:["jantar.","vai","preparar","Ele","o"],correct:"Ele vai preparar o jantar."},
-  {type:"fill",q:"____ você vai à festa? — Sim, vou! (pergunta)",answers:["Você"]},
+  {type:"order",q:"Forma la frase:",words:["jantar.","vai","preparar","Ele","o"],correct:"Ele vai preparar o jantar."},
+  {type:"fill",q:"____ você vai à festa? — Sim, vou! (pregunta)",answers:["Você"]},
   {type:"fill",q:"Nós não ____ assistir ao jogo. (ir — negativo)",answers:["vamos"]},
-  {type:"match",q:"Combine a situação com a estrutura correta.",pairs:[["plano decidido antes","ir + infinitivo"],["decisão espontânea","vou... (agora decidi)"],["previsão com evidência","ir + infinitivo"],["futuro formal/escrito","futuro do presente (-ei/-á)"]]},
+  {type:"match",q:"Relaciona la situación con la estructura correcta.",pairs:[["plano decidido antes","ir + infinitivo"],["decisão espontânea","vou... (agora decidi)"],["previsão com evidência","ir + infinitivo"],["futuro formal/escrito","futuro do presente (-ei/-á)"]]},
   {type:"speak",phrase:"No próximo ano vou aprender um novo idioma e viajar pela Europa. Vou trabalhar muito!",translation:"El próximo año voy a aprender un nuevo idioma y viajar por Europa. ¡Voy a trabajar duro!"},
   {type:"tf",q:"'Vou ligar para você' e 'Te ligarei' expressam futuro, sendo a primeira mais coloquial.",correct:true}
 ]},
 
 {id:"presente-continuo-pt",num:5,title:"Presente Contínuo",emoji:"🔄",cardDesc:"Estou falando — ações em andamento agora",
 explain:[
-  "<p>O <b>presente contínuo</b> (progressivo) descreve ações acontecendo <b>agora</b> ou ao redor do presente. Formação: <b>ESTAR (presente) + gerúndio (-ndo)</b>.</p>",
-  "<p>Gerúndio: <span class='ex-fr'>falar → falando · comer → comendo · partir → partindo · fazer → fazendo</span></p>",
+  "<p>El <b>presente continuo</b> (progresivo) describe acciones que ocurren <b>ahora</b> o en este período. Formación: <b>ESTAR (presente) + gerundio (-ndo)</b>.</p>",
+  "<p>Gerundio: <span class='ex-fr'>falar → falando · comer → comendo · partir → partindo · fazer → fazendo</span></p>",
   "<p><span class='ex-fr'>Estou estudando agora. · Ela está trabalhando esta semana. · O que você está fazendo?</span></p>",
-  "<p>No Brasil, também se usa <b>ESTAR + A + infinitivo</b> (mais em Portugal): <span class='ex-fr'>Estou a estudar.</span></p>"
+  "<p>En Brasil se usa ESTAR + gerundio; en Portugal es más común <b>ESTAR + A + infinitivo</b>: <span class='ex-fr'>Estou a estudar.</span></p>"
 ],
 exercises:[
   {type:"fill",q:"Ela está ____ um livro agora. (ler → lendo)",answers:["lendo"]},
   {type:"fill",q:"Eles estão ____ futebol no parque. (jogar → jogando)",answers:["jogando"]},
   {type:"mcq",q:"'Eu estou ___ TV agora.' — gerúndio de assistir",options:["assiste","assistido","assistindo","assistiu"],correct:2},
   {type:"tf",q:"'Estou sabendo a resposta' está incorreto porque 'saber' é verbo de estado.",correct:true},
-  {type:"order",q:"Monte a frase:",words:["o","preparando","Ela","está","jantar."],correct:"Ela está preparando o jantar."},
-  {type:"fill",q:"____ você fazendo agora? — Estou estudando. (pergunta — o que)",answers:["O que"]},
+  {type:"order",q:"Forma la frase:",words:["o","preparando","Ela","está","jantar."],correct:"Ela está preparando o jantar."},
+  {type:"fill",q:"____ você fazendo agora? — Estou estudando. (pregunta — o que)",answers:["O que"]},
   {type:"fill",q:"Ele não está ____. Está lendo. (assistir — negativo)",answers:["assistindo"]},
-  {type:"match",q:"Combine o uso com o exemplo.",pairs:[["ação agora","Estou escrevendo uma mensagem."],["ação em andamento esta semana","Ela está aprendendo espanhol este mês."],["plano futuro próximo","Estamos voando amanhã."],["verbo de estado — sem -ndo","Eu sei a resposta."]]},
+  {type:"match",q:"Relaciona el uso con el ejemplo.",pairs:[["ação agora","Estou escrevendo uma mensagem."],["ação em andamento esta semana","Ela está aprendendo espanhol este mês."],["plano futuro próximo","Estamos voando amanhã."],["verbo de estado — sem -ndo","Eu sei a resposta."]]},
   {type:"speak",phrase:"Agora estou sentado num café. Estou tomando café e estudando português.",translation:"Ahora mismo estoy sentado en un café. Estoy tomando café y estudiando portugués."},
   {type:"tf",q:"No Brasil, usamos 'estar + gerúndio'; em Portugal, é comum 'estar + a + infinitivo'.",correct:true}
 ]},
 
 {id:"modais-pt",num:6,title:"Verbos Modais",emoji:"⚡",cardDesc:"poder, dever, precisar, querer — habilidade, obrigação, necessidade",
 explain:[
-  "<p>Os <b>verbos modais</b> em português expressam habilidade, permissão, obrigação e possibilidade. São sempre seguidos de <b>infinitivo</b>.</p>",
-  "<table class='reftable'><tr><th>Modal</th><th>Significado</th><th>Exemplo</th></tr><tr><td>poder</td><td>habilidade/permissão</td><td class='formcol'>Posso nadar.</td></tr><tr><td>dever</td><td>obrigação/conselho</td><td class='formcol'>Você deve descansar.</td></tr><tr><td>precisar de</td><td>necessidade</td><td class='formcol'>Preciso de ajuda.</td></tr><tr><td>querer</td><td>desejo</td><td class='formcol'>Quero aprender.</td></tr><tr><td>ter que/de</td><td>obrigação forte</td><td class='formcol'>Tenho que trabalhar.</td></tr></table>"
+  "<p>Los <b>verbos modales</b> en portugués expresan habilidad, permiso, obligación y posibilidad. Siempre van seguidos de <b>infinitivo</b>.</p>",
+  "<table class='reftable'><tr><th>Modal</th><th>Significado</th><th>Ejemplo</th></tr><tr><td>poder</td><td>habilidad/permiso</td><td class='formcol'>Posso nadar.</td></tr><tr><td>dever</td><td>obligación/consejo</td><td class='formcol'>Você deve descansar.</td></tr><tr><td>precisar de</td><td>necesidad</td><td class='formcol'>Preciso de ajuda.</td></tr><tr><td>querer</td><td>deseo</td><td class='formcol'>Quero aprender.</td></tr><tr><td>ter que/de</td><td>obligación fuerte</td><td class='formcol'>Tenho que trabalhar.</td></tr></table>"
 ],
 exercises:[
   {type:"fill",q:"Ela ____ falar três idiomas. (poder — habilidade)",answers:["pode"]},
   {type:"fill",q:"Você não ____ fumar em hospitais. É proibido. (poder — negativo)",answers:["pode"]},
-  {type:"mcq",q:"'Você ___ ver um médico. Está com cara de doente.' — conselho",options:["pode","quer","deve","precisa"],correct:2},
+  {type:"mcq",q:"'Você ___ ver um médico. Está com cara de doente.' — (consejo)",options:["pode","quer","deve","precisa"],correct:2},
   {type:"tf",q:"Após verbos modais, usamos sempre o infinitivo.",correct:true},
-  {type:"match",q:"Combine o modal com sua função.",pairs:[["poder","habilidade"],["dever","conselho/obrigação"],["ter que","obrigação forte"],["querer","desejo"]]},
+  {type:"match",q:"Relaciona el modal con su función.",pairs:[["poder","habilidade"],["dever","conselho/obrigação"],["ter que","obrigação forte"],["querer","desejo"]]},
   {type:"fill",q:"Talvez ela ____ chegar tarde — não tenho certeza. (poder — possibilidade)",answers:["possa","pode"]},
-  {type:"order",q:"Monte a frase de conselho:",words:["Você","mais.","deve","dormir"],correct:"Você deve dormir mais."},
+  {type:"order",q:"Forma la frase de consejo:",words:["Você","mais.","deve","dormir"],correct:"Você deve dormir mais."},
   {type:"fill",q:"Ele ____ pagar o aluguel todo primeiro do mês. (ter que — obrigação)",answers:["tem que","tem de"]},
   {type:"speak",phrase:"Você deve se exercitar todo dia. Tem que comer bem. Assim vai se sentir melhor!",translation:"Deberías ejercitarte cada día. Tienes que comer bien. ¡Así te sentirás mejor!"},
   {type:"tf",q:"'Ela pode nadar' está correto; 'Ela podes nadar' está errado.",correct:true}
@@ -6606,9 +6634,9 @@ exercises:[
 
 {id:"comparativos-pt",num:7,title:"Comparativos e Superlativos",emoji:"📊",cardDesc:"mais alto, o mais alto — comparando pessoas e coisas",
 explain:[
-  "<p><b>Comparativos</b> comparam dois elementos. <b>Superlativos</b> expressam o extremo num grupo.</p>",
-  "<p><b>Comparativo de superioridade</b>: <span class='ex-fr'>mais + adjetivo + (do) que: Maria é mais alta do que João.</span></p>",
-  "<p><b>Comparativo de igualdade</b>: <span class='ex-fr'>tão + adjetivo + quanto: Ele é tão inteligente quanto ela.</span></p>",
+  "<p><b>Los comparativos</b> comparan dos elementos. <b>Los superlativos</b> expresan el extremo en un grupo.</p>",
+  "<p><b>Comparativo de superioridad</b>: <span class='ex-fr'>mais + adjetivo + (do) que: Maria é mais alta do que João.</span></p>",
+  "<p><b>Comparativo de igualdad</b>: <span class='ex-fr'>tão + adjetivo + quanto: Ele é tão inteligente quanto ela.</span></p>",
   "<p><b>Superlativo</b>: <span class='ex-fr'>o/a mais + adjetivo + de: É o restaurante mais caro da cidade.</span></p>",
   "<p>Irregulares: <span class='ex-fr'>bom→melhor→o melhor · mau→pior→o pior · grande→maior→o maior · pequeno→menor→o menor</span></p>"
 ],
@@ -6617,8 +6645,8 @@ exercises:[
   {type:"fill",q:"O Everest é ____ montanha do mundo. (alto — superlativo)",answers:["a mais alta"]},
   {type:"mcq",q:"'Este filme é ___ interessante do que o primeiro.' — comparativo",options:["mais","o mais","tão","menos"],correct:0},
   {type:"fill",q:"Ela é ____ aluna da turma. (bom — superlativo irregular)",answers:["a melhor"]},
-  {type:"match",q:"Combine o adjetivo com o comparativo irregular.",pairs:[["mau/ruim","pior"],["bom","melhor"],["grande","maior"],["pequeno","menor"]]},
-  {type:"order",q:"Monte a comparação:",words:["Nova","do","é","York","que","maior","Londres."],correct:"Nova York é maior do que Londres."},
+  {type:"match",q:"Relaciona el adjetivo con el comparativo irregular.",pairs:[["mau/ruim","pior"],["bom","melhor"],["grande","maior"],["pequeno","menor"]]},
+  {type:"order",q:"Forma la comparación:",words:["Nova","do","é","York","que","maior","Londres."],correct:"Nova York é maior do que Londres."},
   {type:"fill",q:"É ____ restaurante caro da cidade. (superlativo)",answers:["o mais"]},
   {type:"tf",q:"'Ela é mais alta que eu' está correto em português.",correct:true},
   {type:"speak",phrase:"Minha cidade é maior que a sua, mas a sua é mais bonita e a mais tranquila.",translation:"Mi ciudad es más grande que la tuya, pero la tuya es más bonita y la más tranquila."},
@@ -6627,7 +6655,7 @@ exercises:[
 
 {id:"hobbies-pt",num:8,title:"Hobbies e Tempo Livre",emoji:"🎸",cardDesc:"O que você faz no tempo livre? — atividades e lazer",
 isVocab:true,
-explain:["<p>Fale sobre hobbies em português. Frases-chave: <b>Gosto de / Adoro / Curto / Não aguento + substantivo ou infinitivo.</b></p>"],
+explain:["<p>Habla sobre hobbies en portugués. Frases clave: <b>Gosto de / Adoro / Curto / Não aguento + sustantivo o infinitivo.</b></p>"],
 vocab:[
   {cat:"🎯 Esportes e Atividades",items:[
     {e:"⚽",w:"jogar futebol",p:"jugar fútbol"},
@@ -6650,20 +6678,20 @@ vocab:[
 ],
 exercises:[
   {type:"fill",q:"O que você faz no ____ livre? — Adoro ler. (tiempo libre)",answers:["tempo"]},
-  {type:"mcq",q:"'Sou muito fã de...' — forma informal de dizer que você adora algo:",options:["odeio","curto muito","não aguento","raramente"],correct:1},
+  {type:"mcq",q:"'Sou muito fã de...' — (forma informal de decir que adoras algo):",options:["odeio","curto muito","não aguento","raramente"],correct:1},
   {type:"fill",q:"Ela ____ yoga toda manhã. (fazer — presente)",answers:["faz"]},
-  {type:"match",q:"Combine o hobby com a categoria.",pairs:[["nadar","esporte/físico"],["desenhar","criativo"],["cozinhar","prático/criativo"],["ler","relaxante"]]},
+  {type:"match",q:"Relaciona el hobby con la categoría.",pairs:[["nadar","esporte/físico"],["desenhar","criativo"],["cozinhar","prático/criativo"],["ler","relaxante"]]},
   {type:"tf",q:"'Eu gosto de ler' está correto; 'Eu gosto ler' está errado.",correct:true},
   {type:"fill",q:"Ele é muito fã de fotografia. Tira fotos ____. (en todas partes — em todo lugar)",answers:["em todo lugar","em todos os lugares"]},
   {type:"speak",phrase:"No meu tempo livre adoro assistir a filmes e ouvir música. Nos fins de semana ando de bicicleta.",translation:"En mi tiempo libre me encanta ver películas y escuchar música. Los fines de semana ando en bicicleta."},
   {type:"fill",q:"Nós costumamos ____ à academia depois do trabalho. (ir — frequência)",answers:["ir"]},
-  {type:"mcq",q:"Qual frase está gramaticalmente correta?",options:["Gosto de nadar.","Gosto nadar.","Gosto a nadar.","Gosto que nadar."],correct:0},
+  {type:"mcq",q:"¿Cuál frase es gramaticalmente correcta?",options:["Gosto de nadar.","Gosto nadar.","Gosto a nadar.","Gosto que nadar."],correct:0},
   {type:"tf",q:"'Jogar futebol' e 'praticar futebol' têm o mesmo significado.",correct:true}
 ]},
 
 {id:"viagem-pt",num:9,title:"Viagem e Turismo",emoji:"✈️",cardDesc:"aeroporto, hotel, reservas — vocabulário de viagem",
 isVocab:true,
-explain:["<p>Vocabulário essencial para viajar falando português. Frases úteis: <b>Tem quarto disponível? / Quanto custa? / Onde fica...? / Pode me ajudar?</b></p>"],
+explain:["<p>Vocabulario esencial para viajar hablando portugués. Frases útiles: <b>Tem quarto disponível? / Quanto custa? / Onde fica...? / Pode me ajudar?</b></p>"],
 vocab:[
   {cat:"✈️ No Aeroporto",items:[
     {e:"🛫",w:"voo",p:"vuelo"},
@@ -6685,21 +6713,21 @@ vocab:[
 exercises:[
   {type:"fill",q:"Preciso mostrar meu ____ no aeroporto para embarcar. (pasaporte)",answers:["passaporte"]},
   {type:"fill",q:"Meu ____ é às 18h do portão 7. (vuelo)",answers:["voo"]},
-  {type:"mcq",q:"Quando você chega ao hotel, você precisa fazer:",options:["check-out","check-in","reserva","conta"],correct:1},
-  {type:"match",q:"Combine a palavra com o significado.",pairs:[["cartão de embarque","documento para embarcar"],["atraso","o voo vai chegar mais tarde"],["bagagem","suas malas e bolsas"],["portão","onde você embarca"]]},
+  {type:"mcq",q:"Cuando llegas al hotel, necesitas hacer:",options:["check-out","check-in","reserva","conta"],correct:1},
+  {type:"match",q:"Relaciona la palabra con su definición.",pairs:[["cartão de embarque","documento para embarcar"],["atraso","o voo vai chegar mais tarde"],["bagagem","suas malas e bolsas"],["portão","onde você embarca"]]},
   {type:"fill",q:"Minha ____ é do dia 10 ao dia 15 de agosto. (reserva)",answers:["reserva"]},
   {type:"tf",q:"'Fazer check-out' significa sair do hotel e pagar a conta.",correct:true},
   {type:"fill",q:"Quero um quarto ____, por favor. Para uma pessoa. (simples)",answers:["simples"]},
   {type:"speak",phrase:"Tenho um voo às 8h. Preciso estar no aeroporto às 6h. Meu portão é o B7.",translation:"Tengo un vuelo a las 8h. Necesito estar en el aeropuerto a las 6h. Mi puerta es la B7."},
   {type:"fill",q:"Com licença, meu voo tem um ____ de 2 horas. Vai chegar atrasado. (atraso)",answers:["atraso"]},
-  {type:"mcq",q:"O que você precisa mostrar para embarcar num avião?",options:["cartão de crédito","cartão de embarque e passaporte","chave do hotel","nota fiscal"],correct:1}
+  {type:"mcq",q:"¿Qué necesitas mostrar para abordar un avión?",options:["cartão de crédito","cartão de embarque e passaporte","chave do hotel","nota fiscal"],correct:1}
 ]},
 
 {id:"direcoes-pt",num:10,title:"Dando Direções",emoji:"🗺️",cardDesc:"vire à esquerda, siga em frente — pedindo e dando direções",
 explain:[
-  "<p>Frases essenciais para pedir e dar direções em português.</p>",
-  "<p><b>Perguntando</b>: <span class='ex-fr'>Com licença, onde fica...? · Como faço para chegar...? · Tem algum ___ por aqui?</span></p>",
-  "<p><b>Dando direções</b>: <span class='ex-fr'>Vire à esquerda/direita. · Siga em frente. · Pegue a primeira/segunda à esquerda/direita. · Fica à sua esquerda/direita. · Passe pelo semáforo. · Fica ao lado de / em frente a / atrás de...</span></p>"
+  "<p>Frases esenciales para pedir y dar indicaciones en portugués.</p>",
+  "<p><b>Para preguntar</b>: <span class='ex-fr'>Com licença, onde fica...? · Como faço para chegar...? · Tem algum ___ por aqui?</span></p>",
+  "<p><b>Para dar indicaciones</b>: <span class='ex-fr'>Vire à esquerda/direita. · Siga em frente. · Pegue a primeira/segunda à esquerda/direita. · Fica à sua esquerda/direita. · Passe pelo semáforo. · Fica ao lado de / em frente a / atrás de...</span></p>"
 ],
 vocab:[
   {cat:"🗺️ Direções",items:[
@@ -6716,9 +6744,9 @@ vocab:[
 exercises:[
   {type:"fill",q:"Siga em ____ e depois vire à esquerda. (frente)",answers:["frente"]},
   {type:"fill",q:"____ à direita na esquina. (Vire)",answers:["Vire"]},
-  {type:"mcq",q:"'Fica ___ ao banco.' — significa em frente ao banco.",options:["atrás","em frente","embaixo","dentro"],correct:1},
-  {type:"match",q:"Combine a direção com o significado.",pairs:[["vire à esquerda","gire a la izquierda"],["siga em frente","siga recto"],["na esquina","en la esquina"],["semáforo","semáforo"]]},
-  {type:"order",q:"Monte as direções:",words:["em","Siga","depois","frente,","esquerda","no","vire","semáforo.","à"],correct:"Siga em frente, depois vire à esquerda no semáforo."},
+  {type:"mcq",q:"'Fica ___ ao banco.' — (significa en frente al banco)",options:["atrás","em frente","embaixo","dentro"],correct:1},
+  {type:"match",q:"Relaciona la dirección con su significado.",pairs:[["vire à esquerda","gire a la izquierda"],["siga em frente","siga recto"],["na esquina","en la esquina"],["semáforo","semáforo"]]},
+  {type:"order",q:"Forma las indicaciones:",words:["em","Siga","depois","frente,","esquerda","no","vire","semáforo.","à"],correct:"Siga em frente, depois vire à esquerda no semáforo."},
   {type:"fill",q:"Com licença, ____ fica a estação de metrô? (onde)",answers:["onde"]},
   {type:"fill",q:"O hotel fica ____ ao museu — os dois se olham. (em frente)",answers:["em frente"]},
   {type:"speak",phrase:"Siga em frente duas quadras, depois vire à direita. O banco fica à sua esquerda, ao lado do supermercado.",translation:"Siga recto dos cuadras, luego gire a la derecha. El banco está a su izquierda, al lado del supermercado."},
@@ -6728,7 +6756,7 @@ exercises:[
 
 {id:"compras-pt",num:11,title:"Fazendo Compras",emoji:"🛍️",cardDesc:"quanto custa? aceita cartão? — vocabulário de compras",
 isVocab:true,
-explain:["<p>Vocabulário essencial para fazer compras em português. Frases-chave: <b>Quanto custa? / Tem desconto? / Aceita cartão? / Vou levar! / Posso experimentar?</b></p>"],
+explain:["<p>Vocabulario esencial para hacer compras en portugués. Frases clave: <b>Quanto custa? / Tem desconto? / Aceita cartão? / Vou levar! / Posso experimentar?</b></p>"],
 vocab:[
   {cat:"🛍️ Na Loja",items:[
     {e:"💰",w:"preço",p:"precio"},
@@ -6750,8 +6778,8 @@ vocab:[
 exercises:[
   {type:"fill",q:"Quanto ____ esta camisa? (custa — quanto custa?)",answers:["custa"]},
   {type:"fill",q:"Tem ____? Está muito caro. (desconto)",answers:["desconto"]},
-  {type:"mcq",q:"Você quer pagar. O vendedor pergunta: 'Como vai pagar?' Você responde:",options:["Com cartão, por favor.","Quanto custa?","Posso trocar?","Não gostei."],correct:0},
-  {type:"match",q:"Combine a palavra com o significado.",pairs:[["provador","lugar para experimentar roupas"],["trocar","cambiar un producto"],["nota fiscal","documento de compra"],["parcelado","pagar en cuotas"]]},
+  {type:"mcq",q:"Quieres pagar. El vendedor pregunta: 'Como vai pagar?' ¿Qué respondes?",options:["Com cartão, por favor.","Quanto custa?","Posso trocar?","Não gostei."],correct:0},
+  {type:"match",q:"Relaciona la palabra con su definición.",pairs:[["provador","lugar para experimentar roupas"],["trocar","cambiar un producto"],["nota fiscal","documento de compra"],["parcelado","pagar en cuotas"]]},
   {type:"fill",q:"Posso ____? Quero ver se fica bem. (experimentar)",answers:["experimentar"]},
   {type:"tf",q:"No Brasil, 'dinheiro' significa efectivo (cash).",correct:true},
   {type:"fill",q:"Quero ____ este produto. Não funcionou. (devolver)",answers:["devolver"]},
@@ -6762,7 +6790,7 @@ exercises:[
 
 {id:"descricao-pessoas-pt",num:12,title:"Descrevendo Pessoas",emoji:"👤",cardDesc:"alto, magro, carinhoso — aparência e personalidade",
 isVocab:true,
-explain:["<p>Vocabulário para descrever pessoas em português. Lembre: adjetivos concordam em gênero e número. <b>Ele é alto. Ela é alta. Eles são altos. Elas são altas.</b></p>"],
+explain:["<p>Vocabulario para describir personas en portugués. Recuerda: los adjetivos concuerdan en género y número. <b>Ele é alto. Ela é alta. Eles são altos. Elas são altas.</b></p>"],
 vocab:[
   {cat:"👤 Aparência Física",items:[
     {e:"📏",w:"alto/a / baixo/a",p:"alto/a / bajo/a"},
@@ -6783,9 +6811,9 @@ vocab:[
 ],
 exercises:[
   {type:"fill",q:"Meu pai é muito ____. Ele tem 1,90m. (alto)",answers:["alto"]},
-  {type:"mcq",q:"'Ela é muito ___a.' — adjetivo no feminino correto para 'simpático':",options:["simpática","simpáticoa","simpáticoa","simpátíco"],correct:0},
+  {type:"mcq",q:"'Ela é muito ___a.' — (adjetivo en femenino correcto para 'simpático'):",options:["simpática","simpáticoa","simpáticoa","simpátíco"],correct:0},
   {type:"fill",q:"Ele tem cabelo ____ e olhos azuis. (loiro — masc.)",answers:["loiro"]},
-  {type:"match",q:"Combine o adjetivo com o oposto.",pairs:[["alto","baixo"],["gordo","magro"],["loiro","moreno"],["jovem","velho"]]},
+  {type:"match",q:"Relaciona el adjetivo con su opuesto.",pairs:[["alto","baixo"],["gordo","magro"],["loiro","moreno"],["jovem","velho"]]},
   {type:"tf",q:"'Ela é teimosa' concorda corretamente (feminino singular).",correct:true},
   {type:"fill",q:"Ela é muito ____. Compartilha tudo com todos. (generoso — fem.)",answers:["generosa"]},
   {type:"speak",phrase:"Minha melhor amiga é alta, morena e muito simpática. Ela é inteligente e generosa.",translation:"Mi mejor amiga es alta, morena y muy simpática. Es inteligente y generosa."},
