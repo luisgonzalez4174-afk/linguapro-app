@@ -330,6 +330,47 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .donebar{display:none;flex-direction:column;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(29,155,240,.12),rgba(29,155,240,.05));border:2px solid rgba(29,155,240,.4);color:var(--green-deep);font-family:'Space Grotesk',sans-serif;font-weight:700;padding:18px;border-radius:var(--radius);margin-top:12px;font-size:15px;text-align:center;}
 .donebar.show{display:flex;}
 .donebar .done-koala{font-size:48px;display:block;}
+/* ─── PATH SCREEN (Duolingo-style) ─── */
+#screen-path{margin:-18px -16px 0;padding:0;}
+.path-lang-bar{position:sticky;top:0;z-index:90;background:var(--bg);border-bottom:2px solid var(--line);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.path-lang-btn{display:flex;align-items:center;gap:8px;background:var(--card);border:2px solid var(--line);border-radius:999px;padding:7px 14px 7px 10px;font-size:14px;font-weight:700;font-family:'Space Grotesk',sans-serif;cursor:pointer;color:var(--ink);box-shadow:0 2px 0 var(--line);transition:border-color .15s;}
+.path-lang-btn:hover{border-color:var(--green);}
+.path-lang-flag{font-size:22px;line-height:1;}
+.path-lang-caret{font-size:10px;opacity:.5;}
+.path-progress-txt{font-size:12px;color:var(--ink-soft);font-weight:600;}
+.path-scroll{padding:0 0 60px;}
+.stage-banner{padding:14px 16px;margin-top:8px;background:var(--card);border-top:4px solid var(--stage-clr,#1D9BF0);border-bottom:2px solid var(--line);display:flex;align-items:center;justify-content:space-between;}
+.stage-info{display:flex;align-items:center;gap:10px;}
+.stage-icon{font-size:26px;}
+.stage-name{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:15px;color:var(--ink);}
+.stage-desc{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+.stage-ring{position:relative;width:50px;height:50px;flex-shrink:0;}
+.stage-ring svg{display:block;}
+.stage-ring-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:'Space Grotesk',sans-serif;}
+.stage-locked-block{padding:16px;text-align:center;color:var(--ink-soft);font-size:13px;font-weight:600;background:var(--bg);}
+.bubble-row{display:flex;align-items:center;padding:8px 16px;}
+.bubble-row.pos-left{justify-content:flex-start;padding-left:36px;}
+.bubble-row.pos-center{justify-content:center;}
+.bubble-row.pos-right{justify-content:flex-end;padding-right:36px;}
+.bubble-wrap{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.path-bubble{position:relative;width:70px;height:70px;border-radius:50%;border:none;background:var(--bclr,#1D9BF0);box-shadow:0 5px 0 rgba(0,0,0,.2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:28px;transition:transform .1s,box-shadow .1s;outline:none;}
+.path-bubble:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.2);}
+.path-bubble.done::after{content:'✓';position:absolute;bottom:-3px;right:-3px;width:22px;height:22px;border-radius:50%;background:#FFC800;color:#fff;font-size:11px;font-weight:900;line-height:22px;text-align:center;border:2.5px solid var(--bg);}
+.path-bubble.current{animation:bubble-pulse 1.5s ease-in-out infinite;}
+@keyframes bubble-pulse{0%,100%{box-shadow:0 5px 0 rgba(0,0,0,.2),0 0 0 0 rgba(29,155,240,.4);}60%{box-shadow:0 5px 0 rgba(0,0,0,.2),0 0 0 10px rgba(29,155,240,.0);}}
+.bubble-label{font-size:11px;font-weight:700;color:var(--ink-soft);text-align:center;max-width:82px;line-height:1.25;font-family:'Space Grotesk',sans-serif;}
+.stage-gap{height:4px;}
+.lang-picker-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:flex;align-items:flex-end;justify-content:center;}
+.lang-picker-sheet{background:var(--card);border-radius:24px 24px 0 0;padding:20px 16px 40px;width:100%;max-width:780px;box-shadow:0 -8px 40px rgba(0,0,0,.2);}
+.lang-picker-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:18px;text-align:center;margin-bottom:16px;color:var(--ink);}
+.lang-picker-card{display:flex;align-items:center;gap:14px;padding:13px 14px;border-radius:14px;background:var(--bg);border:2px solid var(--line);margin-bottom:10px;cursor:pointer;transition:border-color .15s;}
+.lang-picker-card:hover:not(.locked){border-color:var(--green);}
+.lang-picker-card.locked{opacity:.5;cursor:not-allowed;}
+.lang-picker-flag{font-size:32px;flex-shrink:0;}
+.lang-picker-name{font-weight:700;font-size:15px;color:var(--ink);}
+.lang-picker-desc{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+.lang-picker-check{margin-left:auto;color:var(--green);font-size:20px;font-weight:900;}
+.lang-picker-lock{margin-left:auto;font-size:18px;}
 </style>
 </head>
 <body>
@@ -366,7 +407,6 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
       <p>Elige el idioma que quieres aprender. Cada idioma tiene su propio curso completo con niveles, ejercicios interactivos, vocabulario ilustrado y conversación real.</p>
     </div>
     <div class="selgrid" id="langGrid"></div>
-    <div id="missionsWidget" style="margin-top:20px"></div>
   </div>
 
   <!-- SCREEN 2: Level selector (per language) -->
@@ -377,6 +417,20 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
       <p id="levelsHeroDesc">Elige tu nivel. Cada nivel tiene estaciones con gramática, vocabulario, ejercicios interactivos y una sala de conversación.</p>
     </div>
     <div class="selgrid" id="levelGrid"></div>
+  </div>
+
+  <!-- SCREEN PATH: Duolingo-style unified path -->
+  <div id="screen-path" style="display:none">
+    <div class="path-lang-bar">
+      <button type="button" class="path-lang-btn" onclick="openLangPicker()">
+        <span class="path-lang-flag" id="pathLangFlag">🇫🇷</span>
+        <span id="pathLangName">Français</span>
+        <span class="path-lang-caret">▾</span>
+      </button>
+      <span class="path-progress-txt" id="pathProgressTxt"></span>
+    </div>
+    <div class="path-scroll" id="pathScroll"></div>
+    <div id="missionsWidget" style="padding:8px 16px 20px"></div>
   </div>
 
   <!-- SCREEN 3: Station map (per level) -->
@@ -394,6 +448,14 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
   <div id="topicview" class="topicview"></div>
 
   <footer>LinguaPro · Aprende un idioma cada día 🌍</footer>
+</div>
+
+<!-- Language picker overlay -->
+<div id="langPickerOverlay" class="lang-picker-overlay" style="display:none" onclick="closeLangPicker()">
+  <div class="lang-picker-sheet" onclick="event.stopPropagation()">
+    <div class="lang-picker-title">🌍 Elige tu idioma</div>
+    <div id="langPickerOptions"></div>
+  </div>
 </div>
 
 <!-- Settings panel -->
@@ -1867,9 +1929,144 @@ function renderMap(){
 
 function backToMap(){
   document.getElementById('topicview').classList.remove('active');
-  document.getElementById('mapview').style.display='block';
-  renderMap();
+  document.getElementById('mapview').style.display='none';
+  document.getElementById('screen-path').style.display='block';
+  renderPath();
   updateScore();
+}
+
+// ══════════════════════════════════
+//  PATH SCREEN (Duolingo-style)
+// ══════════════════════════════════
+const STAGE_COLORS=['#1D9BF0','#FF9600','#CE82FF','#25C2A0','#FF4B4B','#7C3AED'];
+const STAGE_ICONS=['🌱','📚','🌟','💫','🚀','🏆'];
+
+function showPathScreen(langId){
+  if(langId) currentLangId=langId;
+  if(!currentLangId) currentLangId=(LANGUAGES.find(l=>l.active)||{}).id;
+  lsSet('lastLang',currentLangId);
+  const langObj=LANGUAGES.find(l=>l.id===currentLangId)||{};
+  document.getElementById('screen-langs').style.display='none';
+  document.getElementById('screen-levels').style.display='none';
+  document.getElementById('mapview').style.display='none';
+  document.getElementById('screen-path').style.display='block';
+  document.getElementById('topicview').classList.remove('active');
+  const sub=document.getElementById('topbarSub');
+  if(sub){ const n=getUserName(); sub.textContent=n?`Hola, ${n} 👋`:langObj.name||''; }
+  updateStreakDisplay();
+  updateScore();
+  renderPath();
+  history.replaceState({lp:'path',lang:currentLangId},'');
+}
+
+function renderPath(){
+  const scroll=document.getElementById('pathScroll');
+  if(!scroll) return;
+  const langObj=LANGUAGES.find(l=>l.id===currentLangId)||{};
+  const levels=LEVELS[currentLangId]||[];
+  const doneTops=lsGet('done_topics')||[];
+  const flagEl=document.getElementById('pathLangFlag');
+  const nameEl=document.getElementById('pathLangName');
+  if(flagEl) flagEl.textContent=langObj.flag||'';
+  if(nameEl) nameEl.textContent=langObj.name||'';
+  const zigzag=['pos-center','pos-right','pos-center','pos-left'];
+  let totalTopics=0,totalDone=0,html='';
+  levels.forEach((lv,lvIdx)=>{
+    const lvLocked=isLevelLocked(currentLangId,lvIdx);
+    const lvSoon=!lv.active;
+    const lvColor=STAGE_COLORS[lvIdx%STAGE_COLORS.length];
+    const lvIcon=STAGE_ICONS[lvIdx%STAGE_ICONS.length];
+    const topics=window.LP_TOPICS[lv.id]||[];
+    const lvReg=topics.filter(t=>!t.isChat);
+    const lvDone=lvReg.filter(t=>doneTops.includes(t.id)).length;
+    totalTopics+=lvReg.length; totalDone+=lvDone;
+    const pct=lvReg.length?Math.round(lvDone/lvReg.length*100):0;
+    const r=15,circ=+(2*Math.PI*r).toFixed(1),dash=+(pct/100*circ).toFixed(1);
+    html+=`<div class="stage-banner" style="--stage-clr:${lvColor}">
+      <div class="stage-info">
+        <span class="stage-icon">${lvLocked||lvSoon?'🔒':lvIcon}</span>
+        <div><div class="stage-name">${lv.name}</div><div class="stage-desc">${lv.desc}</div></div>
+      </div>
+      <div class="stage-ring">
+        <svg viewBox="0 0 36 36" width="50" height="50">
+          <circle cx="18" cy="18" r="${r}" fill="none" stroke="#E5E5E5" stroke-width="3.5"/>
+          <circle cx="18" cy="18" r="${r}" fill="none" stroke="${lvColor}" stroke-width="3.5"
+            stroke-dasharray="${dash} ${circ}" stroke-linecap="round" transform="rotate(-90 18 18)"/>
+        </svg>
+        <div class="stage-ring-pct" style="color:${lvColor}">${pct}%</div>
+      </div>
+    </div>`;
+    if(lvLocked||lvSoon){
+      html+=`<div class="stage-locked-block">${lvSoon?'🚧 Próximamente disponible':'🔒 Completa el 50% del nivel anterior para desbloquear'}</div>`;
+    } else {
+      const bColors={grammar:lvColor,vocab:'#FF9600',chat:'#25C2A0'};
+      topics.forEach((t,tIdx)=>{
+        const isDone=doneTops.includes(t.id);
+        const posClass=zigzag[tIdx%zigzag.length];
+        const bType=t.isChat?'chat':(t.isVocab?'vocab':'grammar');
+        const bColor=bColors[bType];
+        const prevOk=tIdx===0||doneTops.includes(topics[tIdx-1].id);
+        const isCurrent=!isDone&&prevOk;
+        html+=`<div class="bubble-row ${posClass}">
+          <div class="bubble-wrap">
+            <button class="path-bubble${isDone?' done':''}${isCurrent?' current':''}" style="--bclr:${bColor}" onclick="pathOpenTopic('${lv.id}','${t.id}')" title="${t.title}">${t.emoji}</button>
+            <div class="bubble-label">${t.title}</div>
+          </div>
+        </div>`;
+      });
+    }
+    html+='<div class="stage-gap"></div>';
+  });
+  const pctAll=totalTopics?Math.round(totalDone/totalTopics*100):0;
+  const sumEl=document.getElementById('pathProgressTxt');
+  if(sumEl) sumEl.textContent=`${totalDone}/${totalTopics} estaciones · ${pctAll}%`;
+  scroll.innerHTML=html;
+}
+
+function pathOpenTopic(levelId,topicId){
+  const levels=LEVELS[currentLangId]||[];
+  const lvIdx=levels.findIndex(l=>l.id===levelId);
+  if(lvIdx===-1) return;
+  if(isLevelLocked(currentLangId,lvIdx)){ toast('🔒 ¡Completa al menos el 50% del nivel anterior!'); return; }
+  const lv=levels[lvIdx];
+  if(!lv||!lv.active){ toast('🔒 Este nivel estará disponible pronto.'); return; }
+  currentLevelId=levelId;
+  TOPICS=(window.LP_TOPICS[levelId]||[]).map(t=>t);
+  const doneTops=lsGet('done_topics')||[];
+  progress.length=0;
+  TOPICS.forEach(t=>{ if(!t.isChat){ const n=t.exercises.length; progress[t.id]=doneTops.includes(t.id)?new Array(n).fill(true):new Array(n).fill(false); } });
+  openTopic(topicId);
+}
+
+function backToPath(){
+  document.getElementById('topicview').classList.remove('active');
+  document.getElementById('screen-path').style.display='block';
+  renderPath();
+  updateScore();
+}
+
+function openLangPicker(){
+  const opts=document.getElementById('langPickerOptions');
+  if(!opts) return;
+  opts.innerHTML=LANGUAGES.map(l=>`
+    <div class="lang-picker-card${!l.active?' locked':''}" ${l.active?`onclick="pickLang('${l.id}')"`:'role="button"'}>
+      <span class="lang-picker-flag">${l.flag}</span>
+      <div style="flex:1"><div class="lang-picker-name">${l.name}</div><div class="lang-picker-desc">${l.desc}</div></div>
+      ${l.id===currentLangId?'<span class="lang-picker-check">✓</span>':''}
+      ${!l.active?'<span class="lang-picker-lock">🔒</span>':''}
+    </div>`).join('');
+  document.getElementById('langPickerOverlay').style.display='flex';
+}
+
+function closeLangPicker(){
+  document.getElementById('langPickerOverlay').style.display='none';
+}
+
+function pickLang(id){
+  const lang=LANGUAGES.find(l=>l.id===id);
+  if(!lang||!lang.active){ toast('🔒 Este idioma estará disponible pronto.'); return; }
+  closeLangPicker();
+  showPathScreen(id);
 }
 
 let currentExIndex = 0;
@@ -1882,6 +2079,7 @@ function openTopic(id){
   if(!t) return;
   currentTopic = t;
   document.getElementById('mapview').style.display='none';
+  document.getElementById('screen-path').style.display='none';
   const view = document.getElementById('topicview');
   view.classList.add('active');
   if(t.isChat){ topicPhase='chat'; updateMissionProgress('chat',1); renderChatStation(t); history.pushState({lp:'chat',id:t.id},''); return; }
@@ -1905,6 +2103,7 @@ function renderExplanation(t){
   const view = document.getElementById('topicview');
   view.classList.add('active');
   document.getElementById('mapview').style.display='none';
+  document.getElementById('screen-path').style.display='none';
   const example = getExamplePhrase(t);
   let html = `<button type="button" class="backbtn" onclick="backToMap()">${uiT('backToMap')}</button>
   <div class="thead"><div class="nbadge">${t.emoji}</div><div><h2>${t.title}</h2><span>${t.cardDesc}</span></div></div>
@@ -2491,7 +2690,9 @@ function enhanceExplainAudio(){
 // ══════════════════════════════════
 function navigateBack(){
   const topicActive = document.getElementById('topicview').classList.contains('active');
-  if(topicActive && topicPhase==='exercises'){ renderExplanation(currentTopic); }
+  const langPickerOpen = document.getElementById('langPickerOverlay').style.display!=='none';
+  if(langPickerOpen){ closeLangPicker(); }
+  else if(topicActive && topicPhase==='exercises'){ renderExplanation(currentTopic); }
   else if(topicActive){ backToMap(); }
   else if(document.getElementById('mapview').style.display!=='none'){ showLevelScreen(); }
   else if(document.getElementById('screen-levels').style.display!=='none'){ showLangScreen(); }
@@ -2640,16 +2841,12 @@ function doRegister(){
 }
 
 function startApp(){
-  const name = getUserName();
-  const sub = document.getElementById('topbarSub');
-  if(sub && name) sub.textContent = `Hola, ${name} 👋`;
   const badge = document.getElementById('devBadge');
   if(badge && isDevMode()) badge.classList.add('active');
-  const hero = document.getElementById('langsHero');
-  if(hero && name) hero.textContent = `¡Hola, ${name}! 🐨`;
-  showLangScreen();
+  const savedLang = lsGet('lastLang');
+  currentLangId = (savedLang && LANGUAGES.find(l=>l.id===savedLang&&l.active)) ? savedLang : (LANGUAGES.find(l=>l.active)||{}).id;
+  showPathScreen();
   initGamification();
-  history.replaceState({lp:'langs'},'');
 }
 
 function resetUser(){
@@ -2663,12 +2860,8 @@ function resetUser(){
 }
 
 // ══════════════════════════════════
-//  INIT
+//  INIT — called after all data loads (see end of file)
 // ══════════════════════════════════
-initApp();
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').catch(()=>{});
-}
 
 // ── PWA INSTALL ──────────────────────
 let _deferredInstall = null;
@@ -7947,6 +8140,8 @@ window.LP_CHAT_SCENARIOS['pt-6'] = {
     {id:"visao-futuro",title:"Visão de Futuro",emoji:"🔭",setup:"Especulando sobre o futuro da humanidade.",partner:{emoji:"🌟",name:"Marcos"},opener:"Se você pudesse projetar o mundo daqui a 50 anos, como seria? Tomara que a humanidade resolva seus problemas — você é otimista ou pessimista?"}
   ]
 };
+initApp();
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js').catch(()=>{}); }
 </script>
 
 </body>
