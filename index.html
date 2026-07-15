@@ -371,6 +371,35 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .lang-picker-desc{font-size:12px;color:var(--ink-soft);margin-top:2px;}
 .lang-picker-check{margin-left:auto;color:var(--green);font-size:20px;font-weight:900;}
 .lang-picker-lock{margin-left:auto;font-size:18px;}
+/* locked bubbles */
+.path-bubble.locked-bubble{background:#ccc!important;box-shadow:0 5px 0 #aaa;cursor:pointer;filter:grayscale(.6);}
+.bubble-lock-icon{position:absolute;bottom:0;right:0;font-size:14px;line-height:1;pointer-events:none;}
+.bubble-skip-tag{font-size:10px;font-weight:700;color:var(--green-deep);background:rgba(29,155,240,.1);border:1.5px solid rgba(29,155,240,.3);border-radius:999px;padding:2px 7px;cursor:pointer;font-family:'Space Grotesk',sans-serif;display:inline-block;margin-top:2px;}
+.skip-level-btn{display:inline-block;margin-top:10px;background:var(--green);color:#fff;border:none;border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700;font-family:'Space Grotesk',sans-serif;cursor:pointer;}
+/* skip test modal */
+.skip-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:flex;align-items:flex-end;justify-content:center;}
+.skip-modal-sheet{background:var(--card);border-radius:24px 24px 0 0;padding:24px 20px 40px;width:100%;max-width:780px;max-height:85vh;overflow-y:auto;box-shadow:0 -8px 40px rgba(0,0,0,.25);}
+.skip-modal-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:18px;color:var(--ink);margin:0 0 8px;}
+.skip-modal-sub{font-size:14px;color:var(--ink-soft);margin-bottom:20px;line-height:1.5;}
+.skip-test-btn{display:block;width:100%;background:var(--green);color:#fff;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:'Space Grotesk',sans-serif;cursor:pointer;margin-bottom:10px;text-align:center;}
+.skip-cancel-btn{display:block;width:100%;background:transparent;color:var(--ink-soft);border:2px solid var(--line);border-radius:14px;padding:12px;font-size:15px;font-weight:600;font-family:'Space Grotesk',sans-serif;cursor:pointer;text-align:center;}
+.skip-q-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.skip-q-counter{font-size:13px;font-weight:700;color:var(--ink-soft);font-family:'Space Grotesk',sans-serif;}
+.skip-q-bar{height:6px;background:var(--line);border-radius:3px;margin-bottom:16px;overflow:hidden;}
+.skip-q-fill{height:100%;background:var(--green);border-radius:3px;transition:width .3s;}
+.skip-q-text{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:16px;line-height:1.45;}
+.skip-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.skip-opt{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg);border:2px solid var(--line);border-radius:12px;cursor:pointer;font-size:14px;font-weight:600;color:var(--ink);transition:border-color .15s;text-align:left;width:100%;}
+.skip-opt:hover:not(.correct):not(.wrong){border-color:var(--green);}
+.skip-opt.correct{border-color:#58CC02!important;background:rgba(88,204,2,.12)!important;}
+.skip-opt.wrong{border-color:var(--red)!important;background:rgba(255,75,75,.08)!important;}
+.skip-opt-letter{width:24px;height:24px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.skip-next-btn{width:100%;background:var(--green);color:#fff;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;}
+.skip-next-btn:disabled{opacity:.4;cursor:not-allowed;}
+.skip-result{text-align:center;padding:10px 0;}
+.skip-result-emoji{font-size:64px;margin-bottom:12px;display:block;}
+.skip-result-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:22px;margin:0 0 8px;color:var(--ink);}
+.skip-result-sub{font-size:14px;color:var(--ink-soft);margin-bottom:24px;line-height:1.5;}
 </style>
 </head>
 <body>
@@ -455,6 +484,13 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
   <div class="lang-picker-sheet" onclick="event.stopPropagation()">
     <div class="lang-picker-title">🌍 Elige tu idioma</div>
     <div id="langPickerOptions"></div>
+  </div>
+</div>
+
+<!-- Skip test modal -->
+<div id="skipModalOverlay" class="skip-modal-overlay" style="display:none" onclick="closeSkipModal()">
+  <div class="skip-modal-sheet" onclick="event.stopPropagation()">
+    <div id="skipModalContent"></div>
   </div>
 </div>
 
@@ -1997,7 +2033,9 @@ function renderPath(){
       </div>
     </div>`;
     if(lvLocked||lvSoon){
-      html+=`<div class="stage-locked-block">${lvSoon?'🚧 Próximamente disponible':'🔒 Completa el 50% del nivel anterior para desbloquear'}</div>`;
+      html+=lvSoon
+        ?`<div class="stage-locked-block">🚧 Próximamente disponible</div>`
+        :`<div class="stage-locked-block">🔒 Completa el 50% del nivel anterior para desbloquear<br><button type="button" class="skip-level-btn" onclick="showLevelSkipModal('${lv.id}')">🧪 Test de colocación</button></div>`;
     } else {
       const bColors={grammar:lvColor,vocab:'#FF9600',chat:'#25C2A0'};
       topics.forEach((t,tIdx)=>{
@@ -2005,12 +2043,16 @@ function renderPath(){
         const posClass=zigzag[tIdx%zigzag.length];
         const bType=t.isChat?'chat':(t.isVocab?'vocab':'grammar');
         const bColor=bColors[bType];
-        const prevOk=tIdx===0||doneTops.includes(topics[tIdx-1].id);
+        const prevNonChat=getPrevNonChatForPath(topics,tIdx);
+        const prevOk=!prevNonChat||doneTops.includes(prevNonChat.id);
+        const isLocked=!isDone&&!prevOk;
         const isCurrent=!isDone&&prevOk;
         html+=`<div class="bubble-row ${posClass}">
           <div class="bubble-wrap">
-            <button class="path-bubble${isDone?' done':''}${isCurrent?' current':''}" style="--bclr:${bColor}" onclick="pathOpenTopic('${lv.id}','${t.id}')" title="${t.title}">${t.emoji}</button>
-            <div class="bubble-label">${t.title}</div>
+            <button class="path-bubble${isDone?' done':''}${isCurrent?' current':''}${isLocked?' locked-bubble':''}" style="--bclr:${bColor}" onclick="pathTapBubble('${lv.id}','${t.id}')" title="${t.title}">
+              ${t.emoji}${isLocked?'<span class="bubble-lock-icon">🔒</span>':''}
+            </button>
+            <div class="bubble-label">${t.title}${isLocked?'<br><span class="bubble-skip-tag">🧪 Saltar</span>':''}</div>
           </div>
         </div>`;
       });
@@ -2036,6 +2078,21 @@ function pathOpenTopic(levelId,topicId){
   progress.length=0;
   TOPICS.forEach(t=>{ if(!t.isChat){ const n=t.exercises.length; progress[t.id]=doneTops.includes(t.id)?new Array(n).fill(true):new Array(n).fill(false); } });
   openTopic(topicId);
+}
+
+function getPrevNonChatForPath(topics,idx){
+  for(let i=idx-1;i>=0;i--){ if(!topics[i].isChat) return topics[i]; }
+  return null;
+}
+
+function pathTapBubble(levelId,topicId){
+  const topics=window.LP_TOPICS[levelId]||[];
+  const idx=topics.findIndex(t=>t.id===topicId);
+  const doneTops=lsGet('done_topics')||[];
+  const prevNonChat=getPrevNonChatForPath(topics,idx);
+  const accessible=idx===0||!prevNonChat||doneTops.includes(prevNonChat.id);
+  if(accessible){ pathOpenTopic(levelId,topicId); }
+  else { showTopicSkipModal(levelId,topicId); }
 }
 
 function backToPath(){
@@ -2067,6 +2124,182 @@ function pickLang(id){
   if(!lang||!lang.active){ toast('🔒 Este idioma estará disponible pronto.'); return; }
   closeLangPicker();
   showPathScreen(id);
+}
+
+// ══════════════════════════════════
+//  SKIP TEST (placement exam)
+// ══════════════════════════════════
+let _skipTarget=null;
+let _skipQuestions=[];
+let _skipIdx=0;
+let _skipScore=0;
+let _skipAnswered=false;
+
+function getSkipQuestions(levelId,topicId,isLevelSkip){
+  let pool=[];
+  if(isLevelSkip){
+    const levels=LEVELS[currentLangId]||[];
+    const lvIdx=levels.findIndex(l=>l.id===levelId);
+    if(lvIdx>0){
+      const prevLv=levels[lvIdx-1];
+      (window.LP_TOPICS[prevLv.id]||[]).forEach(t=>{
+        (t.exercises||[]).forEach(ex=>{ if(ex.type==='mcq'||ex.type==='tf') pool.push(ex); });
+      });
+    }
+  } else {
+    const topics=window.LP_TOPICS[levelId]||[];
+    const idx=topics.findIndex(t=>t.id===topicId);
+    for(let i=0;i<idx;i++){
+      if(!topics[i].isChat){
+        (topics[i].exercises||[]).forEach(ex=>{ if(ex.type==='mcq'||ex.type==='tf') pool.push(ex); });
+      }
+    }
+    if(pool.length<3){
+      pool=[];
+      topics.forEach(t=>{ if(!t.isChat&&t.id!==topicId){ (t.exercises||[]).forEach(ex=>{ if(ex.type==='mcq'||ex.type==='tf') pool.push(ex); }); } });
+    }
+  }
+  return pool.sort(()=>Math.random()-.5).slice(0,6);
+}
+
+function showTopicSkipModal(levelId,topicId){
+  const topic=(window.LP_TOPICS[levelId]||[]).find(t=>t.id===topicId);
+  _skipTarget={levelId,topicId,isLevel:false};
+  document.getElementById('skipModalContent').innerHTML=`
+    <p class="skip-modal-title">🔒 ${topic?topic.title:'Tema bloqueado'}</p>
+    <p class="skip-modal-sub">Este tema requiere completar los anteriores. Haz un test rápido para demostrarlo y saltarte el contenido previo.</p>
+    <button type="button" class="skip-test-btn" onclick="startSkipTest()">🧪 Hacer el test ahora</button>
+    <button type="button" class="skip-cancel-btn" onclick="closeSkipModal()">Cancelar</button>`;
+  document.getElementById('skipModalOverlay').style.display='flex';
+}
+
+function showLevelSkipModal(levelId){
+  const levels=LEVELS[currentLangId]||[];
+  const lv=levels.find(l=>l.id===levelId)||{};
+  const firstTopic=(window.LP_TOPICS[levelId]||[])[0];
+  _skipTarget={levelId,topicId:firstTopic?firstTopic.id:null,isLevel:true};
+  document.getElementById('skipModalContent').innerHTML=`
+    <p class="skip-modal-title">🔒 ${lv.name||'Nivel bloqueado'}</p>
+    <p class="skip-modal-sub">Necesitas completar el 50% del nivel anterior. Haz el test de colocación para demostrar que ya dominas ese contenido.</p>
+    <button type="button" class="skip-test-btn" onclick="startSkipTest()">🧪 Test de colocación</button>
+    <button type="button" class="skip-cancel-btn" onclick="closeSkipModal()">Cancelar</button>`;
+  document.getElementById('skipModalOverlay').style.display='flex';
+}
+
+function closeSkipModal(){
+  document.getElementById('skipModalOverlay').style.display='none';
+}
+
+function startSkipTest(){
+  if(!_skipTarget) return;
+  _skipQuestions=getSkipQuestions(_skipTarget.levelId,_skipTarget.topicId,_skipTarget.isLevel);
+  if(_skipQuestions.length===0){ grantSkipUnlock(_skipTarget); closeSkipModal(); if(_skipTarget.topicId) pathOpenTopic(_skipTarget.levelId,_skipTarget.topicId); return; }
+  _skipIdx=0; _skipScore=0; _skipAnswered=false;
+  renderSkipQuestion();
+}
+
+function renderSkipQuestion(){
+  const q=_skipQuestions[_skipIdx];
+  const total=_skipQuestions.length;
+  const pct=(_skipIdx/total*100).toFixed(0);
+  let optsHtml='';
+  if(q.type==='mcq'){
+    optsHtml=(q.options||[]).map((o,i)=>`<button type="button" class="skip-opt" id="sOpt${i}" onclick="selectSkipOpt(${i},${q.correct})"><span class="skip-opt-letter">${String.fromCharCode(65+i)}</span>${o}</button>`).join('');
+  } else {
+    optsHtml=`<button type="button" class="skip-opt" id="sOptT" onclick="selectSkipTF(true,${q.correct})">✅ Verdadero</button>
+              <button type="button" class="skip-opt" id="sOptF" onclick="selectSkipTF(false,${q.correct})">❌ Falso</button>`;
+  }
+  document.getElementById('skipModalContent').innerHTML=`
+    <div class="skip-q-header">
+      <span class="skip-modal-title">🧪 Test rápido</span>
+      <span class="skip-q-counter">${_skipIdx+1}/${total}</span>
+    </div>
+    <div class="skip-q-bar"><div class="skip-q-fill" style="width:${pct}%"></div></div>
+    <div class="skip-q-text">${q.q||''}</div>
+    <div class="skip-opts">${optsHtml}</div>
+    <button type="button" class="skip-next-btn" id="skipNextBtn" onclick="skipNextQuestion()" disabled>Siguiente →</button>`;
+}
+
+function selectSkipOpt(idx,correctIdx){
+  if(_skipAnswered) return;
+  _skipAnswered=true;
+  if(idx===correctIdx) _skipScore++;
+  const q=_skipQuestions[_skipIdx];
+  (q.options||[]).forEach((_,i)=>{
+    const el=document.getElementById(`sOpt${i}`);
+    if(!el) return;
+    if(i===correctIdx) el.classList.add('correct');
+    else if(i===idx) el.classList.add('wrong');
+    el.disabled=true;
+  });
+  document.getElementById('skipNextBtn').disabled=false;
+}
+
+function selectSkipTF(val,correct){
+  if(_skipAnswered) return;
+  _skipAnswered=true;
+  const correctBool=(correct===true||correct==='true');
+  if(val===correctBool) _skipScore++;
+  const tEl=document.getElementById('sOptT');
+  const fEl=document.getElementById('sOptF');
+  if(correctBool){ if(tEl) tEl.classList.add('correct'); if(!val&&fEl) fEl.classList.add('wrong'); }
+  else { if(fEl) fEl.classList.add('correct'); if(val&&tEl) tEl.classList.add('wrong'); }
+  if(tEl) tEl.disabled=true;
+  if(fEl) fEl.disabled=true;
+  document.getElementById('skipNextBtn').disabled=false;
+}
+
+function skipNextQuestion(){
+  _skipIdx++; _skipAnswered=false;
+  if(_skipIdx>=_skipQuestions.length){ showSkipResult(); }
+  else { renderSkipQuestion(); }
+}
+
+function showSkipResult(){
+  const total=_skipQuestions.length;
+  const pct=Math.round(_skipScore/total*100);
+  const passed=pct>=80;
+  document.getElementById('skipModalContent').innerHTML=`
+    <div class="skip-result">
+      <span class="skip-result-emoji">${passed?'🎉':'😓'}</span>
+      <div class="skip-result-title">${passed?'¡Superado!':'Sigue practicando'}</div>
+      <div class="skip-result-sub">${passed
+        ?`Conseguiste <b>${_skipScore}/${total}</b> (${pct}%). ¡Puedes saltarte este contenido y continuar!`
+        :`Solo <b>${_skipScore}/${total}</b> (${pct}%). Necesitas un <b>80%</b> para saltarte. Practica los temas anteriores primero.`}</div>
+      ${passed
+        ?`<button type="button" class="skip-test-btn" onclick="grantSkipAndOpen()">🚀 ¡Continuar!</button>`
+        :`<button type="button" class="skip-test-btn" onclick="closeSkipModal()">Entendido, seguiré practicando</button>`}
+    </div>`;
+}
+
+function grantSkipAndOpen(){
+  if(!_skipTarget) return;
+  grantSkipUnlock(_skipTarget);
+  closeSkipModal();
+  if(_skipTarget.topicId) pathOpenTopic(_skipTarget.levelId,_skipTarget.topicId);
+  else renderPath();
+}
+
+function grantSkipUnlock(target){
+  const doneTops=lsGet('done_topics')||[];
+  if(target.isLevel){
+    const levels=LEVELS[currentLangId]||[];
+    const lvIdx=levels.findIndex(l=>l.id===target.levelId);
+    if(lvIdx>0){
+      const prevLv=levels[lvIdx-1];
+      const prevTopics=(window.LP_TOPICS[prevLv.id]||[]).filter(t=>!t.isChat);
+      const needed=Math.ceil(prevTopics.length*0.5);
+      let added=0;
+      prevTopics.forEach(t=>{ if(added<needed&&!doneTops.includes(t.id)){ doneTops.push(t.id); added++; } });
+    }
+  } else {
+    const topics=window.LP_TOPICS[target.levelId]||[];
+    const idx=topics.findIndex(t=>t.id===target.topicId);
+    for(let i=0;i<idx;i++){
+      if(!topics[i].isChat&&!doneTops.includes(topics[i].id)) doneTops.push(topics[i].id);
+    }
+  }
+  lsSet('done_topics',doneTops);
 }
 
 let currentExIndex = 0;
