@@ -2165,7 +2165,7 @@ function openLangPicker(){
   if(!opts) return;
   opts.innerHTML=LANGUAGES.map(l=>`
     <div class="lang-picker-card${!l.active?' locked':''}" ${l.active?`onclick="pickLang('${l.id}')"`:'role="button"'}>
-      <span class="lang-picker-flag" style="background:${l.flagCss||'#ccc'}"></span>
+      <span class="lang-picker-flag" style="background:${(l.flagCss||'#ccc').replace(/"/g,'&quot;')}"></span>
       <div style="flex:1"><div class="lang-picker-name">${l.nameEs||l.name}</div><div class="lang-picker-desc">${l.desc}</div></div>
       ${l.id===currentLangId?'<span class="lang-picker-check">✓</span>':''}
       ${!l.active?'<span class="lang-picker-lock">🔒</span>':''}
