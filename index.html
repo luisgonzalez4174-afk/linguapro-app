@@ -1877,7 +1877,7 @@ function isLevelLocked(langId, levelIdx){
   if(prevTopics.length===0) return false;
   const done = lsGet('done_topics')||[];
   const completedCount = prevTopics.filter(t=>done.includes(t.id)).length;
-  return completedCount < Math.ceil(prevTopics.length*0.5);
+  return completedCount < prevTopics.length;
 }
 function showLevelScreen(){
   document.getElementById('screen-langs').style.display='none';
@@ -1913,7 +1913,7 @@ function selectLevel(id){
   const lv = levels[idx];
   if(!lv) return;
   if(!lv.active){ toast('🔒 Este nivel estará disponible pronto.'); return; }
-  if(isLevelLocked(currentLangId,idx)){ toast('🔒 ¡Completa al menos el 50% del nivel anterior para desbloquear este!'); return; }
+  if(isLevelLocked(currentLangId,idx)){ toast('🔒 ¡Completa todos los temas del nivel anterior para desbloquear este!'); return; }
   currentLevelId = id;
   TOPICS = (window.LP_TOPICS[id]||[]).map(t=>t);
   progress.length = 0;
@@ -2100,7 +2100,7 @@ function renderPath(){
     if(lvLocked||lvSoon){
       html+=lvSoon
         ?`<div class="stage-locked-block">🚧 Próximamente disponible</div>`
-        :`<div class="stage-locked-block">🔒 Completa el 50% del nivel anterior para desbloquear<br><button type="button" class="skip-level-btn" onclick="showLevelSkipModal('${lv.id}')">🧪 Test de colocación</button></div>`;
+        :`<div class="stage-locked-block">🔒 Completa todos los temas del nivel anterior para desbloquear<br><button type="button" class="skip-level-btn" onclick="showLevelSkipModal('${lv.id}')">🧪 Test de colocación</button></div>`;
     } else {
       const bColors={grammar:lvColor,vocab:'#FF9600',chat:'#25C2A0'};
       topics.forEach((t,tIdx)=>{
@@ -10269,7 +10269,19 @@ exercises:[
   {type:"match",q:"Conecta el saludo con el momento del día.",pairs:[["Guten Morgen","mañana (hasta las 11h)"],["Guten Tag","mediodía/tarde"],["Guten Abend","noche (desde las 17h)"],["Gute Nacht","al acostarse"]]},
   {type:"fill",q:"Wie geht ____ dir? — Sehr gut, danke!",answers:["es"]},
   {type:"order",q:"Forma la presentación:",words:["Ich","heiße","Klaus","und","komme","aus","Deutschland"]},
-  {type:"speak",phrase:"Guten Morgen! Ich heiße Ana. Wie heißt du? — Ich heiße Thomas. Wie geht's? — Sehr gut, danke!",translation:"¡Buenos días! Me llamo Ana. ¿Cómo te llamas? — Me llamo Thomas. ¿Cómo estás? — ¡Muy bien, gracias!"}
+  {type:"speak",phrase:"Guten Morgen! Ich heiße Ana. Wie heißt du? — Ich heiße Thomas. Wie geht's? — Sehr gut, danke!",translation:"¡Buenos días! Me llamo Ana. ¿Cómo te llamas? — Me llamo Thomas. ¿Cómo estás? — ¡Muy bien, gracias!"},
+  {type:"fill",q:"Auf ____ sehen! (Hasta la vista — formal)",answers:["Wieder"]},
+  {type:"tf",q:"'Hallo' es un saludo formal que solo se usa en reuniones de negocios.",correct:false},
+  {type:"mcq",q:"¿Qué saludo se usa típicamente en el sur de Alemania?",options:["Moin","Grüß Gott","Tschüss","Bis bald"],correct:1},
+  {type:"fill",q:"Gute ____! (al despedirse antes de dormir)",answers:["Nacht"]},
+  {type:"match",q:"Conecta la despedida con su significado.",pairs:[["Bis bald","Hasta pronto"],["Bis morgen","Hasta mañana"],["Tschüss","Adiós (informal)"],["Auf Wiedersehen","Hasta la vista (formal)"]]},
+  {type:"tf",q:"'Wie geht es Ihnen?' es la forma formal de '¿Cómo estás?'.",correct:true},
+  {type:"fill",q:"Mein ____ ist Klaus. Und wie heißen Sie? (nombre)",answers:["Name"]},
+  {type:"mcq",q:"'Sehr gut, danke!' es la respuesta a:",options:["Wie heißt du?","Wie geht es dir?","Woher kommst du?","Was machst du?"],correct:1},
+  {type:"order",q:"Formula el saludo completo:",words:["Guten","Tag","mein","Name","ist","Anna","Schmidt"]},
+  {type:"fill",q:"____ bald! (¡Hasta pronto!)",answers:["Bis"]},
+  {type:"tf",q:"'Guten Tag' solo se puede usar exactamente al mediodía.",correct:false},
+  {type:"speak",phrase:"Gute Nacht! Bis morgen, und schlaf gut!",translation:"¡Buenas noches! ¡Hasta mañana y que duermas bien!"}
 ]},
 
 {id:"sein-haben-de",num:2,title:"sein und haben — ser/estar y tener",emoji:"🔑",cardDesc:"ich bin, du hast — los verbos más importantes",
@@ -10305,7 +10317,19 @@ exercises:[
   {type:"match",q:"Conecta el pronombre con la forma verbal de haben.",pairs:[["ich","habe"],["du","hast"],["wir","haben"],["ihr","habt"]]},
   {type:"fill",q:"Du ____ Hunger? — Ja, ich ____ sehr hungrig! (haben / sein)",answers:["hast"]},
   {type:"order",q:"Forma la frase:",words:["habe","Ich","einen","Hund","und","eine","Katze"]},
-  {type:"speak",phrase:"Ich bin Student und komme aus Mexiko. Ich habe zwei Geschwister. Wie ist dein Name?",translation:"Soy estudiante y vengo de México. Tengo dos hermanos. ¿Cuál es tu nombre?"}
+  {type:"speak",phrase:"Ich bin Student und komme aus Mexiko. Ich habe zwei Geschwister. Wie ist dein Name?",translation:"Soy estudiante y vengo de México. Tengo dos hermanos. ¿Cuál es tu nombre?"},
+  {type:"fill",q:"Du ____ Student. (sein — du)",answers:["bist"]},
+  {type:"tf",q:"'er hat' es la 1ª persona singular de haben.",correct:false},
+  {type:"mcq",q:"¿Cómo se conjuga 'sein' con 'ihr'?",options:["sind","seid","sein","habt"],correct:1},
+  {type:"fill",q:"Wir ____ drei Geschwister. (haben — wir)",answers:["haben"]},
+  {type:"match",q:"Conecta el pronombre con la forma correcta de sein.",pairs:[["ich","bin"],["du","bist"],["er/sie","ist"],["sie/Sie","sind"]]},
+  {type:"tf",q:"'Sie' (formal, usted) usa la misma conjugación que 'sie' (ellos).",correct:true},
+  {type:"fill",q:"Ich ____ Angst. (tener miedo)",answers:["habe"]},
+  {type:"mcq",q:"¿Cuál de estas frases es correcta?",options:["Ich sein Lehrerin.","Sie sind Lehrerin.","Du haben Hunger.","Wir ist müde."],correct:1},
+  {type:"order",q:"Construye la frase:",words:["habe","Ich","einen","Bruder","und","keine","Schwester"]},
+  {type:"fill",q:"Er ____ Recht — du machst einen Fehler. (tener razón)",answers:["hat"]},
+  {type:"tf",q:"'Durst haben' significa 'tener sed'.",correct:true},
+  {type:"speak",phrase:"Wir sind aus Deutschland. Haben Sie Zeit für ein Gespräch?",translation:"Somos de Alemania. ¿Tiene usted tiempo para una conversación?"}
 ]},
 
 {id:"artikel-de",num:3,title:"Artikel — Bestimmt und Unbestimmt",emoji:"📝",cardDesc:"der/die/das, ein/eine — artículos en alemán",
@@ -10341,7 +10365,19 @@ exercises:[
   {type:"match",q:"Conecta el artículo correcto.",pairs:[["der","Mann / Hund / Tag"],["die","Frau / Stadt / Zeit"],["das","Kind / Buch / Auto"],["kein/keine","negación del artículo"]]},
   {type:"fill",q:"Ich habe ____ Bruder. (kein — negación masc.)",answers:["keinen"]},
   {type:"order",q:"Forma la frase:",words:["Das","ist","ein","Buch","und","eine","Zeitung"]},
-  {type:"speak",phrase:"Das ist mein Haus. Es hat einen Garten und einen Hund. Ich habe keine Katze.",translation:"Esta es mi casa. Tiene un jardín y un perro. No tengo gato."}
+  {type:"speak",phrase:"Das ist mein Haus. Es hat einen Garten und einen Hund. Ich habe keine Katze.",translation:"Esta es mi casa. Tiene un jardín y un perro. No tengo gato."},
+  {type:"fill",q:"____ Kind spielt im Garten. (el niño — neutro)",answers:["Das"]},
+  {type:"tf",q:"'das Mädchen' (la chica) es femenino porque significa mujer.",correct:false},
+  {type:"mcq",q:"¿Cuál es el artículo de 'Stadt'?",options:["der","die","das"],correct:1},
+  {type:"fill",q:"Ich kaufe ____ Auto. (un — indefinido neutro)",answers:["ein"]},
+  {type:"match",q:"Conecta el sustantivo con su artículo definido.",pairs:[["Hund","der"],["Blume","die"],["Haus","das"],["Kinder","die (plural)"]]},
+  {type:"tf",q:"Las palabras terminadas en -heit son siempre femeninas (die).",correct:true},
+  {type:"fill",q:"Das ist ____ Apfel. (un — indefinido masc.)",answers:["ein"]},
+  {type:"mcq",q:"¿Cómo se niega un sustantivo neutro? 'Ich habe kein ___'",options:["keinen Buch","kein Buch","keine Buch","keines Buch"],correct:1},
+  {type:"order",q:"Ordena la frase:",words:["ist","Das","eine","schöne","Blume","die"]},
+  {type:"fill",q:"____ Hund bellt laut. (el perro — definido)",answers:["Der"]},
+  {type:"tf",q:"En alemán, el artículo plural definido es siempre 'die'.",correct:true},
+  {type:"speak",phrase:"Der Mann hat ein Buch. Die Frau hat eine Zeitung. Das Kind hat kein Spielzeug.",translation:"El hombre tiene un libro. La mujer tiene un periódico. El niño no tiene juguete."}
 ]},
 
 {id:"zahlen-de",num:4,title:"Zahlen — Los Números",emoji:"🔢",cardDesc:"1 bis 1000 — los números en alemán",
@@ -10377,7 +10413,19 @@ exercises:[
   {type:"match",q:"Conecta el número con su nombre.",pairs:[["12","zwölf"],["15","fünfzehn"],["40","vierzig"],["100","hundert"]]},
   {type:"fill",q:"Ich bin ____ Jahre alt. (zwanzig / 20)",answers:["zwanzig"]},
   {type:"order",q:"Ordena los números de menor a mayor:",words:["zwölf","drei","siebzehn","acht","fünfzig"]},
-  {type:"speak",phrase:"Meine Telefonnummer ist: null, drei, zwei — fünf, vier, sieben — acht, eins, sechs, neun.",translation:"Mi número de teléfono es: cero, tres, dos — cinco, cuatro, siete — ocho, uno, seis, nueve."}
+  {type:"speak",phrase:"Meine Telefonnummer ist: null, drei, zwei — fünf, vier, sieben — acht, eins, sechs, neun.",translation:"Mi número de teléfono es: cero, tres, dos — cinco, cuatro, siete — ocho, uno, seis, nueve."},
+  {type:"fill",q:"Wie heißt die Zahl 8 auf Deutsch?",answers:["acht"]},
+  {type:"tf",q:"'vierzehn' significa 40 en alemán.",correct:false},
+  {type:"mcq",q:"¿Cómo se dice 50 en alemán?",options:["fünfzig","fünfzehn","fünfhundert","fünf"],correct:0},
+  {type:"fill",q:"2 + 3 = ____. Auf Deutsch:",answers:["fünf"]},
+  {type:"match",q:"Conecta el número con su nombre alemán.",pairs:[["3","drei"],["7","sieben"],["19","neunzehn"],["90","neunzig"]]},
+  {type:"tf",q:"La cifra 30 se escribe 'dreißig' (con ß, no ss).",correct:true},
+  {type:"fill",q:"Ich bin ____ Jahre alt. (15 — quince)",answers:["fünfzehn"]},
+  {type:"mcq",q:"¿Cómo se escribe 45 en alemán?",options:["fünfvierzig","vierzigfünf","fünfundvierzig","fünf-vierzig"],correct:2},
+  {type:"order",q:"Dicta tu número de teléfono:",words:["Meine","Nummer","ist","drei","zwei","eins","vier","sechs"]},
+  {type:"fill",q:"10 + 10 = ____. Auf Deutsch:",answers:["zwanzig"]},
+  {type:"tf",q:"'einundzwanzig' significa 21.",correct:true},
+  {type:"speak",phrase:"Ich wohne in der Hauptstraße dreiundzwanzig. Das ist im dritten Stock.",translation:"Vivo en la calle Principal número 23. Es en el tercer piso."}
 ]},
 
 {id:"berufe-de",num:5,title:"Berufe — Las Profesiones",emoji:"💼",cardDesc:"Lehrer, Arzt, Koch — profesiones en alemán",
@@ -10413,7 +10461,19 @@ exercises:[
   {type:"match",q:"Conecta la profesión con su descripción.",pairs:[["Arzt/Ärztin","trabaja en hospital"],["Koch/Köchin","trabaja en cocina"],["Lehrer/Lehrerin","trabaja en escuela"],["Polizist/in","mantiene la seguridad"]]},
   {type:"fill",q:"Was machst du ____? — Ich bin Ingenieur. (beruflich)",answers:["beruflich"]},
   {type:"order",q:"Forma la respuesta:",words:["bin","Ich","Informatikerin","bei","einer","Firma","großen"]},
-  {type:"speak",phrase:"Ich bin Lehrerin von Beruf. Ich arbeite an einer Grundschule und unterrichte Kinder. Und was machst du beruflich?",translation:"Soy profesora de profesión. Trabajo en una escuela primaria y enseño a niños. ¿Y a qué te dedicas tú?"}
+  {type:"speak",phrase:"Ich bin Lehrerin von Beruf. Ich arbeite an einer Grundschule und unterrichte Kinder. Und was machst du beruflich?",translation:"Soy profesora de profesión. Trabajo en una escuela primaria y enseño a niños. ¿Y a qué te dedicas tú?"},
+  {type:"fill",q:"Der ____ kocht täglich für 100 Gäste. (cocinero)",answers:["Koch"]},
+  {type:"tf",q:"La forma femenina de 'Arzt' es 'Arzterin'.",correct:false},
+  {type:"mcq",q:"¿Cuál de estas frases es correcta para decir la profesión?",options:["Ich bin ein Lehrer.","Ich bin Lehrer.","Ich bin der Lehrer.","Ich habe Lehrer."],correct:1},
+  {type:"fill",q:"Der ____ arbeitet bei der Polizei. (policía — masc.)",answers:["Polizist"]},
+  {type:"match",q:"Conecta cada profesión con su lugar de trabajo.",pairs:[["Lehrer/in","Schule"],["Arzt/Ärztin","Krankenhaus"],["Koch/Köchin","Restaurant"],["Ingenieur/in","Firma/Büro"]]},
+  {type:"tf",q:"'Informatiker/in' es el término alemán para especialista en informática/IT.",correct:true},
+  {type:"fill",q:"Sie ist ____. Sie unterrichtet Kinder. (profesora)",answers:["Lehrerin"]},
+  {type:"mcq",q:"¿Cómo se forma generalmente el femenino de las profesiones?",options:["Se añade -er al final","Se añade -in al final","Se añade -heit al final","No cambia"],correct:1},
+  {type:"order",q:"Presenta tu profesión:",words:["bin","Ich","Ingenieur","bei","einer","deutschen","Firma"]},
+  {type:"fill",q:"Was machst du ____? — Ich bin Ärztin. (¿a qué te dedicas?)",answers:["beruflich"]},
+  {type:"tf",q:"'der Schüler' es una profesión para adultos con sueldo.",correct:false},
+  {type:"speak",phrase:"Meine Mutter ist Ärztin und mein Vater ist Lehrer. Und du? Was bist du von Beruf?",translation:"Mi madre es médica y mi padre es profesor. ¿Y tú? ¿Cuál es tu profesión?"}
 ]},
 
 {id:"familie-de",num:6,title:"Die Familie",emoji:"👨‍👩‍👧‍👦",cardDesc:"Eltern, Geschwister, Großeltern — la familia",
@@ -10449,7 +10509,19 @@ exercises:[
   {type:"match",q:"Conecta el miembro de la familia.",pairs:[["Mutter","la madre"],["Opa","el abuelo"],["Tochter","la hija"],["Cousin","el primo"]]},
   {type:"fill",q:"Meine ____ (abuelos) wohnen in Berlin.",answers:["Großeltern"]},
   {type:"order",q:"Describe tu familia:",words:["Meine","Familie","ist","groß","Ich","habe","drei","Geschwister"]},
-  {type:"speak",phrase:"Meine Familie ist nicht sehr groß. Ich habe einen Bruder und keine Schwester. Meine Eltern wohnen in München.",translation:"Mi familia no es muy grande. Tengo un hermano y no tengo hermana. Mis padres viven en Múnich."}
+  {type:"speak",phrase:"Meine Familie ist nicht sehr groß. Ich habe einen Bruder und keine Schwester. Meine Eltern wohnen in München.",translation:"Mi familia no es muy grande. Tengo un hermano y no tengo hermana. Mis padres viven en Múnich."},
+  {type:"fill",q:"Mein ____ heißt Opa Franz. Er ist 75 Jahre alt. (abuelo)",answers:["Großvater"]},
+  {type:"tf",q:"'der Sohn' y 'die Tochter' significan lo mismo.",correct:false},
+  {type:"mcq",q:"¿Cuál es el plural de 'das Kind'?",options:["die Kinde","die Kinder","die Kinds","die Kindер"],correct:1},
+  {type:"fill",q:"Meine Tante ist die ____ meiner Mutter. (hermana — Schwester)",answers:["Schwester"]},
+  {type:"match",q:"Conecta los apodos con los nombres formales.",pairs:[["Oma","Großmutter"],["Opa","Großvater"],["Mama","Mutter"],["Papa","Vater"]]},
+  {type:"tf",q:"'Geschwister' incluye tanto hermanos como hermanas.",correct:true},
+  {type:"fill",q:"Meine Eltern haben zwei ____: mich und meinen Bruder. (hijos)",answers:["Kinder"]},
+  {type:"mcq",q:"¿Cómo se llama la madre del marido o la esposa?",options:["die Tante","die Cousine","die Schwiegermutter","die Oma"],correct:2},
+  {type:"order",q:"Describe tu familia:",words:["hat","Meine","Mutter","zwei","Geschwister","einen","Bruder","und","eine","Schwester"]},
+  {type:"fill",q:"Der ____ meiner Mutter ist mein Onkel. (hermano — Bruder)",answers:["Bruder"]},
+  {type:"tf",q:"'die Schwiegermutter' es la madre de tu pareja.",correct:true},
+  {type:"speak",phrase:"Ich habe eine große Familie. Meine Oma und mein Opa wohnen bei uns zu Hause.",translation:"Tengo una familia grande. Mi abuela y mi abuelo viven con nosotros en casa."}
 ]},
 
 {id:"farben-de",num:7,title:"Farben und Adjektive",emoji:"🎨",cardDesc:"rot, blau, grün — colores y adjetivos básicos",
@@ -10485,7 +10557,19 @@ exercises:[
   {type:"match",q:"Conecta el color.",pairs:[["rot","rojo"],["schwarz","negro"],["gelb","amarillo"],["weiß","blanco"]]},
   {type:"fill",q:"Dieses Auto ist sehr ____. Es kostet 50.000 Euro! (teuer)",answers:["teuer"]},
   {type:"order",q:"Describe el objeto:",words:["ist","Der","Hund","klein","und","braun"]},
-  {type:"speak",phrase:"Mein Lieblingsfarbe ist blau. Der Himmel ist blau und das Meer ist auch blau. Welche Farbe magst du?",translation:"Mi color favorito es el azul. El cielo es azul y el mar también es azul. ¿Qué color te gusta?"}
+  {type:"speak",phrase:"Mein Lieblingsfarbe ist blau. Der Himmel ist blau und das Meer ist auch blau. Welche Farbe magst du?",translation:"Mi color favorito es el azul. El cielo es azul y el mar también es azul. ¿Qué color te gusta?"},
+  {type:"fill",q:"Schnee ist ____. (blanco)",answers:["weiß"]},
+  {type:"tf",q:"'lecker' significa 'feo' en alemán.",correct:false},
+  {type:"mcq",q:"¿De qué color es una banana madura?",options:["rot","blau","gelb","grün"],correct:2},
+  {type:"fill",q:"Die Nacht ist ____. (negro)",answers:["schwarz"]},
+  {type:"match",q:"Conecta el color alemán con el español.",pairs:[["braun","marrón"],["lila","morado"],["orange","naranja"],["grau","gris"]]},
+  {type:"tf",q:"'schnell' es el antónimo de 'langsam'.",correct:true},
+  {type:"fill",q:"Feuer ist ____. (rojo)",answers:["rot"]},
+  {type:"mcq",q:"¿Cuál es el antónimo de 'alt' en alemán?",options:["groß","jung","schön","schnell"],correct:1},
+  {type:"order",q:"Describe la casa:",words:["ist","Das","Haus","groß","alt","und","weiß"]},
+  {type:"fill",q:"Dieser Markt ist sehr ____. Alles kostet fast nichts! (barato)",answers:["billig"]},
+  {type:"tf",q:"'billig' y 'teuer' significan lo mismo.",correct:false},
+  {type:"speak",phrase:"Meine Lieblingsfarbe ist grün. Bäume und Gras sind grün. Welche Farbe magst du am liebsten?",translation:"Mi color favorito es el verde. Los árboles y el pasto son verdes. ¿Qué color te gusta más?"}
 ]},
 
 {id:"essen-de",num:8,title:"Essen und Trinken",emoji:"🍽️",cardDesc:"Frühstück, Mittagessen, Abendessen — comida y bebida",
@@ -10521,7 +10605,19 @@ exercises:[
   {type:"match",q:"Conecta el alimento.",pairs:[["Brot","pan"],["Käse","queso"],["Kuchen","pastel"],["Saft","zumo"]]},
   {type:"fill",q:"Ich esse gern ____. Wurst mag ich nicht. (Käse)",answers:["Käse"]},
   {type:"order",q:"Haz el pedido en el restaurante:",words:["möchte","Ich","ein","Bier","und","eine","Suppe","bitte"]},
-  {type:"speak",phrase:"Ich frühstücke jeden Morgen Brot mit Käse und trinke dabei Kaffee. Mittags esse ich meistens in der Kantine.",translation:"Desayuno pan con queso todas las mañanas y bebo café. Al mediodía suelo comer en la cantina."}
+  {type:"speak",phrase:"Ich frühstücke jeden Morgen Brot mit Käse und trinke dabei Kaffee. Mittags esse ich meistens in der Kantine.",translation:"Desayuno pan con queso todas las mañanas y bebo café. Al mediodía suelo comer en la cantina."},
+  {type:"fill",q:"Ich ____ gern Suppe zum Mittag. (comer — ich esse)",answers:["esse"]},
+  {type:"tf",q:"'das Bier' es una bebida alcohólica.",correct:true},
+  {type:"mcq",q:"¿Cuál de estas opciones es un desayuno típico alemán?",options:["Pizza und Cola","Brot, Käse und Wurst","Sushi und Tee","Tortillas und Bohnen"],correct:1},
+  {type:"fill",q:"Zum Trinken nehme ich ____. (Wasser — el más neutro)",answers:["Wasser"]},
+  {type:"match",q:"Clasifica el alimento o bebida.",pairs:[["Kaffee","Heißgetränk"],["Brot","Backware"],["Wurst","Fleischprodukt"],["Kuchen","Süßspeise"]]},
+  {type:"tf",q:"'er isst' es la forma correcta de 'essen' para la 3ª persona.",correct:true},
+  {type:"fill",q:"Guten ____! — Danke, gleichfalls! (saludo antes de comer)",answers:["Appetit"]},
+  {type:"mcq",q:"¿Cuándo se dice 'Die Rechnung bitte!'?",options:["Al entrar al restaurante","Al pedir la comida","Al terminar de comer","Al llegar al hotel"],correct:2},
+  {type:"order",q:"Pide en el restaurante:",words:["möchte","Ich","eine","Suppe","und","ein","Wasser","bitte"]},
+  {type:"fill",q:"In Deutschland isst man sehr viel ____. Es ist sehr wichtig! (pan)",answers:["Brot"]},
+  {type:"tf",q:"'der Tee' es una bebida caliente.",correct:true},
+  {type:"speak",phrase:"Was möchten Sie trinken? — Ein Wasser bitte. Und zum Essen nehme ich die Suppe.",translation:"¿Qué desea beber? — Un agua por favor. Y para comer tomo la sopa."}
 ]},
 
 {id:"possessive-de",num:9,title:"Possessivpronomen",emoji:"👋",cardDesc:"mein, dein, sein — pronombres posesivos",
@@ -10557,7 +10653,19 @@ exercises:[
   {type:"match",q:"Conecta el posesivo con el pronombre.",pairs:[["mein","ich"],["dein","du"],["sein","er"],["unser","wir"]]},
   {type:"fill",q:"Das sind ____ Kinder. (nuestros — plural)",answers:["unsere"]},
   {type:"order",q:"Presenta a tu familia:",words:["Das","ist","mein","Vater","und","das","ist","meine","Schwester"]},
-  {type:"speak",phrase:"Das ist mein Zimmer. Mein Bett ist groß und mein Schreibtisch ist klein. Das Buch auf dem Tisch ist meines.",translation:"Esta es mi habitación. Mi cama es grande y mi escritorio es pequeño. El libro sobre la mesa es el mío."}
+  {type:"speak",phrase:"Das ist mein Zimmer. Mein Bett ist groß und mein Schreibtisch ist klein. Das Buch auf dem Tisch ist meines.",translation:"Esta es mi habitación. Mi cama es grande y mi escritorio es pequeño. El libro sobre la mesa es el mío."},
+  {type:"fill",q:"Das ist ____ Schwester. (mi — femenino)",answers:["meine"]},
+  {type:"tf",q:"'dein' y 'mein' tienen la misma forma en masculino nominativo.",correct:true},
+  {type:"mcq",q:"¿Cómo se dice 'su coche' (de él)?",options:["ihr Auto","Ihr Auto","sein Auto","dein Auto"],correct:2},
+  {type:"fill",q:"Ist das ____ Buch? (tu — neutro)",answers:["dein"]},
+  {type:"match",q:"Conecta posesivo → pronombre personal.",pairs:[["sein","er"],["ihre","sie (fem.)"],["unsere","wir"],["Ihre","Sie (formal)"]]},
+  {type:"tf",q:"'Ihr Haus' (I mayúscula) significa 'their house'.",correct:false},
+  {type:"fill",q:"Wo ist ____ Handy? (tu teléfono — informal)",answers:["dein"]},
+  {type:"mcq",q:"'Ist das deine Katze?' — ¿A quién pertenece?",options:["A él","A mí","A ti (du)","A vosotros"],correct:2},
+  {type:"order",q:"Presenta tu familia:",words:["sind","Das","unsere","Kinder","und","das","ist","unser","Hund"]},
+  {type:"fill",q:"Ist das ____ Handy oder meins? (tu — dein)",answers:["dein","deins"]},
+  {type:"tf",q:"'euer' es el posesivo para 'ihr' (vosotros).",correct:true},
+  {type:"speak",phrase:"Mein Name ist Carlos. Meine Familie wohnt in Mexiko. Das ist mein Bruder Juan.",translation:"Me llamo Carlos. Mi familia vive en México. Este es mi hermano Juan."}
 ]},
 
 {id:"w-fragen-de",num:10,title:"W-Fragen — Las Preguntas",emoji:"❓",cardDesc:"Was, Wo, Wer, Wie — preguntas con W",
@@ -10593,7 +10701,19 @@ exercises:[
   {type:"match",q:"Conecta la pregunta con la respuesta.",pairs:[["Wer bist du?","Ich bin Maria."],["Wo wohnst du?","In Hamburg."],["Was machst du?","Ich studiere."],["Warum lernst du Deutsch?","Wegen der Arbeit."]]},
   {type:"fill",q:"____ viele Sprachen sprichst du? — Drei. (¿Cuántos...?)",answers:["Wie"]},
   {type:"order",q:"Formula la pregunta:",words:["kommst","Woher","du","?"]},
-  {type:"speak",phrase:"Woher kommst du? — Ich komme aus Spanien. Wo wohnst du jetzt? — Ich wohne in Berlin. Warum lernst du Deutsch? — Für meine Arbeit.",translation:"¿De dónde eres? — Soy de España. ¿Dónde vives ahora? — Vivo en Berlín. ¿Por qué aprendes alemán? — Por mi trabajo."}
+  {type:"speak",phrase:"Woher kommst du? — Ich komme aus Spanien. Wo wohnst du jetzt? — Ich wohne in Berlin. Warum lernst du Deutsch? — Für meine Arbeit.",translation:"¿De dónde eres? — Soy de España. ¿Dónde vives ahora? — Vivo en Berlín. ¿Por qué aprendes alemán? — Por mi trabajo."},
+  {type:"fill",q:"____ kommst du? — Ich komme aus Mexiko. (¿De dónde...?)",answers:["Woher"]},
+  {type:"tf",q:"'Was?' se usa para preguntar por personas.",correct:false},
+  {type:"mcq",q:"'¿Cuánto cuesta?' en alemán es:",options:["Wie kostet das?","Was viel kostet das?","Wie viel kostet das?","Wann kostet das?"],correct:2},
+  {type:"fill",q:"____ alt bist du? — Ich bin 25 Jahre alt. (¿Cuántos años...?)",answers:["Wie"]},
+  {type:"match",q:"Conecta la pregunta W con lo que pregunta.",pairs:[["Wer","Persona"],["Was","Cosa/Idea"],["Wo","Lugar"],["Wann","Tiempo"]]},
+  {type:"tf",q:"En preguntas de sí/no el verbo va en primera posición.",correct:true},
+  {type:"fill",q:"____ lernst du Deutsch? — Wegen meiner Arbeit. (¿Por qué...?)",answers:["Warum"]},
+  {type:"mcq",q:"'Wohin fährst du?' pregunta por:",options:["El origen","El destino/dirección","El tiempo","La causa"],correct:1},
+  {type:"order",q:"Formula la pregunta:",words:["Wann","fährst","du","nach","Deutschland","?"]},
+  {type:"fill",q:"____ Uhr ist es? — Es ist drei Uhr. (¿Qué hora...?)",answers:["Wie viel"]},
+  {type:"tf",q:"'Welche' es invariable y no tiene declinación.",correct:false},
+  {type:"speak",phrase:"Wie heißt du? Wo wohnst du? Woher kommst du?",translation:"¿Cómo te llamas? ¿Dónde vives? ¿De dónde eres?"}
 ]},
 
 {id:"es-gibt-de",num:11,title:"es gibt — hay",emoji:"🏙️",cardDesc:"es gibt, hier ist — expresar existencia en alemán",
@@ -10629,7 +10749,19 @@ exercises:[
   {type:"match",q:"Conecta el lugar con su nombre alemán.",pairs:[["Hospital","Krankenhaus"],["Farmacia","Apotheke"],["Estación","Bahnhof"],["Ayuntamiento","Rathaus"]]},
   {type:"fill",q:"Es gibt ____ Restaurants in Berlin. Es ist eine tolle Stadt! (viele)",answers:["viele"]},
   {type:"order",q:"Formula la pregunta:",words:["gibt","Gibt","hier","es","eine","Apotheke","?"]},
-  {type:"speak",phrase:"In meiner Stadt gibt es viele Parks und Restaurants. Es gibt einen großen Bahnhof, aber es gibt kein Kino mehr.",translation:"En mi ciudad hay muchos parques y restaurantes. Hay una gran estación de tren, pero ya no hay cine."}
+  {type:"speak",phrase:"In meiner Stadt gibt es viele Parks und Restaurants. Es gibt einen großen Bahnhof, aber es gibt kein Kino mehr.",translation:"En mi ciudad hay muchos parques y restaurantes. Hay una gran estación de tren, pero ya no hay cine."},
+  {type:"fill",q:"Es gibt ____ Supermarkt in meiner Straße. (un — masc. indefinido acusativo)",answers:["einen"]},
+  {type:"tf",q:"'es gibt' cambia a 'es geben' cuando hay más de una cosa.",correct:false},
+  {type:"mcq",q:"¿Cómo se pregunta si hay algo en un lugar?",options:["Hat es hier...?","Ist es hier...?","Gibt es hier...?","Haben sie hier...?"],correct:2},
+  {type:"fill",q:"____ gibt es in Berlin viele Museen! (There are — es gibt)",answers:["Es"]},
+  {type:"match",q:"Conecta el lugar alemán con el español.",pairs:[["Krankenhaus","Hospital"],["Bank","Banco"],["Apotheke","Farmacia"],["Rathaus","Ayuntamiento"]]},
+  {type:"tf",q:"'Es gibt kein Wasser' — 'kein' no tiene terminación aquí porque Wasser es neutro.",correct:true},
+  {type:"fill",q:"Gibt es hier eine ____? Ich brauche Medikamente. (farmacia)",answers:["Apotheke"]},
+  {type:"mcq",q:"¿Dónde toma el tren el pasajero en Alemania?",options:["Rathaus","Bahnhof","Krankenhaus","Apotheke"],correct:1},
+  {type:"order",q:"Hay una escuela y un parque aquí:",words:["gibt","Es","eine","Schule","und","einen","Park","hier"]},
+  {type:"fill",q:"Leider gibt es ____ Parkplatz hier. (no hay — negación masc.)",answers:["keinen"]},
+  {type:"tf",q:"'Hier ist die Kirche' indica dónde está algo específico.",correct:true},
+  {type:"speak",phrase:"In meiner Stadt gibt es einen Bahnhof, eine Schule und viele Parks. Gibt es hier auch eine Apotheke?",translation:"En mi ciudad hay una estación de tren, una escuela y muchos parques. ¿Hay también una farmacia aquí?"}
 ]},
 
 {id:"präpositionen-de",num:12,title:"Präpositionen — Lokale Präpositionen",emoji:"📍",cardDesc:"in, auf, bei, nach, zu — preposiciones de lugar",
@@ -10665,7 +10797,19 @@ exercises:[
   {type:"match",q:"Conecta la preposición con su uso.",pairs:[["in + Dativ","posición estática en un lugar"],["in + Akkusativ","movimiento hacia adentro"],["bei","en casa de alguien"],["nach","hacia ciudades y países sin artículo"]]},
   {type:"fill",q:"Ich gehe ____ Supermarkt. (zum — zu + dem)",answers:["zum"]},
   {type:"order",q:"Forma la frase:",words:["Ich","bin","im","Café","und","esse","Kuchen"]},
-  {type:"speak",phrase:"Ich wohne in München, aber ich arbeite in der Innenstadt. Jeden Morgen fahre ich mit der U-Bahn zum Büro.",translation:"Vivo en Múnich, pero trabajo en el centro. Cada mañana voy en metro a la oficina."}
+  {type:"speak",phrase:"Ich wohne in München, aber ich arbeite in der Innenstadt. Jeden Morgen fahre ich mit der U-Bahn zum Büro.",translation:"Vivo en Múnich, pero trabajo en el centro. Cada mañana voy en metro a la oficina."},
+  {type:"fill",q:"Ich gehe ____ Supermarkt. (al supermercado — zu + dem)",answers:["zum"]},
+  {type:"tf",q:"'bei' indica movimiento hacia un destino.",correct:false},
+  {type:"mcq",q:"¿Cuál es la contracción de 'zu der'?",options:["zum","zur","zu","zer"],correct:1},
+  {type:"fill",q:"Das Buch liegt ____ dem Tisch. (sobre — encima)",answers:["auf"]},
+  {type:"match",q:"Conecta la contracción con su forma completa.",pairs:[["im","in dem"],["ins","in das"],["am","an dem"],["zum","zu dem"]]},
+  {type:"tf",q:"'in die Stadt' indica movimiento hacia la ciudad.",correct:true},
+  {type:"fill",q:"Ich wohne ____ meiner Mutter. (en casa de — bei)",answers:["bei"]},
+  {type:"mcq",q:"'Ich fahre ___ München' — ¿qué preposición?",options:["in","bei","nach","zu"],correct:2},
+  {type:"order",q:"Describe el trayecto:",words:["fahre","Ich","in","die","Stadt","mit","dem","Bus"]},
+  {type:"fill",q:"Wir gehen ____ Kino. (al cine — in + das)",answers:["ins"]},
+  {type:"tf",q:"'nach' se puede usar también con países sin artículo (nach Deutschland, nach Spanien).",correct:true},
+  {type:"speak",phrase:"Ich gehe zur Schule und danach fahre ich nach Hause. Abends bin ich bei meiner Familie.",translation:"Voy a la escuela y después voy a casa. Por la noche estoy con mi familia."}
 ]}
 ];
 
