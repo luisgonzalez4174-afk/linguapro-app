@@ -240,10 +240,11 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .illus-bubble::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%);border:10px solid transparent;border-bottom-color:#fff;border-top:none;}
 .illus-text{font-size:14.5px;font-weight:700;color:var(--ink);font-style:italic;line-height:1.4;}
 /* ─── start exercises button ─── */
-.start-ex-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(145deg,var(--green),var(--green-deep));color:#fff;border:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;padding:18px;border-radius:14px;cursor:pointer;margin:10px 0 24px;box-shadow:0 4px 0 var(--green-deep);}
+.start-ex-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(145deg,var(--green),var(--green-deep));color:#fff;border:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;padding:18px;border-radius:14px;cursor:pointer;margin:10px 0 8px;box-shadow:0 4px 0 var(--green-deep);}
 .start-ex-btn:hover{transform:translateY(-2px);}
 .start-ex-btn:active{transform:translateY(3px);box-shadow:none;}
 .start-ex-btn .excount{opacity:.75;font-weight:600;font-size:13px;margin-left:4px;}
+.restart-ex-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:none;color:var(--text-muted,#888);border:1.5px solid var(--border,#ddd);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;padding:11px;border-radius:12px;cursor:pointer;margin:0 0 20px;}
 /* ─── vocab audio button ─── */
 .vocabcard .vc-play{margin-top:9px;display:inline-flex;align-items:center;justify-content:center;gap:4px;background:var(--green);color:#fff;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;transition:.15s;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;}
 .vocabcard:hover .vc-play{transform:scale(1.06);}
@@ -1715,6 +1716,7 @@ const UI_STRINGS = {
     listenBtn:'🔊 Escuchar', explainTitle:'📘 Explicación',
     audioHint:'👆 Toca cualquier palabra azul para escuchar su pronunciación',
     startEx:'🚀 Comenzar ejercicios', reviewEx:'🔄 Repasar ejercicios',
+    continueEx:'▶️ Continuar — Ejercicio', restartEx:'↩️ Empezar desde el principio',
     exercisesCount:'ejercicios', backExplain:'← Explicación',
     backLevels:'← Niveles', backLangs:'← Idiomas', locked:'🔒 Próximamente'
   },
@@ -1736,6 +1738,7 @@ const UI_STRINGS = {
     listenBtn:'🔊 Écouter', explainTitle:'📘 Explication',
     audioHint:'👆 Appuie sur un mot bleu pour écouter sa prononciation',
     startEx:'🚀 Commencer les exercices', reviewEx:'🔄 Réviser les exercices',
+    continueEx:'▶️ Continuer — Exercice', restartEx:'↩️ Recommencer depuis le début',
     exercisesCount:'exercices', backExplain:'← Explication',
     backLevels:'← Niveaux', backLangs:'← Langues', locked:'🔒 Bientôt disponible'
   },
@@ -1757,6 +1760,7 @@ const UI_STRINGS = {
     listenBtn:'🔊 Listen', explainTitle:'📘 Explanation',
     audioHint:'👆 Tap any blue word to hear its pronunciation',
     startEx:'🚀 Start exercises', reviewEx:'🔄 Review exercises',
+    continueEx:'▶️ Continue — Exercise', restartEx:'↩️ Start from the beginning',
     exercisesCount:'exercises', backExplain:'← Explanation',
     backLevels:'← Levels', backLangs:'← Languages', locked:'🔒 Coming soon'
   },
@@ -1778,6 +1782,7 @@ const UI_STRINGS = {
     listenBtn:'🔊 Ouvir', explainTitle:'📘 Explicação',
     audioHint:'👆 Toque em qualquer palavra azul para ouvir a pronúncia',
     startEx:'🚀 Começar exercícios', reviewEx:'🔄 Revisar exercícios',
+    continueEx:'▶️ Continuar — Exercício', restartEx:'↩️ Começar do início',
     exercisesCount:'exercícios', backExplain:'← Explicação',
     backLevels:'← Níveis', backLangs:'← Idiomas', locked:'🔒 Em breve'
   },
@@ -1799,6 +1804,7 @@ const UI_STRINGS = {
     listenBtn:'🔊 Ascolta', explainTitle:'📘 Spiegazione',
     audioHint:'👆 Tocca una parola blu per sentire la pronuncia',
     startEx:'🚀 Inizia esercizi', reviewEx:'🔄 Rivedi esercizi',
+    continueEx:'▶️ Continua — Esercizio', restartEx:'↩️ Ricomincia dal principio',
     exercisesCount:'esercizi', backExplain:'← Spiegazione',
     backLevels:'← Livelli', backLangs:'← Lingue', locked:'🔒 Prossimamente'
   },
@@ -1820,6 +1826,7 @@ const UI_STRINGS = {
     listenBtn:'🔊 Anhören', explainTitle:'📘 Erklärung',
     audioHint:'👆 Tippe auf ein blaues Wort, um die Aussprache zu hören',
     startEx:'🚀 Übungen starten', reviewEx:'🔄 Übungen wiederholen',
+    continueEx:'▶️ Weiter — Übung', restartEx:'↩️ Von vorne beginnen',
     exercisesCount:'Übungen', backExplain:'← Erklärung',
     backLevels:'← Stufen', backLangs:'← Sprachen', locked:'🔒 Demnächst'
   }
@@ -2422,20 +2429,30 @@ function renderExplanation(t){
   }
   const done = (progress[t.id]||[]).filter(Boolean).length;
   const total = (t.exercises||[]).length;
-  const lbl = done===total&&total>0 ? uiT('reviewEx') : uiT('startEx');
-  html += `<button type="button" class="start-ex-btn" onclick="startExercises()">
-    ${lbl}<span class="excount">(${total} ${uiT('exercisesCount')})</span>
-  </button>`;
+  const midProgress = currentTopic && currentTopic.id===t.id && currentExIndex>0 && currentExIndex<total;
+  if(midProgress){
+    html += `<button type="button" class="start-ex-btn" onclick="startExercises(true)">
+      ${uiT('continueEx')} ${currentExIndex+1}/${total}<span class="excount">(${total} ${uiT('exercisesCount')})</span>
+    </button>
+    <button type="button" class="restart-ex-btn" onclick="startExercises()">
+      ${uiT('restartEx')}
+    </button>`;
+  } else {
+    const lbl = done===total&&total>0 ? uiT('reviewEx') : uiT('startEx');
+    html += `<button type="button" class="start-ex-btn" onclick="startExercises()">
+      ${lbl}<span class="excount">(${total} ${uiT('exercisesCount')})</span>
+    </button>`;
+  }
   view.innerHTML = html;
   enhanceExplainAudio();
   window.scrollTo(0, 0);
 }
 
-function startExercises(){
+function startExercises(resume){
   topicPhase = 'exercises';
   const t = currentTopic;
   if(!t) return;
-  currentExIndex = 0;
+  if(!resume) currentExIndex = 0;
   const view = document.getElementById('topicview');
   view.innerHTML = `<button type="button" class="backbtn" onclick="renderExplanation(currentTopic)">${uiT('backExplain')}</button>
   <div class="thead"><div class="nbadge">${t.emoji}</div><div><h2>${t.title}</h2><span>${t.cardDesc}</span></div></div>
