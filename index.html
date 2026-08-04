@@ -441,18 +441,90 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .chat-send-btn{width:40px;height:40px;border-radius:50%;background:var(--green-deep);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
 .chat-send-btn:disabled{opacity:.4;cursor:default;}
 /* ─── READGYM SCREEN ─── */
-#screen-readgym{display:none;padding-bottom:80px;text-align:center;}
-.rg-hero{padding:32px 16px 20px;}
-.rg-logo{font-size:64px;line-height:1;margin-bottom:10px;}
-.rg-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:28px;color:var(--ink);margin:0 0 6px;}
-.rg-sub{font-size:14px;color:var(--ink-soft);margin:0;}
-.rg-features{display:flex;flex-direction:column;gap:12px;padding:0 4px 20px;text-align:left;}
-.rg-feature{display:flex;align-items:flex-start;gap:14px;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:16px;}
-.rg-feat-icon{font-size:28px;flex-shrink:0;line-height:1;margin-top:2px;}
-.rg-feature strong{display:block;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:var(--ink);margin-bottom:3px;}
-.rg-feature span{font-size:13px;color:var(--ink-soft);line-height:1.4;}
-.rg-badge{display:inline-block;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;font-size:12px;font-weight:800;padding:6px 16px;border-radius:999px;letter-spacing:.04em;margin-bottom:10px;}
-.rg-coming{font-size:13px;color:var(--ink-soft);margin:0;padding:0 20px;}
+#screen-readgym{display:none;padding-bottom:80px;min-height:100vh;}
+.rg-view{display:none;}
+.rg-view.rg-active{display:block;}
+.rg-top-bar{display:flex;align-items:center;gap:10px;padding:14px 16px 10px;border-bottom:1.5px solid var(--line);}
+.rg-top-bar h2{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:18px;color:var(--ink);margin:0;flex:1;}
+.rg-back-btn{background:none;border:none;font-size:22px;cursor:pointer;padding:0;color:var(--ink-soft);line-height:1;}
+.rg-library-header{padding:16px 16px 4px;}
+.rg-library-header p{font-size:13px;color:var(--ink-soft);margin:6px 0 0;}
+.rg-book-grid{display:flex;flex-direction:column;gap:12px;padding:12px 16px;}
+.rg-book-card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:transform .1s;}
+.rg-book-card:active{transform:scale(.97);}
+.rg-book-dot{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.rg-book-info{flex:1;min-width:0;}
+.rg-book-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:var(--ink);margin:0 0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rg-book-meta{font-size:12px;color:var(--ink-soft);}
+.rg-book-chapters{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+.rg-level-badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;margin-right:5px;}
+.rg-lvl-a1{background:#dcfce7;color:#15803d;}
+.rg-lvl-a2{background:#dbeafe;color:#1d4ed8;}
+.rg-lvl-b1{background:#fef9c3;color:#a16207;}
+.rg-lvl-b2{background:#fce7f3;color:#be185d;}
+.rg-lvl-c1{background:#ede9fe;color:#6d28d9;}
+.rg-empty{text-align:center;padding:40px 20px;color:var(--ink-soft);font-size:14px;}
+.rg-empty .rg-empty-icon{font-size:48px;margin-bottom:12px;}
+/* Detail view */
+.rg-detail-hero{padding:20px 16px 16px;}
+.rg-detail-dot{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:12px;}
+.rg-detail-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:22px;color:var(--ink);margin:0 0 4px;}
+.rg-detail-desc{font-size:13px;color:var(--ink-soft);line-height:1.5;margin:0 0 8px;}
+.rg-chapters-list{padding:0 16px 16px;}
+.rg-chapters-list h3{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:var(--ink-soft);margin:0 0 10px;text-transform:uppercase;letter-spacing:.06em;}
+.rg-chapter-row{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;margin-bottom:8px;transition:transform .1s;}
+.rg-chapter-row:active{transform:scale(.97);}
+.rg-chapter-num{width:32px;height:32px;border-radius:10px;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--green-deep);flex-shrink:0;}
+.rg-chapter-title{font-weight:600;font-size:14px;color:var(--ink);flex:1;}
+.rg-chapter-arrow{color:var(--ink-soft);font-size:16px;}
+.rg-chapter-done{color:#22c55e;font-size:16px;}
+/* Reader view */
+.rg-reader-body{padding:16px;}
+.rg-reader-chapter-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:20px;color:var(--ink);margin:0 0 16px;}
+.rg-reader-text{font-size:15px;line-height:1.8;color:var(--ink);white-space:pre-wrap;}
+.rg-reader-footer{padding:16px;border-top:1.5px solid var(--line);margin-top:8px;}
+.rg-train-btn{width:100%;background:var(--green-deep);color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:16px;border:none;border-radius:14px;padding:16px;cursor:pointer;box-shadow:0 4px 0 #058a00;transition:transform .1s,box-shadow .1s;}
+.rg-train-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #058a00;}
+/* Workout view */
+#rg-workout-view{position:fixed;inset:0;background:#f7f9fc;z-index:200;display:none;flex-direction:column;}
+#rg-workout-view.rg-wk-open{display:flex;}
+.rg-wk-top{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:2px solid #eef0f3;}
+.rg-wk-exit{background:none;border:none;font-size:22px;cursor:pointer;color:#aaa;}
+.rg-wk-bar{flex:1;height:10px;background:#eef0f3;border-radius:999px;overflow:hidden;}
+.rg-wk-fill{height:100%;background:var(--green-deep);border-radius:999px;transition:width .3s;}
+.rg-wk-counter{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;color:#aaa;}
+.rg-wk-body{flex:1;overflow-y:auto;padding:24px 16px 8px;display:flex;align-items:flex-start;justify-content:center;}
+.rg-wk-card{width:100%;max-width:480px;}
+.rg-wk-label{font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.rg-wk-question{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:20px;color:var(--ink);margin-bottom:24px;line-height:1.3;}
+.rg-wk-question em{color:var(--green-deep);font-style:normal;}
+.rg-wk-options{display:flex;flex-direction:column;gap:10px;}
+.rg-wk-opt{border:2px solid var(--line);background:var(--card);border-radius:14px;padding:14px 16px;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;text-align:left;transition:border-color .15s;}
+.rg-wk-opt:not(:disabled):hover{border-color:var(--green);}
+.rg-wk-opt.rg-correct{border-color:#22c55e;background:#dcfce7;color:#15803d;}
+.rg-wk-opt.rg-wrong{border-color:#ef4444;background:#fee2e2;color:#b91c1c;}
+.rg-wk-opt.rg-dim{opacity:.45;}
+.rg-wk-footer{padding:16px;border-top:2px solid #eef0f3;}
+.rg-wk-cont{width:100%;max-width:480px;margin:0 auto;display:flex;background:var(--green-deep);color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:16px;border:none;border-radius:14px;padding:16px;cursor:pointer;justify-content:center;box-shadow:0 4px 0 #058a00;transition:transform .1s,box-shadow .1s;}
+.rg-wk-cont:disabled{background:#d1d5db;box-shadow:0 4px 0 #9ca3af;cursor:default;}
+.rg-wk-cont:not(:disabled):active{transform:translateY(3px);box-shadow:0 1px 0 #058a00;}
+/* Results view */
+.rg-results-wrap{padding:24px 16px;}
+.rg-results-header{text-align:center;margin-bottom:20px;}
+.rg-results-icon{font-size:64px;line-height:1;margin-bottom:10px;}
+.rg-results-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:24px;color:var(--ink);margin:0 0 4px;}
+.rg-results-sub{font-size:14px;color:var(--ink-soft);}
+.rg-results-cards{display:flex;gap:10px;margin-bottom:20px;}
+.rg-results-stat{flex:1;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:14px;text-align:center;}
+.rg-results-stat .rg-stat-val{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:26px;color:var(--ink);}
+.rg-results-stat .rg-stat-lbl{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+.rg-results-xp{background:linear-gradient(135deg,var(--green-deep),#00a000);color:#fff;border-radius:16px;padding:16px;text-align:center;margin-bottom:16px;}
+.rg-results-xp .rg-xp-val{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:32px;}
+.rg-results-xp .rg-xp-lbl{font-size:13px;opacity:.85;}
+.rg-results-btns{display:flex;flex-direction:column;gap:10px;}
+.rg-results-btn{border:none;border-radius:14px;padding:14px;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:15px;cursor:pointer;}
+.rg-results-btn.primary{background:var(--green-deep);color:#fff;box-shadow:0 4px 0 #058a00;}
+.rg-results-btn.secondary{background:var(--card);color:var(--ink);border:1.5px solid var(--line);}
 
 /* ─── FLASHCARD MODE ─── */
 #screen-flashcards{display:none;padding-bottom:80px;}
@@ -590,36 +662,61 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 
   <!-- SCREEN READGYM -->
   <div id="screen-readgym">
-    <div class="rg-hero">
-      <div class="rg-logo">📖</div>
-      <h2 class="rg-title">ReadGym</h2>
-      <p class="rg-sub">Tu gimnasio de lectura en inglés</p>
+    <!-- Library view -->
+    <div id="rg-library-view" class="rg-view rg-active">
+      <div class="rg-top-bar">
+        <h2>📖 ReadGym</h2>
+      </div>
+      <div class="rg-library-header">
+        <p id="rg-library-sub">Elige un libro para entrenar tu lectura</p>
+      </div>
+      <div id="rg-book-grid" class="rg-book-grid"></div>
     </div>
-    <div class="rg-features">
-      <div class="rg-feature">
-        <span class="rg-feat-icon">🏋️</span>
-        <div>
-          <strong>Entrena leyendo</strong>
-          <span>Capítulos cortos con ejercicios de comprensión</span>
-        </div>
+    <!-- Book detail view -->
+    <div id="rg-detail-view" class="rg-view">
+      <div class="rg-top-bar">
+        <button class="rg-back-btn" onclick="rgShowLibrary()">←</button>
+        <h2 id="rg-detail-header">Libro</h2>
       </div>
-      <div class="rg-feature">
-        <span class="rg-feat-icon">📊</span>
-        <div>
-          <strong>Sube de nivel</strong>
-          <span>Gana XP, mantén tu racha y desbloquea rangos</span>
-        </div>
+      <div id="rg-detail-body"></div>
+    </div>
+    <!-- Reader view -->
+    <div id="rg-reader-view" class="rg-view">
+      <div class="rg-top-bar">
+        <button class="rg-back-btn" onclick="rgShowDetail()">←</button>
+        <h2 id="rg-reader-header">Capítulo</h2>
       </div>
-      <div class="rg-feature">
-        <span class="rg-feat-icon">🤖</span>
-        <div>
-          <strong>IA personalizada</strong>
-          <span>Preguntas generadas por IA según tu nivel</span>
-        </div>
+      <div class="rg-reader-body">
+        <h3 class="rg-reader-chapter-title" id="rg-reader-chapter-title"></h3>
+        <div class="rg-reader-text" id="rg-reader-text"></div>
+      </div>
+      <div class="rg-reader-footer">
+        <button class="rg-train-btn" onclick="rgStartWorkout()">🏋️ ¡Entrenar!</button>
       </div>
     </div>
-    <div class="rg-badge">🚧 Próximamente</div>
-    <p class="rg-coming">ReadGym está en desarrollo. ¡Muy pronto disponible aquí!</p>
+    <!-- Results view -->
+    <div id="rg-results-view" class="rg-view">
+      <div class="rg-top-bar">
+        <button class="rg-back-btn" onclick="rgShowDetail()">←</button>
+        <h2>Resultados</h2>
+      </div>
+      <div id="rg-results-body" class="rg-results-wrap"></div>
+    </div>
+  </div>
+
+  <!-- WORKOUT OVERLAY (outside screen-readgym so it covers full screen) -->
+  <div id="rg-workout-view">
+    <div class="rg-wk-top">
+      <button class="rg-wk-exit" onclick="rgExitWorkout()">✕</button>
+      <div class="rg-wk-bar"><div class="rg-wk-fill" id="rg-wk-fill" style="width:0%"></div></div>
+      <span class="rg-wk-counter" id="rg-wk-counter">1/9</span>
+    </div>
+    <div class="rg-wk-body">
+      <div class="rg-wk-card" id="rg-wk-card"></div>
+    </div>
+    <div class="rg-wk-footer">
+      <button class="rg-wk-cont" id="rg-wk-cont" onclick="rgNextStep()" disabled>Continuar</button>
+    </div>
   </div>
 
   <!-- SCREEN FLASHCARDS -->
@@ -3787,6 +3884,791 @@ function _enterReadGymMode(){
   document.getElementById('screen-readgym').style.display='block';
   _setActiveTab('readgym');
   _showTabBar(true);
+  rgShowLibrary();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  READGYM — Data & Logic
+// ══════════════════════════════════════════════════════════════
+
+const RG_BOOKS = (function(){
+// Level color map
+const LC = {A1:'#58cc02',A2:'#1cb0f6',B1:'#ffc800',B2:'#ce82ff',C1:'#ff4b4b'};
+// Level emoji
+const LE = {A1:'🌱',A2:'🌿',B1:'📗',B2:'📘',C1:'📕'};
+
+return [
+// ──── ENGLISH ────
+{id:'lost-key',title:'The Lost Key',author:'ReadGym Originals',level:'A1',language:'en',color:LC.A1,genre:'Mystery',
+ description:'A simple mystery about a missing key and a curious cat.',
+ chapters:[
+  {id:'lost-key-1',title:'A Strange Morning',
+   text:`Maria woke up at seven o'clock. She made coffee and looked for her keys. The keys were always on the table, next to the door. But today, they were not there.\n\n"That's strange," Maria said. She looked under the table. She looked in her bag. She looked in the kitchen. No keys.\n\nHer cat, Whiskers, sat by the window. He looked very happy. Too happy.\n\n"Whiskers," Maria said, "did you see my keys?"\n\nWhiskers just looked at her and jumped down from the window. He walked to the sofa and sat next to it.\n\nMaria was late for work. She needed to find her keys fast. She had one hour before her bus left.`,
+   vocab:[
+    {word:'strange',def:'unusual or surprising',defEs:'raro, sorprendente'},
+    {word:'looked for',def:'tried to find something',defEs:'trató de encontrar algo'},
+    {word:'curious',def:'wanting to know or learn',defEs:'con ganas de saber más'},
+    {word:'late',def:'after the expected time',defEs:'después de la hora esperada'},
+    {word:'fast',def:'quickly',defEs:'rápidamente'},
+   ],
+   quiz:[
+    {q:'What time did Maria wake up?',qEs:'¿A qué hora se despertó María?',opts:["Six o'clock","Seven o'clock","Eight o'clock","Nine o'clock"],optsEs:['A las seis','A las siete','A las ocho','A las nueve'],ci:1},
+    {q:'Where were the keys usually kept?',qEs:'¿Dónde guardaba normalmente las llaves?',opts:['In her bag','In the kitchen','On the table by the door','Under the sofa'],optsEs:['En su bolsa','En la cocina','En la mesa junto a la puerta','Debajo del sofá'],ci:2},
+    {q:'What is the name of the cat?',qEs:'¿Cómo se llama el gato?',opts:['Tom','Whiskers','Max','Shadow'],optsEs:['Tom','Whiskers','Max','Shadow'],ci:1},
+    {q:'Why did Maria need to hurry?',qEs:'¿Por qué necesitaba apurarse María?',opts:['She was cooking','Her bus was leaving soon','A friend was visiting','The cat was hungry'],optsEs:['Estaba cocinando','Su autobús salía pronto','Un amigo iba a visitarla','El gato tenía hambre'],ci:1},
+   ]},
+  {id:'lost-key-2',title:'Whiskers Knows Something',
+   text:`Maria sat down next to Whiskers. "Okay," she said, "I think you know where my keys are."\n\nWhiskers moved closer to the sofa. He put his paw under it. Maria smiled and looked under the sofa too. There, between old magazines and dust, she saw something shiny.\n\nHer keys! But how did they get there?\n\nMaria remembered last night. She came home late and dropped her bag on the sofa. The keys probably fell out and rolled under it. Whiskers loved to play with small, shiny things, so he pushed them further under the sofa.\n\n"You little detective," Maria laughed. She picked up the keys and gave Whiskers a small treat. "Thank you for helping me, even if you made the mess first!"\n\nNow Maria had ten minutes before her bus. She grabbed her bag and ran out the door, keys in hand.`,
+   vocab:[
+    {word:'shiny',def:'bright, reflecting light',defEs:'brillante, que refleja la luz'},
+    {word:'dust',def:'fine dry powder on surfaces',defEs:'polvo fino que se acumula'},
+    {word:'rolled',def:'moved by turning over',defEs:'se movió dando vueltas'},
+    {word:'detective',def:'someone who solves mysteries',defEs:'alguien que resuelve misterios'},
+    {word:'mess',def:'an untidy state',defEs:'un estado desordenado'},
+   ],
+   quiz:[
+    {q:'Where did Maria finally find her keys?',qEs:'¿Dónde encontró finalmente las llaves?',opts:['In the kitchen','Under the sofa','In her bag','On the table'],optsEs:['En la cocina','Debajo del sofá','En su bolsa','En la mesa'],ci:1},
+    {q:'How did the keys probably get there?',qEs:'¿Cómo llegaron ahí las llaves?',opts:['Whiskers took them','They fell and rolled under','A neighbor moved them','Maria hid them'],optsEs:['Whiskers las tomó','Se cayeron y rodaron','Un vecino las movió','María las escondió'],ci:1},
+    {q:'What did Maria give Whiskers?',qEs:'¿Qué le dio María a Whiskers?',opts:['A toy','A treat','A new bed','Nothing'],optsEs:['Un juguete','Un premio','Una cama','Nada'],ci:1},
+    {q:'How much time was left before her bus?',qEs:'¿Cuánto tiempo le quedaba para el autobús?',opts:['Five minutes','Ten minutes','Thirty minutes','One hour'],optsEs:['Cinco minutos','Diez minutos','Treinta minutos','Una hora'],ci:1},
+   ]},
+  {id:'lost-key-3',title:'A New Habit',
+   text:`That evening, Maria came home tired but happy. Work had been busy, but nothing went wrong. She thought about her morning and smiled.\n\n"I need a better system," she said to Whiskers, who was sleeping on the sofa.\n\nMaria bought a small bowl for her keys. She put it on the table by the door, in a spot Whiskers could not reach. Every day after that, she put her keys in the bowl as soon as she came home.\n\nWhiskers watched her with interest, but he lost interest in the bowl quickly. It was not as fun as chasing shiny keys across the floor.\n\nWeeks later, Maria never lost her keys again. She even told her friends about her "detective cat" and the key bowl trick. Her friends laughed and started using the same idea.\n\nSometimes, a small problem teaches you a good habit.`,
+   vocab:[
+    {word:'habit',def:'something you do regularly',defEs:'algo que haces regularmente'},
+    {word:'system',def:'a planned way of doing something',defEs:'una manera planeada de hacer algo'},
+    {word:'reach',def:'to be able to touch or get to',defEs:'poder tocar o llegar a algo'},
+    {word:'chasing',def:'running after to catch',defEs:'correr detrás de algo para atraparlo'},
+    {word:'trick',def:'a clever way to solve a problem',defEs:'una manera inteligente de resolver algo'},
+   ],
+   quiz:[
+    {q:'What did Maria buy to solve her problem?',qEs:'¿Qué compró María para resolver su problema?',opts:['A new bag','A small bowl for keys','A cat toy','A new lock'],optsEs:['Una bolsa nueva','Un pequeño tazón','Un juguete para el gato','Una cerradura nueva'],ci:1},
+    {q:'Why did Whiskers lose interest in the bowl?',qEs:'¿Por qué a Whiskers le perdió el interés?',opts:['Too high','Not fun like chasing keys','Smelled bad','Too small'],optsEs:['Estaba muy alto','No era divertido','Olía mal','Era muy pequeño'],ci:1},
+    {q:'What did Maria tell her friends?',qEs:'¿Qué le contó María a sus amigos?',opts:['About her new job','About the detective cat and key bowl','About her vacation','About a restaurant'],optsEs:['Su nuevo trabajo','El gato detective y el tazón','Sus vacaciones','Un restaurante'],ci:1},
+    {q:'What is the main lesson?',qEs:'¿Cuál es la lección principal?',opts:['Cats are difficult','A small problem teaches a good habit','Buses are always late','Keys are expensive'],optsEs:['Los gatos son difíciles','Un problema pequeño enseña un buen hábito','Los autobuses siempre llegan tarde','Las llaves son caras'],ci:1},
+   ]},
+ ]},
+
+{id:'new-neighbor',title:'The New Neighbor',author:'ReadGym Originals',level:'A2',language:'en',color:LC.A2,genre:'Slice of Life',
+ description:'A new family moves in next door, and not everyone is happy about it — at first.',
+ chapters:[
+  {id:'new-neighbor-1',title:'Moving Day',
+   text:`On Saturday morning, a big truck stopped in front of the empty house next to Diego's home. He watched from his window as two people carried boxes, a sofa, and a bicycle into the house.\n\n"Mom, someone is moving in!" Diego shouted.\n\nHis mother came to the window. "That's nice," she said. "The house has been empty for almost a year."\n\nDiego wasn't so sure it was nice. He liked the quiet street. He liked that no one played loud music or had noisy dogs. A new family could change everything.\n\nLater that day, Diego saw a boy about his age sitting alone on the front steps of the new house. The boy looked bored and a little sad. Diego thought about saying hello, but he decided to stay inside instead.\n\n"Maybe tomorrow," he told himself, even though he wasn't sure he meant it.`,
+   vocab:[
+    {word:'empty',def:'with nothing or no one inside',defEs:'sin nada ni nadie adentro'},
+    {word:'shouted',def:'said something very loudly',defEs:'dijo algo en voz muy alta'},
+    {word:'quiet',def:'with little or no noise',defEs:'tranquilo, sin mucho ruido'},
+    {word:'bored',def:'not interested, nothing fun to do',defEs:'aburrido, sin nada divertido'},
+    {word:'decided',def:'chose what to do after thinking',defEs:'eligió qué hacer después de pensar'},
+   ],
+   quiz:[
+    {q:'What did Diego see on Saturday morning?',qEs:'¿Qué vio Diego el sábado por la mañana?',opts:['A moving truck','A school bus','A delivery van','A fire truck'],optsEs:['Un camión de mudanzas','Un autobús escolar','Un camión de entregas','Un camión de bomberos'],ci:0},
+    {q:'How long had the house been empty?',qEs:'¿Cuánto tiempo había estado vacía la casa?',opts:['A week','A month','Almost a year','Two years'],optsEs:['Una semana','Un mes','Casi un año','Dos años'],ci:2},
+    {q:"Why wasn't Diego happy about the new family?",qEs:'¿Por qué Diego no estaba contento?',opts:["Didn't like children","Liked quiet street and worried","Wanted to move too","Didn't like the truck"],optsEs:['No le gustaban los niños','Le gustaba la calle tranquila','Él también quería mudarse','No le gustó el camión'],ci:1},
+    {q:'What did Diego decide when he saw the new boy?',qEs:'¿Qué decidió Diego al ver al niño nuevo?',opts:['Say hello right away','Invite him to play','Stay inside instead','Call his mother'],optsEs:['Decirle hola de inmediato','Invitarlo a jugar','Quedarse adentro','Llamar a su mamá'],ci:2},
+   ]},
+  {id:'new-neighbor-2',title:'A Small Mistake',
+   text:`On Sunday, Diego was riding his bicycle when the chain suddenly fell off. He stopped in front of the new house, trying to fix it, but his hands were too small and the chain was stuck.\n\n"Do you need help?" a voice asked.\n\nDiego looked up. It was the boy from next door, holding a soccer ball under his arm.\n\n"I can't fix this," Diego said, a little embarrassed.\n\n"My dad taught me how to fix bike chains," the boy said. "I'm Marco, by the way."\n\n"Diego." He watched as Marco knelt down and carefully put the chain back on the wheel. It only took him a minute.\n\n"Thanks," Diego said, surprised. "That was fast."\n\n"I've fixed my own bike a hundred times," Marco laughed. "Want to play soccer later? I don't know anyone here yet."\n\nDiego thought about the quiet street, and how maybe it didn't need to stay exactly the same. "Sure," he said. "I'll ask my mom."`,
+   vocab:[
+    {word:'suddenly',def:'quickly and without warning',defEs:'de repente, sin aviso'},
+    {word:'stuck',def:'unable to move',defEs:'que no puede moverse'},
+    {word:'embarrassed',def:'feeling shy about a mistake',defEs:'apenado por un error'},
+    {word:'knelt',def:'went down on one knee',defEs:'se puso de rodillas'},
+    {word:'surprised',def:'feeling unexpected wonder',defEs:'sorprendido, con asombro'},
+   ],
+   quiz:[
+    {q:'What problem did Diego have with his bicycle?',qEs:'¿Qué problema tuvo Diego con su bicicleta?',opts:['Flat tire','Chain fell off','Broken seat','No brakes'],optsEs:['Neumático ponchado','La cadena se cayó','Asiento roto','Sin frenos'],ci:1},
+    {q:'Who helped Diego fix his bike?',qEs:'¿Quién ayudó a Diego?',opts:['His mother','A stranger','Marco, the new neighbor','A shop owner'],optsEs:['Su mamá','Un extraño','Marco, el vecino nuevo','El dueño de una tienda'],ci:2},
+    {q:'How did Marco learn to fix bike chains?',qEs:'¿Cómo aprendió Marco a arreglar cadenas?',opts:['At school','From a video','His dad taught him','He guessed'],optsEs:['En la escuela','En un video','Su papá le enseñó','Lo adivinó'],ci:2},
+    {q:'What did Marco invite Diego to do?',qEs:'¿A qué invitó Marco a Diego?',opts:['Ride bikes','Play soccer','Watch a movie','Do homework'],optsEs:['Andar en bicicleta','Jugar fútbol','Ver una película','Hacer la tarea'],ci:1},
+   ]},
+  {id:'new-neighbor-3',title:'Not So Quiet After All',
+   text:`By the end of the month, the quiet street wasn't quiet anymore — but Diego didn't mind. Every afternoon, he and Marco played soccer in the small park at the end of the street. Sometimes other kids joined them, and the games got loud and full of laughter.\n\nDiego's mother noticed the change too. "You seem happier these days," she said one evening.\n\n"Marco's really fun," Diego admitted. "I was wrong about him at first. I thought a new family would ruin everything."\n\n"Sometimes change feels scary before it happens," his mother said, "but it isn't always bad."\n\nThat weekend, Marco's family invited Diego's family for dinner. The two mothers talked and laughed in the kitchen while Diego and Marco planned their next soccer match in the backyard.\n\nDiego looked at the once-empty house, now full of light and noise, and smiled. He was glad he had said yes.`,
+   vocab:[
+    {word:'mind',def:'to be bothered by something',defEs:'molestarse por algo'},
+    {word:'laughter',def:'the sound of laughing',defEs:'el sonido de reírse'},
+    {word:'admitted',def:'agreed something was true',defEs:'aceptó que algo era verdad'},
+    {word:'ruin',def:'to spoil or destroy something',defEs:'arruinar o destruir algo'},
+    {word:'scary',def:'frightening',defEs:'que da miedo'},
+   ],
+   quiz:[
+    {q:'Where did Diego and Marco play soccer?',qEs:'¿Dónde jugaban Diego y Marco?',opts:['In the street','In the small park','In the backyard','At school'],optsEs:['En la calle','En el pequeño parque','En el patio','En la escuela'],ci:1},
+    {q:'What did Diego admit to his mother?',qEs:'¿Qué admitió Diego a su mamá?',opts:['He broke his bike','He was wrong about Marco','He dislikes soccer','He wants to move'],optsEs:['Rompió su bici','Estaba equivocado sobre Marco','No le gusta el fútbol','Quiere mudarse'],ci:1},
+    {q:"What did Diego's mother say about change?",qEs:'¿Qué dijo la mamá sobre los cambios?',opts:['Always bad','Scary but not always bad','Never happens','Should be avoided'],optsEs:['Siempre son malos','Dan miedo pero no siempre son malos','Nunca pasan','Deben evitarse'],ci:1},
+    {q:'How does the story end?',qEs:'¿Cómo termina la historia?',opts:['Diego moves away','Families dine together, Diego feels glad','Marco moves away','They stop being friends'],optsEs:['Diego se muda','Las familias cenan juntas','Marco se muda','Dejan de ser amigos'],ci:1},
+   ]},
+ ]},
+
+{id:'mountain-cabin',title:'The Mountain Cabin',author:'ReadGym Originals',level:'B1',language:'en',color:LC.B1,genre:'Adventure',
+ description:'Two friends get more than they expected on a weekend hiking trip.',
+ chapters:[
+  {id:'mc-1',title:'The Weekend Trip',
+   text:`Jake and Sofia had planned the hiking trip for months. They wanted to escape the city and spend a quiet weekend in the mountains. The cabin they rented belonged to Sofia's uncle, an old wooden building near a small lake.\n\nThey arrived late on Friday afternoon. The air was cold and sharp, and the trees around the cabin cast long shadows as the sun went down. Jake carried the bags inside while Sofia searched for the key under a stone, exactly where her uncle had told her.\n\nInside, the cabin was simple but cozy. There was a fireplace, two small bedrooms, and a kitchen with old wooden shelves. Sofia lit the fire while Jake unpacked their food for the weekend.\n\n"This place is perfect," Sofia said, watching the flames grow. "No phones, no emails, just us and the mountains."\n\nJake smiled, but something outside caught his attention. Through the window, he thought he saw a light moving between the trees, far from any path.`,
+   vocab:[
+    {word:'escape',def:'to get away from a place',defEs:'escapar de un lugar'},
+    {word:'cast',def:'to make a shadow appear',defEs:'proyectar una sombra'},
+    {word:'cozy',def:'warm and comfortable',defEs:'acogedor y cómodo'},
+    {word:'unpacked',def:'took things out of bags',defEs:'sacó cosas de las bolsas'},
+    {word:'caught his attention',def:'made him notice something',defEs:'llamó su atención'},
+   ],
+   quiz:[
+    {q:"Whose cabin were Jake and Sofia staying in?",opts:["Jake's parents'","Sofia's uncle's","A hotel","A rented apartment"],ci:1},
+    {q:'Where did Sofia find the key?',opts:['Under a stone','Under the mat','In the mailbox','With a neighbor'],ci:0},
+    {q:'What did Sofia like most about the cabin?',opts:['The kitchen','No phones or emails','The fireplace','The lake view'],ci:1},
+    {q:'What did Jake notice through the window?',opts:['Another cabin','A moving light in the trees','A car','Nothing unusual'],ci:1},
+   ]},
+  {id:'mc-2',title:'The Light in the Woods',
+   text:`Jake didn't say anything at first. He watched the light move slowly between the trees, then disappear. Maybe it was just a reflection, he thought. Or another hiker with a flashlight.\n\n"Jake? You okay?" Sofia asked, noticing his silence.\n\n"I thought I saw a light outside. It's probably nothing," he said, trying to sound calm.\n\nThey ate dinner and talked about their plans for the next day: a hike to the ridge, and maybe swimming in the lake if the water wasn't too cold. But later that night, as they were getting ready to sleep, they heard a sound outside — slow footsteps on the gravel path, coming closer to the cabin.\n\nSofia grabbed Jake's arm. "Did you hear that?"\n\nThey stayed still, listening. The footsteps stopped right outside the door. Then, three slow knocks.\n\nJake looked at Sofia. Neither of them moved toward the door.`,
+   vocab:[
+    {word:'reflection',def:'light bouncing off a surface',defEs:'luz que rebota en una superficie'},
+    {word:'ridge',def:'a long, narrow top of a hill',defEs:'la cima estrecha de una montaña'},
+    {word:'gravel',def:'small stones used on paths',defEs:'grava, piedras pequeñas'},
+    {word:'grabbed',def:'took hold of suddenly',defEs:'agarró de repente'},
+    {word:'knocks',def:'sounds made by hitting a door',defEs:'golpes en la puerta'},
+   ],
+   quiz:[
+    {q:'What did Jake think the light might be?',opts:['A ghost','A reflection or hiker','A car','A fire'],ci:1},
+    {q:'What was the plan for the next day?',opts:['Drive back','Hike and maybe swim','Visit a town','Stay inside'],ci:1},
+    {q:'What sound did they hear outside at night?',opts:['A car engine','Footsteps on gravel','Music','Howling'],ci:1},
+    {q:'What happened after the footsteps stopped?',opts:['A window broke','Three knocks on the door','Lights went out','Phone rang'],ci:1},
+   ]},
+  {id:'mc-3',title:'An Unexpected Visitor',
+   text:`After a long moment, Jake walked slowly to the door. His heart was beating fast. He opened it just a little.\n\nStanding outside was an old man, wearing a heavy coat and holding a flashlight. "Sorry to bother you," he said. "I'm Sofia's uncle's neighbor, Tom. I saw the light from your cabin and wanted to check who was here. We don't get many visitors in winter."\n\nSofia laughed with relief and invited Tom inside for tea. He explained that he lived in a small house on the other side of the lake and often walked around the area at night, checking that everything was safe — a habit from years of living alone in the mountains.\n\nTom told them stories about the mountain, the lake, and the animals that lived nearby. Jake and Sofia listened, relaxed now, laughing about how scared they had been just minutes before.\n\nBefore leaving, Tom gave them advice about the trail to the ridge and warned them about a steep, icy section near the top.\n\nThe rest of the weekend was peaceful. Jake and Sofia hiked to the ridge, swam in the cold lake, and left the cabin on Sunday with a new friend — and a great story to tell.`,
+   vocab:[
+    {word:'bother',def:'to disturb someone',defEs:'molestar a alguien'},
+    {word:'relief',def:'comfort after worry ends',defEs:'alivio, tranquilidad'},
+    {word:'habit',def:'something done regularly',defEs:'un hábito'},
+    {word:'steep',def:'rising or falling sharply',defEs:'empinado, muy inclinado'},
+    {word:'peaceful',def:'calm and quiet',defEs:'tranquilo y en paz'},
+   ],
+   quiz:[
+    {q:'Who was outside the door?',opts:['A lost hiker',"Sofia's uncle's neighbor Tom",'A park ranger','A relative of Jake'],ci:1},
+    {q:'Why was Tom walking around at night?',opts:['He was lost','Habit to check the area was safe','Looking for his dog','Going fishing'],ci:1},
+    {q:'What warning did Tom give them?',opts:['About wild animals','A steep icy section near the ridge','Bad weather','Lake closed'],ci:1},
+    {q:'How did the weekend end?',opts:['They left early','Peacefully with hike swim and new friend','With a storm','Never found the ridge'],ci:1},
+   ]},
+ ]},
+
+{id:'last-signal',title:'The Last Signal',author:'ReadGym Originals',level:'B2',language:'en',color:LC.B2,genre:'Sci-Fi',
+ description:"A lone engineer on a dying space station receives a message that shouldn't exist.",
+ chapters:[
+  {id:'ls-1',title:'Silence',
+   text:`Station Kepler-9 had been silent for eleven days. Not the comfortable silence Ren remembered from her first years aboard, but a heavier one — the kind that settled into the walls after the last transport ship departed and never confirmed its arrival back on Earth.\n\nRen floated through the narrow corridor toward the communications deck, her boots barely brushing the magnetic strips on the floor. The station's life-support hummed quietly around her, a sound she had learned to trust more than any voice. Voices, after all, could lie. Machines, mostly, did not.\n\nShe had run the diagnostics twice already. Both times, the results were identical: no signal, no response, no explanation for why Earth had gone quiet. The official protocol was clear — continue routine operations, await further instructions. But eleven days of silence was not routine, and Ren had stopped pretending otherwise.\n\nShe sat at the console, arms crossed, staring at the empty frequency display. Then, without warning, a single line of text appeared on the screen.\n\nINCOMING TRANSMISSION — SOURCE UNKNOWN.\n\nRen's breath caught. Every transmission in the station's history had a registered source. This one did not.`,
+   vocab:[
+    {word:'departed',def:'left a place'},
+    {word:'diagnostics',def:'tests to check if a system works'},
+    {word:'protocol',def:'an official set of rules'},
+    {word:'console',def:'a control panel with screens'},
+    {word:'transmission',def:'a message sent using radio signals'},
+   ],
+   quiz:[
+    {q:'How many days had the station been silent?',opts:['Five','Eleven','Twenty','Thirty'],ci:1},
+    {q:'Why did Ren trust machines more than voices?',opts:['She disliked people','Voices could lie, machines mostly did not','She was ordered to','The machines spoke to her'],ci:1},
+    {q:'What was the official protocol during the silence?',opts:['Return to Earth','Continue operations and await instructions','Shut down the station','Contact another station'],ci:1},
+    {q:'What made the incoming transmission unusual?',opts:['It was in a foreign language','It had no registered source','It arrived too quickly','It repeated the same word'],ci:1},
+   ]},
+  {id:'ls-2',title:'A Familiar Voice',
+   text:`Ren stared at the screen for a full minute before opening the transmission. Protocol demanded she log it first, run a security scan, verify the source. She did none of these things. Eleven days of silence had worn down her patience for procedure.\n\nThe message was not text. It was audio — garbled at first, full of static, but gradually clearing into something recognizable. A voice. A human voice.\n\n"...Kepler-9, this is... do you copy... we lost contact after the..."\n\nThe voice cut in and out, but Ren recognized it immediately. It was Commander Alaric Voss, the pilot of the transport ship that had left eleven days ago — the ship that was never confirmed to have reached Earth.\n\nThat was impossible. Transport ships carried only short-range communicators, built for docking procedures, not for transmissions across the distance now separating the ship from the station. Unless the ship had never left orbit at all.\n\nRen's hands moved quickly across the console, trying to trace the signal's origin. The coordinates that appeared made her stomach tighten. The transmission wasn't coming from Earth, or from deep space.\n\nIt was coming from just outside the station.`,
+   vocab:[
+    {word:'garbled',def:'unclear or distorted'},
+    {word:'static',def:'noise interference in a signal'},
+    {word:'docking',def:'joining two spacecraft together'},
+    {word:'orbit',def:'the curved path around a planet'},
+    {word:'coordinates',def:'numbers showing an exact location'},
+   ],
+   quiz:[
+    {q:'What did Ren skip before opening the transmission?',opts:['Nothing','Logging, scanning, verifying source','Turning off life support','Calling Earth first'],ci:1},
+    {q:'Whose voice did Ren recognize?',opts:['A stranger','Commander Alaric Voss','Her own voice','Mission Control'],ci:1},
+    {q:'Why was the transmission strange technically?',opts:['Transport ships only had short-range communicators','It arrived in text','It was too loud','It repeated'],ci:0},
+    {q:'Where did the signal actually originate?',opts:['Earth','Deep space','Just outside the station','Another station'],ci:2},
+   ]},
+  {id:'ls-3',title:'What Waits Outside',
+   text:`Ren moved to the small observation window at the end of the corridor, her pulse loud in her ears. She told herself it was probably a malfunction — a delayed signal, a recording somehow looping back, a glitch in a system already showing signs of strain after eleven days without support from Earth.\n\nBut when she reached the window and looked out into the dark, she saw it: the transport ship, Commander Voss's ship, drifting slowly no more than two hundred meters from the station. Its hull was dark, its running lights dead. It should not have been there. It should have been halfway to Earth by now, or docked safely at its destination, or — if something had gone terribly wrong — reported as lost.\n\nInstead, it hung silently in space, close enough that Ren could make out the ship's registration number painted on its side.\n\nThe console behind her chimed. Another transmission, from the same unknown source.\n\n"Ren," the voice said, clearer now, no longer full of static. "Let us in."\n\nShe turned back toward the window. Nothing on the ship had changed — no lights, no movement, no sign of life. And yet the voice had used her name. A name she had never included in any station log, any transmission, any record accessible from outside Kepler-9.\n\nFor the first time in eleven days, Ren wished the silence would come back.`,
+   vocab:[
+    {word:'malfunction',def:'a failure to work correctly'},
+    {word:'glitch',def:'a small unexpected problem in a system'},
+    {word:'drifting',def:'moving slowly without control'},
+    {word:'hull',def:'the outer body of a ship'},
+    {word:'registration number',def:'an official number identifying a ship'},
+   ],
+   quiz:[
+    {q:'What did Ren see outside the observation window?',opts:['Nothing unusual','The transport ship dark and drifting nearby','A rescue ship','A meteor shower'],ci:1},
+    {q:"What was strange about the ship's condition?",opts:['Fully lit','Lights dead and drifting when it should be far away','On fire','Much bigger than expected'],ci:1},
+    {q:'What did the second transmission say?',opts:['"Help us"','"Ren, let us in"','"Return to Earth"','"System failure"'],ci:1},
+    {q:'Why did the voice using her name disturb Ren?',opts:['She never told anyone her name','Her name was not in any accessible record outside the station','It was not her name','It was mispronounced'],ci:1},
+   ]},
+ ]},
+
+{id:'weight-silence',title:'The Weight of Silence',author:'ReadGym Originals',level:'C1',language:'en',color:LC.C1,genre:'Literary Fiction',
+ description:'Years after a falling-out, two estranged sisters are forced to confront what was left unsaid.',
+ chapters:[
+  {id:'ws-1',title:'The Funeral',
+   text:`The church was smaller than Elena remembered, or perhaps it was simply that everything from childhood shrinks when revisited through adult eyes. She stood at the back, arms crossed, watching relatives she hadn't seen in a decade file past the casket with the practiced solemnity of people who attend funerals as a matter of obligation rather than grief.\n\nAcross the room, Beatriz sat in the front pew, spine rigid, hands folded in a manner so composed it bordered on performance. Eight years of silence stretched between the sisters like a canyon neither had attempted to bridge, not since the argument that neither of them, if pressed, could fully articulate anymore — only that it had involved their mother, an inheritance neither wanted, and words said in anger that had calcified into something neither could take back.\n\nElena had debated not coming at all. But their mother, whatever her flaws, deserved more than a daughter's absence at her own funeral, and so Elena had boarded a plane, rehearsing in her mind a hundred versions of what she might say to Beatriz, none of which felt adequate.\n\nWhen the service ended, Beatriz turned, and for a moment their eyes met across the aisle. Neither sister moved. It was Beatriz who looked away first.`,
+   vocab:[
+    {word:'shrinks',def:'becomes smaller'},
+    {word:'solemnity',def:'a serious formal manner at a solemn occasion'},
+    {word:'rigid',def:'stiff, unwilling to bend'},
+    {word:'calcified',def:'became fixed and hard, resistant to change'},
+    {word:'rehearsing',def:'practicing in one\'s mind before doing it'},
+   ],
+   quiz:[
+    {q:'What event brings Elena and Beatriz together?',opts:['A wedding','Their mother\'s funeral','A family reunion','A holiday'],ci:1},
+    {q:'How long have the sisters been estranged?',opts:['Two years','Five years','Eight years','Ten years'],ci:2},
+    {q:'What originally caused the rift?',opts:['A clear betrayal','An argument over their mother and inheritance','Funeral disagreements','A conflict over Beatriz\'s husband'],ci:1},
+    {q:'What happens when their eyes meet?',opts:['They both smile','Beatriz walks over','Neither moves and Beatriz looks away first','Elena leaves'],ci:2},
+   ]},
+  {id:'ws-2',title:'The House',
+   text:`Their mother's house had the particular stillness of a place recently vacated by its owner but not yet by its memories. Elena moved through the rooms slowly, running her fingers along furniture she hadn't touched in years, half expecting her mother's voice to call out from the kitchen the way it always had.\n\nBeatriz was already there when Elena arrived, sorting through boxes with the brisk efficiency of someone who preferred motion to reflection. They worked in silence for nearly an hour, an unspoken agreement having settled between them: discuss logistics, avoid everything else.\n\nIt was a photograph that broke the truce — one of the two of them as children, perhaps seven and nine, grinning gap-toothed on this very porch. Beatriz held it for a long moment before setting it, without comment, into the box marked "keep."\n\n"I didn't know if you'd want it," Beatriz finally said, not looking up.\n\n"I do," Elena said. And then, because the silence had already been disturbed and there seemed little point in preserving what remained of it: "I never wanted the money, Bea. I don't think I ever really did."\n\nBeatriz's hands stilled over the box. "Then why did you say what you said?"\n\nElena had no honest answer that didn't implicate them both.`,
+   vocab:[
+    {word:'vacated',def:'left empty, no longer occupied'},
+    {word:'brisk',def:'quick and energetic'},
+    {word:'truce',def:'an agreement to stop fighting, often temporary'},
+    {word:'gap-toothed',def:'having a visible gap between front teeth'},
+    {word:'implicate',def:'to show someone is involved in something blameworthy'},
+   ],
+   quiz:[
+    {q:"What are the sisters doing at their mother's house?",opts:['Renovating it','Sorting through her belongings','Selling it','Preparing for a party'],ci:1},
+    {q:"What 'unspoken agreement' governs their interaction?",opts:['Argue about everything','Discuss logistics avoid deeper topics','Not speak at all','Divide everything equally'],ci:1},
+    {q:'What breaks the silence?',opts:['A phone call','An old photograph of them as children','A letter from their mother','An argument over furniture'],ci:1},
+    {q:'What does Elena claim about the inheritance?',opts:['She desperately needed it','She never really wanted it','She already spent it','She wants Beatriz to have it all'],ci:1},
+   ]},
+  {id:'ws-3',title:'What Remains Unsaid',
+   text:`Neither sister answered the question that hung between them. Instead, Beatriz sat down on the porch steps, in the same spot where the photograph had been taken decades earlier, and after a moment, Elena sat beside her.\n\n"I think I said it because I was scared," Beatriz said eventually, her voice quieter than Elena had heard it in years. "Mom was dying, and I didn't know how to be the daughter who was losing her mother and fighting with her sister at the same time. It was easier to be angry than to be sad."\n\nElena considered this, turning it over the way she might examine a photograph for details she'd missed the first time. "I think I did the same thing," she admitted. "Different reasons, same result."\n\nThey sat in silence again, but it was a different kind now — not the brittle silence of avoidance, but something closer to rest.\n\n"I don't know how to fix eight years," Beatriz said.\n\n"Maybe we don't fix it all at once," Elena said. "Maybe we just stop adding to it."\n\nIt wasn't reconciliation, not yet — the wound was too old and too deep for a single conversation to close. But it was, perhaps, the first honest thing either sister had said to the other in nearly a decade, and for that afternoon, it was enough.`,
+   vocab:[
+    {word:'hung between them',def:'remained unresolved, felt by both'},
+    {word:'brittle',def:'fragile, easily broken (figurative for emotions)'},
+    {word:'reconciliation',def:'restoring a friendly relationship after disagreement'},
+    {word:'wound',def:'emotional pain (figurative)'},
+    {word:'enough',def:'as much as is needed'},
+   ],
+   quiz:[
+    {q:'Why does Beatriz say she made the original hurtful comment?',opts:['Wanted all the money','Scared, easier to be angry than sad about losing mother','Told to by someone','Doesn\'t remember'],ci:1},
+    {q:'How does Elena react to the explanation?',opts:['Rejects it','Recognizes she did something similar','Laughs it off','Leaves without responding'],ci:1},
+    {q:'How is the ending silence different from the earlier silence?',opts:['Angrier','Nothing changed','Feels like rest, not avoidance','Filled with crying'],ci:2},
+    {q:"What is implied about the sisters' relationship by the end?",opts:['Fully repaired','Permanently broken','A small honest step taken, full reconciliation needs more time','They decide never to speak again'],ci:2},
+   ]},
+ ]},
+
+// ──── SPANISH ────
+{id:'cafe-esquina',title:'El Café de la Esquina',author:'ReadGym Originals',level:'B1',language:'es',color:LC.B1,genre:'Vida Cotidiana',
+ description:'Una historia sencilla sobre un pequeño café y las personas que lo visitan cada mañana.',
+ chapters:[
+  {id:'ce-1',title:'La Rutina de Ana',
+   text:`Todas las mañanas, Ana abría su café a las seis y media. Era un lugar pequeño, con solo cinco mesas, pero siempre estaba lleno de gente antes de las ocho.\n\nAna conocía a casi todos sus clientes por su nombre. Sabía que el señor Torres siempre pedía un café negro sin azúcar, y que la joven Marta prefería un té con miel porque no le gustaba el sabor del café.\n\nEse día, mientras preparaba la máquina de café, Ana notó algo diferente. Un hombre que nunca había visto entró y se sentó en la mesa junto a la ventana. Llevaba un abrigo gris y parecía cansado.\n\n"Buenos días," dijo Ana. "¿Qué le puedo ofrecer?"\n\nEl hombre levantó la vista lentamente. "Un café, por favor. El más fuerte que tenga."\n\nAna sonrió y fue a preparar la bebida, curiosa sobre quién sería aquel desconocido.`,
+   vocab:[
+    {word:'rutina',def:'las cosas que haces todos los días de la misma manera'},
+    {word:'clientes',def:'las personas que compran en un negocio'},
+    {word:'notó',def:'se dio cuenta de algo, lo observó'},
+    {word:'desconocido',def:'una persona que no se conoce'},
+    {word:'curiosa',def:'con deseo de saber más sobre algo'},
+   ],
+   quiz:[
+    {q:'¿A qué hora abría Ana su café?',opts:['A las seis','A las seis y media','A las siete','A las ocho'],ci:1},
+    {q:'¿Qué pedía siempre el señor Torres?',opts:['Un té con miel','Un café con leche','Un café negro sin azúcar','Un chocolate caliente'],ci:2},
+    {q:'¿Por qué Marta prefería el té?',opts:['No le gustaba el sabor del café','Era más barato','El café le daba sueño','El médico se lo recomendó'],ci:0},
+    {q:'¿Qué pidió el hombre desconocido?',opts:['Un té','Un café muy fuerte','Un jugo de naranja','Nada, solo se sentó'],ci:1},
+   ]},
+  {id:'ce-2',title:'El Misterio del Desconocido',
+   text:`Durante toda la mañana, el desconocido se quedó sentado en la misma mesa. Tomó dos cafés y no habló con nadie. Solo miraba por la ventana, como si esperara ver a alguien.\n\nAna lo observaba mientras atendía a los otros clientes. Era mayor que ella, quizás de unos sesenta años, con manos que parecían haber trabajado mucho.\n\nA mediodía, cuando el café estaba casi vacío, el hombre se acercó a la barra.\n\n"¿Vive mucho tiempo en este barrio?" preguntó.\n\n"Toda mi vida," respondió Ana. "¿Busca a alguien?"\n\nEl hombre dudó antes de responder. "Busco a una persona que vivía aquí hace treinta años. Se llamaba Elena Morales. ¿La conoce?"\n\nAna sintió un escalofrío. Elena Morales era el nombre de su madre, que había muerto cinco años atrás.`,
+   vocab:[
+    {word:'observaba',def:'miraba con atención durante un tiempo'},
+    {word:'barrio',def:'una parte de una ciudad o pueblo'},
+    {word:'dudó',def:'no supo qué hacer o decir por un momento'},
+    {word:'escalofrío',def:'sensación de frío que sientes cuando algo te sorprende o asusta'},
+    {word:'atrás',def:'antes, en el pasado'},
+   ],
+   quiz:[
+    {q:'¿Cuántos cafés tomó el desconocido durante la mañana?',opts:['Uno','Dos','Tres','Ninguno'],ci:1},
+    {q:'¿Qué hacía el desconocido mientras estaba sentado?',opts:['Leía un libro','Miraba por la ventana','Hablaba por teléfono','Escribía en un cuaderno'],ci:1},
+    {q:'¿A quién busca el desconocido?',opts:['A Ana','A Elena Morales','A la señora Torres','A Marta'],ci:1},
+    {q:'¿Por qué Ana sintió un escalofrío?',opts:['Hacía mucho frío','Elena Morales era el nombre de su madre','No conocía a esa persona','El hombre la asustó'],ci:1},
+   ]},
+  {id:'ce-3',title:'La Historia que Guardó Elena',
+   text:`Ana tardó unos segundos en responder. "Elena Morales era mi madre," dijo finalmente. "Murió hace cinco años."\n\nEl desconocido cerró los ojos un momento. "Lo siento mucho. Yo soy Pedro. Conocí a tu madre hace muchos años, cuando los dos éramos jóvenes. Perdimos el contacto y nunca pude despedirme."\n\nAna lo invitó a sentarse y le preparó un café. Pedro habló durante casi una hora sobre su madre: cómo se reían juntos, cómo Elena amaba cocinar, cómo había sido la persona más honesta que había conocido.\n\nCuando Pedro se fue, Ana se quedó sola en el café. Era extraño recibir recuerdos nuevos de alguien que ya no estaba. Pero también era un regalo.\n\nSe prometió a sí misma que escribiría todo lo que Pedro le había contado, para no olvidarlo nunca.`,
+   vocab:[
+    {word:'despedirme',def:'decir adiós a alguien antes de separarse'},
+    {word:'perdimos el contacto',def:'dejamos de hablar o vernos con alguien'},
+    {word:'recuerdos',def:'imágenes o experiencias guardadas en la memoria'},
+    {word:'regalo',def:'algo que te dan y que tiene valor para ti'},
+    {word:'prometió',def:'dijo que haría algo con seguridad'},
+   ],
+   quiz:[
+    {q:'¿Qué relación tenía Elena con Ana?',opts:['Era su abuela','Era su madre','Era su amiga','Era su vecina'],ci:1},
+    {q:'¿Por qué Pedro nunca habló con Elena antes de morir?',opts:['Se pelearon','Perdieron el contacto hace muchos años','Elena no quería verlo','Vivía muy lejos'],ci:1},
+    {q:'¿Qué decidió hacer Ana después de que Pedro se fue?',opts:['Cerrar el café','Llamar a un familiar','Escribir todo lo que Pedro le contó','Buscar más información sobre Pedro'],ci:2},
+    {q:'¿Cómo se sentía Ana al final?',opts:['Triste y enojada','Indiferente','Era extraño pero también era un regalo','Muy confundida'],ci:2},
+   ]},
+ ]},
+
+// ──── FRENCH ────
+{id:'marche-samedi',title:'Le Marché du Samedi',author:'ReadGym Originals',level:'B1',language:'fr',color:LC.B1,genre:'Vie Quotidienne',
+ description:"Chaque samedi, Camille retrouve les mêmes visages au marché — jusqu'au jour où tout change.",
+ chapters:[
+  {id:'ms-1',title:'Le Même Rituel',
+   text:`Chaque samedi matin, Camille se réveillait tôt pour aller au marché du village. C'était un petit rituel qu'elle adorait : le café chaud dans une tasse en carton, l'odeur du pain frais, et les cris joyeux des vendeurs qui présentaient leurs fruits et légumes.\n\nElle connaissait presque tous les commerçants. Monsieur Lefèvre vendait le meilleur fromage de la région, et Madame Dubois avait toujours les fleurs les plus belles, même en hiver.\n\nCe samedi-là, cependant, quelque chose était différent. Le stand habituel de Monsieur Lefèvre était vide. À sa place se trouvait une jeune femme qu'elle n'avait jamais vue, en train d'installer des fromages sur la table.\n\n"Bonjour," dit Camille, un peu surprise. "Où est Monsieur Lefèvre aujourd'hui ?"\n\nLa jeune femme leva les yeux et sourit doucement. "Il est mon grand-père. Il ne peut plus travailler autant qu'avant, alors j'ai décidé de l'aider."`,
+   vocab:[
+    {word:'rituel',def:"une habitude que l'on répète toujours de la même façon"},
+    {word:'commerçants',def:'les personnes qui vendent des produits'},
+    {word:'habituel',def:'qui se passe toujours de la même manière'},
+    {word:'installer',def:'mettre quelque chose en place'},
+    {word:'cependant',def:'mais, pourtant'},
+   ],
+   quiz:[
+    {q:'Pourquoi Camille allait-elle au marché chaque samedi ?',opts:["C'était une obligation","C'était un rituel qu'elle adorait","Elle n'avait pas le choix","Elle y travaillait"],ci:1},
+    {q:'Qui vendait habituellement du fromage au marché ?',opts:['Madame Dubois','Une jeune femme inconnue','Monsieur Lefèvre','Camille elle-même'],ci:2},
+    {q:"Qu'est-ce qui était différent ce samedi-là ?",opts:["Il pleuvait","Le stand de fromage était occupé par une inconnue","Le marché était fermé","Camille était en retard"],ci:1},
+    {q:"Pourquoi la jeune femme aidait-elle au stand ?",opts:["C'était son travail habituel","Son grand-père ne pouvait plus travailler autant","Elle remplaçait un ami","Elle apprenait à faire du fromage"],ci:1},
+   ]},
+  {id:'ms-2',title:'Une Nouvelle Amitié',
+   text:`La jeune femme s'appelait Léa. Elle avait vingt-huit ans et vivait en ville, mais depuis que son grand-père avait eu des problèmes de santé, elle venait au village chaque week-end pour l'aider.\n\n"C'est lui qui m'a appris à aimer les marchés," dit Léa en donnant un morceau de fromage à Camille. "Quand j'étais petite, c'était notre rituel à nous deux."\n\nCamille sourit. Elle comprenait bien cette idée : les marchés n'étaient pas seulement des endroits pour acheter des choses. C'étaient des endroits pour se retrouver.\n\nElles parlèrent pendant un bon moment, oubliant presque les autres clients. Léa lui expliqua que son grand-père allait mieux maintenant, mais qu'il avait besoin de repos. Elle était contente de pouvoir l'aider.\n\n"Est-ce que tu reviendras samedi prochain ?" demanda Camille en partant.\n\n"Bien sûr," répondit Léa avec un grand sourire. "Je serai là."`,
+   vocab:[
+    {word:'santé',def:'état du corps, être en bonne ou mauvaise condition physique'},
+    {word:'morceau',def:'une petite partie de quelque chose'},
+    {word:'se retrouver',def:'se rencontrer à nouveau, être ensemble'},
+    {word:'repos',def:'le fait de ne pas travailler pour récupérer des forces'},
+    {word:'bien sûr',def:'évidemment, sans aucun doute'},
+   ],
+   quiz:[
+    {q:"Pourquoi Léa venait-elle au village chaque week-end ?",opts:["Pour visiter des amis","Pour aider son grand-père malade","Pour apprendre à faire du fromage","Pour trouver un appartement"],ci:1},
+    {q:"Qu'est-ce que les marchés représentent pour Léa et Camille ?",opts:["Un endroit pour faire des affaires","Un lieu pour se retrouver","Une perte de temps","Un travail difficile"],ci:1},
+    {q:"Comment allait le grand-père de Léa au moment de la conversation ?",opts:["Très mal","Mieux, mais il avait besoin de repos","Parfaitement bien","Il était à l'hôpital"],ci:1},
+    {q:"Que promet Léa à Camille ?",opts:["De lui envoyer du fromage","De revenir le samedi suivant","De lui présenter son grand-père","De lui donner sa recette"],ci:1},
+   ]},
+  {id:'ms-3',title:'Ce Qui Ne Change Pas',
+   text:`Les semaines passèrent. Chaque samedi, Léa était au stand de fromage, et Camille s'arrêtait toujours pour parler avec elle. Elles parlaient de leurs semaines, de leurs familles, de livres qu'elles avaient lus.\n\nUn samedi de novembre, Monsieur Lefèvre lui-même revint au marché. Il marchait lentement, avec une canne, mais il souriait.\n\n"Je voulais vous remercier," dit-il à Camille. "Léa m'a dit que vous l'avez aidée à se sentir moins seule ici."\n\nCamille ne savait pas quoi dire. Elle n'avait rien fait de spécial — seulement parlé avec quelqu'un.\n\nMais peut-être que c'était suffisant.\n\nCe soir-là, en rentrant chez elle, Camille pensa à tous les samedis au marché, aux visages qui ne changeaient jamais et à ceux qui apparaissaient un jour, sans crier gare, et changeaient quelque chose en vous.`,
+   vocab:[
+    {word:'canne',def:'un bâton pour aider à marcher'},
+    {word:'remercier',def:"dire merci à quelqu'un"},
+    {word:'suffisant',def:'assez, ce qui est nécessaire'},
+    {word:'sans crier gare',def:'de manière inattendue, sans prévenir'},
+    {word:'apparaissaient',def:'arrivaient, se montraient pour la première fois'},
+   ],
+   quiz:[
+    {q:'Que faisaient Camille et Léa chaque samedi ?',opts:["Elles travaillaient ensemble au stand","Elles s'arrêtaient pour parler","Elles allaient boire un café","Elles faisaient les courses ensemble"],ci:1},
+    {q:'Quand Monsieur Lefèvre est-il revenu au marché ?',opts:['En octobre','En novembre','En décembre','En janvier'],ci:1},
+    {q:"Qu'est-ce que Monsieur Lefèvre voulait dire à Camille ?",opts:["Qu'il vendait son stand","La remercier d'avoir aidé Léa","Lui proposer un emploi","Lui offrir du fromage"],ci:1},
+    {q:'Quelle est la réflexion de Camille à la fin ?',opts:["Les marchés sont ennuyeux","Les gens changent toujours","Certaines personnes arrivent sans prévenir et changent quelque chose en vous","Elle préfère rester seule"],ci:2},
+   ]},
+ ]},
+
+// ──── GERMAN ────
+{id:'reise-norden',title:'Die Reise nach Norden',author:'ReadGym Originals',level:'B1',language:'de',color:LC.B1,genre:'Abenteuer',
+ description:'Zwei Geschwister fahren mit dem Zug in den Norden und erleben mehr als erwartet.',
+ chapters:[
+  {id:'rn-1',title:'Der Abschied',
+   text:`Es war kurz vor sechs Uhr morgens, als Lena und ihr Bruder Jonas den Bahnhof betraten. Der Zug nach Norden fuhr in dreißig Minuten ab, und die Halle war schon voll mit Menschen, die früh reisen mussten.\n\n"Ich kann nicht glauben, dass wir das wirklich tun," sagte Lena, während sie ihren Rucksack auf die Bank stellte. "Zwei Wochen ohne Handy, ohne Internet, nur wir zwei und der Norden."\n\nJonas lachte. "Du wolltest das doch selbst. Schon seit Jahren redest du davon, dass du einmal wirklich abschalten möchtest."\n\nDas stimmte. Lena arbeitete zu viel. Sie wusste das. Seit Monaten fühlte sie sich erschöpft, aber sie konnte nicht aufhören. Diese Reise war eine Notwendigkeit, keine Freude — zumindest hatte sie das zuerst gedacht.\n\nAls der Zug einfuhr, nahm sie ihren Rucksack und folgte Jonas auf den Bahnsteig. Vielleicht würde sie auf dieser Reise herausfinden, warum sie sich so verloren fühlte.`,
+   vocab:[
+    {word:'betraten',def:'gingen hinein (in ein Gebäude)'},
+    {word:'abschalten',def:'sich erholen, aufhören zu arbeiten oder zu denken'},
+    {word:'erschöpft',def:'sehr müde, ohne Energie'},
+    {word:'Notwendigkeit',def:'etwas, das man tun muss'},
+    {word:'Bahnsteig',def:'die Plattform am Bahnhof, wo der Zug hält'},
+   ],
+   quiz:[
+    {q:'Wann fährt der Zug nach Norden ab?',opts:['In zehn Minuten','In dreißig Minuten','In einer Stunde','Sofort'],ci:1},
+    {q:'Was ist das besondere an dieser Reise?',opts:['Es ist ihre erste Reise','Sie fahren ohne Handy und Internet','Sie reisen allein','Sie besuchen Familie'],ci:1},
+    {q:'Wie hat Lena sich zuletzt gefühlt?',opts:['Glücklich und ausgeruht','Erschöpft und verloren','Aufgeregt und neugierig','Traurig und einsam'],ci:1},
+    {q:'Warum hatte Lena die Reise als Notwendigkeit gesehen?',opts:['Sie musste jemanden treffen','Sie konnte nicht aufhören zu arbeiten','Jonas hatte sie gezwungen','Sie hatte eine Krankheit'],ci:1},
+   ]},
+  {id:'rn-2',title:'Die unbekannte Frau',
+   text:`Im Zug saßen sie nebeneinander und schauten aus dem Fenster. Die Stadt verschwand langsam, und grüne Felder nahmen ihren Platz ein. Jonas schlief schon nach zwanzig Minuten.\n\nLena konnte nicht schlafen. Sie dachte an ihre Arbeit, an die E-Mails, die sie nicht beantwortet hatte, an die Projekte, die noch nicht fertig waren. Dann ärgerte sie sich darüber, dass sie daran dachte.\n\nAuf dem Sitz gegenüber saß eine ältere Frau mit einem kleinen Hund. Sie strickte ruhig und sah manchmal aus dem Fenster.\n\n"Erste große Reise?" fragte die Frau plötzlich, ohne aufzublicken.\n\n"Wie bitte?" sagte Lena überrascht.\n\n"Man sieht es an den Händen," sagte die Frau. "Die Leute, die zum ersten Mal wirklich reisen, halten ihre Taschen sehr fest."\n\nLena sah auf ihre Hände. Die Frau hatte recht.`,
+   vocab:[
+    {word:'verschwand',def:'war nicht mehr zu sehen, wurde unsichtbar'},
+    {word:'ärgerte sich',def:'war unzufrieden mit sich selbst oder etwas'},
+    {word:'strickte',def:'machte Kleidung aus Wolle mit Nadeln'},
+    {word:'aufzublicken',def:'die Augen heben, nach oben schauen'},
+    {word:'recht',def:'korrekt, die Wahrheit sagen'},
+   ],
+   quiz:[
+    {q:'Was machte Jonas im Zug?',opts:['Er las ein Buch','Er schlief','Er schaute Filme','Er aß'],ci:1},
+    {q:'Woran dachte Lena im Zug?',opts:['An ihre Familie','An ihre Arbeit und die E-Mails','An ihre Reisepläne','An den Norden'],ci:1},
+    {q:'Was machte die ältere Frau im Zug?',opts:['Sie schlief','Sie aß','Sie strickte ruhig','Sie las ein Buch'],ci:2},
+    {q:'Wie erkannte die alte Frau, dass Lena eine ungewöhnliche Reise macht?',opts:['Sie fragte direkt','Sie sah, dass Lena die Tasche sehr fest hielt','Lena hatte es erzählt','Jonas hatte es gesagt'],ci:1},
+   ]},
+  {id:'rn-3',title:'Was der Norden lehrt',
+   text:`Die ältere Frau hieß Margarete. Sie reiste jeden Sommer in den Norden — schon seit vierzig Jahren, wie sie erzählte. "Der Norden ist nicht schön, weil er schön ist," sagte sie. "Er ist schön, weil er ehrlich ist. Die Landschaft lügt nicht. Sie zeigt dir genau, wie klein du bist."\n\nLena dachte lange über diese Worte nach. Als der Zug an der kleinen Station ankam, verabschiedete sich Margarete freundlich und verschwand in der Menge.\n\nIn den nächsten zwei Wochen wanderten Lena und Jonas durch Wälder und an Küsten entlang. Sie sprachen mehr als in den letzten Jahren zusammen. Sie lachten oft.\n\nAm letzten Abend saß Lena am Wasser und betrachtete den Himmel. Sie dachte nicht an E-Mails. Sie dachte nicht an Projekte.\n\nSie dachte: Ich möchte öfter so fühlen.\n\nDas war genug, um nach Hause zu fahren.`,
+   vocab:[
+    {word:'ehrlich',def:'die Wahrheit zeigend, nicht falsch'},
+    {word:'Landschaft',def:'die natürliche Umgebung, was man draußen sieht'},
+    {word:'verabschiedete',def:'sagte Auf Wiedersehen'},
+    {word:'wanderten',def:'gingen zu Fuß durch die Natur'},
+    {word:'betrachtete',def:'sah aufmerksam an'},
+   ],
+   quiz:[
+    {q:'Seit wie vielen Jahren reist Margarete in den Norden?',opts:['Zehn Jahren','Zwanzig Jahren','Vierzig Jahren','Fünfzig Jahren'],ci:2},
+    {q:'Was meint Margarete damit, dass der Norden ehrlich ist?',opts:['Die Menschen dort lügen nicht','Die Landschaft zeigt dir wie klein du bist','Das Wetter ist immer klar','Es gibt keine Touristen'],ci:1},
+    {q:'Was machten Lena und Jonas in den zwei Wochen?',opts:['Sie schliefen die ganze Zeit','Sie arbeiteten remote','Sie wanderten und redeten viel','Sie besuchten viele Städte'],ci:2},
+    {q:'Was dachte Lena am letzten Abend?',opts:['Ich will nicht nach Hause','Ich möchte öfter so fühlen','Ich vermisse meine E-Mails','Ich komme nie wieder her'],ci:1},
+   ]},
+ ]},
+
+// ──── ITALIAN ────
+{id:'gatto-vicino',title:'Il Gatto del Vicino',author:'ReadGym Originals',level:'B1',language:'it',color:LC.B1,genre:'Vita Quotidiana',
+ description:'Un gatto misterioso appare ogni sera sul balcone di Giulia, e lei decide di scoprire da dove viene.',
+ chapters:[
+  {id:'gv-1',title:'Il Gatto Grigio',
+   text:`Ogni sera, verso le sei, un gatto grigio appariva sul balcone di Giulia. Non miagolava, non chiedeva cibo. Si sedeva semplicemente sul corrimano e guardava fuori, come se osservasse qualcosa di lontano.\n\nGiulia non sapeva da dove venisse. I suoi vicini più vicini erano una coppia anziana al piano di sopra e un giovane studente accanto. Nessuno dei due aveva un gatto.\n\nLa prima volta che lo vide, Giulia lo ignorò. La seconda, gli offrì un po' di latte. Il gatto lo guardò, poi guardò lei, poi si girò dall'altra parte.\n\n"Che carattere," disse Giulia ridendo.\n\nMa la terza volta, il gatto era ancora lì, e Giulia si accorse che cominciava ad aspettarlo. Era strano come una presenza silenziosa potesse diventare così importante.`,
+   vocab:[
+    {word:'miagolava',def:"faceva il verso tipico del gatto (miao)"},
+    {word:'corrimano',def:'la barra metallica o di legno sul bordo del balcone'},
+    {word:'vicini',def:'le persone che abitano vicino a te'},
+    {word:'ignorò',def:'non fece attenzione a qualcosa o qualcuno'},
+    {word:'si accorse',def:'capì o notò qualcosa che prima non aveva visto'},
+   ],
+   quiz:[
+    {q:"A che ora appariva il gatto sul balcone di Giulia?",opts:['Alle cinque','Alle sei','Alle sette','Alle otto'],ci:1},
+    {q:"Cosa faceva il gatto quando arrivava?",opts:["Miagolava forte","Si sedeva e guardava fuori","Chiedeva cibo","Dormiva"],ci:1},
+    {q:"Chi erano i vicini più vicini di Giulia?",opts:["Una famiglia con bambini","Una coppia anziana e uno studente","Due studenti","Una signora sola"],ci:1},
+    {q:"Come reagì il gatto quando Giulia gli offrì del latte?",opts:["Lo bevve subito","Lo guardò e poi si girò dall'altra parte","Scappò","Miagolò"],ci:1},
+   ]},
+  {id:'gv-2',title:'La Scoperta',
+   text:`Una domenica mattina, Giulia decise di seguire il gatto quando se ne andava. Lo vide scendere le scale esterne del palazzo, attraversare il cortile, e sparire sotto un'auto parcheggiata.\n\nQuando guardò sotto l'auto, trovò solo l'oscurità. Ma aspettando in silenzio per qualche minuto, vide il gatto uscire dall'altra parte e dirigersi verso la porta di un appartamento al piano terra.\n\nLa porta si aprì prima che il gatto potesse grattare. Una donna anziana, piccola e con i capelli bianchi, aprì e sorrise.\n\n"Eccoti, Fumo. Eri di nuovo a fare il fantasma per il palazzo?"\n\nGiulia si avvicinò. "Scusi, è il suo gatto?"\n\nLa donna la guardò con occhi chiari e curiosi. "Sì. Non disturba, vero? A volte sale sui balconi. È curioso di natura."\n\n"No, anzi," disse Giulia. "Mi ha tenuto compagnia tutte le sere."`,
+   vocab:[
+    {word:'cortile',def:'lo spazio aperto dentro o vicino a un edificio'},
+    {word:'oscurità',def:'mancanza di luce, buio'},
+    {word:'grattare',def:"fare rumore sulla superficie con le unghie (tipico dei gatti alle porte)"},
+    {word:'fantasma',def:'figura immaginaria invisibile, spirito'},
+    {word:'tenuto compagnia',def:'stare con qualcuno per non farlo sentire solo'},
+   ],
+   quiz:[
+    {q:"Cosa decise di fare Giulia una domenica mattina?",opts:["Comprare cibo per gatti","Seguire il gatto","Parlare con i vicini","Chiudere il balcone"],ci:1},
+    {q:"Dove visse il gatto, alla fine?",opts:["In strada","Al piano terra dello stesso palazzo","In un altro quartiere","Al piano di sopra"],ci:1},
+    {q:"Come si chiama il gatto?",opts:["Grigio","Balcone","Fumo","Fantasma"],ci:2},
+    {q:"Come aveva vissuto Giulia la presenza del gatto?",opts:["La disturbava","Le aveva tenuto compagnia tutte le sere","La spaventava","Non ci faceva caso"],ci:1},
+   ]},
+  {id:'gv-3',title:'Un Nuovo Inizio',
+   text:`La donna si chiamava Signora Carla. Aveva ottantadue anni e viveva sola da quando il marito era morto, sei anni prima. Fumo era il suo unico compagno.\n\n"Mi sveglio ogni mattina e lui è già sul letto," disse Signora Carla, sorridendo. "Non parla, ma capisce tutto."\n\nGiulia rimase a parlare con lei quasi un'ora. Le portò un caffè dalla sua cucina e le mostrò le foto di Fumo che aveva scattato dal balcone. La signora rise quando le vide.\n\n"Non sapevo che fosse diventato famoso," disse.\n\nDa quel giorno, Giulia passava ogni tanto a trovare Signora Carla. Non sempre, non con orari fissi. Ma abbastanza spesso da non dimenticare che c'era qualcuno che aspettava.\n\nE Fumo continuava a salire sul balcone ogni sera. Solo che adesso Giulia sapeva che portava con sé un pezzo di un'altra storia.`,
+   vocab:[
+    {word:'compagno',def:'qualcuno o qualcosa che sta con te'},
+    {word:'scattato',def:'fatto (una fotografia)'},
+    {word:'fissi',def:'regolari, sempre uguali'},
+    {word:'abbastanza',def:'a sufficienza, quanto basta'},
+    {word:'portava con sé',def:'aveva con lui, trasportava'},
+   ],
+   quiz:[
+    {q:"Da quanto tempo viveva sola Signora Carla?",opts:["Da due anni","Da sei anni","Da dieci anni","Da quando era giovane"],ci:1},
+    {q:"Cosa fece Giulia per Signora Carla?",opts:["Le regalò un gatto","Le portò un caffè e le mostrò le foto","La aiutò a cucinare","Le comprò dei fiori"],ci:1},
+    {q:"Cosa fece Giulia dopo quel giorno?",opts:["Adottò Fumo","Smise di guardare il balcone","Passava ogni tanto a trovare Signora Carla","Si trasferì in un altro appartamento"],ci:2},
+    {q:"Cosa capisce Giulia alla fine riguardo a Fumo?",opts:["Che Fumo non è un gatto vero","Che Fumo porta con sé un pezzo di un'altra storia","Che Fumo è pericoloso","Che Fumo non è il gatto della Signora Carla"],ci:1},
+   ]},
+ ]},
+
+// ──── PORTUGUESE ────
+{id:'praia-secreta',title:'A Praia Secreta',author:'ReadGym Originals',level:'B1',language:'pt',color:LC.B1,genre:'Aventura',
+ description:'Durante as férias, dois primos descobrem um caminho escondido até uma praia que ninguém conhece.',
+ chapters:[
+  {id:'ps-1',title:'O Caminho Escondido',
+   text:`Era o segundo dia das férias de verão quando Lucas encontrou o caminho. Estava explorando as pedras perto da casa da avó, como sempre fazia quando visitava a ilha, quando viu uma abertura estreita entre dois arbustos altos.\n\nEle chamou a prima Beatriz. "Ven cá ver isto."\n\nBeatriz veio a correr. Tinha doze anos, dois a mais que Lucas, e sempre achava que sabia mais do que ele. Mas desta vez, quando olhou para a abertura, ficou em silêncio.\n\n"Que é isso?" perguntou ela finalmente.\n\n"Não sei," disse Lucas. "Mas parece um caminho."\n\nOs arbustos eram altos e espessos, e era difícil ver o que havia do outro lado. O caminho era estreito — tinham de entrar de lado. Mas havia um caminho. Alguém, em algum momento, tinha passado por ali.`,
+   vocab:[
+    {word:'abertura',def:'um espaço aberto, uma entrada'},
+    {word:'arbustos',def:'plantas com muitos ramos, menores que árvores'},
+    {word:'estreito',def:'com pouco espaço de um lado para o outro'},
+    {word:'espessos',def:'muito densos, cheios, difíceis de atravessar'},
+    {word:'de lado',def:'com o corpo virado para o lado, não de frente'},
+   ],
+   quiz:[
+    {q:'O que Lucas encontrou perto das pedras?',opts:['Um tesouro','Um caminho escondido entre arbustos','Um animal','Uma velha cabana'],ci:1},
+    {q:'Quantos anos tinha Beatriz?',opts:['Dez anos','Onze anos','Doze anos','Catorze anos'],ci:2},
+    {q:'Como era o caminho que Lucas encontrou?',opts:['Largo e fácil de atravessar','Estreito, tinham de entrar de lado','Coberto de água','Bloqueado por pedras'],ci:1},
+    {q:'O que indica que alguém já tinha passado pelo caminho?',opts:['Havia pegadas','O caminho existia','Havia lixo no chão','As plantas estavam cortadas'],ci:1},
+   ]},
+  {id:'ps-2',title:'A Praia',
+   text:`Atravessaram o caminho devagar. Os arbustos arranhavam os braços, mas nenhum dos dois disse nada. Depois de uns vinte metros, o caminho abriu-se.\n\nLucas ficou sem fala.\n\nÀ frente deles estava uma pequena praia. A areia era branca e fina, e o mar era de um azul tão intenso que parecia irreal. Não havia mais ninguém — nem turistas, nem barcos, nem pegadas na areia.\n\n"Como é que ninguém sabe disto?" disse Beatriz em voz baixa, como se tivesse medo de quebrar algo frágil.\n\n"Talvez saibam," disse Lucas. "Mas não contam."\n\nSentaram-se na areia sem dizer mais nada. O sol estava alto, o mar estava calmo, e por um momento nenhum dos dois pensou em mais nada — não nas férias que acabavam dali a uma semana, não na escola que recomeçava em setembro. Só estava ali, naquele sítio pequeno e perfeito que pareciam ter encontrado só para eles.`,
+   vocab:[
+    {word:'arranhavam',def:'causavam pequenos cortes na pele ao passar'},
+    {word:'sem fala',def:'sem conseguir dizer nada, de surpresa'},
+    {word:'irreal',def:'tão bonito ou estranho que parece não ser verdade'},
+    {word:'frágil',def:'delicado, que pode partir ou desaparecer facilmente'},
+    {word:'recomeçava',def:'começava outra vez'},
+   ],
+   quiz:[
+    {q:'O que encontraram no fim do caminho?',opts:['Uma casa antiga','Uma pequena praia deserta','Um lago de água doce','Uma clareira na floresta'],ci:1},
+    {q:'Como era a praia?',opts:['Cheia de turistas','Com areia escura','Com areia branca e mar azul intenso','Com muitas pedras'],ci:2},
+    {q:'Por que Beatriz falou em voz baixa?',opts:['Estava cansada','Tinha medo de pessoas próximas','Como se tivesse medo de quebrar algo frágil','O eco era muito alto'],ci:2},
+    {q:'Em que pensavam os dois enquanto estavam na praia?',opts:['Na escola','Em nada, só estavam ali','Nos pais deles','Em como voltar para casa'],ci:1},
+   ]},
+  {id:'ps-3',title:'O Segredo',
+   text:`Voltaram à praia durante cinco dias seguidos. Cada vez levavam alguma coisa nova: um livro, uma bola, sanduíches que faziam de manhã sem acordar a avó.\n\nNo último dia, enquanto olhavam para o mar, Beatriz disse: "Vamos contar a alguém?"\n\nLucas pensou durante um momento. "Não sei. Se contarmos, deixa de ser nosso."\n\nBeatriz ficou calada. Depois de algum tempo, disse: "Mas se não contarmos, também deixa de ser nosso — deixa de ser de mais ninguém."\n\nEra uma boa questão. Lucas não tinha uma resposta.\n\nNo fim, não contaram a ninguém naquele verão. Mas Lucas tirou uma fotografia da praia com o telemóvel, sem ondas, sem nuvens, só a areia e o mar.\n\nAnos mais tarde, quando já era adulto e estava numa cidade grande com muito barulho, abria essa fotografia de vez em quando. E por um momento, voltava a sentir aquele silêncio perfeito.`,
+   vocab:[
+    {word:'seguidos',def:'um depois do outro, sem interrupção'},
+    {word:'acordar',def:'tirar alguém do sono'},
+    {word:'deixa de ser',def:'para de pertencer, perde essa qualidade'},
+    {word:'telemóvel',def:'telefone móvel (em Portugal)'},
+    {word:'de vez em quando',def:'às vezes, não sempre'},
+   ],
+   quiz:[
+    {q:'Quantos dias voltaram os primos à praia secreta?',opts:['Três dias','Quatro dias','Cinco dias','Sete dias'],ci:2},
+    {q:"Por que Lucas não queria contar a ninguém sobre a praia?",opts:["Era perigoso","Se contassem, deixava de ser deles","A avó ia zangar-se","Era ilegal"],ci:1},
+    {q:"Qual foi o argumento de Beatriz para contar?",opts:["Mais pessoas podiam limpar a praia","Se não contassem, deixava de ser de mais ninguém","Era mais divertido partilhar","A avó ia descobrir de qualquer forma"],ci:1},
+    {q:"O que Lucas fez para guardar a memória da praia?",opts:["Escreveu num diário","Tirou uma fotografia","Guardou um pouco de areia","Desenhou um mapa"],ci:1},
+   ]},
+ ]},
+];
+})();
+
+// ── ReadGym state ──
+let rgBook = null;
+let rgChapter = null;
+let rgSteps = [];
+let rgStepIdx = 0;
+let rgSelected = null;
+let rgVocabOk = 0;
+let rgQuizOk = 0;
+let rgDone = JSON.parse(localStorage.getItem('rg_done')||'{}');
+
+function rgSaveDone(){ localStorage.setItem('rg_done', JSON.stringify(rgDone)); }
+
+function rgIsLevelA1A2(){
+  const lvNum = currentLevelId ? parseInt((currentLevelId.split('-')[1])||'1') : 1;
+  return lvNum <= 2;
+}
+
+function rgGetXP(){
+  return JSON.parse(localStorage.getItem('rg_xp')||'0');
+}
+function rgAddXP(n){
+  const xp = rgGetXP() + n;
+  localStorage.setItem('rg_xp', JSON.stringify(xp));
+  return xp;
+}
+
+function rgShowView(id){
+  ['rg-library-view','rg-detail-view','rg-reader-view','rg-results-view']
+    .forEach(v=>{ document.getElementById(v).classList.toggle('rg-active', v===id); });
+}
+
+function rgShowLibrary(){
+  const langId = currentLangId || 'en';
+  const langNames = {en:'inglés',es:'español',fr:'francés',de:'alemán',it:'italiano',pt:'portugués'};
+  document.getElementById('rg-library-sub').textContent =
+    'Libros en ' + (langNames[langId]||langId) + ' · Elige uno para entrenar';
+
+  const books = RG_BOOKS.filter(b => b.language === langId);
+  const grid = document.getElementById('rg-book-grid');
+
+  if(!books.length){
+    grid.innerHTML = `<div class="rg-empty"><div class="rg-empty-icon">📚</div><p>Aún no hay libros disponibles en este idioma.<br>¡Próximamente!</p></div>`;
+  } else {
+    const levelEmoji = {A1:'🌱',A2:'🌿',B1:'📗',B2:'📘',C1:'📕'};
+    grid.innerHTML = books.map(b=>{
+      const done = b.chapters.filter(c=>rgDone[c.id]).length;
+      const doneStr = done>0 ? `${done}/${b.chapters.length} capítulos completados` : `${b.chapters.length} capítulos`;
+      return `<div class="rg-book-card" onclick="rgSelectBook('${b.id}')">
+        <div class="rg-book-dot" style="background:${b.color}20">${levelEmoji[b.level]||'📖'}</div>
+        <div class="rg-book-info">
+          <div class="rg-book-title">${b.title}</div>
+          <div class="rg-book-meta">
+            <span class="rg-level-badge rg-lvl-${b.level.toLowerCase()}">${b.level}</span>${b.genre}
+          </div>
+          <div class="rg-book-chapters">${doneStr}</div>
+        </div>
+        <span style="color:#aaa;font-size:18px">›</span>
+      </div>`;
+    }).join('');
+  }
+  rgShowView('rg-library-view');
+}
+
+function rgSelectBook(id){
+  rgBook = RG_BOOKS.find(b=>b.id===id);
+  if(!rgBook) return;
+  rgShowDetail();
+}
+
+function rgShowDetail(){
+  if(!rgBook) return;
+  document.getElementById('rg-detail-header').textContent = rgBook.title;
+  const levelEmoji = {A1:'🌱',A2:'🌿',B1:'📗',B2:'📘',C1:'📕'};
+  const body = document.getElementById('rg-detail-body');
+  body.innerHTML = `
+    <div class="rg-detail-hero">
+      <div class="rg-detail-dot" style="background:${rgBook.color}25">${levelEmoji[rgBook.level]||'📖'}</div>
+      <div class="rg-detail-title">${rgBook.title}</div>
+      <div class="rg-book-meta" style="margin-bottom:8px">
+        <span class="rg-level-badge rg-lvl-${rgBook.level.toLowerCase()}">${rgBook.level}</span>${rgBook.genre} · ${rgBook.author}
+      </div>
+      <div class="rg-detail-desc">${rgBook.description}</div>
+    </div>
+    <div class="rg-chapters-list">
+      <h3>Capítulos</h3>
+      ${rgBook.chapters.map((ch,i)=>{
+        const done = rgDone[ch.id];
+        return `<div class="rg-chapter-row" onclick="rgOpenChapter('${ch.id}')">
+          <div class="rg-chapter-num">${i+1}</div>
+          <div class="rg-chapter-title">${ch.title}</div>
+          ${done ? '<span class="rg-chapter-done">✓</span>' : '<span class="rg-chapter-arrow">›</span>'}
+        </div>`;
+      }).join('')}
+    </div>`;
+  rgShowView('rg-detail-view');
+}
+
+function rgOpenChapter(chId){
+  if(!rgBook) return;
+  rgChapter = rgBook.chapters.find(c=>c.id===chId);
+  if(!rgChapter) return;
+  document.getElementById('rg-reader-header').textContent = rgBook.title;
+  document.getElementById('rg-reader-chapter-title').textContent = rgChapter.title;
+  document.getElementById('rg-reader-text').textContent = rgChapter.text;
+  rgShowView('rg-reader-view');
+}
+
+function rgStartWorkout(){
+  if(!rgChapter) return;
+  const useEs = rgIsLevelA1A2();
+
+  function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+  const vocab = shuffle(rgChapter.vocab).map(v=>{
+    const distractors = shuffle(rgChapter.vocab.filter(o=>o.word!==v.word)).slice(0,2).map(o=>useEs&&o.defEs?o.defEs:o.def);
+    const correct = useEs&&v.defEs ? v.defEs : v.def;
+    const allOpts = shuffle([correct,...distractors]);
+    return {kind:'vocab',word:v.word,correct,opts:allOpts};
+  });
+
+  const quiz = rgChapter.quiz.map(q=>{
+    const question = useEs&&q.qEs ? q.qEs : q.q;
+    const opts = useEs&&q.optsEs ? q.optsEs : q.opts;
+    return {kind:'quiz',question,opts,ci:q.ci};
+  });
+
+  rgSteps = [...vocab,...quiz];
+  rgStepIdx = 0;
+  rgSelected = null;
+  rgVocabOk = 0;
+  rgQuizOk = 0;
+
+  const workout = document.getElementById('rg-workout-view');
+  workout.classList.add('rg-wk-open');
+  document.getElementById('rg-wk-cont').disabled = true;
+  document.getElementById('rg-wk-cont').textContent = 'Continuar';
+  rgRenderStep();
+}
+
+function rgRenderStep(){
+  const step = rgSteps[rgStepIdx];
+  const total = rgSteps.length;
+  const pct = (rgStepIdx/total)*100;
+
+  document.getElementById('rg-wk-fill').style.width = pct+'%';
+  document.getElementById('rg-wk-counter').textContent = (rgStepIdx+1)+'/'+total;
+  document.getElementById('rg-wk-cont').disabled = true;
+
+  const isLast = rgStepIdx+1 >= total;
+  document.getElementById('rg-wk-cont').textContent = isLast ? '¡Terminar! 🎉' : 'Continuar';
+
+  const card = document.getElementById('rg-wk-card');
+  if(step.kind==='vocab'){
+    const label = rgIsLevelA1A2() ? 'Vocabulario · ¿Qué significa?' : 'Vocabulary · What does it mean?';
+    card.innerHTML = `
+      <div class="rg-wk-label">${label}</div>
+      <div class="rg-wk-question">¿Qué significa <em>${step.word}</em>?</div>
+      <div class="rg-wk-options" id="rg-opts"></div>`;
+  } else {
+    const label = rgIsLevelA1A2() ? 'Comprensión de lectura' : 'Reading Comprehension';
+    card.innerHTML = `
+      <div class="rg-wk-label">${label}</div>
+      <div class="rg-wk-question">${step.question}</div>
+      <div class="rg-wk-options" id="rg-opts"></div>`;
+  }
+
+  const optsEl = document.getElementById('rg-opts');
+  step.opts.forEach((opt,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'rg-wk-opt';
+    btn.textContent = opt;
+    btn.onclick = ()=>rgSelectOpt(i);
+    optsEl.appendChild(btn);
+  });
+}
+
+function rgSelectOpt(i){
+  if(rgSelected!==null) return;
+  rgSelected = i;
+
+  const step = rgSteps[rgStepIdx];
+  let correctIdx;
+  if(step.kind==='vocab'){
+    correctIdx = step.opts.indexOf(step.correct);
+  } else {
+    const useEs = rgIsLevelA1A2();
+    const opts = useEs&&rgChapter.quiz[rgStepIdx-rgChapter.vocab.length]?.optsEs
+      ? step.opts : step.opts;
+    correctIdx = step.ci;
+  }
+
+  const btns = document.querySelectorAll('#rg-opts .rg-wk-opt');
+  btns.forEach((btn,idx)=>{
+    if(idx===correctIdx) btn.classList.add('rg-correct');
+    else if(idx===i && i!==correctIdx) btn.classList.add('rg-wrong');
+    else btn.classList.add('rg-dim');
+    btn.disabled = true;
+  });
+
+  const isCorrect = (i===correctIdx);
+  if(isCorrect){
+    if(step.kind==='vocab') rgVocabOk++;
+    else rgQuizOk++;
+  }
+
+  document.getElementById('rg-wk-cont').disabled = false;
+}
+
+function rgNextStep(){
+  rgStepIdx++;
+  rgSelected = null;
+  if(rgStepIdx>=rgSteps.length){
+    rgFinishWorkout();
+    return;
+  }
+  rgRenderStep();
+}
+
+function rgExitWorkout(){
+  document.getElementById('rg-workout-view').classList.remove('rg-wk-open');
+}
+
+function rgFinishWorkout(){
+  document.getElementById('rg-workout-view').classList.remove('rg-wk-open');
+
+  const vocabTotal = rgSteps.filter(s=>s.kind==='vocab').length;
+  const quizTotal = rgSteps.filter(s=>s.kind==='quiz').length;
+  let xp = rgVocabOk*8 + rgQuizOk*15;
+  if(quizTotal>0 && rgQuizOk===quizTotal) xp+=20;
+
+  rgDone[rgChapter.id] = true;
+  rgSaveDone();
+  rgAddXP(xp);
+
+  const pct = quizTotal>0 ? Math.round((rgQuizOk/quizTotal)*100) : 100;
+  const emoji = pct>=80?'🏆':pct>=50?'⭐':'💪';
+
+  document.getElementById('rg-results-body').innerHTML = `
+    <div class="rg-results-header">
+      <div class="rg-results-icon">${emoji}</div>
+      <div class="rg-results-title">${pct>=80?'¡Excelente!':pct>=50?'¡Buen trabajo!':'¡Lo intentaste!'}</div>
+      <div class="rg-results-sub">${rgChapter.title}</div>
+    </div>
+    <div class="rg-results-cards">
+      <div class="rg-results-stat">
+        <div class="rg-stat-val">${rgQuizOk}/${quizTotal}</div>
+        <div class="rg-stat-lbl">Comprensión</div>
+      </div>
+      <div class="rg-results-stat">
+        <div class="rg-stat-val">${rgVocabOk}/${vocabTotal}</div>
+        <div class="rg-stat-lbl">Vocabulario</div>
+      </div>
+    </div>
+    <div class="rg-results-xp">
+      <div class="rg-xp-val">+${xp} XP</div>
+      <div class="rg-xp-lbl">¡Ganaste puntos de experiencia!</div>
+    </div>
+    <div class="rg-results-btns">
+      <button class="rg-results-btn primary" onclick="rgShowDetail()">← Volver al libro</button>
+      <button class="rg-results-btn secondary" onclick="rgShowLibrary()">📚 Biblioteca</button>
+    </div>`;
+
+  rgShowView('rg-results-view');
 }
 
 function _buildQuizPool(){
