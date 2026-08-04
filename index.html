@@ -416,6 +416,30 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .swipe-hint{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);color:#fff;font-size:12px;font-weight:600;padding:7px 16px;border-radius:999px;pointer-events:none;z-index:600;opacity:0;transition:opacity .3s;}
 .swipe-hint.show{opacity:1;}
 
+/* ─── CHAT IA MODE ─── */
+#screen-chat{display:none;}
+#screen-chat.chat-open{display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;bottom:62px;background:var(--bg);z-index:300;overflow:hidden;}
+.chat-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1.5px solid var(--line);background:var(--card);flex-shrink:0;}
+.chat-lang-info{display:flex;align-items:center;gap:10px;}
+.chat-lang-flag{width:28px;height:28px;border-radius:50%;flex-shrink:0;}
+.chat-lang-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:var(--ink);}
+.chat-level-tag{font-size:11px;color:var(--ink-soft);font-weight:600;}
+.chat-clear-btn{background:none;border:none;cursor:pointer;font-size:18px;padding:4px;color:var(--ink-soft);}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
+.chat-bubble{max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.5;word-break:break-word;}
+.chat-bubble-user{align-self:flex-end;background:var(--green-deep);color:#fff;border-bottom-right-radius:5px;}
+.chat-bubble-bot{align-self:flex-start;background:var(--card);border:1.5px solid var(--line);color:var(--ink);border-bottom-left-radius:5px;}
+.chat-bubble-bot.error{border-color:var(--red);color:var(--red);}
+.chat-typing{align-self:flex-start;background:var(--card);border:1.5px solid var(--line);border-radius:18px;border-bottom-left-radius:5px;padding:12px 16px;display:flex;gap:5px;align-items:center;}
+.chat-typing span{width:7px;height:7px;border-radius:50%;background:var(--ink-soft);animation:chatDot 1.2s infinite;}
+.chat-typing span:nth-child(2){animation-delay:.2s;}
+.chat-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes chatDot{0%,80%,100%{transform:scale(.6);opacity:.4;}40%{transform:scale(1);opacity:1;}}
+.chat-input-row{display:flex;align-items:center;gap:8px;padding:10px 14px;border-top:1.5px solid var(--line);background:var(--card);flex-shrink:0;}
+.chat-input{flex:1;border:1.5px solid var(--line);border-radius:22px;padding:10px 16px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);outline:none;}
+.chat-input:focus{border-color:var(--green);}
+.chat-send-btn{width:40px;height:40px;border-radius:50%;background:var(--green-deep);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.chat-send-btn:disabled{opacity:.4;cursor:default;}
 /* ─── READGYM SCREEN ─── */
 #screen-readgym{display:none;padding-bottom:80px;text-align:center;}
 .rg-hero{padding:32px 16px 20px;}
@@ -543,6 +567,26 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
     </button>
   </div>
   <div id="swipeHint" class="swipe-hint">← desliza para cambiar modo →</div>
+
+  <!-- SCREEN CHAT IA -->
+  <div id="screen-chat">
+    <div class="chat-header">
+      <div class="chat-lang-info">
+        <div class="chat-lang-flag" id="chatLangFlag"></div>
+        <div>
+          <div class="chat-lang-name" id="chatLangName">Chat IA</div>
+          <div class="chat-level-tag" id="chatLevelTag">Tutor personalizado</div>
+        </div>
+      </div>
+      <button type="button" class="chat-clear-btn" onclick="clearChat()" title="Nueva conversación">🗑️</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" class="chat-input" placeholder="Escribe tu mensaje..." maxlength="300"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChatMessage();}">
+      <button type="button" class="chat-send-btn" id="chatSendBtn" onclick="sendChatMessage()">➤</button>
+    </div>
+  </div>
 
   <!-- SCREEN READGYM -->
   <div id="screen-readgym">
@@ -3377,6 +3421,8 @@ function _hideNewScreens(){
   ['screen-flashcards','screen-quiz','screen-readgym'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.style.display='none';
   });
+  const chat=document.getElementById('screen-chat');
+  if(chat) chat.classList.remove('chat-open');
 }
 
 function _showTabBar(show){
@@ -3402,8 +3448,7 @@ function switchTab(tab){
   if(tab==='lesson'){
     showPathScreen(currentLangId);
   } else if(tab==='chat'){
-    showPathScreen(currentLangId);
-    setTimeout(()=>toast('💬 Toca el botón Chat en cualquier estación'),400);
+    _enterChatMode();
   } else if(tab==='flashcards'){
     _enterFlashcardMode();
   } else if(tab==='quiz'){
@@ -3451,6 +3496,164 @@ function showHomeScreen(){ switchTab('lesson'); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',_init);
   else _init();
 })();
+
+// ══════════════════════════════════
+//  CHAT IA MODE
+// ══════════════════════════════════
+let _chatHistory = [];
+let _chatBusy = false;
+
+const _CHAT_WELCOME = {
+  fr: 'Bonjour ! 👋 Je suis ton tuteur de français. On peut pratiquer la conversation, réviser du vocabulaire ou poser des questions sur la grammaire. Par où veux-tu commencer ?',
+  en: 'Hello! 👋 I\'m your English tutor. We can practice conversation, review vocabulary, or work on grammar. What would you like to start with?',
+  de: 'Hallo! 👋 Ich bin dein Deutschtutor. Wir können Konversation üben, Vokabeln wiederholen oder Grammatik besprechen. Womit möchtest du beginnen?',
+  pt: 'Olá! 👋 Eu sou o seu tutor de português. Podemos praticar conversação, revisar vocabulário ou trabalhar na gramática. Por onde quer começar?',
+  it: 'Ciao! 👋 Sono il tuo tutor d\'italiano. Possiamo praticare la conversazione, ripassare il vocabolario o lavorare sulla grammatica. Da dove vuoi cominciare?',
+  es: '¡Hola! 👋 Soy tu tutor de español. Podemos practicar conversación, repasar vocabulario o trabajar en gramática. ¿Por dónde quieres empezar?'
+};
+
+function _getChatContext() {
+  const langId = currentLangId || 'en';
+  const lang = LANGUAGES.find(l => l.id === langId) || {};
+  const levelId = currentLevelId || (langId + '-1');
+  const langLevels = LEVELS[langId] || [];
+  const level = langLevels.find(l => l.id === levelId) || langLevels[0] || {};
+  const topics = (window.LP_TOPICS[levelId] || []).filter(t => !t.isChat).map(t => t.title).slice(0, 10);
+  return {
+    langId,
+    languageName: lang.nameEs || lang.name || 'inglés',
+    langNativeName: lang.name || 'English',
+    levelName: level.name || 'Nivel 1 — A1',
+    levelDesc: level.desc || '',
+    flagCss: lang.flagCss || '#888',
+    topics
+  };
+}
+
+function _enterChatMode() {
+  _hideNewScreens();
+  document.getElementById('screen-langs').style.display = 'none';
+  document.getElementById('screen-levels').style.display = 'none';
+  document.getElementById('screen-path').style.display = 'none';
+  document.getElementById('mapview').style.display = 'none';
+  document.getElementById('topicview').classList.remove('active');
+  const screen = document.getElementById('screen-chat');
+  screen.classList.add('chat-open');
+  _setActiveTab('chat');
+  _showTabBar(true);
+
+  const ctx = _getChatContext();
+  // Update header
+  const flagEl = document.getElementById('chatLangFlag');
+  if (flagEl) flagEl.style.background = ctx.flagCss;
+  const nameEl = document.getElementById('chatLangName');
+  if (nameEl) nameEl.textContent = 'Chat IA · ' + ctx.languageName;
+  const levelEl = document.getElementById('chatLevelTag');
+  if (levelEl) levelEl.textContent = ctx.levelName;
+
+  // Show welcome if first time or new lang
+  const msgs = document.getElementById('chatMessages');
+  if (msgs && msgs.children.length === 0) {
+    const welcome = _CHAT_WELCOME[ctx.langId] || _CHAT_WELCOME['en'];
+    _appendBotBubble(welcome);
+  }
+  // Focus input
+  setTimeout(() => {
+    const inp = document.getElementById('chatInput');
+    if (inp) inp.focus();
+  }, 300);
+}
+
+function _appendUserBubble(text) {
+  const msgs = document.getElementById('chatMessages');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'chat-bubble chat-bubble-user';
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function _appendBotBubble(text, isError) {
+  const msgs = document.getElementById('chatMessages');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'chat-bubble chat-bubble-bot' + (isError ? ' error' : '');
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+function _showTyping() {
+  const msgs = document.getElementById('chatMessages');
+  if (!msgs) return null;
+  const div = document.createElement('div');
+  div.className = 'chat-typing';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+async function sendChatMessage() {
+  if (_chatBusy) return;
+  const inp = document.getElementById('chatInput');
+  if (!inp) return;
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+
+  _chatBusy = true;
+  const sendBtn = document.getElementById('chatSendBtn');
+  if (sendBtn) sendBtn.disabled = true;
+
+  _appendUserBubble(text);
+  const typing = _showTyping();
+  const ctx = _getChatContext();
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        languageName: ctx.languageName,
+        levelName: ctx.levelName,
+        levelDesc: ctx.levelDesc,
+        topics: ctx.topics,
+        history: _chatHistory.slice(-10)
+      })
+    });
+    const data = await res.json();
+    if (typing) typing.remove();
+    if (res.ok && data.reply) {
+      _chatHistory.push({ role: 'user', content: text });
+      _chatHistory.push({ role: 'assistant', content: data.reply });
+      _appendBotBubble(data.reply);
+    } else {
+      _appendBotBubble(data.error || 'Error al conectar con la IA. Revisa tu conexión.', true);
+    }
+  } catch(e) {
+    if (typing) typing.remove();
+    _appendBotBubble('Sin conexión. Verifica tu internet e intenta de nuevo.', true);
+  }
+
+  _chatBusy = false;
+  if (sendBtn) sendBtn.disabled = false;
+  const msgs = document.getElementById('chatMessages');
+  if (msgs) msgs.scrollTop = msgs.scrollHeight;
+  inp.focus();
+}
+
+function clearChat() {
+  _chatHistory = [];
+  const msgs = document.getElementById('chatMessages');
+  if (msgs) msgs.innerHTML = '';
+  const ctx = _getChatContext();
+  const welcome = _CHAT_WELCOME[ctx.langId] || _CHAT_WELCOME['en'];
+  _appendBotBubble(welcome);
+}
 
 // ══════════════════════════════════
 //  FLASHCARD MODE
