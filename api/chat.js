@@ -39,7 +39,7 @@ Instrucciones:
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
+        model: 'claude-haiku-4-5',
         max_tokens: 350,
         system,
         messages: [...trimmedHistory, { role: 'user', content: message }]
@@ -49,7 +49,9 @@ Instrucciones:
     if (!r.ok) {
       const t = await r.text();
       console.error('Anthropic API error:', r.status, t);
-      return res.status(502).json({ error: 'Error del servicio IA' });
+      const errBody = { error: `Error del servicio IA (${r.status})` };
+      if (r.status === 401) errBody.error = 'API key inválida. Verifica ANTHROPIC_API_KEY en Vercel.';
+      return res.status(502).json(errBody);
     }
 
     const data = await r.json();
