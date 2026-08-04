@@ -401,6 +401,95 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .skip-result-emoji{font-size:64px;margin-bottom:12px;display:block;}
 .skip-result-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:22px;margin:0 0 8px;color:var(--ink);}
 .skip-result-sub{font-size:14px;color:var(--ink-soft);margin-bottom:24px;line-height:1.5;}
+
+/* ─── MODE TAB BAR (bottom) ─── */
+#screen-home{display:none;}
+#modeTabBar{position:fixed;bottom:0;left:0;right:0;z-index:500;display:none;background:var(--card);border-top:1.5px solid var(--line);box-shadow:0 -2px 12px rgba(0,0,0,.08);padding:6px 0 env(safe-area-inset-bottom,6px);}
+#modeTabBar.visible{display:flex;}
+.mode-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;padding:6px 4px 4px;font-family:'Inter',sans-serif;color:var(--ink-soft);transition:color .15s;}
+.mode-tab .mtab-icon{font-size:20px;line-height:1;}
+.mode-tab .mtab-label{font-size:9px;font-weight:700;letter-spacing:.01em;}
+.mode-tab.active{color:var(--green-deep);}
+.mode-tab.active .mtab-icon{filter:drop-shadow(0 1px 4px rgba(29,155,240,.4));}
+/* swipe hint flash */
+@keyframes swipeHint{0%{opacity:.7;transform:translateX(0);}50%{opacity:1;transform:translateX(-6px);}100%{opacity:.7;transform:translateX(0);}}
+.swipe-hint{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);color:#fff;font-size:12px;font-weight:600;padding:7px 16px;border-radius:999px;pointer-events:none;z-index:600;opacity:0;transition:opacity .3s;}
+.swipe-hint.show{opacity:1;}
+
+/* ─── READGYM SCREEN ─── */
+#screen-readgym{display:none;padding-bottom:80px;text-align:center;}
+.rg-hero{padding:32px 16px 20px;}
+.rg-logo{font-size:64px;line-height:1;margin-bottom:10px;}
+.rg-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:28px;color:var(--ink);margin:0 0 6px;}
+.rg-sub{font-size:14px;color:var(--ink-soft);margin:0;}
+.rg-features{display:flex;flex-direction:column;gap:12px;padding:0 4px 20px;text-align:left;}
+.rg-feature{display:flex;align-items:flex-start;gap:14px;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:16px;}
+.rg-feat-icon{font-size:28px;flex-shrink:0;line-height:1;margin-top:2px;}
+.rg-feature strong{display:block;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:var(--ink);margin-bottom:3px;}
+.rg-feature span{font-size:13px;color:var(--ink-soft);line-height:1.4;}
+.rg-badge{display:inline-block;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;font-size:12px;font-weight:800;padding:6px 16px;border-radius:999px;letter-spacing:.04em;margin-bottom:10px;}
+.rg-coming{font-size:13px;color:var(--ink-soft);margin:0;padding:0 20px;}
+
+/* ─── FLASHCARD MODE ─── */
+#screen-flashcards{display:none;padding-bottom:80px;}
+.fc-header{margin-bottom:18px;}
+.fc-progress{font-size:13px;color:var(--ink-soft);font-weight:600;margin-bottom:6px;font-family:'Space Grotesk',sans-serif;}
+.fc-bar-wrap{height:7px;background:var(--line);border-radius:999px;overflow:hidden;}
+.fc-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--green-deep));border-radius:999px;transition:width .4s;}
+.fc-scene{perspective:1000px;margin:0 0 18px;}
+.fc-flip{position:relative;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.4,0,.2,1);cursor:pointer;height:240px;}
+.fc-flip.flipped{transform:rotateY(180deg);}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px;}
+.fc-front{background:linear-gradient(150deg,#DBEAFE,#EFF6FF);border:2px solid rgba(29,155,240,.2);}
+.fc-back{background:linear-gradient(150deg,#D1FAE5,#ECFDF5);border:2px solid rgba(16,185,129,.25);transform:rotateY(180deg);}
+.fc-emoji{font-size:58px;margin-bottom:12px;}
+.fc-word{font-size:22px;font-weight:800;color:var(--ink);font-family:'Space Grotesk',sans-serif;margin-bottom:4px;text-align:center;}
+.fc-hint{font-size:12px;color:var(--ink-soft);}
+.fc-translation{font-size:20px;font-weight:700;color:#065F46;text-align:center;font-family:'Space Grotesk',sans-serif;margin-bottom:6px;}
+.fc-lang-tag{font-size:12px;color:#10B981;font-weight:700;}
+.fc-tap-hint{font-size:12px;color:var(--ink-soft);font-style:italic;text-align:center;margin-bottom:14px;}
+.fc-actions{display:flex;gap:12px;}
+.fc-btn-know{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(145deg,#10B981,#059669);color:#fff;border:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;padding:14px;border-radius:13px;cursor:pointer;box-shadow:0 3px 0 #047857;}
+.fc-btn-know:active{transform:translateY(2px);box-shadow:none;}
+.fc-btn-review{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;background:var(--card);color:var(--ink);border:2.5px solid var(--line);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;padding:14px;border-radius:13px;cursor:pointer;}
+.fc-btn-review:active{transform:translateY(1px);}
+.fc-done{display:none;text-align:center;padding:30px 0;}
+.fc-done.show{display:block;}
+
+/* ─── WEEKLY QUIZ MODE ─── */
+#screen-quiz{display:none;padding-bottom:80px;}
+.quiz-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.quiz-counter{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;color:var(--ink-soft);}
+.quiz-q-bar{height:7px;background:var(--line);border-radius:999px;margin-bottom:18px;overflow:hidden;}
+.quiz-q-fill{height:100%;background:linear-gradient(90deg,#7C3AED,#6D28D9);border-radius:999px;transition:width .4s;}
+.quiz-question{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:18px;line-height:1.5;}
+.quiz-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.quiz-opt{background:var(--card2);border:2.5px solid var(--line);border-radius:13px;padding:14px 16px;font-size:15px;font-weight:600;cursor:pointer;transition:.12s;color:var(--ink);text-align:left;}
+.quiz-opt:hover:not(.q-correct):not(.q-wrong){border-color:var(--blue);}
+.quiz-opt.q-correct{background:rgba(29,155,240,.12);border-color:var(--green);color:var(--green-deep);}
+.quiz-opt.q-wrong{background:rgba(255,75,75,.1);border-color:var(--red);color:var(--red);}
+.quiz-next-btn{width:100%;background:linear-gradient(145deg,#7C3AED,#6D28D9);color:#fff;border:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;padding:15px;border-radius:13px;cursor:pointer;display:none;}
+.quiz-next-btn.show{display:block;}
+.quiz-next-btn:disabled{opacity:.4;}
+.quiz-result{display:none;text-align:center;padding:20px 0;}
+.quiz-result.show{display:block;}
+.quiz-result-emoji{font-size:64px;display:block;margin-bottom:12px;}
+.quiz-result-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:23px;margin:0 0 8px;}
+.quiz-result-sub{font-size:14px;color:var(--ink-soft);margin-bottom:22px;line-height:1.55;}
+.quiz-score-ring{width:100px;height:100px;margin:0 auto 18px;position:relative;}
+.quiz-score-ring svg{display:block;}
+.quiz-score-pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:22px;color:var(--ink);}
+.quiz-score-pct span{font-size:11px;font-weight:600;color:var(--ink-soft);}
+.quiz-retry-btn{display:inline-block;background:linear-gradient(145deg,#7C3AED,#6D28D9);color:#fff;border:none;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;padding:14px 32px;border-radius:13px;cursor:pointer;margin-bottom:10px;}
+.quiz-home-btn{display:block;background:var(--card);color:var(--ink);border:2px solid var(--line);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;padding:13px;border-radius:13px;cursor:pointer;width:100%;}
+.quiz-home-btn.mt{margin-top:10px;}
+.fc-bar{width:0;}
+.quiz-q-fill{width:0;}
+.fc-done-emoji{font-size:60px;display:block;margin-bottom:14px;}
+.fc-done-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:22px;margin-bottom:8px;color:var(--ink);}
+.fc-done-sub{font-size:14px;color:var(--ink-soft);margin-bottom:24px;line-height:1.55;}
+.quiz-xp-sm{font-size:12px;}
+#quizScoreArc{transition:stroke-dashoffset 1s ease;}
 </style>
 </head>
 <body>
@@ -427,6 +516,129 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
       <input id="regInput" class="reg-input" type="text" placeholder="Tu nombre..." maxlength="25" autocomplete="given-name" onkeydown="if(event.key==='Enter')doRegister()">
       <button type="button" class="reg-btn" onclick="doRegister()">🚀 Empezar a aprender</button>
       <div class="reg-note">💾 Tu progreso nunca se borrará</div>
+    </div>
+  </div>
+
+  <!-- MODE TAB BAR (fixed bottom) -->
+  <div id="modeTabBar">
+    <button type="button" class="mode-tab active" id="tab-lesson" onclick="switchTab('lesson')">
+      <span class="mtab-icon">📚</span>
+      <span class="mtab-label">Lección</span>
+    </button>
+    <button type="button" class="mode-tab" id="tab-chat" onclick="switchTab('chat')">
+      <span class="mtab-icon">💬</span>
+      <span class="mtab-label">Chat IA</span>
+    </button>
+    <button type="button" class="mode-tab" id="tab-flashcards" onclick="switchTab('flashcards')">
+      <span class="mtab-icon">🃏</span>
+      <span class="mtab-label">Repaso</span>
+    </button>
+    <button type="button" class="mode-tab" id="tab-quiz" onclick="switchTab('quiz')">
+      <span class="mtab-icon">📝</span>
+      <span class="mtab-label">Quiz</span>
+    </button>
+    <button type="button" class="mode-tab" id="tab-readgym" onclick="switchTab('readgym')">
+      <span class="mtab-icon">📖</span>
+      <span class="mtab-label">ReadGym</span>
+    </button>
+  </div>
+  <div id="swipeHint" class="swipe-hint">← desliza para cambiar modo →</div>
+
+  <!-- SCREEN READGYM -->
+  <div id="screen-readgym">
+    <div class="rg-hero">
+      <div class="rg-logo">📖</div>
+      <h2 class="rg-title">ReadGym</h2>
+      <p class="rg-sub">Tu gimnasio de lectura en inglés</p>
+    </div>
+    <div class="rg-features">
+      <div class="rg-feature">
+        <span class="rg-feat-icon">🏋️</span>
+        <div>
+          <strong>Entrena leyendo</strong>
+          <span>Capítulos cortos con ejercicios de comprensión</span>
+        </div>
+      </div>
+      <div class="rg-feature">
+        <span class="rg-feat-icon">📊</span>
+        <div>
+          <strong>Sube de nivel</strong>
+          <span>Gana XP, mantén tu racha y desbloquea rangos</span>
+        </div>
+      </div>
+      <div class="rg-feature">
+        <span class="rg-feat-icon">🤖</span>
+        <div>
+          <strong>IA personalizada</strong>
+          <span>Preguntas generadas por IA según tu nivel</span>
+        </div>
+      </div>
+    </div>
+    <div class="rg-badge">🚧 Próximamente</div>
+    <p class="rg-coming">ReadGym está en desarrollo. ¡Muy pronto disponible aquí!</p>
+  </div>
+
+  <!-- SCREEN FLASHCARDS -->
+  <div id="screen-flashcards">
+    <button type="button" class="backbtn" onclick="showHomeScreen()">← Inicio</button>
+    <div class="fc-header">
+      <div class="fc-progress" id="fcProgress">Tarjeta 1 de 1</div>
+      <div class="fc-bar-wrap"><div class="fc-bar" id="fcBar"></div></div>
+    </div>
+    <div class="fc-scene">
+      <div class="fc-flip" id="fcFlip" onclick="flipCard()">
+        <div class="fc-face fc-front">
+          <span class="fc-emoji" id="fcEmoji">📚</span>
+          <div class="fc-word" id="fcWord">Palabra</div>
+          <div class="fc-hint">👆 Toca para ver la traducción</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-translation" id="fcTranslation">Traducción</div>
+          <div class="fc-lang-tag">Español</div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-tap-hint" id="fcTapHint">Voltea la tarjeta antes de calificar</div>
+    <div class="fc-actions">
+      <button type="button" class="fc-btn-review" onclick="fcAnswer(false)">↩ Repasar</button>
+      <button type="button" class="fc-btn-know" onclick="fcAnswer(true)">✓ Lo sé</button>
+    </div>
+    <div class="fc-done" id="fcDone">
+      <span class="fc-done-emoji">🎉</span>
+      <div class="fc-done-title" id="fcDoneTitle">¡Sesión completada!</div>
+      <div class="fc-done-sub" id="fcDoneSub"></div>
+      <button type="button" class="mode-enter-btn" onclick="startFlashcards()">🔄 Otra ronda</button>
+      <button type="button" class="quiz-home-btn mt" onclick="showHomeScreen()">← Volver al inicio</button>
+    </div>
+  </div>
+
+  <!-- SCREEN QUIZ -->
+  <div id="screen-quiz">
+    <button type="button" class="backbtn" onclick="showHomeScreen()">← Inicio</button>
+    <div id="quizGame">
+      <div class="quiz-header">
+        <span class="quiz-counter" id="quizCounter">Pregunta 1 de 10</span>
+        <span class="xp-pill quiz-xp-sm">⭐ <span id="quizXPEarned">0</span> XP</span>
+      </div>
+      <div class="quiz-q-bar"><div class="quiz-q-fill" id="quizFill"></div></div>
+      <div class="quiz-question" id="quizQ"></div>
+      <div class="quiz-opts" id="quizOpts"></div>
+      <button type="button" class="quiz-next-btn" id="quizNextBtn" onclick="quizNext()">Siguiente →</button>
+    </div>
+    <div class="quiz-result" id="quizResult">
+      <div class="quiz-score-ring">
+        <svg viewBox="0 0 100 100" width="100" height="100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="var(--line)" stroke-width="10"/>
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#7C3AED" stroke-width="10"
+            stroke-dasharray="264" id="quizScoreArc" stroke-dashoffset="264"
+            stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        </svg>
+        <div class="quiz-score-pct"><span id="quizScoreNum">0</span><span>/ 10</span></div>
+      </div>
+      <div class="quiz-result-title" id="quizResultTitle">¡Bien hecho!</div>
+      <div class="quiz-result-sub" id="quizResultSub"></div>
+      <button type="button" class="quiz-retry-btn" onclick="startQuiz()">🔄 Otro cuestionario</button>
+      <button type="button" class="quiz-home-btn" onclick="showHomeScreen()">← Volver al inicio</button>
     </div>
   </div>
 
@@ -1861,10 +2073,12 @@ function selectLang(id){
   history.pushState({lp:'levels',lang:id},'');
 }
 function showLangScreen(){
+  _hideNewScreens();
   document.getElementById('screen-langs').style.display='block';
   document.getElementById('screen-levels').style.display='none';
   document.getElementById('mapview').style.display='none';
   document.getElementById('topicview').classList.remove('active');
+  _showTabBar(false);
   renderLangGrid();
 }
 function isLevelLocked(langId, levelIdx){
@@ -2047,11 +2261,13 @@ function showPathScreen(langId){
   if(!currentLangId) currentLangId=(LANGUAGES.find(l=>l.active)||{}).id;
   lsSet('lastLang',currentLangId);
   const langObj=LANGUAGES.find(l=>l.id===currentLangId)||{};
+  _hideNewScreens();
   document.getElementById('screen-langs').style.display='none';
   document.getElementById('screen-levels').style.display='none';
   document.getElementById('mapview').style.display='none';
   document.getElementById('screen-path').style.display='block';
   document.getElementById('topicview').classList.remove('active');
+  _showTabBar(true);
   const sub=document.getElementById('topbarSub');
   if(sub){ const n=getUserName(); sub.textContent=n?`Hola, ${n} 👋`:langObj.name||''; }
   updateStreakDisplay();
@@ -2402,6 +2618,7 @@ function renderExplanation(t){
   view.classList.add('active');
   document.getElementById('mapview').style.display='none';
   document.getElementById('screen-path').style.display='none';
+  _showTabBar(false);
   const example = getExamplePhrase(t);
   let html = `<button type="button" class="backbtn" onclick="backToMap()">${uiT('backToMap')}</button>
   <div class="thead"><div class="nbadge">${t.emoji}</div><div><h2>${t.title}</h2><span>${t.cardDesc}</span></div></div>
@@ -3004,6 +3221,8 @@ function navigateBack(){
   else if(topicActive){ backToMap(); }
   else if(document.getElementById('mapview').style.display!=='none'){ showLevelScreen(); }
   else if(document.getElementById('screen-levels').style.display!=='none'){ showLangScreen(); }
+  else if(document.getElementById('screen-path').style.display!=='none'){ showLangScreen(); }
+  else if(document.getElementById('screen-langs').style.display!=='none'){ /* already at top */ }
 }
 
 window.addEventListener('popstate', navigateBack);
@@ -3148,12 +3367,316 @@ function doRegister(){
   startApp();
 }
 
+// ══════════════════════════════════
+//  MODE TAB BAR + SWIPE
+// ══════════════════════════════════
+let _currentTab = 'lesson';
+const _TAB_ORDER = ['lesson','chat','flashcards','quiz','readgym'];
+
+function _hideNewScreens(){
+  ['screen-flashcards','screen-quiz','screen-readgym'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.style.display='none';
+  });
+}
+
+function _showTabBar(show){
+  const bar=document.getElementById('modeTabBar');
+  if(bar) bar.classList.toggle('visible', show);
+}
+
+function _setActiveTab(tab){
+  _currentTab=tab;
+  _TAB_ORDER.forEach(t=>{
+    const el=document.getElementById('tab-'+t);
+    if(el) el.classList.toggle('active',t===tab);
+  });
+}
+
+function switchTab(tab){
+  _hideNewScreens();
+  document.getElementById('screen-langs').style.display='none';
+  document.getElementById('screen-levels').style.display='none';
+  document.getElementById('mapview').style.display='none';
+  document.getElementById('topicview').classList.remove('active');
+  _setActiveTab(tab);
+  if(tab==='lesson'){
+    showPathScreen(currentLangId);
+  } else if(tab==='chat'){
+    showPathScreen(currentLangId);
+    setTimeout(()=>toast('💬 Toca el botón Chat en cualquier estación'),400);
+  } else if(tab==='flashcards'){
+    _enterFlashcardMode();
+  } else if(tab==='quiz'){
+    _enterQuizMode();
+  } else if(tab==='readgym'){
+    _enterReadGymMode();
+  }
+}
+
+// Show home = show lesson tab (called by back buttons on flashcards/quiz)
+function showHomeScreen(){ switchTab('lesson'); }
+
+// Swipe detection for main screens
+(function(){
+  let _sx=null, _sy=null;
+  function _onStart(e){
+    const t=e.touches?e.touches[0]:e;
+    _sx=t.clientX; _sy=t.clientY;
+  }
+  function _onEnd(e){
+    if(_sx===null) return;
+    const t=e.changedTouches?e.changedTouches[0]:e;
+    const dx=t.clientX-_sx, dy=t.clientY-_sy;
+    _sx=null; _sy=null;
+    if(Math.abs(dx)<40||Math.abs(dx)<Math.abs(dy)*1.5) return;
+    // Only swipe when tab bar is visible (not inside an exercise)
+    const bar=document.getElementById('modeTabBar');
+    if(!bar||!bar.classList.contains('visible')) return;
+    const idx=_TAB_ORDER.indexOf(_currentTab);
+    if(dx<0&&idx<_TAB_ORDER.length-1) switchTab(_TAB_ORDER[idx+1]);
+    else if(dx>0&&idx>0) switchTab(_TAB_ORDER[idx-1]);
+  }
+  function _init(){
+    document.addEventListener('touchstart',_onStart,{passive:true});
+    document.addEventListener('touchend',_onEnd,{passive:true});
+    // Show swipe hint once on first launch
+    if(!localStorage.getItem('lp_swipe_hint_shown')){
+      setTimeout(()=>{
+        const h=document.getElementById('swipeHint');
+        if(h){ h.classList.add('show'); setTimeout(()=>h.classList.remove('show'),3000); }
+        localStorage.setItem('lp_swipe_hint_shown','1');
+      },2000);
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',_init);
+  else _init();
+})();
+
+// ══════════════════════════════════
+//  FLASHCARD MODE
+// ══════════════════════════════════
+let _fcCards=[],_fcIdx=0,_fcKnown=0,_fcFlipped=false;
+
+function _enterFlashcardMode(){
+  if(!currentLangId){ toast('Primero elige un idioma en Lección Diaria'); switchTab('lesson'); return; }
+  _hideNewScreens();
+  document.getElementById('screen-langs').style.display='none';
+  document.getElementById('screen-levels').style.display='none';
+  document.getElementById('screen-path').style.display='none';
+  document.getElementById('mapview').style.display='none';
+  document.getElementById('topicview').classList.remove('active');
+  document.getElementById('screen-flashcards').style.display='block';
+  _setActiveTab('flashcards');
+  _showTabBar(true);
+  startFlashcards();
+}
+
+function _buildFlashcardDeck(){
+  const levelId=currentLevelId||(currentLangId+'-1');
+  const topics=window.LP_TOPICS[levelId]||[];
+  const cards=[];
+  topics.forEach(t=>{
+    (t.vocab||[]).forEach(cat=>{
+      (cat.items||[]).forEach(item=>cards.push({emoji:item.e||'📝',word:item.w,translation:item.p}));
+    });
+  });
+  for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]];}
+  return cards.slice(0,20);
+}
+
+function startFlashcards(){
+  _fcCards=_buildFlashcardDeck();
+  _fcIdx=0; _fcKnown=0; _fcFlipped=false;
+  const done=document.getElementById('fcDone');
+  const flip=document.getElementById('fcFlip');
+  const hint=document.getElementById('fcTapHint');
+  const actions=document.querySelector('.fc-actions');
+  done.classList.remove('show');
+  if(flip) flip.style.display='block';
+  if(hint) hint.style.display='block';
+  if(actions) actions.style.display='flex';
+  if(!_fcCards.length){
+    document.getElementById('fcDoneTitle').textContent='¡Completa una lección primero!';
+    document.getElementById('fcDoneSub').textContent='El vocabulario se desbloquea al iniciar tus primeras lecciones.';
+    if(flip) flip.style.display='none';
+    if(hint) hint.style.display='none';
+    if(actions) actions.style.display='none';
+    done.classList.add('show'); return;
+  }
+  _showFcCard();
+}
+
+function _showFcCard(){
+  if(_fcIdx>=_fcCards.length){ _fcFinish(); return; }
+  const c=_fcCards[_fcIdx];
+  document.getElementById('fcEmoji').textContent=c.emoji;
+  document.getElementById('fcWord').textContent=c.word;
+  document.getElementById('fcTranslation').textContent=c.translation;
+  document.getElementById('fcProgress').textContent=`Tarjeta ${_fcIdx+1} de ${_fcCards.length}`;
+  document.getElementById('fcBar').style.width=((_fcIdx/_fcCards.length)*100)+'%';
+  _fcFlipped=false;
+  document.getElementById('fcFlip').classList.remove('flipped');
+}
+
+function flipCard(){
+  _fcFlipped=!_fcFlipped;
+  document.getElementById('fcFlip').classList.toggle('flipped',_fcFlipped);
+}
+
+function fcAnswer(known){
+  if(known) _fcKnown++;
+  _fcIdx++;
+  _showFcCard();
+}
+
+function _fcFinish(){
+  const flip=document.getElementById('fcFlip');
+  const hint=document.getElementById('fcTapHint');
+  const actions=document.querySelector('.fc-actions');
+  if(flip) flip.style.display='none';
+  if(hint) hint.style.display='none';
+  if(actions) actions.style.display='none';
+  document.getElementById('fcBar').style.width='100%';
+  document.getElementById('fcDoneTitle').textContent='¡Sesión completada!';
+  document.getElementById('fcDoneSub').textContent=
+    `Conocías ${_fcKnown} de ${_fcCards.length} tarjetas. `+
+    (_fcKnown===_fcCards.length?'¡Perfecto! 🌟':'¡Sigue practicando! 💪');
+  document.getElementById('fcDone').classList.add('show');
+  if(_fcKnown>0) addXP(_fcKnown*2);
+}
+
+// ══════════════════════════════════
+//  WEEKLY QUIZ MODE
+// ══════════════════════════════════
+let _quizQs=[],_quizIdx=0,_quizScore=0,_quizAnswered=false;
+const _QUIZ_SIZE=10;
+
+function _enterQuizMode(){
+  if(!currentLangId){ toast('Primero elige un idioma en Lección Diaria'); switchTab('lesson'); return; }
+  _hideNewScreens();
+  document.getElementById('screen-langs').style.display='none';
+  document.getElementById('screen-levels').style.display='none';
+  document.getElementById('screen-path').style.display='none';
+  document.getElementById('mapview').style.display='none';
+  document.getElementById('topicview').classList.remove('active');
+  document.getElementById('screen-quiz').style.display='block';
+  _setActiveTab('quiz');
+  _showTabBar(true);
+  startQuiz();
+}
+
+function _enterReadGymMode(){
+  _hideNewScreens();
+  document.getElementById('screen-langs').style.display='none';
+  document.getElementById('screen-levels').style.display='none';
+  document.getElementById('screen-path').style.display='none';
+  document.getElementById('mapview').style.display='none';
+  document.getElementById('topicview').classList.remove('active');
+  document.getElementById('screen-readgym').style.display='block';
+  _setActiveTab('readgym');
+  _showTabBar(true);
+}
+
+function _buildQuizPool(){
+  const levelId=currentLevelId||(currentLangId+'-1');
+  const topics=window.LP_TOPICS[levelId]||[];
+  const pool=[];
+  topics.forEach(t=>{
+    (t.exercises||[]).forEach(ex=>{ if(ex.type==='mcq'||ex.type==='tf') pool.push(ex); });
+  });
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  return pool.slice(0,_QUIZ_SIZE);
+}
+
+function startQuiz(){
+  _quizQs=_buildQuizPool();
+  _quizIdx=0; _quizScore=0; _quizAnswered=false;
+  document.getElementById('quizGame').style.display='block';
+  document.getElementById('quizResult').classList.remove('show');
+  document.getElementById('quizXPEarned').textContent='0';
+  document.getElementById('quizFill').style.width='0%';
+  const arc=document.getElementById('quizScoreArc');
+  if(arc) arc.style.strokeDashoffset='264';
+  if(!_quizQs.length){
+    document.getElementById('quizResultTitle').textContent='¡Completa lecciones primero!';
+    document.getElementById('quizResultSub').textContent='Desbloquea ejercicios completando las primeras lecciones.';
+    document.getElementById('quizGame').style.display='none';
+    document.getElementById('quizResult').classList.add('show'); return;
+  }
+  _showQuizQ();
+}
+
+function _showQuizQ(){
+  if(_quizIdx>=_quizQs.length){ _quizFinish(); return; }
+  const q=_quizQs[_quizIdx];
+  _quizAnswered=false;
+  document.getElementById('quizCounter').textContent=`Pregunta ${_quizIdx+1} de ${_quizQs.length}`;
+  document.getElementById('quizFill').style.width=((_quizIdx/_quizQs.length)*100)+'%';
+  document.getElementById('quizQ').textContent=q.q;
+  document.getElementById('quizNextBtn').classList.remove('show');
+  const optsEl=document.getElementById('quizOpts');
+  if(q.type==='mcq'){
+    optsEl.innerHTML=q.options.map((opt,i)=>
+      `<button type="button" class="quiz-opt" onclick="quizAnswer(${i})">${opt}</button>`
+    ).join('');
+  } else {
+    optsEl.innerHTML=
+      `<button type="button" class="quiz-opt" onclick="quizAnswer(true)">✅ Verdadero</button>`+
+      `<button type="button" class="quiz-opt" onclick="quizAnswer(false)">❌ Falso</button>`;
+  }
+}
+
+function quizAnswer(chosen){
+  if(_quizAnswered) return;
+  _quizAnswered=true;
+  const q=_quizQs[_quizIdx];
+  const correct=(chosen===q.correct);
+  if(correct) _quizScore++;
+  document.querySelectorAll('.quiz-opt').forEach((o,i)=>{
+    if(q.type==='mcq'){
+      if(i===q.correct) o.classList.add('q-correct');
+      else if(i===chosen&&!correct) o.classList.add('q-wrong');
+    } else {
+      const isTrue=o.textContent.includes('Verdadero');
+      if(isTrue===q.correct) o.classList.add('q-correct');
+      else if(isTrue===chosen&&!correct) o.classList.add('q-wrong');
+    }
+    o.disabled=true;
+  });
+  document.getElementById('quizNextBtn').classList.add('show');
+}
+
+function quizNext(){
+  _quizIdx++;
+  _showQuizQ();
+}
+
+function _quizFinish(){
+  document.getElementById('quizGame').style.display='none';
+  document.getElementById('quizResult').classList.add('show');
+  const pct=Math.round((_quizScore/_quizQs.length)*100);
+  document.getElementById('quizScoreNum').textContent=_quizScore;
+  setTimeout(()=>{
+    const arc=document.getElementById('quizScoreArc');
+    if(arc) arc.style.strokeDashoffset=(264-(264*pct/100));
+  },150);
+  const tiers=['¡Sigue practicando! 💪','¡Bien hecho! 👍','¡Muy bien! 🌟','¡Excelente! 🏆','¡Perfecto! 🎉'];
+  document.getElementById('quizResultTitle').textContent=tiers[Math.min(Math.floor(pct/20),4)];
+  document.getElementById('quizResultSub').textContent=
+    `Acertaste ${_quizScore} de ${_quizQs.length} preguntas (${pct}%).`;
+  const xp=_quizScore*5;
+  document.getElementById('quizXPEarned').textContent=xp;
+  if(xp>0) addXP(xp);
+}
+
 function startApp(){
   const badge = document.getElementById('devBadge');
   if(badge && isDevMode()) badge.classList.add('active');
   const savedLang = lsGet('lastLang');
   currentLangId = (savedLang && LANGUAGES.find(l=>l.id===savedLang&&l.active)) ? savedLang : (LANGUAGES.find(l=>l.active)||{}).id;
-  showPathScreen();
+  _setActiveTab('lesson');
+  showPathScreen(currentLangId);
+  _showTabBar(true);
   initGamification();
 }
 
