@@ -3610,13 +3610,25 @@ function showHomeScreen(){ switchTab('lesson'); }
 let _chatHistory = [];
 let _chatBusy = false;
 
+// Cada idioma tiene su propio tutor con nombre e identidad propia — LinguaPro AI,
+// no un asistente genérico. El nombre viaja al backend para que el system prompt
+// también hable "en personaje".
+const _CHAT_TUTORS = {
+  es: { name: 'Elena', city: 'Madrid' },
+  en: { name: 'James', city: 'London' },
+  fr: { name: 'Sophie', city: 'Paris' },
+  it: { name: 'Marco', city: 'Roma' },
+  de: { name: 'Klaus', city: 'Berlin' },
+  pt: { name: 'Ana', city: 'Rio de Janeiro' },
+};
+
 const _CHAT_WELCOME = {
-  fr: 'Bonjour ! 👋 Je suis ton tuteur de français. On peut parler de n\'importe quel sujet qui t\'intéresse — voyages, films, actualité, ce que tu veux — pour pratiquer. Par où veux-tu commencer ?',
-  en: 'Hello! 👋 I\'m your English tutor. We can talk about absolutely anything you like — travel, movies, news, whatever you\'re into — to help you practice. What would you like to start with?',
-  de: 'Hallo! 👋 Ich bin dein Deutschtutor. Wir können über jedes Thema sprechen, das dich interessiert — Reisen, Filme, Nachrichten, was auch immer — um zu üben. Womit möchtest du beginnen?',
-  pt: 'Olá! 👋 Eu sou o seu tutor de português. Podemos falar sobre qualquer assunto que você quiser — viagens, filmes, notícias, o que for — para praticar. Por onde quer começar?',
-  it: 'Ciao! 👋 Sono il tuo tutor d\'italiano. Possiamo parlare di qualsiasi argomento ti interessi — viaggi, film, attualità, quello che vuoi — per fare pratica. Da dove vuoi cominciare?',
-  es: '¡Hola! 👋 Soy tu tutor de español. Podemos hablar de lo que tú quieras — viajes, películas, noticias, cualquier tema — para que practiques. ¿Por dónde quieres empezar?'
+  fr: 'Bonjour ! 👋 Je m\'appelle Sophie. On peut parler de n\'importe quel sujet qui t\'intéresse — voyages, films, actualité, ce que tu veux — pour pratiquer. Par où veux-tu commencer ?',
+  en: 'Hello! 👋 I\'m James. We can talk about absolutely anything you like — travel, movies, news, whatever you\'re into — to help you practice. What would you like to start with?',
+  de: 'Hallo! 👋 Ich bin Klaus. Wir können über jedes Thema sprechen, das dich interessiert — Reisen, Filme, Nachrichten, was auch immer — um zu üben. Womit möchtest du beginnen?',
+  pt: 'Olá! 👋 Eu sou a Ana. Podemos falar sobre qualquer assunto que você quiser — viagens, filmes, notícias, o que for — para praticar. Por onde quer começar?',
+  it: 'Ciao! 👋 Sono Marco. Possiamo parlare di qualsiasi argomento ti interessi — viaggi, film, attualità, quello che vuoi — per fare pratica. Da dove vuoi cominciare?',
+  es: '¡Hola! 👋 Soy Elena. Podemos hablar de lo que tú quieras — viajes, películas, noticias, cualquier tema — para que practiques. ¿Por dónde quieres empezar?'
 };
 
 function _getChatContext() {
@@ -3626,6 +3638,7 @@ function _getChatContext() {
   const langLevels = LEVELS[langId] || [];
   const level = langLevels.find(l => l.id === levelId) || langLevels[0] || {};
   const topics = (window.LP_TOPICS[levelId] || []).filter(t => !t.isChat).map(t => t.title).slice(0, 10);
+  const tutor = _CHAT_TUTORS[langId] || _CHAT_TUTORS.en;
   return {
     langId,
     languageName: lang.nameEs || lang.name || 'inglés',
@@ -3633,6 +3646,8 @@ function _getChatContext() {
     levelName: level.name || 'Nivel 1 — A1',
     levelDesc: level.desc || '',
     flagCss: lang.flagCss || '#888',
+    tutorName: tutor.name,
+    tutorCity: tutor.city,
     topics
   };
 }
@@ -3654,7 +3669,7 @@ function _enterChatMode() {
   const flagEl = document.getElementById('chatLangFlag');
   if (flagEl) flagEl.style.background = ctx.flagCss;
   const nameEl = document.getElementById('chatLangName');
-  if (nameEl) nameEl.textContent = 'Chat IA · ' + ctx.languageName;
+  if (nameEl) nameEl.textContent = ctx.tutorName + ' · ' + ctx.languageName;
   const levelEl = document.getElementById('chatLevelTag');
   if (levelEl) levelEl.textContent = ctx.levelName;
 
@@ -3729,6 +3744,8 @@ async function sendChatMessage() {
         levelName: ctx.levelName,
         levelDesc: ctx.levelDesc,
         topics: ctx.topics,
+        tutorName: ctx.tutorName,
+        tutorCity: ctx.tutorCity,
         history: _chatHistory.slice(-10)
       })
     });

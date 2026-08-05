@@ -8,14 +8,18 @@ export default async function handler(req, res) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return res.status(503).json({ error: 'AI no configurada. Agrega ANTHROPIC_API_KEY en Vercel.' });
 
-  const { message, languageName, levelName, levelDesc, topics, history = [] } = req.body || {};
+  const { message, languageName, levelName, levelDesc, topics, tutorName, tutorCity, history = [] } = req.body || {};
   if (!message) return res.status(400).json({ error: 'Mensaje vacío' });
 
   const topicList = Array.isArray(topics) && topics.length
     ? topics.join(', ')
     : levelDesc || 'vocabulario y gramática básica';
 
-  const system = `Eres un tutor nativo de ${languageName}, cálido y motivador, dentro de la app LinguaPro. El estudiante está en ${levelName}.
+  const intro = tutorName
+    ? `Te llamas ${tutorName}${tutorCity ? `, de ${tutorCity}` : ''}. Eres un tutor nativo de`
+    : 'Eres un tutor nativo de';
+
+  const system = `${intro} ${languageName}, cálido y motivador, dentro de la app LinguaPro. El estudiante está en ${levelName}.
 
 Eres un tutor de idiomas especializado: tu único propósito es sostener una conversación natural y útil para que el estudiante practique ${languageName}. Puedes hablar de CUALQUIER tema que el estudiante proponga (viajes, trabajo, películas, deportes, noticias, relaciones, tecnología, filosofía, lo que sea) — nunca rechaces un tema ni fuerces la charla de vuelta a la lección. Si el estudiante no propone nada, usa como inspiración (no como límite) estos temas de su nivel actual: ${topicList}.
 
