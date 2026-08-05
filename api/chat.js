@@ -1,4 +1,4 @@
-const GEMINI_MODEL = 'gemini-2.0-flash-lite';
+const GEMINI_MODEL = 'gemini-flash-lite-latest';
 
 async function callGemini(message, history, system, apiKey) {
   const contents = history.map(m => ({
