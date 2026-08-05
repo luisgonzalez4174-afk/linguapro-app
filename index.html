@@ -3706,6 +3706,13 @@ function _appendUserBubble(text) {
   msgs.scrollTop = msgs.scrollHeight;
 }
 
+// El modelo a veces mete símbolos de formato (markdown) aunque le pedimos que
+// no lo haga — los quitamos igual para que nunca aparezcan en pantalla ni,
+// peor, se lean en voz alta literalmente ("asterisco, asterisco").
+function _stripMarkdown(text) {
+  return text.replace(/[*_`#]+/g, '').replace(/\s+/g, ' ').trim();
+}
+
 // El backend añade "Corrección: ..." como última línea solo cuando el
 // estudiante cometió un error notable — la separamos para mostrarla en un
 // recuadro aparte, bien visible, en vez de enterrada en el texto normal.
@@ -3718,17 +3725,21 @@ function _splitCorrection(text) {
   };
 }
 
-// Quita las traducciones entre paréntesis antes de leer en voz alta, para
-// no pronunciar español de golpe en medio del idioma que se practica.
+// Quita traducciones entre paréntesis y los signos ¿¡ antes de leer en voz
+// alta: algunas voces los pronuncian literalmente ("signo de interrogación")
+// en vez de tratarlos como puntuación muda.
 function _speakChat(text) {
-  const clean = text.replace(/\([^)]*\)/g, '').replace(/\s+/g, ' ').trim();
+  const clean = text.replace(/\([^)]*\)/g, '').replace(/[¿¡]/g, '')
+    .replace(/\s+([.,!?])/g, '$1').replace(/\s+/g, ' ').trim();
   if (clean) speak(clean, 0.85);
 }
 
 function _appendBotBubble(text, isError) {
   const msgs = document.getElementById('chatMessages');
   if (!msgs) return;
-  const { main, correction } = isError ? { main: text, correction: null } : _splitCorrection(text);
+  const split = isError ? { main: text, correction: null } : _splitCorrection(text);
+  const main = isError ? split.main : _stripMarkdown(split.main);
+  const correction = split.correction ? _stripMarkdown(split.correction) : null;
 
   const div = document.createElement('div');
   div.className = 'chat-bubble chat-bubble-bot' + (isError ? ' error' : '');
