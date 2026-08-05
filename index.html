@@ -731,7 +731,8 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
         <div class="fc-face fc-front">
           <span class="fc-emoji" id="fcEmoji">📚</span>
           <div class="fc-word" id="fcWord">Palabra</div>
-          <div class="fc-hint">👆 Toca para ver la traducción</div>
+          <button type="button" onclick="event.stopPropagation();fcSpeak(document.getElementById('fcWord').textContent)" style="background:none;border:none;font-size:22px;cursor:pointer;margin-top:4px;padding:4px 10px;border-radius:8px;" title="Pronunciar">🔊</button>
+          <div class="fc-hint" style="margin-top:4px">👆 Toca para ver la traducción</div>
         </div>
         <div class="fc-face fc-back">
           <div class="fc-translation" id="fcTranslation">Traducción</div>
@@ -3789,8 +3790,22 @@ function _buildFlashcardDeck(){
       (cat.items||[]).forEach(item=>cards.push({emoji:item.e||'📝',word:item.w,translation:item.p}));
     });
   });
-  for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]];}
-  return cards.slice(0,20);
+  // Daily seed: same shuffle all day, new shuffle tomorrow
+  const d=new Date();
+  let seed=(d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate())*37+(currentLevelId||'').length;
+  const a=[...cards];
+  for(let i=a.length-1;i>0;i--){seed=(seed*1664525+1013904223)&0x7fffffff;const j=seed%(i+1);[a[i],a[j]]=[a[j],a[i]];}
+  return a.slice(0,20);
+}
+
+function fcSpeak(word){
+  if(!window.speechSynthesis||!word) return;
+  const voices={en:'en-US',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-BR'};
+  const u=new SpeechSynthesisUtterance(word);
+  u.lang=voices[currentLangId]||'en-US';
+  u.rate=0.82;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
 }
 
 function startFlashcards(){
@@ -3825,11 +3840,13 @@ function _showFcCard(){
   document.getElementById('fcBar').style.width=((_fcIdx/_fcCards.length)*100)+'%';
   _fcFlipped=false;
   document.getElementById('fcFlip').classList.remove('flipped');
+  setTimeout(()=>fcSpeak(c.word), 150);
 }
 
 function flipCard(){
   _fcFlipped=!_fcFlipped;
   document.getElementById('fcFlip').classList.toggle('flipped',_fcFlipped);
+  if(!_fcFlipped && _fcCards[_fcIdx]) fcSpeak(_fcCards[_fcIdx].word);
 }
 
 function fcAnswer(known){
