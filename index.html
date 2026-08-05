@@ -430,6 +430,9 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .chat-bubble-user{align-self:flex-end;background:var(--green-deep);color:#fff;border-bottom-right-radius:5px;}
 .chat-bubble-bot{align-self:flex-start;background:var(--card);border:1.5px solid var(--line);color:var(--ink);border-bottom-left-radius:5px;}
 .chat-bubble-bot.error{border-color:var(--red);color:var(--red);}
+.chat-correction{align-self:flex-start;max-width:82%;padding:8px 12px;margin-top:-6px;border-radius:12px;font-size:12.5px;line-height:1.4;font-weight:600;background:rgba(255,159,0,.12);border:1.5px solid var(--gold);color:#8a5a00;}
+.chat-speak-toggle{align-self:flex-start;background:none;border:none;color:var(--ink-soft);font-size:12px;font-weight:600;cursor:pointer;padding:0 4px;margin-top:-6px;opacity:.75;}
+.chat-speak-toggle:hover{opacity:1;color:var(--blue);}
 .chat-typing{align-self:flex-start;background:var(--card);border:1.5px solid var(--line);border-radius:18px;border-bottom-left-radius:5px;padding:12px 16px;display:flex;gap:5px;align-items:center;}
 .chat-typing span{width:7px;height:7px;border-radius:50%;background:var(--ink-soft);animation:chatDot 1.2s infinite;}
 .chat-typing span:nth-child(2){animation-delay:.2s;}
@@ -440,6 +443,8 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .chat-input:focus{border-color:var(--green);}
 .chat-send-btn{width:40px;height:40px;border-radius:50%;background:var(--green-deep);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
 .chat-send-btn:disabled{opacity:.4;cursor:default;}
+.chat-mic-btn{background:var(--red);}
+.chat-mic-btn.recording{animation:listening .7s ease-in-out infinite;}
 /* ─── READGYM SCREEN ─── */
 #screen-readgym{display:none;padding-bottom:80px;min-height:100vh;}
 .rg-view{display:none;}
@@ -654,6 +659,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
     </div>
     <div class="chat-messages" id="chatMessages"></div>
     <div class="chat-input-row">
+      <button type="button" class="chat-send-btn chat-mic-btn" id="chatMicBtn" onclick="_chatToggleMic()" title="Hablar">🎤</button>
       <input type="text" id="chatInput" class="chat-input" placeholder="Escribe tu mensaje..." maxlength="300"
         onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChatMessage();}">
       <button type="button" class="chat-send-btn" id="chatSendBtn" onclick="sendChatMessage()">➤</button>
@@ -3673,6 +3679,10 @@ function _enterChatMode() {
   const levelEl = document.getElementById('chatLevelTag');
   if (levelEl) levelEl.textContent = ctx.levelName;
 
+  // Ocultar el micrófono si el navegador no soporta reconocimiento de voz
+  const micBtn = document.getElementById('chatMicBtn');
+  if (micBtn) micBtn.style.display = SR ? '' : 'none';
+
   // Show welcome if first time or new lang
   const msgs = document.getElementById('chatMessages');
   if (msgs && msgs.children.length === 0) {
@@ -3696,15 +3706,68 @@ function _appendUserBubble(text) {
   msgs.scrollTop = msgs.scrollHeight;
 }
 
+// El backend añade "Corrección: ..." como última línea solo cuando el
+// estudiante cometió un error notable — la separamos para mostrarla en un
+// recuadro aparte, bien visible, en vez de enterrada en el texto normal.
+function _splitCorrection(text) {
+  const idx = text.search(/Corrección:/i);
+  if (idx === -1) return { main: text.trim(), correction: null };
+  return {
+    main: text.slice(0, idx).trim(),
+    correction: text.slice(idx).replace(/^Corrección:\s*/i, '').trim()
+  };
+}
+
+// Quita las traducciones entre paréntesis antes de leer en voz alta, para
+// no pronunciar español de golpe en medio del idioma que se practica.
+function _speakChat(text) {
+  const clean = text.replace(/\([^)]*\)/g, '').replace(/\s+/g, ' ').trim();
+  if (clean) speak(clean, 0.85);
+}
+
 function _appendBotBubble(text, isError) {
   const msgs = document.getElementById('chatMessages');
   if (!msgs) return;
+  const { main, correction } = isError ? { main: text, correction: null } : _splitCorrection(text);
+
   const div = document.createElement('div');
   div.className = 'chat-bubble chat-bubble-bot' + (isError ? ' error' : '');
-  div.textContent = text;
+  div.textContent = main;
   msgs.appendChild(div);
+
+  if (correction) {
+    const c = document.createElement('div');
+    c.className = 'chat-correction';
+    c.textContent = '✏️ Corrección: ' + correction;
+    msgs.appendChild(c);
+  }
+
+  if (!isError && 'speechSynthesis' in window) {
+    const sb = document.createElement('button');
+    sb.type = 'button';
+    sb.className = 'chat-speak-toggle';
+    sb.textContent = '🔊 Escuchar de nuevo';
+    sb.onclick = () => _speakChat(main);
+    msgs.appendChild(sb);
+    _speakChat(main);
+  }
+
   msgs.scrollTop = msgs.scrollHeight;
   return div;
+}
+
+function _chatToggleMic() {
+  const btn = document.getElementById('chatMicBtn');
+  if (!SR) { alert('Tu navegador no soporta reconocimiento de voz.'); return; }
+  if (activeRecognizer) { activeRecognizer.stop(); activeRecognizer = null; btn.classList.remove('recording'); return; }
+  btn.classList.add('recording');
+  activeRecognizer = createRecognizer((text) => {
+    const inp = document.getElementById('chatInput');
+    if (inp) inp.value = text;
+    btn.classList.remove('recording');
+    activeRecognizer = null;
+  }, () => { btn.classList.remove('recording'); activeRecognizer = null; });
+  activeRecognizer.start();
 }
 
 function _showTyping() {
@@ -9082,7 +9145,7 @@ exercises:[
   {type:"fill",q:"O carro ____ roubado ontem à noite. (ser — passado passivo)",answers:["foi"]},
   {type:"match",q:"Transforme para passiva.",pairs:[["As pessoas falam português.","O português é falado."],["Eles construíram a ponte.","A ponte foi construída."],["Vão lançar o produto.","O produto vai ser lançado."],["Aqui se fala inglês.","Fala-se inglês aqui."]]},
   {type:"speak",phrase:"O café é cultivado no Brasil. É exportado para o mundo todo e apreciado por milhões.",translation:"El café es cultivado en Brasil. Es exportado a todo el mundo y apreciado por millones."},
-  {type:"fill",q:"'Aluga-se quarto' — esta é a passiva com ____. (se)",answers:["se"])
+  {type:"fill",q:"'Aluga-se quarto' — esta é a passiva com ____. (se)",answers:["se"]}
 ]},
 
 {id:"condicionais-pt",num:5,title:"Condicionais Reais",emoji:"🔀",cardDesc:"Se você estudar, vai passar — condições reais no presente e futuro",
