@@ -2321,6 +2321,45 @@ function toast(msg){
   window._toastTimer = setTimeout(()=>{ t.style.opacity='0'; }, 2400);
 }
 
+// ── Banner de "sin conexión" ──────────────────────────────────────────────
+// Lecciones, tarjetas, quiz y ReadGym funcionan sin internet (todo el
+// contenido vive en este mismo archivo); lo único que de verdad necesita
+// conexión es el Chat IA. Este banner avisa antes de que el usuario lo
+// descubra intentando enviar un mensaje que falla.
+function _updateOfflineBanner(){
+  let b = document.getElementById('offlineBanner');
+  const offline = !navigator.onLine;
+  if(!offline){
+    if(b) b.style.display='none';
+    _afterOfflineBannerChange();
+    return;
+  }
+  if(!b){
+    b = document.createElement('div');
+    b.id='offlineBanner';
+    // Flujo normal (NO position:fixed) para que empuje el contenido hacia
+    // abajo en vez de superponerse al logo/topbar como una capa flotante.
+    b.style.cssText='background:#FF9500;color:#fff;font-family:Inter,sans-serif;font-weight:700;font-size:12.5px;text-align:center;padding:7px 12px;';
+    b.textContent='📡 Sin conexión — el Chat IA no estará disponible hasta que vuelvas a tener internet. El resto de la app funciona igual.';
+    document.body.insertBefore(b, document.body.firstChild);
+  }
+  b.style.display='block';
+  _afterOfflineBannerChange();
+}
+// Si el chat ya está abierto cuando el banner aparece/desaparece, su header
+// (position:fixed, top calculado) queda desalineado respecto al topbar que
+// acaba de moverse — recalcularlo tras el reflow del banner.
+function _afterOfflineBannerChange(){
+  const chatScreen = document.getElementById('screen-chat');
+  if (chatScreen && chatScreen.classList.contains('chat-open') && typeof _recalcChatTop === 'function') {
+    requestAnimationFrame(_recalcChatTop);
+  }
+}
+window.addEventListener('online', _updateOfflineBanner);
+window.addEventListener('offline', _updateOfflineBanner);
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', _updateOfflineBanner);
+else _updateOfflineBanner();
+
 // ══════════════════════════════════
 //  CORE STATE + SPEECH
 // ══════════════════════════════════
@@ -3696,6 +3735,19 @@ function _getChatContext() {
   };
 }
 
+// El "top:60px" fijo por CSS no siempre coincide con la altura real del
+// header (logo + pills, que además puede crecer si aparece el banner de
+// "sin conexión") — se mide y se aplica directamente para que nunca se
+// recorte. Se llama al entrar al chat Y cada vez que el banner offline
+// cambia de estado mientras el chat ya está abierto.
+function _recalcChatTop() {
+  const screen = document.getElementById('screen-chat');
+  const topbar = document.querySelector('.topbar');
+  if (!screen || !topbar) return;
+  const rect = topbar.getBoundingClientRect();
+  screen.style.top = Math.max(60, Math.round(rect.bottom + 10)) + 'px';
+}
+
 function _enterChatMode() {
   _hideNewScreens();
   document.getElementById('screen-langs').style.display = 'none';
@@ -3708,15 +3760,8 @@ function _enterChatMode() {
   _setActiveTab('chat');
   _showTabBar(true);
 
-  // El "top:60px" fijo por CSS no siempre coincide con la altura real del
-  // header (logo + pills) — varía un poco según el ancho de pantalla, así
-  // que la medimos y la usamos directamente para que nunca se recorte.
   window.scrollTo(0, 0);
-  const topbar = document.querySelector('.topbar');
-  if (topbar) {
-    const rect = topbar.getBoundingClientRect();
-    screen.style.top = Math.max(60, Math.round(rect.bottom + 10)) + 'px';
-  }
+  _recalcChatTop();
 
   const ctx = _getChatContext();
   // Update header
@@ -3870,8 +3915,19 @@ async function sendChatMessage() {
   if (sendBtn) sendBtn.disabled = true;
 
   _appendUserBubble(text);
-  const typing = _showTyping();
   const ctx = _getChatContext();
+
+  // Aviso inmediato si no hay conexión, sin esperar a que el fetch falle
+  // (que puede tardar unos segundos antes de mostrar el error).
+  if (!navigator.onLine) {
+    _appendBotBubble('📡 Sin conexión a internet. Conéctate para seguir hablando con tu tutor de IA — el resto de la app funciona sin problema.', true);
+    _chatBusy = false;
+    if (sendBtn) sendBtn.disabled = false;
+    inp.focus();
+    return;
+  }
+
+  const typing = _showTyping();
 
   try {
     const res = await fetch('/api/chat', {
