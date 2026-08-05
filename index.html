@@ -4439,20 +4439,29 @@ function rgShowView(id){
 
 function rgShowLibrary(){
   const langId = currentLangId || 'en';
+  const lvNum = currentLevelId ? parseInt((currentLevelId.split('-')[1])||'1') : 1;
+  const CEFR = ['A1','A2','B1','B2','C1'];
+  const userCefr = CEFR[Math.min(lvNum-1, CEFR.length-1)] || 'A1';
   const langNames = {en:'inglés',es:'español',fr:'francés',de:'alemán',it:'italiano',pt:'portugués'};
-  document.getElementById('rg-library-sub').textContent =
-    'Libros en ' + (langNames[langId]||langId) + ' · Elige uno para entrenar';
 
-  const books = RG_BOOKS.filter(b => b.language === langId);
+  document.getElementById('rg-library-sub').textContent =
+    'Nivel ' + userCefr + ' en ' + (langNames[langId]||langId);
+
+  const books = RG_BOOKS.filter(b => b.language === langId && b.level === userCefr);
   const grid = document.getElementById('rg-book-grid');
 
+  const levelEmoji = {A1:'🌱',A2:'🌿',B1:'📗',B2:'📘',C1:'📕'};
+
   if(!books.length){
-    grid.innerHTML = `<div class="rg-empty"><div class="rg-empty-icon">📚</div><p>Aún no hay libros disponibles en este idioma.<br>¡Próximamente!</p></div>`;
+    const allLang = RG_BOOKS.filter(b=>b.language===langId);
+    const hint = allLang.length
+      ? `Hay libros en otros niveles (${allLang.map(b=>b.level).join(', ')}), pero ninguno en tu nivel ${userCefr} aún.`
+      : 'Aún no hay libros en este idioma. ¡Próximamente!';
+    grid.innerHTML = `<div class="rg-empty"><div class="rg-empty-icon">📚</div><p>${hint}</p></div>`;
   } else {
-    const levelEmoji = {A1:'🌱',A2:'🌿',B1:'📗',B2:'📘',C1:'📕'};
     grid.innerHTML = books.map(b=>{
       const done = b.chapters.filter(c=>rgDone[c.id]).length;
-      const doneStr = done>0 ? `${done}/${b.chapters.length} capítulos completados` : `${b.chapters.length} capítulos`;
+      const doneStr = done>0 ? `${done}/${b.chapters.length} cap. completados` : `${b.chapters.length} capítulos`;
       return `<div class="rg-book-card" onclick="rgSelectBook('${b.id}')">
         <div class="rg-book-dot" style="background:${b.color}20">${levelEmoji[b.level]||'📖'}</div>
         <div class="rg-book-info">
