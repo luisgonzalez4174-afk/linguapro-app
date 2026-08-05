@@ -3670,6 +3670,16 @@ function _enterChatMode() {
   _setActiveTab('chat');
   _showTabBar(true);
 
+  // El "top:60px" fijo por CSS no siempre coincide con la altura real del
+  // header (logo + pills) — varía un poco según el ancho de pantalla, así
+  // que la medimos y la usamos directamente para que nunca se recorte.
+  window.scrollTo(0, 0);
+  const topbar = document.querySelector('.topbar');
+  if (topbar) {
+    const rect = topbar.getBoundingClientRect();
+    screen.style.top = Math.max(60, Math.round(rect.bottom + 10)) + 'px';
+  }
+
   const ctx = _getChatContext();
   // Update header
   const flagEl = document.getElementById('chatLangFlag');
@@ -3725,11 +3735,14 @@ function _splitCorrection(text) {
   };
 }
 
-// Quita traducciones entre paréntesis y los signos ¿¡ antes de leer en voz
-// alta: algunas voces los pronuncian literalmente ("signo de interrogación")
-// en vez de tratarlos como puntuación muda.
+// Quita traducciones entre paréntesis, los signos ¿¡ (algunas voces los
+// pronuncian literalmente en vez de tratarlos como puntuación muda) y los
+// emojis (algunas voces también los anuncian, ej. 👋 como "mano saludando")
+// antes de leer en voz alta — todo eso se queda solo para lo que se ve en
+// pantalla, nunca para lo que se escucha.
 function _speakChat(text) {
   const clean = text.replace(/\([^)]*\)/g, '').replace(/[¿¡]/g, '')
+    .replace(/\p{Extended_Pictographic}/gu, '').replace(/️/g, '')
     .replace(/\s+([.,!?])/g, '$1').replace(/\s+/g, ' ').trim();
   if (clean) speak(clean, 0.85);
 }
