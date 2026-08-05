@@ -3553,6 +3553,9 @@ function _setActiveTab(tab){
 }
 
 function switchTab(tab){
+  // Si el tutor de chat sigue hablando y el usuario navega a otra pestaña,
+  // detener el audio — no debe seguir sonando encima de otra pantalla.
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
   _hideNewScreens();
   document.getElementById('screen-langs').style.display='none';
   document.getElementById('screen-levels').style.display='none';
@@ -3614,8 +3617,16 @@ function showHomeScreen(){ switchTab('lesson'); }
 // ══════════════════════════════════
 //  CHAT IA MODE
 // ══════════════════════════════════
-let _chatHistory = [];
+// Historial de chat GUARDADO POR IDIOMA — cada idioma tiene su propia
+// conversación independiente y persistida, en vez de compartir un solo
+// historial global que se mezclaba al cambiar de idioma.
+let _chatHistories = lsGet('chatHistories') || {};
+let _chatActiveLangId = null;
 let _chatBusy = false;
+
+function _saveChatHistories() {
+  lsSet('chatHistories', _chatHistories);
+}
 
 // Cada idioma tiene su propio tutor con nombre e identidad propia — LinguaPro AI,
 // no un asistente genérico. El nombre viaja al backend para que el system prompt
@@ -3720,10 +3731,23 @@ function _enterChatMode() {
   const micBtn = document.getElementById('chatMicBtn');
   if (micBtn) micBtn.style.display = SR ? '' : 'none';
 
-  // Show welcome if first time or new lang
+  // Si el idioma cambió desde la última vez que se vio el chat (p.ej. el
+  // usuario cambió de idioma en Inicio y volvió), reconstruir el hilo con
+  // la conversación guardada de ESE idioma en vez de dejar mensajes de
+  // otro idioma mezclados en pantalla.
   const msgs = document.getElementById('chatMessages');
-  if (msgs && msgs.children.length === 0) {
-    _appendBotBubble(_buildWelcome(ctx));
+  if (msgs && ctx.langId !== _chatActiveLangId) {
+    _chatActiveLangId = ctx.langId;
+    msgs.innerHTML = '';
+    const saved = _chatHistories[ctx.langId] || [];
+    if (saved.length) {
+      saved.forEach(m => {
+        if (m.role === 'user') _appendUserBubble(m.content);
+        else _appendBotBubble(m.content, false, true);
+      });
+    } else {
+      _appendBotBubble(_buildWelcome(ctx));
+    }
   }
   // Focus input
   setTimeout(() => {
@@ -3773,7 +3797,7 @@ function _speakChat(text) {
   if (clean) speak(clean, 0.85);
 }
 
-function _appendBotBubble(text, isError) {
+function _appendBotBubble(text, isError, silent) {
   const msgs = document.getElementById('chatMessages');
   if (!msgs) return;
   const split = isError ? { main: text, correction: null } : _splitCorrection(text);
@@ -3799,7 +3823,9 @@ function _appendBotBubble(text, isError) {
     sb.textContent = '🔊 Escuchar de nuevo';
     sb.onclick = () => _speakChat(main);
     msgs.appendChild(sb);
-    _speakChat(main);
+    // Al restaurar una conversación guardada (cambio de idioma) no se debe
+    // reproducir todo el historial en voz alta de golpe, solo mensajes nuevos.
+    if (!silent) _speakChat(main);
   }
 
   msgs.scrollTop = msgs.scrollHeight;
@@ -3859,14 +3885,16 @@ async function sendChatMessage() {
         topics: ctx.topics,
         tutorName: ctx.tutorName,
         tutorCity: ctx.tutorCity,
-        history: _chatHistory.slice(-10)
+        history: (_chatHistories[ctx.langId] || []).slice(-10)
       })
     });
     const data = await res.json();
     if (typing) typing.remove();
     if (res.ok && data.reply) {
-      _chatHistory.push({ role: 'user', content: text });
-      _chatHistory.push({ role: 'assistant', content: data.reply });
+      const hist = _chatHistories[ctx.langId] || (_chatHistories[ctx.langId] = []);
+      hist.push({ role: 'user', content: text });
+      hist.push({ role: 'assistant', content: data.reply });
+      _saveChatHistories();
       _appendBotBubble(data.reply);
     } else {
       _appendBotBubble(data.error || 'Error al conectar con la IA. Revisa tu conexión.', true);
@@ -3884,10 +3912,11 @@ async function sendChatMessage() {
 }
 
 function clearChat() {
-  _chatHistory = [];
+  const ctx = _getChatContext();
+  _chatHistories[ctx.langId] = [];
+  _saveChatHistories();
   const msgs = document.getElementById('chatMessages');
   if (msgs) msgs.innerHTML = '';
-  const ctx = _getChatContext();
   _appendBotBubble(_buildWelcome(ctx));
 }
 
