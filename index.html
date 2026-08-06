@@ -3129,87 +3129,22 @@ function nextExercise(){
 // ══════════════════════════════════
 //  CHAT STATION
 // ══════════════════════════════════
-let chatState = null;
+// El sistema de "escenarios" guionados de aquí abajo (startScenario,
+// pushBotStep, etc.) nunca funcionó: los datos en LP_CHAT_SCENARIOS
+// (formato {scenarios:[{id,title,...}]}) nunca coincidieron con lo que
+// este código esperaba leer (un objeto plano {clave:{name,steps}}),
+// así que cada pill mostraba "undefined" y no pasaba nada al tocarla —
+// bug preexistente, no algo de hoy. Se quitó esa UI rota por completo:
+// el botón "Hablar con IA" de abajo es el reemplazo real y funcional.
 let _currentStationTopic = null;
 function renderChatStation(t){
   _currentStationTopic = t;
   const view = document.getElementById('topicview');
-  const scenarios = window.LP_CHAT_SCENARIOS[currentLevelId]||{};
   let html = `<button class="backbtn" onclick="backToMap()">${uiT('backToMap')}</button>
   <div class="thead"><div class="nbadge">${t.emoji}</div><div><h2>${t.title}</h2><span>${t.cardDesc}</span></div></div>
   <div class="chat-header"><div class="explain">${t.explain.join('')}</div></div>
-  <button type="button" class="ai-station-btn" onclick="startAIStationChat(_currentStationTopic)">✨ Hablar con IA sobre este tema</button>
-  <div class="scenario-row" id="scenarioRow">
-    ${Object.keys(scenarios).map(k=>`<div class="scenario-pill" id="pill-${k}" onclick="startScenario('${k}')">${scenarios[k].name}</div>`).join('')}
-  </div>
-  <div id="chatArea"></div>`;
+  <button type="button" class="ai-station-btn" onclick="startAIStationChat(_currentStationTopic)">✨ Hablar con IA sobre este tema</button>`;
   view.innerHTML = html;
-}
-function startScenario(key){
-  document.querySelectorAll('.scenario-pill').forEach(p=>p.classList.remove('active'));
-  document.getElementById('pill-'+key).classList.add('active');
-  const scenarios = window.LP_CHAT_SCENARIOS[currentLevelId]||{};
-  const sc = scenarios[key];
-  chatState = {key, step:0, scenario:sc};
-  const area = document.getElementById('chatArea');
-  area.innerHTML = `<div class="chatbox">
-    <div class="chat-messages" id="chatMsgs"></div>
-    <div class="suggestions" id="chatSugg"></div>
-    <div class="chat-input-area">
-      <button class="chat-micbtn" id="chatMic" onclick="chatToggleMic()">🎤</button>
-      <input class="chat-input" id="chatInput" placeholder="${uiT('writeLang')}" onkeydown="if(event.key==='Enter')sendChat()">
-      <button class="chat-sendbtn" onclick="sendChat()">${uiT('send')}</button>
-    </div>
-    <div class="chat-progress" id="chatProgress"></div>
-  </div>`;
-  pushBotStep();
-}
-function pushBotStep(){
-  const sc = chatState.scenario;
-  const step = sc.steps[chatState.step];
-  if(!step){
-    document.getElementById('chatProgress').textContent = uiT('chatDone');
-    return;
-  }
-  appendMsg('bot', step.bot);
-  const sugg = document.getElementById('chatSugg');
-  sugg.innerHTML = step.sugg.map(s=>`<span class="sugg-pill" onclick="useSuggestion('${s.replace(/'/g,"\\'")}')">${s}</span>`).join('');
-  document.getElementById('chatProgress').textContent = `${uiT('exerciseLabel')} ${chatState.step+1} / ${sc.steps.length}`;
-}
-function appendMsg(who, text){
-  const msgs = document.getElementById('chatMsgs');
-  const avatar = who==='bot' ? '🐨' : '🙂';
-  const speakBtn = who==='bot' ? `<button class="chat-speak-btn" onclick="speak('${text.replace(/'/g,"\\'")}',0.8)">🔊</button>` : '';
-  msgs.insertAdjacentHTML('beforeend', `<div class="chat-msg ${who}">
-    <div class="chat-avatar">${avatar}</div>
-    <div><div class="chat-bubble">${text}</div>${speakBtn}</div>
-  </div>`);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-function useSuggestion(text){
-  document.getElementById('chatInput').value = text;
-  sendChat();
-}
-function sendChat(){
-  const input = document.getElementById('chatInput');
-  const text = input.value.trim();
-  if(!text) return;
-  appendMsg('user', text);
-  input.value='';
-  chatState.step++;
-  setTimeout(()=>pushBotStep(), 500);
-}
-function chatToggleMic(){
-  const btn = document.getElementById('chatMic');
-  if(!SR){ alert('Tu navegador no soporta reconocimiento de voz.'); return; }
-  if(activeRecognizer){ activeRecognizer.stop(); activeRecognizer=null; btn.classList.remove('recording'); return; }
-  btn.classList.add('recording');
-  activeRecognizer = createRecognizer((text)=>{
-    document.getElementById('chatInput').value = text;
-    btn.classList.remove('recording');
-    activeRecognizer=null;
-  }, ()=>{ btn.classList.remove('recording'); activeRecognizer=null; });
-  activeRecognizer.start();
 }
 
 // ══════════════════════════════════
