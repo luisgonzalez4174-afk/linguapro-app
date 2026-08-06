@@ -159,6 +159,8 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 /* ─── CHAT station ─── */
 .chat-header{background:linear-gradient(150deg,#DBEAFE,#FFFFFF);border:2px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin-bottom:14px;}
 .chat-header h3{font-size:17px;margin:0 0 6px;color:var(--ink);}
+.ai-station-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(145deg,var(--blue),var(--blue-deep));color:#fff;border:none;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:14.5px;padding:14px;border-radius:14px;cursor:pointer;margin-bottom:14px;box-shadow:0 4px 0 var(--blue-deep);transition:transform .1s,box-shadow .1s;}
+.ai-station-btn:active{transform:translateY(3px);box-shadow:none;}
 .scenario-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
 .scenario-pill{background:var(--card);border:2px solid var(--line);color:var(--ink);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12.5px;padding:8px 13px;border-radius:999px;cursor:pointer;transition:.12s;}
 .scenario-pill.active{border-color:var(--gold);background:rgba(255,200,0,.12);color:#B98900;}
@@ -511,6 +513,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .rg-wk-opt.rg-correct{border-color:#22c55e;background:#dcfce7;color:#15803d;}
 .rg-wk-opt.rg-wrong{border-color:#ef4444;background:#fee2e2;color:#b91c1c;}
 .rg-wk-opt.rg-dim{opacity:.45;}
+.ai-explain-box{margin-top:12px;padding:12px 14px;border-radius:12px;font-size:13.5px;line-height:1.5;font-weight:600;background:rgba(255,159,0,.12);border:1.5px solid var(--gold);color:#8a5a00;}
 .rg-wk-footer{padding:16px;border-top:2px solid #eef0f3;}
 .rg-wk-cont{width:100%;max-width:480px;margin:0 auto;display:flex;background:var(--green-deep);color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:16px;border:none;border-radius:14px;padding:16px;cursor:pointer;justify-content:center;box-shadow:0 4px 0 #058a00;transition:transform .1s,box-shadow .1s;}
 .rg-wk-cont:disabled{background:#d1d5db;box-shadow:0 4px 0 #9ca3af;cursor:default;}
@@ -682,6 +685,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
       <div class="rg-library-header">
         <p id="rg-library-sub">Elige un libro para entrenar tu lectura</p>
       </div>
+      <button type="button" class="ai-station-btn" id="rgGenBookBtn" onclick="rgGenerateBook()" style="margin:0 16px 4px">✨ Generar libro nuevo</button>
       <div id="rg-book-grid" class="rg-book-grid"></div>
     </div>
     <!-- Book detail view -->
@@ -2366,6 +2370,31 @@ window.addEventListener('offline', _updateOfflineBanner);
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', _updateOfflineBanner);
 else _updateOfflineBanner();
 
+// ── "¿Por qué está mal?" — usado por Quiz y ReadGym al fallar una pregunta ──
+function _currentLanguageName(){
+  const lang = (typeof LANGUAGES !== 'undefined') && LANGUAGES.find(l=>l.id===currentLangId);
+  return lang ? (lang.nameEs || lang.name) : 'el idioma';
+}
+async function _fetchExplanation(question, chosenAnswer, correctAnswer, containerId){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+  const box = document.createElement('div');
+  box.className = 'ai-explain-box';
+  box.textContent = '🤔 Pensando por qué...';
+  container.appendChild(box);
+  try{
+    const res = await fetch('/api/explain', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question, chosenAnswer, correctAnswer, languageName: _currentLanguageName() })
+    });
+    const data = await res.json();
+    box.textContent = (res.ok && data.explanation) ? ('💡 ' + data.explanation) : 'No pudimos explicar este error ahora mismo.';
+  }catch(e){
+    box.textContent = 'No pudimos explicar este error ahora mismo (revisa tu conexión).';
+  }
+}
+
 // ══════════════════════════════════
 //  CORE STATE + SPEECH
 // ══════════════════════════════════
@@ -3101,12 +3130,15 @@ function nextExercise(){
 //  CHAT STATION
 // ══════════════════════════════════
 let chatState = null;
+let _currentStationTopic = null;
 function renderChatStation(t){
+  _currentStationTopic = t;
   const view = document.getElementById('topicview');
   const scenarios = window.LP_CHAT_SCENARIOS[currentLevelId]||{};
   let html = `<button class="backbtn" onclick="backToMap()">${uiT('backToMap')}</button>
   <div class="thead"><div class="nbadge">${t.emoji}</div><div><h2>${t.title}</h2><span>${t.cardDesc}</span></div></div>
   <div class="chat-header"><div class="explain">${t.explain.join('')}</div></div>
+  <button type="button" class="ai-station-btn" onclick="startAIStationChat(_currentStationTopic)">✨ Hablar con IA sobre este tema</button>
   <div class="scenario-row" id="scenarioRow">
     ${Object.keys(scenarios).map(k=>`<div class="scenario-pill" id="pill-${k}" onclick="startScenario('${k}')">${scenarios[k].name}</div>`).join('')}
   </div>
@@ -3671,6 +3703,17 @@ function showHomeScreen(){ switchTab('lesson'); }
   else _init();
 })();
 
+// Al entrar a una estación de conversación de una lección, en vez de un
+// diálogo guionado fijo, abrimos el Chat IA real con el tema de esa
+// estación como punto de partida — se usa una sola vez, en el próximo
+// mensaje que se envíe (ver sendChatMessage), sin pisar una conversación
+// que ya estuviera en curso en ese idioma.
+let _pendingSceneHint = null;
+function startAIStationChat(topic){
+  _pendingSceneHint = topic.title + (topic.cardDesc ? ' — ' + topic.cardDesc : '');
+  switchTab('chat');
+}
+
 // ══════════════════════════════════
 //  CHAT IA MODE
 // ══════════════════════════════════
@@ -3808,6 +3851,8 @@ function _enterChatMode() {
         if (m.role === 'user') _appendUserBubble(m.content);
         else _appendBotBubble(m.content, false, true);
       });
+    } else if (_pendingSceneHint) {
+      _appendBotBubble(`💬 Practica: ${_pendingSceneHint}\n\nPuedes conversar sobre esto con ${ctx.tutorName} — escribe algo para empezar.`);
     } else {
       _appendBotBubble(_buildWelcome(ctx));
     }
@@ -3957,9 +4002,11 @@ async function sendChatMessage() {
         topics: ctx.topics,
         tutorName: ctx.tutorName,
         tutorCity: ctx.tutorCity,
+        sceneHint: _pendingSceneHint,
         history: (_chatHistories[ctx.langId] || []).slice(-10)
       })
     });
+    _pendingSceneHint = null; // se usa una sola vez, en el primer mensaje real
     const data = await res.json();
     if (typing) typing.remove();
     if (res.ok && data.reply) {
@@ -11723,6 +11770,14 @@ return [
 ];
 })();
 
+// Libros generados por el usuario con el botón "Generar libro nuevo" se
+// guardan en localStorage y se combinan con los libros fijos de RG_BOOKS
+// en todos los lugares donde se buscan libros — quedan permanentes en
+// este dispositivo, no se pierden al recargar ni al día siguiente.
+function _rgAllBooks(){
+  return RG_BOOKS.concat(lsGet('rgCustomBooks') || []);
+}
+
 // ── ReadGym state ──
 let rgBook = null;
 let rgChapter = null;
@@ -11764,7 +11819,7 @@ function rgShowLibrary(){
   document.getElementById('rg-library-sub').textContent =
     'Nivel ' + userCefr + ' en ' + (langNames[langId]||langId);
 
-  const books = RG_BOOKS.filter(b => b.language === langId && b.level === userCefr);
+  const books = _rgAllBooks().filter(b => b.language === langId && b.level === userCefr);
   const grid = document.getElementById('rg-book-grid');
 
   const levelEmoji = {A1:'🌱',A2:'🌿',B1:'📗',B2:'📘',C1:'📕'};
@@ -11774,7 +11829,7 @@ function rgShowLibrary(){
   let continueHtml = '';
   const lastRead = lsGet('rgLastRead');
   if (lastRead) {
-    const lb = RG_BOOKS.find(b => b.id === lastRead.bookId);
+    const lb = _rgAllBooks().find(b => b.id === lastRead.bookId);
     const lc = lb && lb.chapters.find(c => c.id === lastRead.chapterId);
     if (lb && lc) {
       continueHtml = `<div class="rg-book-card" style="border:2px solid var(--green);background:rgba(29,155,240,.06)" onclick="rgContinueReading()">
@@ -11789,7 +11844,7 @@ function rgShowLibrary(){
   }
 
   if(!books.length){
-    const allLang = RG_BOOKS.filter(b=>b.language===langId);
+    const allLang = _rgAllBooks().filter(b=>b.language===langId);
     const hint = allLang.length
       ? `Hay libros en otros niveles (${allLang.map(b=>b.level).join(', ')}), pero ninguno en tu nivel ${userCefr} aún.`
       : 'Aún no hay libros en este idioma. ¡Próximamente!';
@@ -11814,17 +11869,61 @@ function rgShowLibrary(){
   rgShowView('rg-library-view');
 }
 
+// Genera un libro nuevo con IA para el idioma/nivel actual y lo agrega
+// permanentemente a la librería (guardado en este dispositivo).
+async function rgGenerateBook(){
+  const btn = document.getElementById('rgGenBookBtn');
+  if(!btn || btn.disabled) return;
+  if(!navigator.onLine){ toast('📡 Sin conexión — no se puede generar un libro ahora.'); return; }
+
+  const langId = currentLangId || 'en';
+  const lang = LANGUAGES.find(l=>l.id===langId) || {};
+  const lvNum = currentLevelId ? parseInt((currentLevelId.split('-')[1])||'1') : 1;
+  const CEFR = ['A1','A2','B1','B2','C1'];
+  const level = CEFR[Math.min(lvNum-1, CEFR.length-1)] || 'A1';
+  const existingTitles = _rgAllBooks().filter(b=>b.language===langId).map(b=>b.title);
+
+  btn.disabled = true;
+  const originalText = btn.textContent;
+  btn.textContent = '✨ Escribiendo tu libro... (puede tardar un poco)';
+
+  try{
+    const res = await fetch('/api/generate-book', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ languageName: lang.nameEs || lang.name || langId, langId, level, existingTitles })
+    });
+    const data = await res.json();
+    if(!res.ok || !data.book) throw new Error(data.error || 'No se pudo generar el libro');
+
+    const LC = {A1:'#58cc02',A2:'#1cb0f6',B1:'#ffc800',B2:'#ce82ff',C1:'#ff4b4b'};
+    data.book.color = LC[level] || LC.A1;
+
+    const custom = lsGet('rgCustomBooks') || [];
+    custom.push(data.book);
+    lsSet('rgCustomBooks', custom);
+
+    toast('✨ ¡Nuevo libro agregado: ' + data.book.title + '!');
+    rgShowLibrary();
+  }catch(e){
+    toast('No se pudo generar el libro. Intenta de nuevo.');
+  }finally{
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+}
+
 function rgContinueReading(){
   const lastRead = lsGet('rgLastRead');
   if(!lastRead) return;
-  const lb = RG_BOOKS.find(b => b.id === lastRead.bookId);
+  const lb = _rgAllBooks().find(b => b.id === lastRead.bookId);
   if(!lb) return;
   rgBook = lb;
   rgOpenChapter(lastRead.chapterId);
 }
 
 function rgSelectBook(id){
-  rgBook = RG_BOOKS.find(b=>b.id===id);
+  rgBook = _rgAllBooks().find(b=>b.id===id);
   if(!rgBook) return;
   rgShowDetail();
 }
@@ -11981,6 +12080,9 @@ function rgSelectOpt(i){
   if(isCorrect){
     if(step.kind==='vocab') rgVocabOk++;
     else rgQuizOk++;
+  } else {
+    const question = step.kind==='vocab' ? `¿Qué significa "${step.word}"?` : step.question;
+    _fetchExplanation(question, step.opts[i], step.opts[correctIdx], 'rg-wk-card');
   }
 
   document.getElementById('rg-wk-cont').disabled = false;
@@ -12112,6 +12214,11 @@ function quizAnswer(chosen){
     }
     o.disabled=true;
   });
+  if(!correct){
+    const chosenText = q.type==='mcq' ? q.options[chosen] : (chosen ? 'Verdadero' : 'Falso');
+    const correctText = q.type==='mcq' ? q.options[q.correct] : (q.correct ? 'Verdadero' : 'Falso');
+    _fetchExplanation(q.q, chosenText, correctText, 'quizOpts');
+  }
   document.getElementById('quizNextBtn').classList.add('show');
 }
 
