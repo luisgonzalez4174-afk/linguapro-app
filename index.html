@@ -194,8 +194,10 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 
 /* ─── gamification pills ─── */
 .topbar-right{display:flex;align-items:center;gap:6px;}
-.streak-pill{display:flex;align-items:center;gap:5px;background:rgba(255,75,75,.1);border:2px solid rgba(255,75,75,.3);padding:7px 11px;border-radius:999px;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:13px;color:#FF4B4B;white-space:nowrap;}
-.xp-pill{display:flex;align-items:center;gap:5px;background:rgba(255,200,0,.12);border:2px solid rgba(255,200,0,.4);padding:7px 11px;border-radius:999px;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:13px;color:#B98900;white-space:nowrap;}
+.streak-pill,.heart-pill,.xp-pill{display:flex;align-items:center;gap:5px;background:#fff;border:1.5px solid var(--line);padding:6px 10px;border-radius:999px;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:13px;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+.streak-pill{color:#FF9500;}
+.heart-pill{color:#FF4757;}
+.xp-pill{color:#B98900;}
 /* ─── XP pop ─── */
 .xp-pop{position:fixed;pointer-events:none;z-index:9999;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:22px;color:var(--gold);text-shadow:0 2px 8px rgba(0,0,0,.2);animation:xpPop .9s ease-out forwards;}
 @keyframes xpPop{0%{opacity:1;transform:translateY(0) scale(1.1);}100%{opacity:0;transform:translateY(-70px) scale(1.4);}}
@@ -427,6 +429,10 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
 .chat-lang-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:var(--ink);}
 .chat-level-tag{font-size:11px;color:var(--ink-soft);font-weight:600;}
 .chat-clear-btn{background:none;border:none;cursor:pointer;font-size:18px;padding:4px;color:var(--ink-soft);}
+.voice-toggle-btn{display:flex;align-items:center;gap:4px;background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:5px 9px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:11.5px;color:var(--ink-soft);cursor:pointer;flex-shrink:0;transition:.12s;}
+.voice-toggle-btn.on{border-color:var(--green);color:var(--green-deep);background:rgba(29,155,240,.08);}
+.voice-toggle-btn #voiceToggleIcon.playing{animation:speakerBounce .5s ease-in-out infinite;}
+@keyframes speakerBounce{0%,100%{transform:scale(1);}50%{transform:scale(1.35);}}
 .chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
 .chat-bubble{max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.5;word-break:break-word;}
 .chat-bubble-user{align-self:flex-end;background:var(--green-deep);color:#fff;border-bottom-right-radius:5px;}
@@ -608,6 +614,7 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
     <div class="topbar-right">
       <div id="devBadge" class="dev-badge">⚡DEV</div>
       <div class="streak-pill">🔥 <span id="streakCount">0</span></div>
+      <div class="heart-pill">❤️ <span id="heartsCount">5</span></div>
       <div class="xp-pill">⭐ <span id="xpCount">0</span></div>
       <button type="button" class="gear-btn" onclick="openSettings()" title="Configuración">⚙️</button>
     </div>
@@ -660,6 +667,9 @@ footer{text-align:center;font-size:11.5px;color:var(--ink-soft);margin-top:30px;
           <div class="chat-level-tag" id="chatLevelTag">Tutor personalizado</div>
         </div>
       </div>
+      <button type="button" class="voice-toggle-btn" id="voiceToggleBtn" onclick="_toggleAutoVoice()" title="Voz automática">
+        <span id="voiceToggleIcon">🔊</span><span id="voiceToggleLabel">Sí</span>
+      </button>
       <button type="button" class="chat-clear-btn" onclick="clearChat()" title="Nueva conversación">🗑️</button>
     </div>
     <div class="chat-messages" id="chatMessages"></div>
@@ -2309,6 +2319,7 @@ function showMapView(){
   document.getElementById('mapview').style.display='block';
   document.getElementById('topicview').classList.remove('active');
   updateStreakDisplay();
+  updateHeartsDisplay();
   const lang = LANGUAGES.find(l=>l.id===currentLangId);
   const lv = (LEVELS[currentLangId]||[]).find(l=>l.id===currentLevelId);
   document.getElementById('mapHeroTitle').textContent = `${lv.name} — ${lang.name} ${lang.flag}`;
@@ -2409,7 +2420,7 @@ function loadVoicesFor(langCode){
   return v;
 }
 if('speechSynthesis' in window){ window.speechSynthesis.onvoiceschanged=()=>{ voiceCache={}; }; }
-function speak(text,rate){
+function speak(text,rate,onStart,onEnd){
   if(!('speechSynthesis' in window)) return;
   const lang = LANGUAGES.find(l=>l.id===currentLangId);
   const langCode = lang?lang.voice:'en-US';
@@ -2420,6 +2431,8 @@ function speak(text,rate){
     const u = new SpeechSynthesisUtterance(text);
     if(v){ u.voice=v; u.lang=v.lang; } else { u.lang=langCode; }
     u.rate = rate||0.85;
+    if(onStart) u.onstart = onStart;
+    if(onEnd){ u.onend = onEnd; u.onerror = onEnd; }
     window.speechSynthesis.speak(u);
   }catch(e){}
 }
@@ -2503,6 +2516,7 @@ function showPathScreen(langId){
   const sub=document.getElementById('topbarSub');
   if(sub){ const n=getUserName(); sub.textContent=n?`Hola, ${n} 👋`:langObj.name||''; }
   updateStreakDisplay();
+  updateHeartsDisplay();
   updateScore();
   renderPath();
   history.replaceState({lp:'path',lang:currentLangId},'');
@@ -3129,22 +3143,140 @@ function nextExercise(){
 // ══════════════════════════════════
 //  CHAT STATION
 // ══════════════════════════════════
-// El sistema de "escenarios" guionados de aquí abajo (startScenario,
-// pushBotStep, etc.) nunca funcionó: los datos en LP_CHAT_SCENARIOS
-// (formato {scenarios:[{id,title,...}]}) nunca coincidieron con lo que
-// este código esperaba leer (un objeto plano {clave:{name,steps}}),
-// así que cada pill mostraba "undefined" y no pasaba nada al tocarla —
-// bug preexistente, no algo de hoy. Se quitó esa UI rota por completo:
-// el botón "Hablar con IA" de abajo es el reemplazo real y funcional.
+// El sistema guionado original (startScenario/pushBotStep de un bug de
+// datos preexistente, ver historial) fue reemplazado: ahora los mismos
+// botones de escenario (First Meeting, Talking about Family...) abren
+// una conversación real con IA, embebida aquí mismo — no manda a la
+// pestaña Chat IA — usando /api/chat con el escenario como sceneHint,
+// igual patrón que ya existe para el resto de la app.
 let _currentStationTopic = null;
+let _stationScenario = null;
+let _stationChatHistory = [];
 function renderChatStation(t){
   _currentStationTopic = t;
   const view = document.getElementById('topicview');
+  const scenarios = (window.LP_CHAT_SCENARIOS[currentLevelId] || {}).scenarios || [];
   let html = `<button class="backbtn" onclick="backToMap()">${uiT('backToMap')}</button>
   <div class="thead"><div class="nbadge">${t.emoji}</div><div><h2>${t.title}</h2><span>${t.cardDesc}</span></div></div>
   <div class="chat-header"><div class="explain">${t.explain.join('')}</div></div>
-  <button type="button" class="ai-station-btn" onclick="startAIStationChat(_currentStationTopic)">✨ Hablar con IA sobre este tema</button>`;
+  <div class="scenario-row" id="scenarioRow">
+    ${scenarios.map(s=>`<div class="scenario-pill" id="pill-${s.id}" onclick="startStationScenario('${s.id}')">${s.emoji||''} ${s.title}</div>`).join('')}
+  </div>
+  <div id="chatArea"></div>`;
   view.innerHTML = html;
+}
+
+function startStationScenario(scId){
+  const scenarios = (window.LP_CHAT_SCENARIOS[currentLevelId] || {}).scenarios || [];
+  const sc = scenarios.find(s => s.id === scId);
+  if (!sc) return;
+  document.querySelectorAll('.scenario-pill').forEach(p => p.classList.remove('active'));
+  const pillEl = document.getElementById('pill-' + scId);
+  if (pillEl) pillEl.classList.add('active');
+
+  _stationScenario = sc;
+  _stationChatHistory = [];
+
+  const area = document.getElementById('chatArea');
+  area.innerHTML = `<div class="chatbox">
+    <div class="chat-messages" id="stChatMsgs"></div>
+    <div class="chat-input-area">
+      <button class="chat-micbtn" id="stChatMic" onclick="_stChatToggleMic()">🎤</button>
+      <input class="chat-input" id="stChatInput" placeholder="${uiT('writeLang')}" onkeydown="if(event.key==='Enter')sendStationChat()">
+      <button class="chat-sendbtn" onclick="sendStationChat()">${uiT('send')}</button>
+    </div>
+  </div>`;
+  _stAppendMsg('bot', sc.opener, sc.partner);
+}
+
+function _stAppendMsg(who, text, partner){
+  const msgs = document.getElementById('stChatMsgs');
+  if (!msgs) return;
+  const avatar = who === 'bot' ? ((partner && partner.emoji) || '🐨') : '🙂';
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + who;
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble';
+  bubble.textContent = text;
+  const avatarEl = document.createElement('div');
+  avatarEl.className = 'chat-avatar';
+  avatarEl.textContent = avatar;
+  const wrap = document.createElement('div');
+  wrap.appendChild(bubble);
+  if (who === 'bot') {
+    const speakBtn = document.createElement('button');
+    speakBtn.className = 'chat-speak-btn';
+    speakBtn.textContent = '🔊';
+    speakBtn.onclick = () => speak(text, 0.8);
+    wrap.appendChild(speakBtn);
+    if (_getAutoVoice()) speak(text, 0.8);
+  }
+  div.appendChild(avatarEl);
+  div.appendChild(wrap);
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function _stChatToggleMic(){
+  const btn = document.getElementById('stChatMic');
+  if (!SR) { alert('Tu navegador no soporta reconocimiento de voz.'); return; }
+  if (activeRecognizer) { activeRecognizer.stop(); activeRecognizer = null; btn.classList.remove('recording'); return; }
+  btn.classList.add('recording');
+  activeRecognizer = createRecognizer((text) => {
+    const inp = document.getElementById('stChatInput');
+    if (inp) inp.value = text;
+    btn.classList.remove('recording');
+    activeRecognizer = null;
+  }, () => { btn.classList.remove('recording'); activeRecognizer = null; });
+  activeRecognizer.start();
+}
+
+async function sendStationChat(){
+  const inp = document.getElementById('stChatInput');
+  if (!inp) return;
+  const text = inp.value.trim();
+  if (!text || !_stationScenario) return;
+  inp.value = '';
+  _stAppendMsg('user', text);
+
+  if (!navigator.onLine) {
+    _stAppendMsg('bot', '📡 Sin conexión a internet.', _stationScenario.partner);
+    return;
+  }
+
+  const sendBtn = document.querySelector('#chatArea .chat-sendbtn');
+  if (sendBtn) sendBtn.disabled = true;
+
+  const ctx = _getChatContext();
+  const sc = _stationScenario;
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        languageName: ctx.languageName,
+        levelName: ctx.levelName,
+        levelDesc: ctx.levelDesc,
+        topics: ctx.topics,
+        tutorName: sc.partner ? sc.partner.name : undefined,
+        sceneHint: `${sc.title} — ${sc.setup}`,
+        history: _stationChatHistory.slice(-10)
+      })
+    });
+    const data = await res.json();
+    if (res.ok && data.reply) {
+      _stationChatHistory.push({ role: 'user', content: text });
+      _stationChatHistory.push({ role: 'assistant', content: data.reply });
+      _stAppendMsg('bot', data.reply, sc.partner);
+    } else {
+      _stAppendMsg('bot', data.error || 'Error al conectar con la IA.', sc.partner);
+    }
+  } catch (e) {
+    _stAppendMsg('bot', 'Sin conexión. Verifica tu internet e intenta de nuevo.', sc.partner);
+  }
+  if (sendBtn) sendBtn.disabled = false;
+  inp.focus();
 }
 
 // ══════════════════════════════════
@@ -3236,6 +3368,37 @@ function addXP(n){
   const el=document.getElementById('xpCount');
   if(el) el.textContent=v;
   showXPPop(n);
+}
+
+// ── Hearts (vidas) ── no bloquean nada, solo reflejan qué tan bien vas:
+// se pierde 1 por cada respuesta incorrecta en Quiz/ReadGym y se
+// regenera 1 cada 4 horas hasta un máximo de 5.
+const HEARTS_MAX = 5;
+const HEARTS_REGEN_MS = 4 * 60 * 60 * 1000;
+function getHearts(){
+  let h = lsGet('hearts');
+  if (h == null) h = HEARTS_MAX;
+  const lastLoss = lsGet('heartsLastLoss');
+  if (h < HEARTS_MAX && lastLoss) {
+    const elapsed = Date.now() - lastLoss;
+    const regen = Math.floor(elapsed / HEARTS_REGEN_MS);
+    if (regen > 0) {
+      h = Math.min(HEARTS_MAX, h + regen);
+      lsSet('hearts', h);
+      lsSet('heartsLastLoss', h >= HEARTS_MAX ? null : Date.now() - (elapsed % HEARTS_REGEN_MS));
+    }
+  }
+  return h;
+}
+function loseHeart(){
+  const h = Math.max(0, getHearts() - 1);
+  lsSet('hearts', h);
+  if (!lsGet('heartsLastLoss')) lsSet('heartsLastLoss', Date.now());
+  updateHeartsDisplay();
+}
+function updateHeartsDisplay(){
+  const el = document.getElementById('heartsCount');
+  if (el) el.textContent = getHearts();
 }
 
 // ── Daily missions ──
@@ -3344,6 +3507,7 @@ function selectMatchRight(el){
 // ── Init gamification on load ──
 function initGamification(){
   updateStreakDisplay();
+  updateHeartsDisplay();
   const el=document.getElementById('xpCount');
   if(el) el.textContent=getXP();
   renderMissionsWidget();
@@ -3771,6 +3935,7 @@ function _enterChatMode() {
   // Ocultar el micrófono si el navegador no soporta reconocimiento de voz
   const micBtn = document.getElementById('chatMicBtn');
   if (micBtn) micBtn.style.display = SR ? '' : 'none';
+  _updateVoiceToggleUI();
 
   // Si el idioma cambió desde la última vez que se vio el chat (p.ej. el
   // usuario cambió de idioma en Inicio y volvió), reconstruir el hilo con
@@ -3835,7 +4000,29 @@ function _speakChat(text) {
   const clean = text.replace(/\([^)]*\)/g, '').replace(/[¿¡]/g, '')
     .replace(/\p{Extended_Pictographic}/gu, '').replace(/️/g, '')
     .replace(/\s+([.,!?])/g, '$1').replace(/\s+/g, ' ').trim();
-  if (clean) speak(clean, 0.85);
+  if (!clean) return;
+  const icon = document.getElementById('voiceToggleIcon');
+  speak(clean, 0.85,
+    () => { if (icon) icon.classList.add('playing'); },
+    () => { if (icon) icon.classList.remove('playing'); }
+  );
+}
+
+// ── Voz automática (toggle Sí/No) ──────────────────────────────────────
+function _getAutoVoice(){
+  const v = lsGet('autoVoice');
+  return (v === null || v === undefined) ? true : v;
+}
+function _toggleAutoVoice(){
+  lsSet('autoVoice', !_getAutoVoice());
+  _updateVoiceToggleUI();
+}
+function _updateVoiceToggleUI(){
+  const btn = document.getElementById('voiceToggleBtn');
+  const label = document.getElementById('voiceToggleLabel');
+  const on = _getAutoVoice();
+  if (btn) btn.classList.toggle('on', on);
+  if (label) label.textContent = on ? 'Sí' : 'No';
 }
 
 function _appendBotBubble(text, isError, silent) {
@@ -3866,7 +4053,7 @@ function _appendBotBubble(text, isError, silent) {
     msgs.appendChild(sb);
     // Al restaurar una conversación guardada (cambio de idioma) no se debe
     // reproducir todo el historial en voz alta de golpe, solo mensajes nuevos.
-    if (!silent) _speakChat(main);
+    if (!silent && _getAutoVoice()) _speakChat(main);
   }
 
   msgs.scrollTop = msgs.scrollHeight;
@@ -12016,6 +12203,7 @@ function rgSelectOpt(i){
     if(step.kind==='vocab') rgVocabOk++;
     else rgQuizOk++;
   } else {
+    loseHeart();
     const question = step.kind==='vocab' ? `¿Qué significa "${step.word}"?` : step.question;
     _fetchExplanation(question, step.opts[i], step.opts[correctIdx], 'rg-wk-card');
   }
@@ -12138,6 +12326,7 @@ function quizAnswer(chosen){
   const q=_quizQs[_quizIdx];
   const correct=(chosen===q.correct);
   if(correct) _quizScore++;
+  else loseHeart();
   document.querySelectorAll('.quiz-opt').forEach((o,i)=>{
     if(q.type==='mcq'){
       if(i===q.correct) o.classList.add('q-correct');
